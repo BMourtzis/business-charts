@@ -8,6 +8,8 @@ import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import router from './router';
 
 import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+
 import i18n from './localization';
 
 const vuetify = createVuetify({
@@ -18,9 +20,12 @@ const vuetify = createVuetify({
     }
 });
 
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+
 createApp(App)
     .use(router)
-    .use(createPinia())
+    .use(pinia)
     .use(i18n)
     .use(vuetify)
     .mount('#app');
