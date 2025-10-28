@@ -17,10 +17,13 @@ const counterStore = useCounterStore();
 const partnerStore = usePartnersStore();
 
 const props = defineProps({
-  msg: String
-})
+  msg: {
+    type: String,
+    default: ''
+  }
+});
 
-const greet = ref("Hello")
+const greet = ref("Hello");
 
 function changeGreeting() {
   counterStore.increment();
