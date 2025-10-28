@@ -2,15 +2,19 @@
   <div class="hello">
     <h2>{{ greet }} {{ props.msg }}</h2>
     <h3>{{ counterStore.count }}</h3>
-    <button @click="changeGreeting">Change Greeting</button>
+    <button @click="changeGreeting">
+      Change Greeting
+    </button>
   </div>
 </template>
 
 <script setup>
 import { ref, defineProps } from 'vue';
 import { useCounterStore } from '@/stores/index.js';
+import { usePartnersStore } from '@/stores/partnerStore.ts';
 
 const counterStore = useCounterStore();
+const partnerStore = usePartnersStore();
 
 const props = defineProps({
   msg: String
