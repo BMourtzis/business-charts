@@ -1,4 +1,4 @@
-import { createEmail, createPhone, type Contact } from "./contact";
+import { ContactDTO, createEmail, createPhone, type Contact } from "./contact";
 import { v4 as uuidv4 } from "uuid";
 
 export type PartnerType = "supplier" | "customer";
@@ -7,9 +7,9 @@ export interface PartnerDTO {
   id: string
   name: string
   type: PartnerType
-  emails: Contact[]
-  phones: Contact[]
-  addresses: Contact[]
+  emails: ContactDTO[]
+  phones: ContactDTO[]
+  addresses: ContactDTO[]
 }
 
 export class Partner {

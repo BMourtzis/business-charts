@@ -2,6 +2,14 @@ import { v4 as uuidv4 } from "uuid";
 
 export type ContactType = "phone" | "email" | "address"
 
+export interface ContactDTO {
+    id: string
+    type: ContactType
+    name?: string
+    value: string
+    isPrimary: boolean
+}
+
 export class Contact {
     private _id: string;
     private _type: ContactType;
@@ -32,4 +40,18 @@ export function createPhone(phone: string, isPrimary = false, name?: string) {
 
 export function createAddress(address: string, isPrimary = false, name?: string) {
     return new Contact(uuidv4(), isPrimary, address, "address", name);
+}
+
+export function toContactDTO(contact: Contact): ContactDTO {
+    return {
+        id: contact.id,
+        type: contact.type,
+        name: contact.name,
+        value: contact.value,
+        isPrimary: contact.isPrimary
+    };
+}
+
+export function fromContactDTO(dto: ContactDTO): Contact {
+    return new Contact(dto.id, dto.isPrimary, dto.value, dto.type, dto.name);
 }
