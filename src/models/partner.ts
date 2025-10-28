@@ -1,4 +1,4 @@
-import { createEmail, createPhone, type Contact } from "./contact.ts";
+import { createEmail, createPhone, type Contact } from "./contact";
 import { v4 as uuidv4 } from "uuid";
 
 export type PartnerType = "supplier" | "customer";
