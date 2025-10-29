@@ -1,8 +1,6 @@
+import { OrderDirection, OrderStatus } from "../types/orderTypes";
 import { OrderItem, OrderItemDTO } from "./orderItem";
 import { v4 as uuidv4 } from "uuid";
-
-export type OrderStatus = "draft" | "confirmed" | "paid" | "cancelled";
-export type OrderDirection = "credit" | "debit";
 
 export interface OrderDTO {
     id: string;

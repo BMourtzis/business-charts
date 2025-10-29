@@ -1,8 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-
-export type PaymentMethod = "card" | "bank" | "cash" | "online";
-
-export type PaymentDirection = "credit" | "debit";
+import { PaymentDirection, PaymentMethod } from "../types/paymentTypes";
 
 export interface PaymentDTO {
     id: string;

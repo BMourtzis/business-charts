@@ -1,6 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-
-export type ContactType = "phone" | "email" | "address"
+import { ContactType } from "../types/contactTypes";
 
 export interface ContactDTO {
     id: string
