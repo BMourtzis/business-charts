@@ -47,6 +47,10 @@ export class Partner {
         this._emails.push(createEmail(email, isPrimary, name));
     }
 
+    setEmails(emails: Contact[]) {
+        this._emails = emails.slice();
+    }
+
     removeEmail(id: string) {
         const emailIndex = this._emails.findIndex(e => e.id === id);
 
@@ -65,6 +69,10 @@ export class Partner {
         }
 
         this._phones.push(createPhone(phone, isPrimary, name));
+    }
+
+    setPhones(phones: Contact[]) {
+        this._phones = phones.slice();
     }
 
     removePhone(id: string) {
@@ -87,6 +95,10 @@ export class Partner {
         this._addresses.push(createEmail(address, isPrimary, name));
     }
 
+    setAddresses(addresses: Contact[]) {
+        this._addresses = addresses.slice();
+    }
+
     removeAddress(id: string) {
         const addressIndex = this._addresses.findIndex(a => a.id === id);
 
@@ -96,11 +108,11 @@ export class Partner {
     }
 }
 
-export function createSupplier(name: string) {
+export function createSupplier(name: string): Partner {
     return new Partner(uuidv4(), name, "supplier");
 }
 
-export function createCustomer(name: string) {
+export function createCustomer(name: string): Partner {
     return new Partner(uuidv4(), name, "customer");
 }
 
