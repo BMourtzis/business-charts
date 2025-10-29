@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { OrderDTO } from '@/models/order';
+import type { OrderDTO } from '@/domain/models/order';
 
 export const useOrdersStore = defineStore('orders', {
     state: () => ({

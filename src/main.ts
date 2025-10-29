@@ -5,12 +5,12 @@ import { createVuetify } from 'vuetify'
 import 'vuetify/styles'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 
-import router from './router';
+import { router } from './presentation/router/index';
 
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
-import i18n from './localization';
+import i18n from './presentation/localization';
 
 const vuetify = createVuetify({
     icons: {
