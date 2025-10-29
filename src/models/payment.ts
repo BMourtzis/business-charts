@@ -4,6 +4,15 @@ export type PaymentMethod = "card" | "bank" | "cash" | "online";
 
 export type PaymentDirection = "credit" | "debit";
 
+export interface PaymentDTO {
+    id: string;
+    partnerId: string;
+    amount: number;
+    method: PaymentMethod;
+    direction: PaymentDirection;
+    date: Date;
+}
+
 export class Payment {
     private _id: string;
     private _partnerId: string;
