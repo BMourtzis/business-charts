@@ -1,18 +1,29 @@
-import { Partner } from '@/domain/models/partner';
+import { PartnerDTO } from '@/domain/models/partner';
 import { defineStore } from 'pinia';
 
 export const usePartnersStore = defineStore('partners', {
     state: () => ({
-        partners: [] as Partner[]
+        partners: [] as PartnerDTO[]
     }),
+    getters: {
+        getById: (state) => {
+            return (id: string) => state.partners.find(partner => partner.id === id);
+        },
+        customers: (state) => {
+            return state.partners.filter(partner => partner.type === 'customer');
+        },
+        suppliers: (state) => {
+            return state.partners.filter(partner => partner.type === 'supplier');
+        }
+    },
     actions: {
-        setPartners(partners: Partner[]) {
+        setPartners(partners: PartnerDTO[]) {
             this.partners = partners;
         },
-        add(partner: Partner) {
+        add(partner: PartnerDTO) {
             this.partners.push(partner);
         },
-        update(updatedPartner: Partner) {
+        update(updatedPartner: PartnerDTO) {
             const index = this.partners.findIndex(p => p.id === updatedPartner.id);
             if (index !== -1) {
                 this.partners[index] = updatedPartner;

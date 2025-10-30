@@ -1,20 +1,29 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/presentation/views/Home.vue'
-import ChartView from '@/presentation/views/TestChart.vue'
 import type { RouteRecordRaw } from 'vue-router';
 
-
 const routes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView,
-  },
-  {
-    path: '/chart',
-    name: 'about',
-    component: ChartView,
-  }
+    {
+        path: '/',
+        name: 'home',
+        component: () => import('@/presentation/views/Home.vue'),
+    }, {
+        path: '/chart',
+        name: 'about',
+        component: () => import('@/presentation/views/TestChart.vue'),
+    }, {
+        path: '/suppliers',
+        name: 'suppliers',
+        component: () => import('@/presentation/views/SuppliersView.vue'),
+    }, {
+        path: '/customers',
+        name: 'customers',
+        component: () => import('@/presentation/views/CustomersView.vue'),
+    }, {
+        path: '/partner/:id',
+        name: 'partners',
+        component: () => import('@/presentation/views/PartnerDetails.vue'),
+        props: true,
+    }
 ];
 
 export const router = createRouter({

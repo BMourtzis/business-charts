@@ -17,6 +17,6 @@ module.exports = {
   ],
   plugins: ['vue', '@typescript-eslint'],
   rules: {
-    // optional overrides
+    "vue/html-indent": ["error", 2]
   },
 };

@@ -7,9 +7,10 @@ export const partnerRepository: PartnerRepository = {
     async load() {
         const json = localStorage.getItem(STORAGE_KEY);
         if (!json) return [];
-        const plain = JSON.parse(json);
-        // Here you could rehydrate with `Object.assign(new Order(...), plain)`
-        return plain;
+        const plainPartners = JSON.parse(json);
+        return plainPartners.map((p: any) => {
+            return Object.assign(new Partner(p._id, p._name, p._type), p);
+        });
     },
     async add(partner) {
         const all = await this.load();
