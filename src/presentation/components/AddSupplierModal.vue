@@ -8,6 +8,7 @@
         v-bind="activatorProps"
         color="surface-variant"
         text="Add Supplier"
+        prepend-icon="mdi-plus"
         variant="flat"
       />
     </template>

@@ -9,6 +9,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "chart.js": "^4.5.1",
     "core-js": "^3.8.3",
     "pinia": "^3.0.3",
