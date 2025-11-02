@@ -1,13 +1,13 @@
 <template>
   <v-container v-if="partner">
     <v-row>
-      <h1>{{ partner.name }}</h1>
+      <h1>{{ partner.businessName }} <span style="font-weight: 100;">({{ partner.type }})</span></h1>
     </v-row>
     <v-row>
-      <p>{{ partner.type }}</p>
+      <p>{{ partner.contactName }}</p>
     </v-row>
     <v-row>
-      <h2> Contact Information</h2>
+      <p>VAT Number: <strong>{{ partner.vatNumber }}</strong></p>
     </v-row>
     <v-row>
       <h3>Emails</h3>

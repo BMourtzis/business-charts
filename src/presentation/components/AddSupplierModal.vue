@@ -19,8 +19,22 @@
           <v-container>
             <v-row>
               <v-text-field
-                v-model="name"
-                label="Supplier Name"
+                v-model="businessName"
+                label="Business Name"
+                required
+              />
+            </v-row>
+            <v-row>
+              <v-text-field
+                v-model="contactName"
+                label="Contact Name"
+                required
+              />
+            </v-row>
+            <v-row>
+              <v-text-field
+                v-model="vatNumber"
+                label="VAT Number"
                 required
               />
             </v-row>
@@ -77,29 +91,31 @@ const { createSupplierCommand } = usePartners();
 
 const dialog = shallowRef(false)
 
-let name = '';
+let contactName = '';
 let email = '';
 let phone = '';
 let address = '';
+let businessName = '';
+let vatNumber = '';
 
 function saveSupplier() {
-    let emailList = [];
-    if (email.trim() !== '') {
-        emailList.push(createEmail(email, true));
-    }
+  let emailList = [];
+  if (email.trim() !== '') {
+    emailList.push(createEmail(email, true));
+  }
 
-    let phoneList = [];
-    if (phone.trim() !== '') {
-        phoneList.push(createPhone(phone, true));
-    }
+  let phoneList = [];
+  if (phone.trim() !== '') {
+    phoneList.push(createPhone(phone, true));
+  }
 
-    let addressList = [];
-    if (address.trim() !== '') {
-        addressList.push(createAddress(address, true));
-    }
+  let addressList = [];
+  if (address.trim() !== '') {
+    addressList.push(createAddress(address, true));
+  }
 
-    createSupplierCommand(name, emailList, phoneList, addressList);
-    dialog.value = false;
+  createSupplierCommand(contactName, emailList, phoneList, addressList, businessName, vatNumber);
+  dialog.value = false;
 }
 </script>
 

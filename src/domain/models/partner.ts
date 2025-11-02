@@ -3,12 +3,14 @@ import { ContactDTO, createEmail, createPhone, type Contact } from "./contact";
 import { v4 as uuidv4 } from "uuid";
 
 export interface PartnerDTO {
-  id: string
-  name: string
-  type: PartnerType
-  emails: ContactDTO[]
-  phones: ContactDTO[]
-  addresses: ContactDTO[]
+    id: string
+    contactName: string
+    type: PartnerType
+    businessName?: string
+    vatNumber?: string
+    emails: ContactDTO[]
+    phones: ContactDTO[]
+    addresses: ContactDTO[]
 }
 
 export class Partner {
@@ -17,12 +19,16 @@ export class Partner {
     private _phones: Contact[];
     private _addresses: Contact[];
     private _type: PartnerType;
+    private _businessName?: string;
+    private _vatNumber?: string;
 
-    name: string;
+    contactName: string;
 
-    constructor(id: string, name: string, type: PartnerType) {
+    constructor(id: string, contactName: string, type: PartnerType, businessName?: string, vatNumber?: string) {
         this._id = id;
-        this.name = name;
+        this.contactName = contactName;
+        this._businessName = businessName;
+        this._vatNumber = vatNumber;
         this._type = type;
         this._emails = [];
         this._phones = [];
@@ -34,6 +40,8 @@ export class Partner {
     get emails() { return this._emails.slice(); }
     get phones() { return this._phones.slice(); }
     get addresses() { return this._addresses.slice(); }
+    get businessName() { return this._businessName; }
+    get vatNumber() { return this._vatNumber; }
 
     //Emails
     addEmail(email: string, isPrimary = false, name?: string) {
@@ -108,16 +116,16 @@ export class Partner {
     }
 }
 
-export function createSupplier(name: string): Partner {
-    return new Partner(uuidv4(), name, "supplier");
+export function createSupplier(name: string, businessName?: string, vatNumber?: string): Partner {
+    return new Partner(uuidv4(), name, "supplier", businessName, vatNumber);
 }
 
-export function createCustomer(name: string): Partner {
-    return new Partner(uuidv4(), name, "customer");
+export function createCustomer(name: string, businessName?: string, vatNumber?: string): Partner {
+    return new Partner(uuidv4(), name, "customer", businessName, vatNumber);
 }
 
 export function fromPartnerDTO(data: PartnerDTO): Partner {
-    const partner = new Partner(data.id, data.name, data.type)
+    const partner = new Partner(data.id, data.contactName, data.type)
     data.emails.forEach(e => partner.addEmail(e.value, e.isPrimary, e.name))
     data.phones.forEach(p => partner.addPhone(p.value, p.isPrimary, p.name))
     data.addresses.forEach(a => partner.addAddress(a.value, a.isPrimary, a.name))
@@ -127,7 +135,9 @@ export function fromPartnerDTO(data: PartnerDTO): Partner {
 export function toPartnerDTO(partner: Partner): PartnerDTO {
     return {
         id: partner.id,
-        name: partner.name,
+        businessName: partner.businessName,
+        vatNumber: partner.vatNumber,
+        contactName: partner.contactName,
         type: partner.type,
         emails: partner.emails,
         phones: partner.phones,

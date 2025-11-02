@@ -4,10 +4,10 @@
     :items="props.partners"
   >
     <!-- Custom column slot -->
-    <template v-slot:[`item.actions`]="{ item }">
+    <template #[`item.actions`]="{ item }">
       <v-btn
         color="primary"
-        variant="tonal"
+        variant="plain"
         size="small"
         icon="mdi-account-details"
         :to="`/partner/${item.id}`"
@@ -25,7 +25,9 @@ const props = defineProps < {
 } > ();
 
 const headers = [
-  { title: "Name", key: "name" },
+  { title: "Business Name", key: "businessName" },
+  { title: "Contact Name", key: "contactName" },
+  { title: "VAT Number", key: "vatNumber" },  
   { title: "Actions", key: "actions"}
 ]
 

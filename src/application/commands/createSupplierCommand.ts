@@ -3,9 +3,15 @@ import { createSupplier } from "@/domain/models/partner";
 import { Contact } from "@/domain/models/contact";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 
-export async function createSupplierCommand(name: string, emails: Contact[], phones: Contact[], addresses: Contact[]) {
-    const supplier = createSupplier(name);
-    
+export async function createSupplierCommand(
+    name: string, 
+    emails: Contact[], 
+    phones: Contact[], 
+    addresses: Contact[], 
+    businessName?: string, 
+    vatNumber?: string) {
+    const supplier = createSupplier(name, businessName, vatNumber);
+
     supplier.setEmails(emails);
     supplier.setPhones(phones);
     supplier.setAddresses(addresses);
