@@ -34,4 +34,4 @@ const headers = [
 
 </script>
 
-<style scoped></style>s
+<style scoped></style>

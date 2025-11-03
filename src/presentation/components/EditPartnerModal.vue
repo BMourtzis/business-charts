@@ -7,13 +7,13 @@
       <v-btn
         v-bind="activatorProps"
         color="surface-variant"
-        text="Add Supplier"
-        prepend-icon="mdi-plus"
+        text="Edit Partner"
+        prepend-icon="mdi-pencil"
         variant="flat"
       />
     </template>
 
-    <v-card title="Add Supplier">
+    <v-card title="`Edit Partner: ${form.businessName}`">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -101,13 +101,19 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { usePartners } from '../composables/usePartners';
+import { reactive, watch, defineProps } from 'vue';
+// import { usePartners } from '../composables/usePartners';
 import { createAddress, createEmail, createPhone } from '@/domain/models/contact';
 import { emailFormat, maxLength, numeric, phoneFormat, rangeLength, required } from '../utils/validation';
 import { useFormDialog } from '../composables/useFormDialog';
+import { PartnerDTO } from '@/domain/models/partner';
 
-const { createSupplierCommand } = usePartners();
+// const { createSupplierCommand } = usePartners();
+
+const props = defineProps<{
+  partner: PartnerDTO | null; // pass supplier to edit
+}>();
+
 
 const form = reactive({
   businessName: '',
@@ -128,6 +134,23 @@ const {
   submit
 } = useFormDialog(form);
 
+watch(dialog, (open) => {
+    if(open && props.partner) {
+      form.businessName = props.partner.businessName ?? "";
+      form.contactName = props.partner.contactName;
+      form.vatNumber = props.partner.vatNumber ?? "";
+
+      const primaryEmail = props.partner.emails.find(e => e.isPrimary);
+      form.email = primaryEmail ? primaryEmail.value : '';
+
+      const primaryPhone = props.partner.phones.find(p => p.isPrimary);
+      form.phone = primaryPhone ? primaryPhone.value : '';
+
+      const primaryAddress = props.partner.addresses.find(a => a.isPrimary);
+      form.address = primaryAddress ? primaryAddress.value : '';
+    }
+});
+
 async function saveSupplier() {
   await submit(async (form) => {
     let emailList = [];
@@ -145,7 +168,8 @@ async function saveSupplier() {
       addressList.push(createAddress(form.address, true));
     }
 
-    createSupplierCommand(form.contactName, emailList, phoneList, addressList, form.businessName, form.vatNumber);
+    //TODO: create an updatePartnerCommand in usePartners composable
+    // createSupplierCommand(form.contactName, emailList, phoneList, addressList, form.businessName, form.vatNumber);
   });
 }
 </script>

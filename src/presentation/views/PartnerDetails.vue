@@ -2,6 +2,7 @@
   <v-container v-if="partner">
     <v-row>
       <h1>{{ partner.businessName }} <span style="font-weight: 100;">({{ partner.type }})</span></h1>
+      <EditPartnerModal :partner="partner" />
     </v-row>
     <v-row>
       <p>{{ partner.contactName }}</p>
@@ -54,6 +55,7 @@
 <script setup lang="ts">
 import { usePartners } from "../composables/usePartners";
 import { defineProps } from "vue";
+import EditPartnerModal from "../components/EditPartnerModal.vue";
 
 const props = defineProps<{ id: string }>();
 
