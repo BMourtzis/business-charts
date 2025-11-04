@@ -44,7 +44,7 @@
             <v-row>
               <v-text-field
                 v-model="form.email"
-                label="Email"
+                label="Primary Email"
                 placeholder="johndoe@gmail.com"
                 type="email"
                 :rules="[emailFormat]"
@@ -53,7 +53,7 @@
             <v-row>
               <v-text-field
                 v-model="form.phone"
-                label="Phone"
+                label="Primary Phone"
                 placeholder="21080212345"
                 type="tel"
                 :rules="[phoneFormat]"
@@ -62,7 +62,7 @@
             <v-row>
               <v-text-field
                 v-model="form.address"
-                label="Address"
+                label="Primary Address"
                 :rules="[maxLength(50)]"
               />
             </v-row>

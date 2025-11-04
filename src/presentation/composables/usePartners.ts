@@ -4,6 +4,7 @@ import { getPartnerById } from "@/application/queries/getPartnerByIdQuery";
 import { createSupplierCommand } from "@/application/commands/createSupplierCommand";
 import { createCustomerCommand } from "@/application/commands/createCustomerCommand";
 import { computed } from "vue";
+import { editPartnerCommand } from "@/application/commands/editPartnerCommand";
 
 export function usePartners() {
     const store = usePartnersStore();
@@ -18,6 +19,7 @@ export function usePartners() {
         init,
         createSupplierCommand,
         createCustomerCommand,
+        editPartnerCommand,
         getPartnerById
     }
 }

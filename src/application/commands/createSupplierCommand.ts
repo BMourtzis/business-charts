@@ -1,5 +1,5 @@
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { createSupplier } from "@/domain/models/partner";
+import { createSupplier, toPartnerDTO } from "@/domain/models/partner";
 import { Contact } from "@/domain/models/contact";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 
@@ -16,10 +16,11 @@ export async function createSupplierCommand(
     supplier.setPhones(phones);
     supplier.setAddresses(addresses);
 
+    const dto = toPartnerDTO(supplier);
     await partnerRepository.add(supplier);
 
     const store = usePartnersStore();
-    await store.add(supplier);
+    await store.add(dto);
 
     return supplier;
 }

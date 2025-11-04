@@ -21,12 +21,11 @@ export class Partner {
     private _type: PartnerType;
     private _businessName?: string;
     private _vatNumber?: string;
-
-    contactName: string;
+    private _contactName: string;
 
     constructor(id: string, contactName: string, type: PartnerType, businessName?: string, vatNumber?: string) {
         this._id = id;
-        this.contactName = contactName;
+        this._contactName = contactName;
         this._businessName = businessName;
         this._vatNumber = vatNumber;
         this._type = type;
@@ -40,8 +39,36 @@ export class Partner {
     get emails() { return this._emails.slice(); }
     get phones() { return this._phones.slice(); }
     get addresses() { return this._addresses.slice(); }
+    
+
     get businessName() { return this._businessName; }
+    set businessName(value: string | undefined) {
+        this._businessName = value;
+    }
+
     get vatNumber() { return this._vatNumber; }
+    set vatNumber(value: string | undefined) {
+        this._vatNumber = value;
+    }
+
+    get contactName() { return this._contactName; }
+    set contactName(value: string) {
+        this._contactName = value;
+    }
+
+    updateBasicData(contactName: string, businessName?: string, vatNumber?: string) {
+        if(contactName !== undefined || contactName !== this._contactName) {
+            this._contactName = contactName;
+        }
+
+        if(businessName !== undefined || businessName !== this._businessName) {
+            this._businessName = businessName;
+        }
+
+        if(vatNumber !== undefined || vatNumber !== this._vatNumber) {
+            this._vatNumber = vatNumber;
+        }
+    }
 
     //Emails
     addEmail(email: string, isPrimary = false, name?: string) {
@@ -125,11 +152,11 @@ export function createCustomer(name: string, businessName?: string, vatNumber?: 
 }
 
 export function fromPartnerDTO(data: PartnerDTO): Partner {
-    const partner = new Partner(data.id, data.contactName, data.type)
-    data.emails.forEach(e => partner.addEmail(e.value, e.isPrimary, e.name))
-    data.phones.forEach(p => partner.addPhone(p.value, p.isPrimary, p.name))
-    data.addresses.forEach(a => partner.addAddress(a.value, a.isPrimary, a.name))
-    return partner
+    const partner = new Partner(data.id, data.contactName, data.type, data.businessName, data.vatNumber);
+    data.emails.forEach(e => partner.addEmail(e.value, e.isPrimary, e.name));
+    data.phones.forEach(p => partner.addPhone(p.value, p.isPrimary, p.name));
+    data.addresses.forEach(a => partner.addAddress(a.value, a.isPrimary, a.name));
+    return partner;
 }
 
 export function toPartnerDTO(partner: Partner): PartnerDTO {

@@ -13,7 +13,7 @@
       />
     </template>
 
-    <v-card title="`Edit Partner: ${form.businessName}`">
+    <v-card :title="`Edit Partner: ${form.businessName}`">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -39,31 +39,6 @@
                 v-model="form.vatNumber"
                 label="VAT Number"
                 :rules="[numeric, rangeLength(8, 8)]"
-              />
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-model="form.email"
-                label="Email"
-                placeholder="johndoe@gmail.com"
-                type="email"
-                :rules="[emailFormat]"
-              />
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-model="form.phone"
-                label="Phone"
-                placeholder="21080212345"
-                type="tel"
-                :rules="[phoneFormat]"
-              />
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-model="form.address"
-                label="Address"
-                :rules="[maxLength(50)]"
               />
             </v-row>
             <v-alert
@@ -102,13 +77,13 @@
 
 <script setup lang="ts">
 import { reactive, watch, defineProps } from 'vue';
-// import { usePartners } from '../composables/usePartners';
+import { usePartners } from '../composables/usePartners';
 import { createAddress, createEmail, createPhone } from '@/domain/models/contact';
 import { emailFormat, maxLength, numeric, phoneFormat, rangeLength, required } from '../utils/validation';
 import { useFormDialog } from '../composables/useFormDialog';
 import { PartnerDTO } from '@/domain/models/partner';
 
-// const { createSupplierCommand } = usePartners();
+const { editPartnerCommand } = usePartners();
 
 const props = defineProps<{
   partner: PartnerDTO | null; // pass supplier to edit
@@ -168,8 +143,7 @@ async function saveSupplier() {
       addressList.push(createAddress(form.address, true));
     }
 
-    //TODO: create an updatePartnerCommand in usePartners composable
-    // createSupplierCommand(form.contactName, emailList, phoneList, addressList, form.businessName, form.vatNumber);
+    editPartnerCommand(props.partner?.id ?? '', form.contactName, form.businessName, form.vatNumber);
   });
 }
 </script>
