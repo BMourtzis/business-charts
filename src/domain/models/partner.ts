@@ -1,5 +1,5 @@
 import { PartnerType } from "../types/partnerTypes";
-import { ContactDTO, createEmail, createPhone, type Contact } from "./contact";
+import { Contact, ContactDTO, createEmail, createPhone, toContactDTO } from "./contact";
 import { v4 as uuidv4 } from "uuid";
 
 export interface PartnerDTO {
@@ -82,6 +82,31 @@ export class Partner {
         this._emails.push(createEmail(email, isPrimary, name));
     }
 
+    editEmail(emailId: string, newEmail?: string, isPrimary?: boolean, name?: string) {
+        const email = this._emails.find(e => e.id === emailId);
+        if(!email) return;
+
+        if(newEmail) {
+            email.value = newEmail;
+        }
+        
+        if(name) {
+            email.name = name;
+        }
+
+        if (isPrimary !== undefined) {
+            if(isPrimary) {
+                const primaryEmail = this._emails.find(e => e.isPrimary === true);
+                if(primaryEmail && primaryEmail.id !== emailId) {
+                    primaryEmail.isPrimary = false;
+                }
+                email.isPrimary = true;
+            } else {
+                email.isPrimary = false;
+            }
+        }
+    }
+
     setEmails(emails: Contact[]) {
         this._emails = emails.slice();
     }
@@ -104,6 +129,30 @@ export class Partner {
         }
 
         this._phones.push(createPhone(phone, isPrimary, name));
+    }
+
+    editPhone(phoneId: string, newPhone?: string, isPrimary?: boolean, name?: string) {
+        const phone = this._phones.find(e => e.id === phoneId);
+        if(!phone) return;
+
+        if(newPhone) {
+            phone.value = newPhone;
+        }
+        
+        if(name) {
+            phone.name = name;
+        }
+        if (isPrimary !== undefined) {
+            if(isPrimary) {
+                const primaryPhone = this._phones.find(e => e.isPrimary === true);
+                if(primaryPhone && primaryPhone.id !== phoneId) {
+                    primaryPhone.isPrimary = false;
+                }
+                phone.isPrimary = true;
+            } else {
+                phone.isPrimary = false;
+            }
+        }
     }
 
     setPhones(phones: Contact[]) {
@@ -130,6 +179,30 @@ export class Partner {
         this._addresses.push(createEmail(address, isPrimary, name));
     }
 
+    editAddress(addressId: string, newAddress?: string, isPrimary?: boolean, name?: string) {
+        const address = this._addresses.find(e => e.id === addressId);
+        if(!address) return;
+
+        if(newAddress) {
+            address.value = newAddress;
+        }
+        
+        if(name) {
+            address.name = name;
+        }
+        if (isPrimary !== undefined) {
+            if(isPrimary) {
+                const primaryAddress = this._addresses.find(e => e.isPrimary === true);
+                if(primaryAddress && primaryAddress.id !== addressId) {
+                    primaryAddress.isPrimary = false;
+                }
+                address.isPrimary = true;
+            } else {
+                address.isPrimary = false;
+            }
+        }
+    }
+
     setAddresses(addresses: Contact[]) {
         this._addresses = addresses.slice();
     }
@@ -153,9 +226,9 @@ export function createCustomer(name: string, businessName?: string, vatNumber?: 
 
 export function fromPartnerDTO(data: PartnerDTO): Partner {
     const partner = new Partner(data.id, data.contactName, data.type, data.businessName, data.vatNumber);
-    data.emails.forEach(e => partner.addEmail(e.value, e.isPrimary, e.name));
-    data.phones.forEach(p => partner.addPhone(p.value, p.isPrimary, p.name));
-    data.addresses.forEach(a => partner.addAddress(a.value, a.isPrimary, a.name));
+    partner.setEmails(data.emails.map(e => new Contact(e.id, e.isPrimary, e.value, "email", e.name)));
+    partner.setPhones(data.phones.map(p => new Contact(p.id, p.isPrimary, p.value, "phone", p.name)));
+    partner.setAddresses(data.addresses.map(a => new Contact(a.id, a.isPrimary, a.value, "address", a.name)));
     return partner;
 }
 
@@ -166,9 +239,9 @@ export function toPartnerDTO(partner: Partner): PartnerDTO {
         vatNumber: partner.vatNumber,
         contactName: partner.contactName,
         type: partner.type,
-        emails: partner.emails,
-        phones: partner.phones,
-        addresses: partner.addresses
+        emails: partner.emails.map(toContactDTO),
+        phones: partner.phones.map(toContactDTO),
+        addresses: partner.addresses.map(toContactDTO)
     }
 }
 

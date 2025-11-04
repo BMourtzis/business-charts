@@ -2,7 +2,10 @@
   <v-container v-if="partner">
     <v-row>
       <h1>{{ partner.businessName }} <span style="font-weight: 100;">({{ partner.type }})</span></h1>
-      <EditPartnerModal :partner="partner" />
+      <EditPartnerModal 
+        :partner="partner" 
+        :mini="true" 
+      />
     </v-row>
     <v-row>
       <p>{{ partner.contactName }}</p>
@@ -12,6 +15,11 @@
     </v-row>
     <v-row>
       <h3>Emails</h3>
+      <AddContactModal 
+        contact-type="email" 
+        :partner-id="partner.id" 
+        :mini="true"
+      />
     </v-row>
     <v-row>
       <ul>
@@ -19,12 +27,23 @@
           v-for="email in partner.emails" 
           :key="email.id"
         >
-          <p><strong>{{ email.value }}</strong> <span v-if="email.isPrimary"> - Primary</span></p>
+          {{ email.name }}: <strong>{{ email.value }}</strong> <span v-if="email.isPrimary"> - Primary</span>
+          <EditContactModal
+            :partner-id="props.id"
+            :contact="email"
+            contact-type="email"
+            :mini="true"
+          />
         </li>
       </ul>
     </v-row>
     <v-row>
       <h3>Phones</h3>
+      <AddContactModal 
+        contact-type="phone" 
+        :partner-id="partner.id"
+        :mini="true"
+      />
     </v-row>
     <v-row>
       <ul>
@@ -32,12 +51,23 @@
           v-for="phone in partner.phones" 
           :key="phone.id"
         >
-          <p><strong>{{ phone.value }}</strong> <span v-if="phone.isPrimary"> - Primary</span></p>
+          {{ phone.name }}: <strong>{{ phone.value }}</strong> <span v-if="phone.isPrimary"> - Primary</span>
+          <EditContactModal
+            :partner-id="props.id"
+            :contact="phone"
+            contact-type="phone"
+            :mini="true"
+          />
         </li>
       </ul>
     </v-row>
     <v-row>
       <h3>Addresses</h3>
+      <AddContactModal 
+        contact-type="address" 
+        :partner-id="partner.id" 
+        :mini="true"
+      />
     </v-row>
     <v-row>
       <ul>
@@ -45,7 +75,13 @@
           v-for="address in partner.addresses" 
           :key="address.id"
         >
-          <p><strong>{{ address.value }}</strong> <span v-if="address.isPrimary"> - Primary</span></p>
+          {{ address.name }}: <strong>{{ address.value }}</strong> <span v-if="address.isPrimary"> - Primary</span>
+          <EditContactModal
+            :partner-id="props.id"
+            :contact="address"
+            contact-type="address"
+            :mini="true"
+          />
         </li>
       </ul>
     </v-row>
@@ -56,6 +92,8 @@
 import { usePartners } from "../composables/usePartners";
 import { defineProps } from "vue";
 import EditPartnerModal from "../components/EditPartnerModal.vue";
+import AddContactModal from "../components/AddContactModal.vue";
+import EditContactModal from "../components/EditContactModal.vue";
 
 const props = defineProps<{ id: string }>();
 

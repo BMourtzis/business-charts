@@ -5,15 +5,24 @@
   >
     <template #activator="{ props: activatorProps }">
       <v-btn
+        v-if="!mini"
         v-bind="activatorProps"
         color="surface-variant"
         text="Edit Partner"
         prepend-icon="mdi-pencil"
         variant="flat"
       />
+      <v-btn
+        v-if="mini"
+        v-bind="activatorProps"
+        color="surface-variant"
+        icon="mdi-pencil"
+        variant="text"
+        density="compact"
+      />
     </template>
 
-    <v-card :title="`Edit Partner: ${form.businessName}`">
+    <v-card :title="`Edit ${form.businessName}`">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -79,14 +88,15 @@
 import { reactive, watch, defineProps } from 'vue';
 import { usePartners } from '../composables/usePartners';
 import { createAddress, createEmail, createPhone } from '@/domain/models/contact';
-import { emailFormat, maxLength, numeric, phoneFormat, rangeLength, required } from '../utils/validation';
+import { maxLength, numeric, rangeLength, required } from '../utils/validation';
 import { useFormDialog } from '../composables/useFormDialog';
 import { PartnerDTO } from '@/domain/models/partner';
 
 const { editPartnerCommand } = usePartners();
 
 const props = defineProps<{
-  partner: PartnerDTO | null; // pass supplier to edit
+  partner: PartnerDTO | null;
+  mini: boolean;
 }>();
 
 

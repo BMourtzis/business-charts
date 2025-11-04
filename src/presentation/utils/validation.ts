@@ -20,7 +20,7 @@ export const phoneFormat: ValidationRule = (value) => {
     if (value === null || value === undefined) return true;
     if (typeof value === "string" && value.trim() === "") return true;
 
-    const phoneRegex = /^\+?[1-9]\d{10,14}$/;
+    const phoneRegex = /^\+?[1-9]\d{9,14}$/;
     return phoneRegex.test(String(value)) ? true : "Please enter a valid phone number.";
 };
 
