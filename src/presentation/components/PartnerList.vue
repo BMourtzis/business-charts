@@ -26,6 +26,9 @@ import { Partner } from '@/domain/models/partner';
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue";
 import { defineProps } from 'vue';
 import { usePartners } from '../composables/usePartners';
+import { useLocalizationHelpers } from '../composables/useLocalization';
+
+const { tCap } = useLocalizationHelpers();
 
 const { deletePartnerCommand } = usePartners();
 
@@ -34,10 +37,10 @@ const props = defineProps < {
 } > ();
 
 const headers = [
-  { title: "Business Name", key: "businessName" },
-  { title: "Contact Name", key: "contactName" },
-  { title: "VAT Number", key: "vatNumber" },  
-  { title: "Actions", key: "actions"}
+  { title: tCap('partner.businessName'), key: "businessName" },
+  { title: tCap('partner.contactName'), key: "contactName" },
+  { title: tCap('partner.vatNumber'), key: "vatNumber" },  
+  { title: tCap('common.action', 2), key: "actions"}
 ]
 
 

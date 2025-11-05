@@ -8,7 +8,7 @@
         v-if="!mini"
         v-bind="activatorProps"
         color="red"
-        text="Delete"
+        :text="tCap('common.delete')"
         prepend-icon="mdi-trash-can"
         variant="flat"
       />
@@ -22,7 +22,7 @@
       />
     </template>
 
-    <v-card :title="`Delete ${name}`">
+    <v-card :title="`${tCap('common.delete')} ${name}`">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -30,7 +30,7 @@
         >
           <v-container>
             <v-row>
-              <h2>Are you sure you want to delete {{ name }}</h2>
+              <h2>{{ tCap('common.confirmDeleteMessage') }} {{ name }}</h2>
             </v-row>
           </v-container>
         </v-form>
@@ -41,13 +41,13 @@
         <v-btn
           variant="tonal"
           color="red"
-          text="Delete"
+          :text="tCap('common.delete')"
           :loading="loading"
           :disabled="loading"
           @click="confirmAction"
         />
         <v-btn
-          text="Cancel"
+          :text="tCap('common.cancel')"
           :disabled="loading"
           @click="close"
         />
@@ -59,12 +59,15 @@
 <script setup lang="ts">
 import { ref, defineProps, nextTick } from 'vue';
 import { useFormDialog } from '../composables/useFormDialog';
+import { useLocalizationHelpers } from '../composables/useLocalization';
 
 const props = defineProps<{
   name: string;
   actionFn: () => void;
   mini: boolean;
 }>();
+
+const { tCap } = useLocalizationHelpers();
 
 const form = ref();
 

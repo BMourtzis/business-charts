@@ -8,7 +8,7 @@
         v-if="!mini"
         v-bind="activatorProps"
         color="surface-variant"
-        :text="`Edit ${label}`"
+        :text="`${tCap('common.edit')} ${label}`"
         prepend-icon="mdi-pencil"
         variant="flat"
       />
@@ -22,7 +22,7 @@
       />
     </template>
 
-    <v-card :title="`Add ${label}`">
+    <v-card :title="`${tCap('common.edit')} ${label}`">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -40,14 +40,14 @@
             <v-row>
               <v-text-field
                 v-model="form.name"
-                label="Name"
+                :label="tCap('common.name')"
                 :rules="[maxLength(50)]"
               />
             </v-row>
             <v-row>
               <v-switch 
                 v-model="form.isPrimary"
-                label="Is Primary"
+                :label="tCap('common.primary')"
               />
             </v-row>
             <v-alert
@@ -68,13 +68,13 @@
         <v-btn
           variant="tonal"
           color="indigo"
-          text="Save"
+          :text="tCap('common.save')"
           :loading="loading"
           :disabled="!validForm || loading"
           @click="saveContact"
         />
         <v-btn
-          text="Cancel"
+          :text="tCap('common.cancel')"
           color="red"
           :disabled="loading"
           @click="close"
@@ -89,13 +89,16 @@ import { reactive, defineProps, computed, watch } from 'vue';
 import { usePartners } from '../composables/usePartners';
 import { emailFormat, maxLength, phoneFormat, rangeLength, required } from '../utils/validation';
 import { useFormDialog } from '../composables/useFormDialog';
-import { Contact } from '@/domain/models/contact';
+import { useLocalizationHelpers } from '../composables/useLocalization';
+import { ContactDTO } from '@/application/dto/contactDTO';
 
 const { editEmailCommand, editPhoneCommand, editAddressCommand } = usePartners();
 
+const { tCap } = useLocalizationHelpers();
+
 const props = defineProps<{
   partnerId: string;
-  contact: Contact | null;
+  contact: ContactDTO | null;
   contactType: "email" | "phone" | "address";
   mini: boolean;
 }>();
@@ -103,11 +106,11 @@ const props = defineProps<{
 const label = computed(() => {
   switch (props.contactType) {
     case "email":
-      return "Email";
+      return tCap('partner.email');
     case "phone":
-      return "Phone";
+      return tCap('partner.phone');
     case "address":
-      return "Address";
+      return tCap('partner.address');
     default:
       return "";
     }

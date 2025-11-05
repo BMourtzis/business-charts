@@ -8,7 +8,7 @@
         v-if="!mini"
         v-bind="activatorProps"
         color="surface-variant"
-        :text="`Add ${label}`"
+        :text="`${tCap('common.add')} ${label}`"
         prepend-icon="mdi-plus"
         variant="flat"
       />
@@ -22,7 +22,7 @@
       />
     </template>
 
-    <v-card :title="`Add ${label}`">
+    <v-card :title="`${tCap('common.add')} ${label}`">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -40,14 +40,14 @@
             <v-row>
               <v-text-field
                 v-model="form.name"
-                label="Name"
+                :label="tCap('common.name')"
                 :rules="[maxLength(50)]"
               />
             </v-row>
             <v-row>
               <v-switch 
                 v-model="form.isPrimary"
-                label="Is Primary"
+                :label="tCap('common.primary')"
               />
             </v-row>
             <v-alert
@@ -68,13 +68,13 @@
         <v-btn
           variant="tonal"
           color="indigo"
-          text="Save"
+          :text="tCap('common.save')"
           :loading="loading"
           :disabled="!validForm || loading"
           @click="saveContact"
         />
         <v-btn
-          text="Cancel"
+          :text="tCap('common.cancel')"
           color="red"
           :disabled="loading"
           @click="close"
@@ -89,8 +89,11 @@ import { reactive, defineProps, computed } from 'vue';
 import { usePartners } from '../composables/usePartners';
 import { emailFormat, maxLength, phoneFormat, rangeLength, required } from '../utils/validation';
 import { useFormDialog } from '../composables/useFormDialog';
+import { useLocalizationHelpers } from '../composables/useLocalization';
 
 const { addAddressCommand, addEmailCommand, addPhoneCommand } = usePartners();
+
+const { tCap } = useLocalizationHelpers();
 
 const props = defineProps<{
   partnerId: string;
@@ -101,11 +104,11 @@ const props = defineProps<{
 const label = computed(() => {
   switch (props.contactType) {
     case "email":
-      return "Email";
+      return tCap('partner.email');
     case "phone":
-      return "Phone";
+      return tCap('partner.phone');
     case "address":
-      return "Address";
+      return tCap('partner.address');
     default:
       return "";
     }

@@ -1,7 +1,21 @@
 <template>
   <v-container v-if="partner">
     <v-row>
-      <h1>{{ partner.businessName }} <span style="font-weight: 100;">({{ partner.type }})</span></h1>
+      <h1>
+        {{ partner.businessName }} 
+        <span 
+          v-if="partner.type === 'supplier'" 
+          style="font-weight: 100;"
+        >
+          ({{ t('partner.supplier') }})
+        </span>
+        <span 
+          v-if="partner.type === 'customer'" 
+          style="font-weight: 100;"
+        >
+          ({{ t('partner.customer', 2) }})
+        </span>
+      </h1>
       <EditPartnerModal 
         :partner="partner" 
         :mini="true" 
@@ -16,10 +30,10 @@
       <p>{{ partner.contactName }}</p>
     </v-row>
     <v-row>
-      <p>VAT Number: <strong>{{ partner.vatNumber }}</strong></p>
+      <p>{{ tCap('partner.vatNumber') }}: <strong>{{ partner.vatNumber }}</strong></p>
     </v-row>
     <v-row>
-      <h3>Emails</h3>
+      <h3>{{ tCap('partner.email', 2) }}</h3>
       <AddContactModal 
         contact-type="email" 
         :partner-id="partner.id" 
@@ -32,7 +46,9 @@
           v-for="email in partner.emails" 
           :key="email.id"
         >
-          {{ email.name }}: <strong>{{ email.value }}</strong> <span v-if="email.isPrimary"> - Primary</span>
+          <span v-if="email.name">{{ email.name }}:</span> 
+          <strong>{{ email.value }}</strong> 
+          <span v-if="email.isPrimary"> - {{ tCap('common.primary') }}</span>
           <EditContactModal
             :partner-id="props.id"
             :contact="email"
@@ -48,7 +64,7 @@
       </ul>
     </v-row>
     <v-row>
-      <h3>Phones</h3>
+      <h3>{{ tCap('partner.phone', 2) }}</h3>
       <AddContactModal 
         contact-type="phone" 
         :partner-id="partner.id"
@@ -61,7 +77,9 @@
           v-for="phone in partner.phones" 
           :key="phone.id"
         >
-          {{ phone.name }}: <strong>{{ phone.value }}</strong> <span v-if="phone.isPrimary"> - Primary</span>
+          <span v-if="phone.name">{{ phone.name }}:</span> 
+          <strong>{{ phone.value }}</strong> 
+          <span v-if="phone.isPrimary"> - {{ tCap('common.primary') }}</span>
           <EditContactModal
             :partner-id="props.id"
             :contact="phone"
@@ -77,7 +95,7 @@
       </ul>
     </v-row>
     <v-row>
-      <h3>Addresses</h3>
+      <h3>{{ tCap('partner.address', 2) }}</h3>
       <AddContactModal 
         contact-type="address" 
         :partner-id="partner.id" 
@@ -90,7 +108,9 @@
           v-for="address in partner.addresses" 
           :key="address.id"
         >
-          {{ address.name }}: <strong>{{ address.value }}</strong> <span v-if="address.isPrimary"> - Primary</span>
+          <span v-if="address.name">{{ address.name }}:</span> 
+          <strong>{{ address.value }}</strong> 
+          <span v-if="address.isPrimary"> - {{ tCap('common.primary') }}</span>
           <EditContactModal
             :partner-id="props.id"
             :contact="address"
@@ -116,8 +136,11 @@ import AddContactModal from "../components/AddContactModal.vue";
 import EditContactModal from "../components/EditContactModal.vue";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue";
 import { useRouter } from 'vue-router';
+import { useLocalizationHelpers } from '../composables/useLocalization'
 
 const props = defineProps<{ id: string }>();
+
+const { tCap, t } = useLocalizationHelpers()
 
 const { 
   getPartnerById,

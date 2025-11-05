@@ -1,0 +1,25 @@
+{
+    "hello": "Γεία",
+    "common": {
+        "name": "όνομα",
+        "save": "αποθήκευση",
+        "cancel": "ακύρωση",
+        "add": "προσθήκη",
+        "edit": "επεξεργασία",
+        "delete": "διαγραφή",
+        "confirmDeleteMessage": "είστε σίγουρος/η ότι θέλετε να διαγράψετε το",
+        "action": "ενέργεια | ενέργειες",
+        "primary": "κύριο"
+    },
+    "partner": {
+        "partner": "partner | partners",
+        "supplier": "προμηθευτής | προμηθευτές",
+        "customer": "πελάτης | πελάτες",
+        "businessName": "όνομα επιχείρησης",
+        "contactName": "όνομα επαφής",
+        "vatNumber": "ΑΦΜ",
+        "email": "email | emails",
+        "phone": "τηλέφωνο | τηλέφωνα",
+        "address": "διεύθυνση | διευθύνσεις"
+    }
+}

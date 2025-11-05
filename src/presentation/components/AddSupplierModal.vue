@@ -7,13 +7,13 @@
       <v-btn
         v-bind="activatorProps"
         color="surface-variant"
-        text="Add Supplier"
+        :text="`${tCap('common.add')} ${tCap('partner.supplier')}`"
         prepend-icon="mdi-plus"
         variant="flat"
       />
     </template>
-
-    <v-card title="Add Supplier">
+    <!-- κλήση προμηθευτή -->
+    <v-card :title="`${tCap('common.add')} ${tCap('partner.supplier')}`">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -23,28 +23,28 @@
             <v-row>
               <v-text-field
                 v-model="form.businessName"
-                label="Business Name"
+                :label="tCap('partner.businessName')"
                 :rules="[required, rangeLength(3, 50)]"
               />
             </v-row>
             <v-row>
               <v-text-field
                 v-model="form.contactName"
-                label="Contact Name"
+                :label="tCap('partner.contactName')"
                 :rules="[maxLength(50)]"
               />
             </v-row>
             <v-row>
               <v-text-field
                 v-model="form.vatNumber"
-                label="VAT Number"
+                :label="tCap('partner.vatNumber')"
                 :rules="[numeric, rangeLength(8, 8)]"
               />
             </v-row>
             <v-row>
               <v-text-field
                 v-model="form.email"
-                label="Primary Email"
+                :label="`${tCap('common.primary')} ${t('partner.email')}`"
                 placeholder="johndoe@gmail.com"
                 type="email"
                 :rules="[emailFormat]"
@@ -53,7 +53,7 @@
             <v-row>
               <v-text-field
                 v-model="form.phone"
-                label="Primary Phone"
+                :label="`${tCap('common.primary')} ${t('partner.phone')}`"
                 placeholder="21080212345"
                 type="tel"
                 :rules="[phoneFormat]"
@@ -62,7 +62,7 @@
             <v-row>
               <v-text-field
                 v-model="form.address"
-                label="Primary Address"
+                :label="`${tCap('common.primary')} ${t('partner.address')}`"
                 :rules="[maxLength(50)]"
               />
             </v-row>
@@ -84,13 +84,13 @@
         <v-btn
           variant="tonal"
           color="indigo"
-          text="Save"
+          :text="tCap('common.save')"
           :loading="loading"
           :disabled="!validForm || loading"
           @click="saveSupplier"
         />
         <v-btn
-          text="Cancel"
+          :text="tCap('common.cancel')"
           color="red"
           :disabled="loading"
           @click="close"
@@ -106,8 +106,11 @@ import { usePartners } from '../composables/usePartners';
 import { createAddress, createEmail, createPhone } from '@/domain/models/contact';
 import { emailFormat, maxLength, numeric, phoneFormat, rangeLength, required } from '../utils/validation';
 import { useFormDialog } from '../composables/useFormDialog';
+import { useLocalizationHelpers } from '../composables/useLocalization';
 
 const { createSupplierCommand } = usePartners();
+
+const { tCap, t } = useLocalizationHelpers();
 
 const form = reactive({
   businessName: '',

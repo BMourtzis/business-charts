@@ -13,7 +13,7 @@ import { router } from './presentation/router/index';
 
 import { createPinia } from 'pinia';
 
-import i18n from './presentation/localization';
+import i18n from './presentation/localization/index';
 
 import initStartup from './plugins/startupPlugin';
 

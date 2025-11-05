@@ -8,7 +8,7 @@
         v-if="!mini"
         v-bind="activatorProps"
         color="surface-variant"
-        text="Edit Partner"
+        :text="`${tCap('common.edit')} ${t('partner.partner')}`"
         prepend-icon="mdi-pencil"
         variant="flat"
       />
@@ -22,7 +22,7 @@
       />
     </template>
 
-    <v-card :title="`Edit ${form.businessName}`">
+    <v-card :title="`${tCap('common.edit')} ${form.businessName}`">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -32,21 +32,21 @@
             <v-row>
               <v-text-field
                 v-model="form.businessName"
-                label="Business Name"
+                :label="tCap('partner.businessName')"
                 :rules="[required, rangeLength(3, 50)]"
               />
             </v-row>
             <v-row>
               <v-text-field
                 v-model="form.contactName"
-                label="Contact Name"
+                :label="tCap('partner.contactName')"
                 :rules="[maxLength(50)]"
               />
             </v-row>
             <v-row>
               <v-text-field
                 v-model="form.vatNumber"
-                label="VAT Number"
+                :label="tCap('partner.vatNumber')"
                 :rules="[numeric, rangeLength(8, 8)]"
               />
             </v-row>
@@ -68,13 +68,13 @@
         <v-btn
           variant="tonal"
           color="indigo"
-          text="Save"
+          :text="tCap('common.save')"
           :loading="loading"
           :disabled="!validForm || loading"
           @click="saveSupplier"
         />
         <v-btn
-          text="Cancel"
+          :text="tCap('common.cancel')"
           color="red"
           :disabled="loading"
           @click="close"
@@ -91,8 +91,11 @@ import { createAddress, createEmail, createPhone } from '@/domain/models/contact
 import { maxLength, numeric, rangeLength, required } from '../utils/validation';
 import { useFormDialog } from '../composables/useFormDialog';
 import { PartnerDTO } from '@/application/dto/partnerDTO';
+import { useLocalizationHelpers } from '../composables/useLocalization';
 
 const { editPartnerCommand } = usePartners();
+
+const { tCap, t } = useLocalizationHelpers();
 
 const props = defineProps<{
   partner: PartnerDTO | null;

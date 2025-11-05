@@ -1,0 +1,25 @@
+{
+    "hello": "Hello",
+    "common": {
+        "name": "name",
+        "save": "save",
+        "cancel": "cancel",
+        "add": "add",
+        "edit": "edit",
+        "delete": "delete",
+        "confirmDeleteMessage": "are sure you want to delete",
+        "action": "action | actions",
+        "primary": "primary"
+    },
+    "partner": {
+        "partner": "partner | partners",
+        "supplier": "supplier | suppliers",
+        "customer": "customer | customers",
+        "businessName": "business Name",
+        "contactName": "contact Name",
+        "vatNumber": "VAT Number",
+        "email": "email | emails",
+        "phone": "phone | phones",
+        "address": "address | addresses"
+    }
+}
