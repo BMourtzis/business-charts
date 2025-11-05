@@ -6,6 +6,11 @@
         :partner="partner" 
         :mini="true" 
       />
+      <ConfirmDeleteModal
+        :name="partner.businessName"
+        :action-fn="() => deletePartner()"
+        :mini="true"
+      />
     </v-row>
     <v-row>
       <p>{{ partner.contactName }}</p>
@@ -34,6 +39,11 @@
             contact-type="email"
             :mini="true"
           />
+          <ConfirmDeleteModal
+            :name="email.value"
+            :action-fn="() => removeEmailCommand(props.id, email.id)"
+            :mini="true"
+          />
         </li>
       </ul>
     </v-row>
@@ -56,6 +66,11 @@
             :partner-id="props.id"
             :contact="phone"
             contact-type="phone"
+            :mini="true"
+          />
+          <ConfirmDeleteModal
+            :name="phone.value"
+            :action-fn="() => removePhoneCommand(props.id, phone.id)"
             :mini="true"
           />
         </li>
@@ -82,6 +97,11 @@
             contact-type="address"
             :mini="true"
           />
+          <ConfirmDeleteModal
+            :name="address.value"
+            :action-fn="() => removeAddressCommand(props.id, address.id)"
+            :mini="true"
+          />
         </li>
       </ul>
     </v-row>
@@ -94,12 +114,28 @@ import { defineProps } from "vue";
 import EditPartnerModal from "../components/EditPartnerModal.vue";
 import AddContactModal from "../components/AddContactModal.vue";
 import EditContactModal from "../components/EditContactModal.vue";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue";
+import { useRouter } from 'vue-router';
 
 const props = defineProps<{ id: string }>();
 
-const { getPartnerById } = usePartners();
+const { 
+  getPartnerById,
+  removeEmailCommand,
+  removePhoneCommand,
+  removeAddressCommand,
+  deletePartnerCommand 
+} = usePartners();
+
+const router = useRouter();
 
 const partner = getPartnerById(props.id);
+
+function deletePartner() {
+  router.back();
+  deletePartnerCommand(props.id);
+}
+
 </script>
 
 <style scoped></style>

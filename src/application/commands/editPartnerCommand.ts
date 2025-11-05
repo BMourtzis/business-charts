@@ -2,7 +2,7 @@ import { partnerRepository } from "@/infrastructure/repositories/partnerReposito
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { fromPartnerDTO, toPartnerDTO } from "../mapper/partnerMapper";
 
-export async function editPartnerCommand(id: string, contactName: string, businessName?: string, vatNumber?: string) {
+export async function editPartnerCommand(id: string, contactName: string, businessName: string, vatNumber?: string) {
     const store = usePartnersStore();
     const dto = store.getById(id);
 

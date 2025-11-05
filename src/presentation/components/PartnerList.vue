@@ -12,13 +12,22 @@
         icon="mdi-account-details"
         :to="`/partner/${item.id}`"
       />
+      <ConfirmDeleteModal
+        :name="item.businessName"
+        :action-fn="() => deletePartnerCommand(item.id)"
+        :mini="true"
+      />
     </template>
   </v-data-table>
 </template>
 
 <script setup lang="ts">
 import { Partner } from '@/domain/models/partner';
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue";
 import { defineProps } from 'vue';
+import { usePartners } from '../composables/usePartners';
+
+const { deletePartnerCommand } = usePartners();
 
 const props = defineProps < {
   partners: Partner[];

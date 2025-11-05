@@ -5,7 +5,7 @@ export interface PartnerDTO {
     id: string
     contactName: string
     type: PartnerType
-    businessName?: string
+    businessName: string
     vatNumber?: string
     emails: ContactDTO[]
     phones: ContactDTO[]

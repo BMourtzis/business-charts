@@ -8,11 +8,11 @@ export class Partner {
     private _phones: Contact[];
     private _addresses: Contact[];
     private _type: PartnerType;
-    private _businessName?: string;
+    private _businessName: string;
     private _vatNumber?: string;
     private _contactName: string;
 
-    constructor(id: string, contactName: string, type: PartnerType, businessName?: string, vatNumber?: string) {
+    constructor(id: string, contactName: string, type: PartnerType, businessName: string, vatNumber?: string) {
         this._id = id;
         this._contactName = contactName;
         this._businessName = businessName;
@@ -31,7 +31,7 @@ export class Partner {
     
 
     get businessName() { return this._businessName; }
-    set businessName(value: string | undefined) {
+    set businessName(value: string) {
         this._businessName = value;
     }
 
@@ -45,7 +45,7 @@ export class Partner {
         this._contactName = value;
     }
 
-    updateBasicData(contactName: string, businessName?: string, vatNumber?: string) {
+    updateBasicData(contactName: string, businessName: string, vatNumber?: string) {
         if(contactName !== undefined || contactName !== this._contactName) {
             this._contactName = contactName;
         }
@@ -205,10 +205,10 @@ export class Partner {
     }
 }
 
-export function createSupplier(name: string, businessName?: string, vatNumber?: string): Partner {
+export function createSupplier(name: string, businessName: string, vatNumber?: string): Partner {
     return new Partner(uuidv4(), name, "supplier", businessName, vatNumber);
 }
 
-export function createCustomer(name: string, businessName?: string, vatNumber?: string): Partner {
+export function createCustomer(name: string, businessName: string, vatNumber?: string): Partner {
     return new Partner(uuidv4(), name, "customer", businessName, vatNumber);
 }

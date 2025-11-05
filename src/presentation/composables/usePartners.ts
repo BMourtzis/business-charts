@@ -7,6 +7,7 @@ import { editPartnerCommand } from "@/application/commands/editPartnerCommand";
 import { addEmailCommand, editEmailCommand, removeEmailCommand } from "@/application/commands/emailCommands";
 import { addPhoneCommand, editPhoneCommand, removePhoneCommand } from "@/application/commands/phoneCommands";
 import { addAddressCommand, editAddressCommand, removeAddressCommand } from "@/application/commands/addressCommands";
+import { deletePartnerCommand } from "@/application/commands/deletePartnerCommand";
 
 export function usePartners() {
     const store = usePartnersStore();
@@ -26,6 +27,7 @@ export function usePartners() {
         removePhoneCommand,
         addAddressCommand,
         editAddressCommand,
-        removeAddressCommand
+        removeAddressCommand,
+        deletePartnerCommand
     }
 }

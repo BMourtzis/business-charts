@@ -9,7 +9,7 @@ export async function createSupplierCommand(
     emails: Contact[], 
     phones: Contact[], 
     addresses: Contact[], 
-    businessName?: string, 
+    businessName: string, 
     vatNumber?: string) {
     const supplier = createSupplier(name, businessName, vatNumber);
 
