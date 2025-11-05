@@ -1,6 +1,6 @@
-import { fromPartnerDTO, toPartnerDTO } from "@/domain/models/partner";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
+import { fromPartnerDTO, toPartnerDTO } from "../mapper/partnerMapper";
 
 export async function addEmailCommand(partnerId: string, email: string, name?: string, isPrimary = false) {
     const store = usePartnersStore();

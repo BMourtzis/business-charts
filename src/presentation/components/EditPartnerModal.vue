@@ -90,7 +90,7 @@ import { usePartners } from '../composables/usePartners';
 import { createAddress, createEmail, createPhone } from '@/domain/models/contact';
 import { maxLength, numeric, rangeLength, required } from '../utils/validation';
 import { useFormDialog } from '../composables/useFormDialog';
-import { PartnerDTO } from '@/domain/models/partner';
+import { PartnerDTO } from '@/application/dto/partnerDTO';
 
 const { editPartnerCommand } = usePartners();
 

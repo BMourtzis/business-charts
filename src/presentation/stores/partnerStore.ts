@@ -1,4 +1,4 @@
-import { PartnerDTO } from '@/domain/models/partner';
+import { PartnerDTO } from '@/application/dto/partnerDTO';
 import { defineStore } from 'pinia';
 
 export const usePartnersStore = defineStore('partners', {

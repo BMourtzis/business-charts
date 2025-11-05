@@ -1,7 +1,8 @@
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { createSupplier, toPartnerDTO } from "@/domain/models/partner";
+import { createSupplier } from "@/domain/models/partner";
 import { Contact } from "@/domain/models/contact";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
+import { toPartnerDTO } from "../mapper/partnerMapper";
 
 export async function createSupplierCommand(
     name: string, 

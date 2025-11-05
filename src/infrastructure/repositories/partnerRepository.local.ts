@@ -1,5 +1,7 @@
-import { fromPartnerDTO, PartnerDTO, toPartnerDTO } from "@/domain/models/partner";
+
+import { PartnerDTO } from "@/application/dto/partnerDTO";
 import { PartnerRepository } from "./type";
+import { fromPartnerDTO, toPartnerDTO } from "@/application/mapper/partnerMapper";
 
 const STORAGE_KEY = 'partners';
 
