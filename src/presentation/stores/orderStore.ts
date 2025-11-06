@@ -12,12 +12,6 @@ export const useOrdersStore = defineStore('orders', {
         orders: [] as Order[]
     }),
     getters: {
-        getById: (state) => {
-            return (id: string) => state.orders.find(order => order.id === id);
-        },
-        getOrdersForPartner: (state) => {
-            return (partnerId: string) => state.orders.filter(order => order.partnerId === partnerId);
-        },
         //Calculates total for all partners and caches it
         totalsPerPartner: (state): Record<string, AmountsRecord> => {
             const result: Record<string, AmountsRecord> = {}
@@ -56,14 +50,14 @@ export const useOrdersStore = defineStore('orders', {
             return (partnerId?: string) => 
                 state.orders.filter(order => 
                     order.direction === 'credit' && 
-                    (!partnerId && order.partnerId === partnerId)
+                    (!partnerId || order.partnerId === partnerId)
                 );
         },
         debitOrders: (state) => {
             return (partnerId?: string) => 
                 state.orders.filter(order => 
                     order.direction === 'debit' &&
-                    (!partnerId && order.partnerId === partnerId)
+                    (!partnerId || order.partnerId === partnerId)
                 );
         },
         totalCredited(): (partnerId?: string) => number {

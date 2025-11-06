@@ -1,5 +1,5 @@
 import { usePartnersStore } from "../stores/partnerStore";
-import { getPartnerById } from "@/application/queries/getPartnerByIdQuery";
+import { getPartnerById } from "@/application/queries/partner/getPartnerByIdQuery";
 import { createSupplierCommand } from "@/application/commands/partner/createSupplierCommand";
 import { createCustomerCommand } from "@/application/commands/partner/createCustomerCommand";
 import { computed } from "vue";
