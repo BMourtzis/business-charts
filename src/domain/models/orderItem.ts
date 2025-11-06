@@ -1,13 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
 
-export interface OrderItemDTO {
-    id: string;
-    name: string;
-    quantity: number;
-    basePrice: number;
-    vatRate: number;
-}
-
 export class OrderItem {
     private _id: string;
     // private _productId: string;
@@ -52,6 +44,6 @@ export class OrderItem {
     }
 }
 
-export function createOrderItem(id: string, name: string, quantity: number, unitPrice: number, vatRate = 0): OrderItem {
+export function createOrderItem(name: string, quantity: number, unitPrice: number, vatRate = 0): OrderItem {
     return new OrderItem(uuidv4(), name, quantity, unitPrice, vatRate);
 }

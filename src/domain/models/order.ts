@@ -1,17 +1,6 @@
 import { OrderDirection, OrderStatus } from "../types/orderTypes";
-import { OrderItem, OrderItemDTO } from "./orderItem";
+import { OrderItem } from "./orderItem";
 import { v4 as uuidv4 } from "uuid";
-
-export interface OrderDTO {
-    id: string;
-    partnerId: string;
-    createdDate: Date;
-    sentDate?: Date;
-    status: OrderStatus;
-    directiom: OrderDirection;
-    items: OrderItemDTO[];
-    totalAmount: number;
-}
 
 export class Order {
     private _id: string;
@@ -51,13 +40,20 @@ export class Order {
         this._items.push(item);
     }
 
+    setItem(items: OrderItem[]) {
+        if(this.status !== "draft")
+            throw new Error("Cannot set items to an order that is not in draft status.");
+
+        this._items = items.slice();
+    }
+
     removeItem(itemId: string) {
-        if(this.status !== "draft") {
-            throw new Error("Cannot add items to an order that is not in draft status.");
-        }
+        if(this.status !== "draft")
+            throw new Error("Cannot remove items to an order that is not in draft status.");
 
         const index = this._items.findIndex(i => i.id === itemId);
         if(index === -1) return;
+        
         this._items.splice(index, 1);
     }
 
