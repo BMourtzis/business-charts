@@ -14,14 +14,14 @@ function lesson() {
     //this is a variable of string
     let name = "Stefania";
     //this is a variable of number any type (int, float)
-    let yearsOld = 36;
+    let yearsOld = 25;
     // this is a boolean (true or false)
     let fromPalamas = false;
 
-    //Because this a simple varialbe and not a const, I can change it's values through the cousrse of the progam.
+    //Because this a simple variable and not a const, I can change its values through the course of the progam.
     fromPalamas = true;
 
-    //This defines a object with the following fields, and assigns it to the result variable
+    //This defines an object with the following fields, and assigns it to the result variable
     let results = {
         helloGreeting: helloGreeting,
         iAmGreeting: iAmGreeting,
@@ -31,7 +31,7 @@ function lesson() {
         yearsOld: yearsOld,
         fromPalamas: fromPalamas,
         secretMessage: "This was made by Bill with Love!",
-        displaySecretMessage: false
+        displaySecretMessage: true
     };
 
     //return will return whatever I give it to the caller.
@@ -59,18 +59,28 @@ function makeLoud(text) {
 
 //return a string of your favourite food
 function exercise1() {
-    return null;
+    return "vlito";
 }
 
 //retunrn a string that says "Hello, "+ your Name
 function exercise2() {
-    return null;
+   let greeting = "Hello, "; 
+   let name = "Stefania" ;
+    return greeting + name;
 }
 
 //return an object with your 3 most favourite locations, the locations should be named: location1, location2 and location3.
 //For extra points, make your favourite locations loud.
 function exercise3() {
-    return null;
+    let location1 = makeLoud("Pigkouinospito");
+    let location2 = "Koutseri";
+    let location3 = "Paralia";
+    let results = {
+        location1: location1,
+        location2: location2,
+        location3: location3
+    };
+    return results;
 }
 
 //This defines what the caller of this file will see.
