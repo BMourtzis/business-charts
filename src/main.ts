@@ -3,16 +3,23 @@ import App from './App.vue'
 
 import { createVuetify } from 'vuetify'
 import 'vuetify/styles'
-import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import '@mdi/font/css/materialdesignicons.css'
 
-import router from './router';
+import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
+import { router } from './presentation/router/index';
 
 import { createPinia } from 'pinia';
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
-import i18n from './localization';
+import i18n from './presentation/localization/index';
+
+import initStartup from './plugins/startupPlugin';
 
 const vuetify = createVuetify({
+    components,
+    directives,
     icons: {
         defaultSet: "mdi",
         aliases,
@@ -20,12 +27,10 @@ const vuetify = createVuetify({
     }
 });
 
-const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate);
-
 createApp(App)
     .use(router)
-    .use(pinia)
+    .use(createPinia())
     .use(i18n)
     .use(vuetify)
+    .use(initStartup)
     .mount('#app');

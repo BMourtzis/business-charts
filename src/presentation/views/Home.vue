@@ -1,9 +1,9 @@
 <template> 
-  <HelloWorld msg="Stefania"/>
+  <HelloWorld msg="Stefania" />
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue'
+import HelloWorld from '@/presentation/components/HelloWorld.vue'
 
 export default {
   name: 'HomePage',
