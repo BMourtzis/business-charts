@@ -37,13 +37,13 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { reactive } from 'vue';
 import lessonData from '@/lessons/lesson1.js';
 
-const lesson = ref(lessonData.lesson);
-const exercise1 = ref(lessonData.exercise1);
-const exercise2 = ref(lessonData.exercise2);
-const exercise3 = ref(lessonData.exercise3);
+const lesson = reactive(lessonData.lesson);
+const exercise1 = reactive(lessonData.exercise1);
+const exercise2 = reactive(lessonData.exercise2);
+const exercise3 = reactive(lessonData.exercise3);
 
 </script>
 <style scoped></style>

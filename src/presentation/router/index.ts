@@ -23,6 +23,26 @@ const routes: RouteRecordRaw[] = [
         name: 'partner-details',
         component: () => import('@/presentation/views/Partners/PartnerDetails.vue'),
         props: true,
+    }, {
+        path: '/lessons/lesson1',
+        name: 'lessonOne',
+        component: () => import('@/presentation/views/Lessons/LessonsOne.vue'),
+    }, {
+        path: '/lessons/lesson2',
+        name: 'lessonTwo',
+        component: () => import('@/presentation/views/Lessons/LessonsTwo.vue'),
+    }, {
+        path: '/lessons/lesson3',
+        name: 'lessonThree',
+        component: () => import('@/presentation/views/Lessons/LessonsThree.vue'),
+    }, {
+        path: '/lessons/lesson4',
+        name: 'lessonFour',
+        component: () => import('@/presentation/views/Lessons/LessonsFour.vue'),
+    }, {
+        path: '/lessons/lesson5',
+        name: 'lessonFive',
+        component: () => import('@/presentation/views/Lessons/LessonsFive.vue'),
     }
 ];
 
