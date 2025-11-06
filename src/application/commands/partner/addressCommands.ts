@@ -1,14 +1,14 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { fromPartnerDTO, toPartnerDTO } from "../mapper/partnerMapper";
+import { fromPartnerDTO, toPartnerDTO } from "../../mapper/partnerMapper";
 
-export async function addEmailCommand(partnerId: string, email: string, name?: string, isPrimary = false) {
+export async function addAddressCommand(partnerId: string, address: string, name?: string, isPrimary = false) {
     const store = usePartnersStore();
     const dto = store.getById(partnerId);
     if (!dto) return;
 
     const partner = fromPartnerDTO(dto);
-    partner.addEmail(email, isPrimary, name);
+    partner.addAddress(address, isPrimary, name);
 
     await partnerRepository.update(partner);
     await store.update(toPartnerDTO(partner));
@@ -16,13 +16,13 @@ export async function addEmailCommand(partnerId: string, email: string, name?: s
     return partner;
 }
 
-export async function editEmailCommand(partnerId: string, emailId: string, newEmail: string, isPrimary: boolean, newName?: string) {
+export async function editAddressCommand(partnerId: string, addressId: string, newAddress: string, isPrimary: boolean, newName?: string) {
     const store = usePartnersStore();
     const dto = store.getById(partnerId);
     if (!dto) return;
 
     const partner = fromPartnerDTO(dto);
-    partner.editEmail(emailId, newEmail, isPrimary, newName);
+    partner.editAddress(addressId, newAddress, isPrimary, newName);
 
     await partnerRepository.update(partner);
     await store.update(toPartnerDTO(partner));
@@ -31,13 +31,13 @@ export async function editEmailCommand(partnerId: string, emailId: string, newEm
 }
 
 
-export async function removeEmailCommand(partnerId: string, emailId: string) {
+export async function removeAddressCommand(partnerId: string, addressId: string) {
     const store = usePartnersStore();
     const dto = store.getById(partnerId);
     if (!dto) return; 
 
     const partner = fromPartnerDTO(dto);
-    partner.removeEmail(emailId);
+    partner.removeAddress(addressId);
 
     await partnerRepository.update(partner);
     await store.update(toPartnerDTO(partner));

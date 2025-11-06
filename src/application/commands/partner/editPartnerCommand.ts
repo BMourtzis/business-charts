@@ -1,6 +1,6 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { fromPartnerDTO, toPartnerDTO } from "../mapper/partnerMapper";
+import { fromPartnerDTO, toPartnerDTO } from "../../mapper/partnerMapper";
 
 export async function editPartnerCommand(id: string, contactName: string, businessName: string, vatNumber?: string) {
     const store = usePartnersStore();

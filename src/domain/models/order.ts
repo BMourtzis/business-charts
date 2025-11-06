@@ -11,13 +11,17 @@ export class Order {
     private _direction: OrderDirection;
     private _items: OrderItem[];
 
-    constructor(id: string, partnerId: string, direction: OrderDirection, items: OrderItem[]) {
+    constructor(id: string, partnerId: string, status: OrderStatus, direction: OrderDirection, items: OrderItem[], createdDate?: Date, sentDate?: Date) {
         this._id = id;
         this._partnerId = partnerId;
-        this._createdDate = new Date();
-        this._status = "draft";
+        this._createdDate = createdDate ?? new Date();
+        this._status = status;
         this._direction = direction;
         this._items = items.slice();
+        
+        if(sentDate) {
+            this._sentDate = sentDate;
+        }
     }
 
     get id() { return this._id; }
@@ -53,7 +57,7 @@ export class Order {
 
         const index = this._items.findIndex(i => i.id === itemId);
         if(index === -1) return;
-        
+
         this._items.splice(index, 1);
     }
 
@@ -81,9 +85,9 @@ export class Order {
 }
 
 export function createDebitOrder(id: string, partnerId: string, items: OrderItem[]): Order {
-    return new Order(uuidv4(), partnerId, "debit", items);
+    return new Order(uuidv4(), partnerId, "draft", "debit", items);
 }
 
 export function createCreditOrder(id: string, partnerId: string, items: OrderItem[]): Order {
-    return new Order(uuidv4(), partnerId, "credit", items);
+    return new Order(uuidv4(), partnerId, "draft", "credit", items);
 }

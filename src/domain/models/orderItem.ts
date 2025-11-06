@@ -10,11 +10,11 @@ export class OrderItem {
     name: string;
     vatRate: number;
 
-    constructor(id: string, name: string, quantity: number, unitPrice: number, varRate = 0) {
+    constructor(id: string, name: string, quantity: number, basePrice: number, varRate = 0) {
         this._id = id;
         this.name = name;
         this._quantity = quantity;
-        this._basePrice = unitPrice;
+        this._basePrice = basePrice;
         this.vatRate = varRate;
     }
 

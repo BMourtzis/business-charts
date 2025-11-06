@@ -1,7 +1,7 @@
 import { Partner } from "@/domain/models/partner";
 import { PartnerDTO } from "../dto/partnerDTO";
 import { Contact } from "@/domain/models/contact";
-import { toContactDTO } from "./contactMapper";
+import { ContactDTO } from "../dto/contactDTO";
 
 export function fromPartnerDTO(data: PartnerDTO): Partner {
     const partner = new Partner(data.id, data.contactName, data.type, data.businessName, data.vatNumber);
@@ -22,4 +22,18 @@ export function toPartnerDTO(partner: Partner): PartnerDTO {
         phones: partner.phones.map(toContactDTO),
         addresses: partner.addresses.map(toContactDTO)
     }
+}
+
+export function toContactDTO(contact: Contact): ContactDTO {
+    return {
+        id: contact.id,
+        type: contact.type,
+        name: contact.name,
+        value: contact.value,
+        isPrimary: contact.isPrimary
+    };
+}
+
+export function fromContactDTO(dto: ContactDTO): Contact {
+    return new Contact(dto.id, dto.isPrimary, dto.value, dto.type, dto.name);
 }
