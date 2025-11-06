@@ -1,6 +1,6 @@
 import { useI18n } from 'vue-i18n'
 
-type CaseForm = 'nom' | 'gen' | 'acc'
+export type LocaleType = "en" | "el";
 
 export function useLocalizationHelpers() {
   const { t, locale  } = useI18n();
@@ -11,14 +11,9 @@ export function useLocalizationHelpers() {
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
-  //TODO: figure out if it's a good case to do forms for greek language
-  const noun = (base: string, form: CaseForm = 'nom') => {
-    return t(`nouns.${base}_${form}`)
-  }
-
-  const switchLocale = (target: string) => {
+  const switchLocale = (target: LocaleType) => {
     locale.value = target
   }
 
-  return { tCap, t, noun, switchLocale };
+  return { tCap, t, switchLocale };
 }

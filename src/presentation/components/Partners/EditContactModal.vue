@@ -22,7 +22,7 @@
       />
     </template>
 
-    <v-card :title="`${tCap('common.edit')} ${label}`">
+    <v-card :title="dialogTitle">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -47,7 +47,7 @@
             <v-row>
               <v-switch 
                 v-model="form.isPrimary"
-                :label="tCap('common.primary')"
+                :label="primaryTitle"
               />
             </v-row>
             <v-alert
@@ -86,11 +86,13 @@
 
 <script setup lang="ts">
 import { reactive, defineProps, computed, watch } from 'vue';
-import { usePartners } from '../composables/usePartners';
-import { emailFormat, maxLength, phoneFormat, rangeLength, required } from '../utils/validation';
-import { useFormDialog } from '../composables/useFormDialog';
-import { useLocalizationHelpers } from '../composables/useLocalization';
+
 import { ContactDTO } from '@/application/dto/contactDTO';
+
+import { usePartners } from '@/presentation/composables/usePartners';
+import { useFormDialog } from '@/presentation/composables/useFormDialog';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { emailFormat, maxLength, phoneFormat, rangeLength, required } from '@/presentation/utils/validation';
 
 const { editEmailCommand, editPhoneCommand, editAddressCommand } = usePartners();
 
@@ -127,6 +129,25 @@ const rule = computed(() => {
     default:
       return required;
     }
+});
+
+const dialogTitle = computed(() => {
+  switch (props.contactType) {
+    case "email":
+      return tCap('partner.editEmail');
+    case "phone":
+      return tCap('partner.editPhone');
+    case "address":
+      return tCap('partner.editAddress');
+    default:
+      return "";
+    }
+});
+
+const primaryTitle = computed(() => {
+  if(props.contactType === "address")
+    return tCap('common.primary_gen');
+  return tCap('common.primary');
 });
 
 

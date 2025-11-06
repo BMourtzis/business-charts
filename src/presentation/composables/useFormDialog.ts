@@ -1,4 +1,3 @@
-// src/presentation/composables/useFormDialog.ts
 import { ref, watch } from 'vue';
 
 export function useFormDialog<T extends object>(form: T, options?: { autoReset?: boolean }) {
@@ -13,7 +12,8 @@ export function useFormDialog<T extends object>(form: T, options?: { autoReset?:
   function reset() {
     for (const key in form) {
       if (Object.prototype.hasOwnProperty.call(form, key)) {
-        (form as any)[key] = '';
+        const k = key as keyof T;
+        (form as T)[k] = '' as unknown as T[keyof T];
       }
     }
     validForm.value = false;
@@ -24,7 +24,8 @@ export function useFormDialog<T extends object>(form: T, options?: { autoReset?:
   function setFormValues(values: Partial<T>) {
     for (const key in values) {
       if (Object.prototype.hasOwnProperty.call(values, key)) {
-        (form as any)[key] = (values as any)[key];
+        const k = key as keyof T;
+        (form as T)[k] = (values as Partial<T>)[k] as T[keyof T];
       }
     }
   }
@@ -47,9 +48,10 @@ export function useFormDialog<T extends object>(form: T, options?: { autoReset?:
     try {
       await action(form);
       close();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      errorMessage.value = err?.message || 'An unexpected error occurred';
+      const message = err instanceof Error ? err.message : typeof err === 'string' ? err : String(err);
+      errorMessage.value = message || 'An unexpected error occurred';
     } finally {
       loading.value = false;
     }

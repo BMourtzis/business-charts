@@ -58,8 +58,9 @@
 
 <script setup lang="ts">
 import { ref, defineProps, nextTick } from 'vue';
-import { useFormDialog } from '../composables/useFormDialog';
-import { useLocalizationHelpers } from '../composables/useLocalization';
+
+import { useFormDialog } from '@/presentation/composables/useFormDialog';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 const props = defineProps<{
   name: string;

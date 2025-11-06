@@ -7,13 +7,12 @@
       <v-btn
         v-bind="activatorProps"
         color="surface-variant"
-        :text="`${tCap('common.add')} ${tCap('partner.supplier')}`"
+        :text="tCap('partner.addSupplierTitle')"
         prepend-icon="mdi-plus"
         variant="flat"
       />
     </template>
-    <!-- κλήση προμηθευτή -->
-    <v-card :title="`${tCap('common.add')} ${tCap('partner.supplier')}`">
+    <v-card :title="tCap('partner.addSupplierTitle')">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -44,7 +43,7 @@
             <v-row>
               <v-text-field
                 v-model="form.email"
-                :label="`${tCap('common.primary')} ${t('partner.email')}`"
+                :label="tCap('partner.mainEmailField')"
                 placeholder="johndoe@gmail.com"
                 type="email"
                 :rules="[emailFormat]"
@@ -53,7 +52,7 @@
             <v-row>
               <v-text-field
                 v-model="form.phone"
-                :label="`${tCap('common.primary')} ${t('partner.phone')}`"
+                :label="tCap('partner.mainPhoneField')"
                 placeholder="21080212345"
                 type="tel"
                 :rules="[phoneFormat]"
@@ -62,7 +61,7 @@
             <v-row>
               <v-text-field
                 v-model="form.address"
-                :label="`${tCap('common.primary')} ${t('partner.address')}`"
+                :label="tCap('partner.mainAddressField')"
                 :rules="[maxLength(50)]"
               />
             </v-row>
@@ -102,15 +101,15 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { usePartners } from '../composables/usePartners';
-import { createAddress, createEmail, createPhone } from '@/domain/models/contact';
-import { emailFormat, maxLength, numeric, phoneFormat, rangeLength, required } from '../utils/validation';
-import { useFormDialog } from '../composables/useFormDialog';
-import { useLocalizationHelpers } from '../composables/useLocalization';
+
+import { usePartners } from '@/presentation/composables/usePartners';
+import { useFormDialog } from '@/presentation/composables/useFormDialog';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { emailFormat, maxLength, numeric, phoneFormat, rangeLength, required } from '@/presentation/utils/validation';
 
 const { createSupplierCommand } = usePartners();
 
-const { tCap, t } = useLocalizationHelpers();
+const { tCap } = useLocalizationHelpers();
 
 const form = reactive({
   businessName: '',
@@ -133,22 +132,7 @@ const {
 
 async function saveSupplier() {
   await submit(async (form) => {
-    let emailList = [];
-    if (form.email.trim() !== '') {
-      emailList.push(createEmail(form.email, true));
-    }
-
-    let phoneList = [];
-    if (form.phone.trim() !== '') {
-      phoneList.push(createPhone(form.phone, true));
-    }
-
-    let addressList = [];
-    if (form.address.trim() !== '') {
-      addressList.push(createAddress(form.address, true));
-    }
-
-    createSupplierCommand(form.contactName, emailList, phoneList, addressList, form.businessName, form.vatNumber);
+    createSupplierCommand(form.contactName, form.businessName, form.vatNumber, form.email, form.phone, form.address);
   });
 }
 </script>

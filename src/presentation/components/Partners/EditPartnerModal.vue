@@ -86,12 +86,14 @@
 
 <script setup lang="ts">
 import { reactive, watch, defineProps } from 'vue';
-import { usePartners } from '../composables/usePartners';
-import { createAddress, createEmail, createPhone } from '@/domain/models/contact';
-import { maxLength, numeric, rangeLength, required } from '../utils/validation';
-import { useFormDialog } from '../composables/useFormDialog';
+
 import { PartnerDTO } from '@/application/dto/partnerDTO';
-import { useLocalizationHelpers } from '../composables/useLocalization';
+
+import { usePartners } from '@/presentation/composables/usePartners';
+import { useFormDialog } from '@/presentation/composables/useFormDialog';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+
+import { maxLength, numeric, rangeLength, required } from '@/presentation/utils/validation';
 
 const { editPartnerCommand } = usePartners();
 
@@ -141,21 +143,6 @@ watch(dialog, (open) => {
 
 async function saveSupplier() {
   await submit(async (form) => {
-    let emailList = [];
-    if (form.email.trim() !== '') {
-      emailList.push(createEmail(form.email, true));
-    }
-
-    let phoneList = [];
-    if (form.phone.trim() !== '') {
-      phoneList.push(createPhone(form.phone, true));
-    }
-
-    let addressList = [];
-    if (form.address.trim() !== '') {
-      addressList.push(createAddress(form.address, true));
-    }
-
     editPartnerCommand(props.partner?.id ?? '', form.contactName, form.businessName, form.vatNumber);
   });
 }

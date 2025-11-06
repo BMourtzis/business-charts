@@ -9,7 +9,8 @@
         "delete": "delete",
         "confirmDeleteMessage": "are sure you want to delete",
         "action": "action | actions",
-        "primary": "primary"
+        "primary": "primary",
+        "primary_gen": "primary"
     },
     "partner": {
         "partner": "partner | partners",
@@ -20,6 +21,17 @@
         "vatNumber": "VAT Number",
         "email": "email | emails",
         "phone": "phone | phones",
-        "address": "address | addresses"
+        "address": "address | addresses",
+        "addSupplierTitle": "Add Supplier",
+        "addCustomerTitle": "Add Customer",
+        "mainEmailField": "primary email",
+        "mainPhoneField": "primary phone",
+        "mainAddressField": "primary address",
+        "addEmail": "add email",
+        "addPhone": "add phone",
+        "addAddress": "add address",
+        "editEmail": "edit email",
+        "editPhone": "edit phone",
+        "editAddress": "edit address"
     }
 }

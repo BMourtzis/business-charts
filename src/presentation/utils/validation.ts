@@ -1,4 +1,6 @@
-export type ValidationRule = (value: any) => true | string;
+type ValueType = string | number | boolean;
+
+export type ValidationRule = (value: ValueType) => true | string;
 
 export const required: ValidationRule = (value) => {
     return value !== null && value !== undefined && value !== ""
@@ -93,7 +95,7 @@ export const negativeNumber: ValidationRule = (value) => {
         : "This field must be a negative number.";
 };
 
-export function validateField(value: any, rules: ValidationRule[]): true | string {
+export function validateField(value: ValueType, rules: ValidationRule[]): true | string {
     for (const rule of rules) {
         const result = rule(value);
         if (result !== true) {

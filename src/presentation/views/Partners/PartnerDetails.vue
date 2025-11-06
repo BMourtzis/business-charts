@@ -110,7 +110,7 @@
         >
           <span v-if="address.name">{{ address.name }}:</span> 
           <strong>{{ address.value }}</strong> 
-          <span v-if="address.isPrimary"> - {{ tCap('common.primary') }}</span>
+          <span v-if="address.isPrimary"> - {{ tCap('common.primary_gen') }}</span>
           <EditContactModal
             :partner-id="props.id"
             :contact="address"
@@ -129,14 +129,16 @@
 </template>
 
 <script setup lang="ts">
-import { usePartners } from "../composables/usePartners";
 import { defineProps } from "vue";
-import EditPartnerModal from "../components/EditPartnerModal.vue";
-import AddContactModal from "../components/AddContactModal.vue";
-import EditContactModal from "../components/EditContactModal.vue";
-import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue";
 import { useRouter } from 'vue-router';
-import { useLocalizationHelpers } from '../composables/useLocalization'
+
+import EditPartnerModal from "@/presentation/components/Partners/EditPartnerModal.vue";
+import AddContactModal from "@/presentation/components/Partners/AddContactModal.vue";
+import EditContactModal from "@/presentation/components/Partners/EditContactModal.vue";
+import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
+
+import { usePartners } from "@/presentation/composables/usePartners";
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
 
 const props = defineProps<{ id: string }>();
 

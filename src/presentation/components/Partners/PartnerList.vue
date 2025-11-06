@@ -7,10 +7,14 @@
     <template #[`item.actions`]="{ item }">
       <v-btn
         color="primary"
-        variant="plain"
-        size="small"
+        variant="text"
+        density="compact"
         icon="mdi-account-details"
         :to="`/partner/${item.id}`"
+      />
+      <EditPartnerModal 
+        :partner="item" 
+        :mini="true" 
       />
       <ConfirmDeleteModal
         :name="item.businessName"
@@ -22,18 +26,22 @@
 </template>
 
 <script setup lang="ts">
-import { Partner } from '@/domain/models/partner';
-import ConfirmDeleteModal from "../components/ConfirmDeleteModal.vue";
 import { defineProps } from 'vue';
-import { usePartners } from '../composables/usePartners';
-import { useLocalizationHelpers } from '../composables/useLocalization';
+
+import { PartnerDTO } from '@/application/dto/partnerDTO';
+
+import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
+import EditPartnerModal from "./EditPartnerModal.vue";
+
+import { usePartners } from '@/presentation/composables/usePartners';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 const { tCap } = useLocalizationHelpers();
 
 const { deletePartnerCommand } = usePartners();
 
 const props = defineProps < {
-  partners: Partner[];
+  partners: PartnerDTO[];
 } > ();
 
 const headers = [
