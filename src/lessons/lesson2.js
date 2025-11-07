@@ -111,13 +111,13 @@ function exercise3() {
     const a = 5;
     const b = 6;
 
-    const gt = 0; //greaterThan
-    const lt = 0 //lessThan
-    const gtE = 0; //greaterThanEqual
-    const ltE = 0; //lessThanEqual
-    const equal = 0;
-    const strongEqual = 0;
-    const notEqual = 0;
+    const gt = false; //greaterThan
+    const lt = false //lessThan
+    const gtE = false; //greaterThanEqual
+    const ltE = false; //lessThanEqual
+    const equal = false;
+    const strongEqual = false;
+    const notEqual = false;
 
     return {
         gt, lt, gtE, ltE, equal, strongEqual, notEqual
