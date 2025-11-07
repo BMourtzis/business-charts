@@ -10,7 +10,7 @@
 
 <script setup>
 import { ref, defineProps } from 'vue';
-import { useCounterStore } from '@/presentation/stores/index.js';
+import { useCounterStore } from '@/presentation/stores/index.ts';
 
 const counterStore = useCounterStore();
 
