@@ -13,36 +13,36 @@ const routes: RouteRecordRaw[] = [
     }, {
         path: '/suppliers',
         name: 'suppliers',
-        component: () => import('@/presentation/views/Partners/SuppliersView.vue'),
+        component: () => import('@/presentation/views/partners/SuppliersView.vue'),
     }, {
         path: '/customers',
         name: 'customers',
-        component: () => import('@/presentation/views/Partners/CustomersView.vue'),
+        component: () => import('@/presentation/views/partners/CustomersView.vue'),
     }, {
         path: '/partner/:id',
         name: 'partner-details',
-        component: () => import('@/presentation/views/Partners/PartnerDetails.vue'),
+        component: () => import('@/presentation/views/partners/PartnerDetails.vue'),
         props: true,
     }, {
         path: '/lessons/lesson1',
         name: 'lessonOne',
-        component: () => import('@/presentation/views/Lessons/LessonsOne.vue'),
+        component: () => import('@/presentation/views/lessons/LessonOne.vue'),
     }, {
         path: '/lessons/lesson2',
         name: 'lessonTwo',
-        component: () => import('@/presentation/views/Lessons/LessonsTwo.vue'),
+        component: () => import('@/presentation/views/lessons/LessonsTwo.vue'),
     }, {
         path: '/lessons/lesson3',
         name: 'lessonThree',
-        component: () => import('@/presentation/views/Lessons/LessonsThree.vue'),
+        component: () => import('@/presentation/views/lessons/LessonThree.vue'),
     }, {
         path: '/lessons/lesson4',
         name: 'lessonFour',
-        component: () => import('@/presentation/views/Lessons/LessonsFour.vue'),
+        component: () => import('@/presentation/views/lessons/LessonFour.vue'),
     }, {
         path: '/lessons/lesson5',
         name: 'lessonFive',
-        component: () => import('@/presentation/views/Lessons/LessonsFive.vue'),
+        component: () => import('@/presentation/views/lessons/LessonFive.vue'),
     }
 ];
 
