@@ -44,7 +44,25 @@ export class Order {
         this._items.push(item);
     }
 
-    setItem(items: OrderItem[]) {
+    updateItem(itemId: string, updates: {
+        name?: string;
+        quantity?: number;
+        basePrice?: number;
+        vatRate?: number;
+    }) {
+        if (this._status !== 'draft')
+            throw new Error('Only draft orders can be edited');
+
+        const item = this._items.find(i => i.id === itemId);
+        if (!item) throw new Error('Item not found');
+
+        if (updates.name) item.name = updates.name;
+        if (updates.quantity !== undefined) item.updateQuantity(updates.quantity);
+        if (updates.basePrice !== undefined) item.updateBasePrice(updates.basePrice);
+        if (updates.vatRate !== undefined) item.updateVatRate(updates.vatRate);
+    }
+
+    setItems(items: OrderItem[]) {
         if(this.status !== "draft")
             throw new Error("Cannot set items to an order that is not in draft status.");
 
@@ -84,10 +102,12 @@ export class Order {
     }
 }
 
-export function createDebitOrder(id: string, partnerId: string, items: OrderItem[]): Order {
+//You pay supplier
+export function createDebitOrder(partnerId: string, items: OrderItem[]): Order {
     return new Order(uuidv4(), partnerId, "draft", "debit", items);
 }
 
-export function createCreditOrder(id: string, partnerId: string, items: OrderItem[]): Order {
+//customer pays you
+export function createCreditOrder(partnerId: string, items: OrderItem[]): Order {
     return new Order(uuidv4(), partnerId, "draft", "credit", items);
 }

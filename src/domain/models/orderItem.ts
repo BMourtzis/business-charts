@@ -31,7 +31,7 @@ export class OrderItem {
     }
 
 
-    changeQuantity(newQuantity: number) {
+    updateQuantity(newQuantity: number) {
         this._quantity = newQuantity;
     }
 

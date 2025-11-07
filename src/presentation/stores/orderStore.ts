@@ -12,6 +12,12 @@ export const useOrdersStore = defineStore('orders', {
         orders: [] as Order[]
     }),
     getters: {
+        getOrderById: (state) => {
+            return (id: string): Order | undefined => state.orders.find(o => o.id === id) as Order | undefined;
+        },
+        getOrdersByPartnerId: (state) => {
+            return (partnerId: string) => state.orders.filter(o => o.partnerId === partnerId) as Order[];
+        },
         //Calculates total for all partners and caches it
         totalsPerPartner: (state): Record<string, AmountsRecord> => {
             const result: Record<string, AmountsRecord> = {}
