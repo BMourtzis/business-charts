@@ -6,11 +6,15 @@ import { createCreditOrderCommand, createDebitOrderCommand } from "@/application
 import { updateOrderStatusCommand } from "@/application/commands/order/updateOrderCommand";
 import { addOrderItemCommand, removeOrderItemCommand, updateOrderItemCommand } from "@/application/commands/order/updateOrderItemCommand";
 import { deleteOrderComand } from "@/application/commands/order/deleteOrderCommand";
+import { usePartnersStore } from "../stores/partnerStore";
 
 export function useOrders() {
     const store = useOrdersStore();
+    const partnerStore = usePartnersStore();
 
     return {
+        allOrders: store.allOrders,
+        partnerNames: partnerStore.getPartnerNames,
         totalsPerPartner: computed(() => store.totalsPerPartner),
         globalTotals: computed(() => store.globalTotals),
         creditOrders: store.creditOrders,

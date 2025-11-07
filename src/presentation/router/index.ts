@@ -23,6 +23,10 @@ const routes: RouteRecordRaw[] = [
         name: 'partner-details',
         component: () => import('@/presentation/views/partners/PartnerDetails.vue'),
         props: true,
+    }, {
+        path: '/orders',
+        name: 'orders',
+        component: () => import('@/presentation/views/orders/OrdersView.vue'),
     }
 ];
 

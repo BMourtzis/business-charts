@@ -20,4 +20,4 @@ const { tCap } = useLocalizationHelpers()
 </script>
 
 <style scoped>
-</style>
+</style> 

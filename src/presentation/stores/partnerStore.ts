@@ -9,6 +9,9 @@ export const usePartnersStore = defineStore('partners', {
         getById: (state) => {
             return (id: string) => state.partners.find(partner => partner.id === id);
         },
+        getPartnerNames: (state): { id: string; name: string, type: string }[] => {
+            return state.partners.map(p => ({ id: p.id, name: p.businessName, type: p.type }));
+        },
         customers: (state) => {
             return state.partners.filter(partner => partner.type === 'customer');
         },

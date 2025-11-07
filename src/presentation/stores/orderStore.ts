@@ -12,6 +12,9 @@ export const useOrdersStore = defineStore('orders', {
         orders: [] as Order[]
     }),
     getters: {
+        allOrders: (state) => {
+            return state.orders as Order[];
+        },
         getOrderById: (state) => {
             return (id: string): Order | undefined => state.orders.find(o => o.id === id) as Order | undefined;
         },
