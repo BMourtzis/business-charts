@@ -1,0 +1,18 @@
+{
+  "useTabs": false,
+  "tabWidth": 4,
+  "overrides": [
+    {
+      "files": ["*.vue"],
+      "options": {
+        "vueIndentScriptAndStyle": false
+      }
+    },
+    {
+      "files": ["*.html", "*.vue"],
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+    "hello": "Γεία",
+    "common": {
+        "name": "όνομα",
+        "save": "αποθήκευση",
+        "cancel": "ακύρωση",
+        "add": "προσθήκη",
+        "edit": "επεξεργασία",
+        "delete": "διαγραφή",
+        "confirmDeleteMessage": "είστε σίγουρος/η ότι θέλετε να διαγράψετε το",
+        "action": "ενέργεια | ενέργειες",
+        "primary": "κύριο",
+        "primary_gen": "κύρια"
+    },
+    "partner": {
+        "partner": "partner | partners",
+        "supplier": "προμηθευτής | προμηθευτές",
+        "customer": "πελάτης | πελάτες",
+        "businessName": "όνομα επιχείρησης",
+        "contactName": "όνομα επαφής",
+        "vatNumber": "ΑΦΜ",
+        "email": "email | emails",
+        "phone": "τηλέφωνο | τηλέφωνα",
+        "address": "διεύθυνση | διευθύνσεις",
+        "addSupplierTitle": "προσθήκη προμηθευτή",
+        "addCustomerTitle": "προσθήκη πελάτη",
+        "mainEmailField": "κύριο email",
+        "mainPhoneField": "κύριο phone",
+        "mainAddressField": "κύρια διεύθυνση",
+        "addEmail": "προσθήκη email",
+        "addPhone": "προσθήκη τηλεφώνου",
+        "addAddress": "προσθήκη διεύθυνσης",
+        "editEmail": "επεξεργασία email",
+        "editPhone": "επεξεργασία τηλεφώνου",
+        "editAddress": "επεξεργασία διεύθυνσης"
+    }
+}

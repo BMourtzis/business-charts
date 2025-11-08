@@ -1,0 +1,18 @@
+{
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+
+  // Specific to Vue files
+  "[vue]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "Vue.volar"
+  },
+
+  // Optional: JS/TS remain at 4
+  "[javascript]": {
+    "editor.tabSize": 4
+  },
+  "[typescript]": {
+    "editor.tabSize": 4
+  }
+}
