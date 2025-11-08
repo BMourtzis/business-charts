@@ -1,7 +1,8 @@
 
 import { PartnerDTO } from "@/application/dto/partnerDTO";
-import { PartnerRepository } from "./type";
+import { Repository } from "./type";
 import { fromPartnerDTO, toPartnerDTO } from "@/application/mapper/partnerMapper";
+import { Partner } from "@/domain/models/partner";
 
 const STORAGE_KEY = 'partners';
 
@@ -15,9 +16,16 @@ async function saveDTOs(dtos: PartnerDTO[]): Promise<void> {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(dtos));
 }
 
-export const partnerRepository: PartnerRepository = {
+export const partnerRepository: Repository<Partner, PartnerDTO> = {
+    async getAll() {
+        return loadDTOs();
+    },
+    async saveAll(partnerDtos) {
+        return saveDTOs(partnerDtos);
+    },
     async load() {
         const dtos = await loadDTOs();
+        console.log(dtos);
         return dtos.map(fromPartnerDTO);
     },
     async add(partner) {

@@ -13,25 +13,29 @@ const routes: RouteRecordRaw[] = [
     }, {
         path: '/suppliers',
         name: 'suppliers',
-        component: () => import('@/presentation/views/partners/SuppliersView.vue'),
+        component: () => import('@/presentation/views/partner/SuppliersView.vue'),
     }, {
         path: '/customers',
         name: 'customers',
-        component: () => import('@/presentation/views/partners/CustomersView.vue'),
+        component: () => import('@/presentation/views/partner/CustomersView.vue'),
     }, {
         path: '/partner/:id',
         name: 'partner-details',
-        component: () => import('@/presentation/views/partners/PartnerDetails.vue'),
+        component: () => import('@/presentation/views/partner/PartnerDetails.vue'),
         props: true,
     }, {
         path: '/orders',
         name: 'orders',
         component: () => import('@/presentation/views/orders/OrdersView.vue'),
+    }, {
+        path: '/data-transfer',
+        name: 'data-transfer',
+        component: () => import('@/presentation/views/DataTransfer.vue'),
     }
 ];
 
 export const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(process.env.VUE_APP_BASE_URL),
     routes,
     scrollBehavior() {
         return { left: 0, top: 0 };
