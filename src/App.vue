@@ -23,7 +23,20 @@
         nav
       >
         <v-list-item 
-          v-for="item in navItems"
+          v-for="item in mainLinks"
+          :key="item.title"
+          :prepend-icon="item.icon" 
+          :title="item.title" 
+          :to="item.to"
+        />
+      </v-list>
+      <v-divider />
+      <v-list 
+        density="compact" 
+        nav
+      >
+        <v-list-item 
+          v-for="item in settingsLinks"
           :key="item.title"
           :prepend-icon="item.icon" 
           :title="item.title" 
@@ -69,11 +82,16 @@ const isExpanded = ref(false);
 
 const { tCap } = useLocalizationHelpers();
 
-const navItems = [
+const mainLinks = [
   { title: tCap('partner.supplier', 2), icon: 'mdi-account-multiple-outline', to: '/suppliers' },
   // { title: 'Orders', icon: 'mdi-receipt-text-outline', to: '/orders' },
   // { title: 'Reports', icon: 'mdi-chart-bar', to: '/reports' },
 ]
+
+const settingsLinks = [
+  { title: 'Data', icon: 'mdi-file-arrow-left-right', to: '/data-transfer' },
+]
+
 </script>
 
 <style>

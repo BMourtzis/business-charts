@@ -23,6 +23,10 @@ const routes: RouteRecordRaw[] = [
         name: 'partner-details',
         component: () => import('@/presentation/views/partners/PartnerDetails.vue'),
         props: true,
+    }, {
+        path: '/data-transfer',
+        name: 'data-transfer',
+        component: () => import('@/presentation/views/DataTransfer.vue'),
     }
 ];
 
