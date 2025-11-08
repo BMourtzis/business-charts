@@ -1,16 +1,8 @@
-import { Order } from "@/domain/models/order";
-import { Partner } from "@/domain/models/partner";
-
-export interface OrderRepository {
-    load(): Promise<Order[]>;
-    add(order: Order): Promise<void>;
-    update(order: Order): Promise<void>;
-    remove(id: string): Promise<void>;
-}
-
-export interface PartnerRepository {
-    load(): Promise<Partner[]>;
-    add(partner: Partner): Promise<void>;
-    update(partner: Partner): Promise<void>;
+export interface Repository<T, DTO> {
+    getAll(): Promise<DTO[]>;
+    saveAll(items: DTO[]): Promise<void>;
+    load(): Promise<T[]>;
+    add(order: T): Promise<void>;
+    update(order: T): Promise<void>;
     remove(id: string): Promise<void>;
 }
