@@ -132,9 +132,9 @@
 import { defineProps } from "vue";
 import { useRouter } from 'vue-router';
 
-import EditPartnerModal from "@/presentation/components/Partners/EditPartnerModal.vue";
-import AddContactModal from "@/presentation/components/Partners/AddContactModal.vue";
-import EditContactModal from "@/presentation/components/Partners/EditContactModal.vue";
+import EditPartnerModal from "@/presentation/components/partners/EditPartnerModal.vue";
+import AddContactModal from "@/presentation/components/partners/AddContactModal.vue";
+import EditContactModal from "@/presentation/components/partners/EditContactModal.vue";
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 
 import { usePartners } from "@/presentation/composables/usePartners";
