@@ -7,8 +7,8 @@
 </template>
 
 <script setup>
-import PartnersList from '@/presentation/components/partners/PartnerList.vue';
-import AddSupplierModal from '@/presentation/components/partners/AddSupplierModal.vue';
+import PartnersList from '@/presentation/components/partner/PartnerList.vue';
+import AddSupplierModal from '@/presentation/components/partner/AddSupplierModal.vue';
 
 import { usePartners } from '@/presentation/composables/usePartners';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'

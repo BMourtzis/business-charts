@@ -13,15 +13,15 @@ const routes: RouteRecordRaw[] = [
     }, {
         path: '/suppliers',
         name: 'suppliers',
-        component: () => import('@/presentation/views/partners/SuppliersView.vue'),
+        component: () => import('@/presentation/views/partner/SuppliersView.vue'),
     }, {
         path: '/customers',
         name: 'customers',
-        component: () => import('@/presentation/views/partners/CustomersView.vue'),
+        component: () => import('@/presentation/views/partner/CustomersView.vue'),
     }, {
         path: '/partner/:id',
         name: 'partner-details',
-        component: () => import('@/presentation/views/partners/PartnerDetails.vue'),
+        component: () => import('@/presentation/views/partner/PartnerDetails.vue'),
         props: true,
     }, {
         path: '/data-transfer',
