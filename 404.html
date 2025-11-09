@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+      // GitHub Pages SPA redirect fix
+      const redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    </script>
+  </head>
+  <body>
+    <script>
+      // Save current path and redirect to index.html
+      sessionStorage.redirect = location.href;
+      location.replace('./');
+    </script>
+  </body>
+</html>
