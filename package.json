@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && node scripts/create-404.js",
     "lint": "vue-cli-service lint",
     "type-check": "vue-tsc --noEmit"
   },
