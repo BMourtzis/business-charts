@@ -82,11 +82,11 @@ function exercise1() {
     const a = 5;
     const b = 6;
 
-    const addition = 0; //change the value to be the addition of a and b
-    const subtraction = 0; //change the value to be the subtraction of a and b
-    const multiplication = 0; //change the value to be the multiplication of a and b
-    const division = 0; //change the value to be the division of a and b
-    const remainder = 0; //change the value to be the remainder of a and b
+    const addition = a + b; //change the value to be the addition of a and b
+    const subtraction = a - b; //change the value to be the subtraction of a and b
+    const multiplication = a * b; //change the value to be the multiplication of a and b
+    const division = a / b; //change the value to be the division of a and b
+    const remainder = a % b; //change the value to be the remainder of a and b
 
     return {
         addition,
@@ -100,10 +100,14 @@ function exercise1() {
 //BMI calculator, return the BMI index
 //BMI = weight / height^2
 function exercise2() {
-    const height = 160;
+    const height = 200;
     const weight = 80;
 
-    return 0;
+    return BMIcalculator (height, weight);
+}
+
+function BMIcalculator (height, weight) {
+    return weight / (height * height);
 }
 
 //Simple comparison
@@ -111,13 +115,13 @@ function exercise3() {
     const a = 5;
     const b = 6;
 
-    const gt = false; //greaterThan
-    const lt = false //lessThan
-    const gtE = false; //greaterThanEqual
-    const ltE = false; //lessThanEqual
-    const equal = false;
-    const strongEqual = false;
-    const notEqual = false;
+    const gt = a > b; //greaterThan
+    const lt = a < b; //lessThan
+    const gtE = a >= b; //greaterThanEqual
+    const ltE = a <= b; //lessThanEqual
+    const equal = a == b;
+    const strongEqual = a === b;
+    const notEqual = a != b;
 
     return {
         gt, lt, gtE, ltE, equal, strongEqual, notEqual
@@ -129,18 +133,22 @@ function exercise4() {
     const a = true;
     const b = false;
 
-    const and = false; //a AND b
-    const or = false; //a OR b
-    const not = false;  //NOT a OR NOT b
+    const and = a && b; //a AND b
+    const or = a || b; //a OR b
+    const not = !a || !b;  //NOT a OR NOT b
 
     return {
         and, or, not
     }
 }
 
-//BONUS: get the calculator from leson 2 and return true if the BMI is between 20 and 30 (including 20 and 30)
+//BONUS: get the calculator from exercise 2 and return true if the BMI is between 20 and 30 (including 20 and 30) or 35 && 40
 function exercise5() {
-    return false;
+    let BMI = exercise2 () * 10000;
+    
+    console.log(BMI);
+
+    return (20 <= BMI  && BMI <= 30);
 }
 
 export default {

@@ -58,12 +58,7 @@
     <p>a OR b = {{ exercise4.or }}</p>
     <p>NOT a OR NOT b = {{ exercise4.not }}</p>
     <h2>Exercise 5</h2>
-    <p v-if="exercise5">
-      My BMI is between 20 and 30
-    </p>
-    <p v-if="!exercise5">
-      My BMI is NOT between 20 and 30
-    </p>
+    result is {{ exercise5 }}
   </div>
 </template>
 <script setup>
