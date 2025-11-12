@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { ContactType } from "../types/contactTypes";
+import { ContactType } from "../../types/contactTypes";
 
 export class Contact {
     private _id: string;
@@ -22,13 +22,10 @@ export class Contact {
 }
 
 export function createEmail(email: string, isPrimary = false, name?: string) {
-    return new Contact(uuidv4(), isPrimary, email, "email", name);
+    return new Contact(uuidv4(), isPrimary, email, ContactType.email, name);
 }
 
 export function createPhone(phone: string, isPrimary = false, name?: string) {
-    return new Contact(uuidv4(), isPrimary, phone, "phone", name);
+    return new Contact(uuidv4(), isPrimary, phone, ContactType.phone, name);
 }
 
-export function createAddress(address: string, isPrimary = false, name?: string) {
-    return new Contact(uuidv4(), isPrimary, address, "address", name);
-}

@@ -1,1 +1,4 @@
-export type ContactType = "phone" | "email" | "address"
+export enum ContactType {
+    phone,
+    email
+}

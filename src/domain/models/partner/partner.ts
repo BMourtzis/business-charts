@@ -1,22 +1,20 @@
-import { PartnerType } from "../types/partnerTypes";
+import { PartnerType } from "../../types/partnerTypes";
+import { Address, createAddress } from "./address";
 import { Contact, createEmail, createPhone } from "./contact";
-import { v4 as uuidv4 } from "uuid";
 
 export class Partner {
     private _id: string;
     private _emails: Contact[];
     private _phones: Contact[];
-    private _addresses: Contact[];
+    private _addresses: Address[];
     private _type: PartnerType;
-    private _businessName: string;
-    private _vatNumber?: string;
+    private _businessName?: string;
     private _contactName: string;
 
-    constructor(id: string, contactName: string, type: PartnerType, businessName: string, vatNumber?: string) {
+    constructor(id: string, type: PartnerType, contactName: string, businessName?: string) {
         this._id = id;
         this._contactName = contactName;
         this._businessName = businessName;
-        this._vatNumber = vatNumber;
         this._type = type;
         this._emails = [];
         this._phones = [];
@@ -28,16 +26,10 @@ export class Partner {
     get emails() { return this._emails.slice(); }
     get phones() { return this._phones.slice(); }
     get addresses() { return this._addresses.slice(); }
-    
 
-    get businessName() { return this._businessName; }
+    get businessName() { return this._businessName || ""; }
     set businessName(value: string) {
         this._businessName = value;
-    }
-
-    get vatNumber() { return this._vatNumber; }
-    set vatNumber(value: string | undefined) {
-        this._vatNumber = value;
     }
 
     get contactName() { return this._contactName; }
@@ -45,17 +37,13 @@ export class Partner {
         this._contactName = value;
     }
 
-    updateBasicData(contactName: string, businessName: string, vatNumber?: string) {
-        if(contactName !== undefined || contactName !== this._contactName) {
+    updateData(contactName?: string, businessName?: string) {
+        if(contactName &&contactName !== undefined && contactName !== this._contactName) {
             this._contactName = contactName;
         }
 
         if(businessName !== undefined || businessName !== this._businessName) {
             this._businessName = businessName;
-        }
-
-        if(vatNumber !== undefined || vatNumber !== this._vatNumber) {
-            this._vatNumber = vatNumber;
         }
     }
 
@@ -79,7 +67,7 @@ export class Partner {
             email.value = newEmail;
         }
         
-        if(name) {
+        if(name != null) {
             email.name = name;
         }
 
@@ -128,7 +116,7 @@ export class Partner {
             phone.value = newPhone;
         }
         
-        if(name) {
+        if(name != null) {
             phone.name = name;
         }
         if (isPrimary !== undefined) {
@@ -157,7 +145,7 @@ export class Partner {
     }
 
     //Addresses
-    addAddress(address: string, isPrimary = false, name?: string) {
+    addAddress(street: string, city: string, zip?: string, country?: string, isPrimary = false, name?: string) {
         if(isPrimary) {
             const primaryAddress = this._addresses.find(a => a.isPrimary === true);
             if(primaryAddress) {
@@ -165,18 +153,21 @@ export class Partner {
             }
         }
 
-        this._addresses.push(createEmail(address, isPrimary, name));
+        this._addresses.push(createAddress(street, city, zip, country, isPrimary, name));
     }
 
-    editAddress(addressId: string, newAddress?: string, isPrimary?: boolean, name?: string) {
+    editAddress(addressId: string, newAddress?: Address, isPrimary?: boolean, name?: string) {
         const address = this._addresses.find(e => e.id === addressId);
         if(!address) return;
 
         if(newAddress) {
-            address.value = newAddress;
+            address.street = newAddress.street;
+            address.city = newAddress.city;
+            address.zip = newAddress.zip;
+            address.country = newAddress.country;
         }
         
-        if(name) {
+        if(name != null) {
             address.name = name;
         }
         if (isPrimary !== undefined) {
@@ -192,7 +183,7 @@ export class Partner {
         }
     }
 
-    setAddresses(addresses: Contact[]) {
+    setAddresses(addresses: Address[]) {
         this._addresses = addresses.slice();
     }
 
@@ -203,12 +194,4 @@ export class Partner {
 
         this._addresses.splice(addressIndex, 1);
     }
-}
-
-export function createSupplier(name: string, businessName: string, vatNumber?: string): Partner {
-    return new Partner(uuidv4(), name, "supplier", businessName, vatNumber);
-}
-
-export function createCustomer(name: string, businessName: string, vatNumber?: string): Partner {
-    return new Partner(uuidv4(), name, "customer", businessName, vatNumber);
 }

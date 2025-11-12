@@ -1,1 +1,6 @@
-export type PartnerType = "supplier" | "customer";
+export enum PartnerType {
+    supplier,
+    b2bCustomer,
+    contractor,
+    customer
+}
