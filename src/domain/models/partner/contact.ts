@@ -22,10 +22,10 @@ export class Contact {
 }
 
 export function createEmail(email: string, isPrimary = false, name?: string) {
-    return new Contact(uuidv4(), isPrimary, email, ContactType.email, name);
+    return new Contact(uuidv4(), isPrimary, email, ContactType.Email, name);
 }
 
 export function createPhone(phone: string, isPrimary = false, name?: string) {
-    return new Contact(uuidv4(), isPrimary, phone, ContactType.phone, name);
+    return new Contact(uuidv4(), isPrimary, phone, ContactType.Phone, name);
 }
 

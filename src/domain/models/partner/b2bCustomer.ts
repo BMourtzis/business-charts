@@ -6,7 +6,7 @@ export class B2BCustomer extends Partner {
     deliverCarrierId: string;
 
     constructor(id: string, contactName: string, deliveryCarrierId: string, businessName?: string) {
-        super(id, PartnerType.b2bCustomer, contactName, businessName);
+        super(id, PartnerType.B2BCustomer, contactName, businessName);
         this.deliverCarrierId = deliveryCarrierId
     }
 }

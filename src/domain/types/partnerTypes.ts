@@ -1,6 +1,6 @@
 export enum PartnerType {
-    supplier,
-    b2bCustomer,
-    contractor,
-    customer
+    Supplier,
+    B2BCustomer,
+    Contractor,
+    RetailCustomer
 }
