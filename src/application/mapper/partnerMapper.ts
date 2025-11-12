@@ -37,8 +37,6 @@ export class PartnerMapper {
         return model;
     }
 
-    
-
     static toDTO(model: Partner): PartnerDTO {
         const base  = {
             id: model.id,
