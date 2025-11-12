@@ -14,12 +14,19 @@
     accept="application/json"
     @change="onImport" 
   />
+  <h2>Delete all data</h2>
+  <ConfirmDeleteModal
+    name="All Data"
+    :action-fn="() => deleteAllData()"
+    :mini="false"
+  />
 </template>
 
 <script setup lang="ts">
-import { useDataManagement } from '@/presentation/composables/useDataManagement'
+import ConfirmDeleteModal from '@/presentation/components/ConfirmDeleteModal.vue';
+import { useDataManagement } from '@/presentation/composables/useDataManagement';
 
-const { exportData, importData } = useDataManagement()
+const { exportData, importData, deleteAllData } = useDataManagement()
 
 function onImport(e: Event) {
     const file = (e.target as HTMLInputElement).files?.[0]
@@ -27,4 +34,4 @@ function onImport(e: Event) {
 }
 </script>
 
-<style scoped></style>
+<style scoped></style>s
