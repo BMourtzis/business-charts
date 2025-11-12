@@ -23,7 +23,7 @@ function getModelType(dto: PartnerDTO) {
                 dto.businessName
             );
         default:
-            throw new Error(`Unsupported partner type: ${dto.type}`);
+            throw new Error(`Unsupported partner type: ${dto}`);
     }
 }
 
@@ -36,6 +36,8 @@ export class PartnerMapper {
 
         return model;
     }
+
+    
 
     static toDTO(model: Partner): PartnerDTO {
         const base  = {

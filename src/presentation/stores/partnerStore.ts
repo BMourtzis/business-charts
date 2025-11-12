@@ -1,19 +1,30 @@
+import { DeliveryCarrierDTO } from '@/application/dto/deliveryCarrierDTO';
 import { PartnerDTO } from '@/application/dto/partnerDTO';
+import { PartnerMapper } from '@/application/mapper/partnerMapper';
+import { B2BCustomer } from '@/domain/models/partner/b2bCustomer';
+import { Supplier } from '@/domain/models/partner/supplier';
+import { PartnerType } from '@/domain/types/partnerTypes';
 import { defineStore } from 'pinia';
 
 export const usePartnersStore = defineStore('partners', {
     state: () => ({
-        partners: [] as PartnerDTO[]
+        partners: [] as PartnerDTO[],
+        deliverCarriers: [] as DeliveryCarrierDTO[]
     }),
     getters: {
         getById: (state) => {
-            return (id: string) => state.partners.find(partner => partner.id === id);
+            return (id: string) => {
+                const dto = state.partners.find(partner => partner.id === id);
+                return dto ? PartnerMapper.toModel(dto) : undefined;
+            };
         },
-        customers: (state) => {
-            return state.partners.filter(partner => partner.type === 'customer');
+        b2bCustomers: (state) => {
+            const dtos = state.partners.filter(partner => partner.type === PartnerType.B2BCustomer);
+            return dtos ? dtos.map(PartnerMapper.toModel) as B2BCustomer[] : undefined;
         },
         suppliers: (state) => {
-            return state.partners.filter(partner => partner.type === 'supplier');
+            const dtos = state.partners.filter(partner => partner.type === PartnerType.Supplier);
+            return dtos ? dtos.map(PartnerMapper.toModel) as Supplier[]: undefined;
         }
     },
     actions: {
