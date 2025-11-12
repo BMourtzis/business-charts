@@ -1,46 +1,44 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { fromPartnerDTO, toPartnerDTO } from "../mapper/partnerMapper";
+import { PartnerMapper } from "../mapper/partnerMapper";
+import { Address } from "@/domain/models/partner/address";
 
-export async function addAddressCommand(partnerId: string, address: string, name?: string, isPrimary = false) {
+export async function addAddressCommand(partnerId: string, address: Address) {
+    const partner = await partnerRepository.getById(partnerId);
+    if (!partner) return;
+
+    partner.addAddress(address);
+
     const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return;
-
-    const partner = fromPartnerDTO(dto);
-    partner.addAddress(address, isPrimary, name);
-
     await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
+    await store.update(PartnerMapper.toDTO(partner));
 
     return partner;
 }
 
-export async function editAddressCommand(partnerId: string, addressId: string, newAddress: string, isPrimary: boolean, newName?: string) {
+export async function editAddressCommand(partnerId: string, addressId: string, newAddress: Address) {
+    const partner = await partnerRepository.getById(partnerId);
+    if (!partner) return;
+
+    partner.editAddress(addressId, newAddress);
+
     const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return;
-
-    const partner = fromPartnerDTO(dto);
-    partner.editAddress(addressId, newAddress, isPrimary, newName);
-
     await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
+    await store.update(PartnerMapper.toDTO(partner));
 
     return partner;
 }
 
 
 export async function removeAddressCommand(partnerId: string, addressId: string) {
-    const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return; 
+    const partner = await partnerRepository.getById(partnerId);
+    if (!partner) return;
 
-    const partner = fromPartnerDTO(dto);
     partner.removeAddress(addressId);
 
+    const store = usePartnersStore();
     await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
+    await store.update(PartnerMapper.toDTO(partner));
 
     return partner;
 }

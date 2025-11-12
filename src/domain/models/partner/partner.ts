@@ -1,6 +1,7 @@
-import { PartnerType } from "../../types/partnerTypes";
-import { Address, createAddress } from "./address";
-import { Contact, createEmail, createPhone } from "./contact";
+import { ContactType } from "@/domain/types/contactTypes";
+import { PartnerType } from "@/domain/types/partnerTypes";
+import { Address } from "./address";
+import { Contact } from "./contact";
 
 export class Partner {
     private _id: string;
@@ -48,31 +49,38 @@ export class Partner {
     }
 
     //Emails
-    addEmail(email: string, isPrimary = false, name?: string) {
-        if(isPrimary) {
+    addEmail(email: Contact) {
+        if(email.type !== ContactType.Email) {
+            throw new Error("You cannot add a non-email as an email to the partner");
+        }
+
+        if(email.isPrimary) {
             const primaryEmail = this._emails.find(e => e.isPrimary === true);
             if(primaryEmail) {
                 primaryEmail.isPrimary = false;
             }
         }
 
-        this._emails.push(createEmail(email, isPrimary, name));
+        this._emails.push(email);
     }
 
-    editEmail(emailId: string, newEmail?: string, isPrimary?: boolean, name?: string) {
+    editEmail(emailId: string, newEmail: Contact) {
+        if(newEmail.type !== ContactType.Email) {
+            throw new Error("You cannot edit a non-email as an email to the partner");
+        }
+
         const email = this._emails.find(e => e.id === emailId);
         if(!email) return;
 
         if(newEmail) {
-            email.value = newEmail;
-        }
-        
-        if(name != null) {
-            email.name = name;
+            email.value = newEmail.value;
+            if(newEmail.name != null) { 
+                email.name = newEmail.name;
+            }
         }
 
-        if (isPrimary !== undefined) {
-            if(isPrimary) {
+        if (newEmail.isPrimary !== undefined) {
+            if(newEmail.isPrimary) {
                 const primaryEmail = this._emails.find(e => e.isPrimary === true);
                 if(primaryEmail && primaryEmail.id !== emailId) {
                     primaryEmail.isPrimary = false;
@@ -97,30 +105,38 @@ export class Partner {
     }
 
     //Phones
-    addPhone(phone: string, isPrimary = false, name?: string) {
-        if(isPrimary) {
+    addPhone(phone: Contact) {
+        if(phone.type !== ContactType.Phone) {
+            throw new Error("You cannot add a non-phone as an phone to the partner");
+        }
+
+        if(phone.isPrimary) {
             const primaryPhone = this._phones.find(p => p.isPrimary === true);
             if(primaryPhone) {
                 primaryPhone.isPrimary = false;
             }
         }
 
-        this._phones.push(createPhone(phone, isPrimary, name));
+        this._phones.push(phone);
     }
 
-    editPhone(phoneId: string, newPhone?: string, isPrimary?: boolean, name?: string) {
+    editPhone(phoneId: string, newPhone: Contact) {
+        if(newPhone.type !== ContactType.Phone) {
+            throw new Error("You cannot add a non-phone as an phone to the partner");
+        }
+
         const phone = this._phones.find(e => e.id === phoneId);
         if(!phone) return;
 
         if(newPhone) {
-            phone.value = newPhone;
+            phone.value = newPhone.value;
+            if(newPhone.name != null) {
+                phone.name = newPhone.name;
+            }
         }
         
-        if(name != null) {
-            phone.name = name;
-        }
-        if (isPrimary !== undefined) {
-            if(isPrimary) {
+        if (newPhone.isPrimary !== undefined) {
+            if(newPhone.isPrimary) {
                 const primaryPhone = this._phones.find(e => e.isPrimary === true);
                 if(primaryPhone && primaryPhone.id !== phoneId) {
                     primaryPhone.isPrimary = false;
@@ -145,18 +161,18 @@ export class Partner {
     }
 
     //Addresses
-    addAddress(street: string, city: string, zip?: string, country?: string, isPrimary = false, name?: string) {
-        if(isPrimary) {
+    addAddress(address: Address) {
+        if(address.isPrimary) {
             const primaryAddress = this._addresses.find(a => a.isPrimary === true);
             if(primaryAddress) {
                 primaryAddress.isPrimary = false;
             }
         }
 
-        this._addresses.push(createAddress(street, city, zip, country, isPrimary, name));
+        this._addresses.push(address);
     }
 
-    editAddress(addressId: string, newAddress?: Address, isPrimary?: boolean, name?: string) {
+    editAddress(addressId: string, newAddress: Address) {
         const address = this._addresses.find(e => e.id === addressId);
         if(!address) return;
 
@@ -165,13 +181,13 @@ export class Partner {
             address.city = newAddress.city;
             address.zip = newAddress.zip;
             address.country = newAddress.country;
+            if(newAddress.name != null) { 
+                address.name = newAddress.name;
+            }
         }
-        
-        if(name != null) {
-            address.name = name;
-        }
-        if (isPrimary !== undefined) {
-            if(isPrimary) {
+
+        if (newAddress.isPrimary !== undefined) {
+            if(newAddress.isPrimary) {
                 const primaryAddress = this._addresses.find(e => e.isPrimary === true);
                 if(primaryAddress && primaryAddress.id !== addressId) {
                     primaryAddress.isPrimary = false;

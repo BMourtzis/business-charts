@@ -1,7 +1,10 @@
-import { usePartnersStore } from "@/presentation/stores/partnerStore";
+import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { computed } from "vue";
 
-export function getPartnerById(id: string) {
-    const store = usePartnersStore();
-    return computed(() => store.partners.find(partner => partner.id === id));
+//TODO: check if this is used
+export async function getPartnerById(id: string) {
+    const partner = await partnerRepository.getById(id);
+    if (!partner) return;
+
+    return computed(() => partner);
 }

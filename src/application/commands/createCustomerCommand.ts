@@ -1,5 +1,5 @@
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { createCustomer } from "@/domain/models/partner";
+import { createCustomer } from "@/domain/models/partner/partner";
 import { Contact } from "@/domain/models/contact";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 
