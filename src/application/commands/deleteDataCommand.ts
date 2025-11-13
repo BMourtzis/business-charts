@@ -2,12 +2,12 @@ import { orderRepository } from "@/infrastructure/repositories/orderRepository.l
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { LoadPartnersCommandHandler } from "./loadPartnersCommand";
 
-export interface DeleteAllDataCommand {
+export interface DeleteDataCommand {
     removePartners: boolean;
     removeOrders: boolean;
 }
 
-export class DeleteAllDataCommandHandler {
+export class DeleteDataCommandHandler {
     private _loadPartnersCommandHandler: LoadPartnersCommandHandler;
 
     constructor() {

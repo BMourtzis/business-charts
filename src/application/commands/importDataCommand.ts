@@ -1,11 +1,11 @@
 import { FilePersistenceService } from '@/infrastructure/services/filePersistenceService';
 import { LoadPartnersCommandHandler } from './loadPartnersCommand';
 
-export interface ImportAllDataCommand {
+export interface ImportDataCommand {
     file: File
 }
 
-export class ImportAllDataCommandHandler {
+export class ImportDataCommandHandler {
     private _fileService: FilePersistenceService;
     private _loadPartnersCommandHandler: LoadPartnersCommandHandler;
 
@@ -14,7 +14,7 @@ export class ImportAllDataCommandHandler {
         this._loadPartnersCommandHandler = new LoadPartnersCommandHandler();
     }
 
-    async handle(cmd: ImportAllDataCommand) {
+    async handle(cmd: ImportDataCommand) {
         await this._fileService.importAll(cmd.file);
 
         this._loadPartnersCommandHandler.handle();

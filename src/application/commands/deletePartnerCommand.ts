@@ -13,10 +13,3 @@ export class DeletePartnerCommandHandler {
         await store.remove(cmd.id);
     }
 }
-
-export async function deletePartnerCommand(id: string) {
-    const store = usePartnersStore();
-
-    await partnerRepository.remove(id);
-    await store.remove(id);
-}
