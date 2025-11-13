@@ -1,4 +1,4 @@
-import { Contact } from "@/domain/partner/contact";
+import { Contact } from "@/domain/contact/models/contact";
 import { AddressDTO, ContactDTO } from "../dto/contactDTO";
 import { Address } from "@/domain/contact/models/address";
 
