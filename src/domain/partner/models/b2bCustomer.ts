@@ -1,4 +1,4 @@
-import { PartnerType } from "@/domain/types/partnerTypes";
+import { PartnerType } from "@/domain/partner/partnerTypes";
 import { Partner } from "./partner";
 import { v4 as uuidv4 } from "uuid";
 

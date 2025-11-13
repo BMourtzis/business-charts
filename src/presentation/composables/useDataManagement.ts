@@ -7,8 +7,8 @@ export function useDataManagement() {
     const filePersistenceService = new FilePersistenceService();
     
     return { 
-        exportAllData: new ExportDataCommandHandler(filePersistenceService), 
-        importAllDataCommandHandler: new ImportDataCommandHandler(filePersistenceService),
-        deleteAllDataCommandHandler: new DeleteDataCommandHandler()
+        exportDataCommandHandler: new ExportDataCommandHandler(filePersistenceService), 
+        importDataCommandHandler: new ImportDataCommandHandler(filePersistenceService),
+        deleteDataCommandHandler: new DeleteDataCommandHandler()
     };
 }

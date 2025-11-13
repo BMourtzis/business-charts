@@ -1,13 +1,14 @@
 import { computed, Ref } from "vue";
 
-import { Address } from "@/domain/models/partner/address";
-import { Contact } from "@/domain/models/partner/contact";
-import { ContactType } from "@/domain/types/contactTypes";
-import { Partner } from "@/domain/models/partner/partner";
-import { Supplier } from "@/domain/models/partner/supplier";
-import { B2BCustomer } from "@/domain/models/partner/b2bCustomer";
+import { Address } from "@/domain/contact/models/address";
+import { ContactType } from "@/domain/contact/contactTypes";
+import { Partner } from "@/domain/partner/models/partner";
+import { Supplier } from "@/domain/partner/models/supplier";
+import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
+import { Contact } from "@/domain/contact/models/contact";
 
 import { useLocalizationHelpers } from "./useLocalization";
+
 
 function getPrimaryAddress(addresses: Address[]) {
     const addr = addresses.find(a => a.isPrimary && typeof a.value !== 'string');

@@ -1,5 +1,5 @@
 import { PartnerDTO } from '@/application/dto/partnerDTO';
-import { PartnerType } from '@/domain/types/partnerTypes';
+import { PartnerType } from '@/domain/partner/partnerTypes';
 import { defineStore } from 'pinia';
 
 export const usePartnersStore = defineStore('partners', {

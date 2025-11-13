@@ -1,4 +1,4 @@
-import { PartnerType } from "../../types/partnerTypes";
+import { PartnerType } from "../partnerTypes";
 import { Partner } from "./partner";
 import { v4 as uuidv4 } from "uuid";
 

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { ContactType } from "../../types/contactTypes";
+import { ContactType } from "../contactTypes";
 
 export class Contact {
     private _id: string;

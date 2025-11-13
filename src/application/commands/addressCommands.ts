@@ -1,7 +1,7 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { PartnerMapper } from "../mapper/partnerMapper";
-import { createAddress } from "@/domain/models/partner/address";
+import { createAddress } from "@/domain/contact/models/address";
 
 export interface AddAddressCommand {
     partnerId: string;

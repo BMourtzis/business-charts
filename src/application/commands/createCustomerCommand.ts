@@ -1,9 +1,9 @@
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
-import { createB2BCustomer } from "@/domain/models/partner/b2bCustomer";
+import { createB2BCustomer } from "@/domain/partner/models/b2bCustomer";
 import { AddressDTO } from "../dto/contactDTO";
-import { createEmail, createPhone } from "@/domain/models/partner/contact";
-import { createAddress } from "@/domain/models/partner/address";
+import { createEmail, createPhone } from "@/domain/contact/models/contact";
+import { createAddress } from "@/domain/contact/models/address";
 import { PartnerMapper } from "../mapper/partnerMapper";
 
 export interface CreateB2BCustomerCommand {

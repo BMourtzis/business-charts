@@ -1,4 +1,4 @@
-import { PartnerType } from "@/domain/types/partnerTypes"
+import { PartnerType } from "@/domain/partner/partnerTypes"
 import { AddressDTO, ContactDTO } from "./contactDTO"
 
 export interface PartnerDTO {

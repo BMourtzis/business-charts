@@ -1,13 +1,12 @@
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 
-import { B2BCustomer } from "@/domain/models/partner/b2bCustomer";
-import { Supplier } from "@/domain/models/partner/supplier";
+import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
+import { Supplier } from "@/domain/partner/models/supplier";
 
-import { PartnerType } from "@/domain/types/partnerTypes";
+import { PartnerType } from "@/domain/partner/partnerTypes";
 import { PartnerMapper } from "@/application/mapper/partnerMapper";
 
-import { GetPartnerByIdQueryHandler } from "@/application/queries/getPartnerByIdQuery";
 import { CreateSupplierCommandHandler } from "@/application/commands/createSupplierCommand";
 import { CreateB2BCustomerCommandHandler } from "@/application/commands/createCustomerCommand";
 import { EditPartnerCommandHandler } from "@/application/commands/editPartnerCommand";
@@ -30,7 +29,6 @@ export function usePartners() {
         suppliers: computed(() => all.value
             .filter(p => p.type === PartnerType.Supplier)
             .map(PartnerMapper.toModel) as Supplier[]),
-        getPartnerByIdQueryHandler: new GetPartnerByIdQueryHandler(),
         createSupplierCommandHandler: new CreateSupplierCommandHandler(store),
         createB2BCustomerCommandHandler: new CreateB2BCustomerCommandHandler(store),
         editPartnerCommandHandler: new EditPartnerCommandHandler(store),

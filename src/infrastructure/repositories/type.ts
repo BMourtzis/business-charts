@@ -1,7 +1,7 @@
 import { PartnerDTO } from "@/application/dto/partnerDTO";
-import { B2BCustomer } from "@/domain/models/partner/b2bCustomer";
-import { Partner } from "@/domain/models/partner/partner";
-import { Supplier } from "@/domain/models/partner/supplier";
+import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
+import { Partner } from "@/domain/partner/models/partner";
+import { Supplier } from "@/domain/partner/models/supplier";
 
 export interface Repository<T, DTO> {
     getAll(): Promise<DTO[]>;

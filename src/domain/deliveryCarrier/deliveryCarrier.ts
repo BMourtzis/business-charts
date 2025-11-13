@@ -1,6 +1,6 @@
-import { Address, createAddress } from "./address";
+import { Address, createAddress } from "../contact/models/address";
 import { v4 as uuidv4 } from "uuid";
-import { Contact, createEmail, createPhone } from "./contact";
+import { Contact, createEmail, createPhone } from "../contact/models/contact";
 
 export class DeliveryCarrier {
     private _id: string;

@@ -1,9 +1,9 @@
-import { Partner } from "@/domain/models/partner/partner";
+import { Partner } from "@/domain/partner/models/partner";
 import { PartnerDTO } from "../dto/partnerDTO";
 import { ContactMapper, AddressMapper } from "./contactMapper";
-import { PartnerType } from "@/domain/types/partnerTypes";
-import { Supplier } from "@/domain/models/partner/supplier";
-import { B2BCustomer } from "@/domain/models/partner/b2bCustomer";
+import { PartnerType } from "@/domain/partner/partnerTypes";
+import { Supplier } from "@/domain/partner/models/supplier";
+import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
 
 
 function getModelType(dto: PartnerDTO) {

@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { defineProps, toRef } from 'vue';
 
-import { Partner } from '@/domain/models/partner/partner';
+import { Partner } from '@/domain/partner/models/partner';
 
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import EditPartnerModal from "./EditPartnerModal.vue";

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { PaymentDirection, PaymentMethod } from "../types/paymentTypes";
+import { PaymentDirection, PaymentMethod } from "../paymentTypes";
 
 export interface PaymentDTO {
     id: string;

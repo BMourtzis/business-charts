@@ -1,4 +1,4 @@
-import { ContactType } from "@/domain/types/contactTypes"
+import { ContactType } from "@/domain/contact/contactTypes"
 
 export interface ContactDTO {
     id: string;

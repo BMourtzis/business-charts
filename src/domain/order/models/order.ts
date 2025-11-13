@@ -1,4 +1,4 @@
-import { OrderDirection, OrderStatus } from "../types/orderTypes";
+import { OrderDirection, OrderStatus } from "../orderTypes";
 import { OrderItem, OrderItemDTO } from "./orderItem";
 import { v4 as uuidv4 } from "uuid";
 

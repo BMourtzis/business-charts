@@ -1,4 +1,4 @@
-import { Order, OrderDTO } from "@/domain/models/order";
+import { Order, OrderDTO } from "@/domain/order/models/order";
 import { Repository } from "./type";
 
 const STORAGE_KEY = 'orders';

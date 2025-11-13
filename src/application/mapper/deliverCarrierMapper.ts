@@ -1,4 +1,4 @@
-import { DeliveryCarrier } from "@/domain/models/partner/deliveryCarrier";
+import { DeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";
 import { DeliveryCarrierDTO } from "../dto/deliveryCarrierDTO";
 import { AddressMapper, ContactMapper } from "./contactMapper";
 

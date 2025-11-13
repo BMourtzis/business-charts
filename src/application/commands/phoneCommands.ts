@@ -1,7 +1,7 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { PartnerMapper } from "../mapper/partnerMapper";
-import { createPhone } from "@/domain/models/partner/contact";
+import { createPhone } from "@/domain/contact/models/contact";
 
 export interface AddPhoneCommand {
     partnerId: string;

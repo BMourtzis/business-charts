@@ -2,8 +2,8 @@
 import { PartnerDTO } from "@/application/dto/partnerDTO";
 import { PartnerRepository } from "./type";
 import { PartnerMapper } from "@/application/mapper/partnerMapper";
-import { Supplier } from "@/domain/models/partner/supplier";
-import { B2BCustomer } from "@/domain/models/partner/b2bCustomer";
+import { Supplier } from "@/domain/partner/models/supplier";
+import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
 
 const STORAGE_KEY = 'partners';
 

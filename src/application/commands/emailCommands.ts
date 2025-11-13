@@ -1,7 +1,7 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { PartnerMapper } from "../mapper/partnerMapper";
-import { createEmail } from "@/domain/models/partner/contact";
+import { createEmail } from "@/domain/contact/models/contact";
 
 export interface AddEmailCommand {
     partnerId: string;

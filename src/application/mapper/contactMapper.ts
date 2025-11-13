@@ -1,6 +1,6 @@
-import { Contact } from "@/domain/models/partner/contact";
+import { Contact } from "@/domain/partner/contact";
 import { AddressDTO, ContactDTO } from "../dto/contactDTO";
-import { Address } from "@/domain/models/partner/address";
+import { Address } from "@/domain/contact/models/address";
 
 export class ContactMapper {
     static toModel(dto: ContactDTO): Contact {

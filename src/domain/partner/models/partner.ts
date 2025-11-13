@@ -1,7 +1,7 @@
-import { ContactType } from "@/domain/types/contactTypes";
-import { PartnerType } from "@/domain/types/partnerTypes";
-import { Address } from "./address";
-import { Contact } from "./contact";
+import { ContactType } from "@/domain/contact/contactTypes";
+import { PartnerType } from "@/domain/partner/partnerTypes";
+import { Address } from "@/domain/contact/models/address";
+import { Contact } from "@/domain/contact/models/contact";
 
 export class Partner {
     private _id: string;
