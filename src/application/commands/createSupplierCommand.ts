@@ -6,22 +6,35 @@ import { createEmail, createPhone } from "@/domain/models/partner/contact";
 import { createAddress } from "@/domain/models/partner/address";
 import { PartnerMapper } from "../mapper/partnerMapper";
 
-export async function createSupplierCommand(
+export interface CreateSupplierCommand {
     contactName: string, 
     activity: string,
     businessName?: string, 
     email?: string, 
     phone?: string, 
-    address?: AddressDTO,) {
-    const supplier = createSupplier(contactName, activity, businessName);
+    address?: AddressDTO
+}
 
-    if(email && email.trim() !== '') supplier.addEmail(createEmail(email, true));
-    if(phone && phone.trim() !== '') supplier.addPhone(createPhone(phone, true));
-    if(address) supplier.addAddress(createAddress(address.street, address.city, address.zip, address.country, true));
+export class CreateSupplierCommandHandler {
+    async handle(cmd: CreateSupplierCommand) {
+        const supplier = createSupplier(
+            cmd.contactName, 
+            cmd.activity, 
+            cmd.businessName);
 
-    const store = usePartnersStore();
-    await partnerRepository.add(supplier);
-    await store.add(PartnerMapper.toDTO(supplier));
+        if(cmd.email && cmd.email.trim() !== '') supplier.addEmail(createEmail(cmd.email, true));
+        if(cmd.phone && cmd.phone.trim() !== '') supplier.addPhone(createPhone(cmd.phone, true));
+        if(cmd.address) supplier.addAddress(createAddress(
+            cmd.address.street, 
+            cmd.address.city, 
+            cmd.address.zip, 
+            cmd.address.country, 
+            true));
 
-    return supplier;
+        const store = usePartnersStore();
+        await partnerRepository.add(supplier);
+        await store.add(PartnerMapper.toDTO(supplier));
+
+        return supplier;
+    }
 }

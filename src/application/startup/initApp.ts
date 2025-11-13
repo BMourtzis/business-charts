@@ -1,8 +1,8 @@
-import { loadPartners } from "../commands/loadPartnersCommand";
+import { LoadPartnersCommandHandler } from "../commands/loadPartnersCommand";
 
 
 export async function initApplication() {
     await Promise.all([
-        loadPartners()
+        new LoadPartnersCommandHandler().handle()
     ]);
 }

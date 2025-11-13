@@ -1,11 +1,23 @@
 import { orderRepository } from "@/infrastructure/repositories/orderRepository.local";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
-import { loadPartners } from "./loadPartnersCommand";
+import { LoadPartnersCommandHandler } from "./loadPartnersCommand";
 
-export async function deleteAllDataCommand() {
-    await partnerRepository.removeAll();
-    await orderRepository.removeAll();
+export interface DeleteAllDataCommand {
+    removePartners: boolean;
+    removeOrders: boolean;
+}
 
-    //TODO: probably encapsulate all the calls to a separate command
-    loadPartners();
+export class DeleteAllDataCommandHandler {
+    private _loadPartnersCommandHandler: LoadPartnersCommandHandler;
+
+    constructor() {
+        this._loadPartnersCommandHandler = new LoadPartnersCommandHandler();
+    }
+
+    async handle() {
+        await partnerRepository.removeAll();
+        await orderRepository.removeAll();
+
+        this._loadPartnersCommandHandler.handle();
+    }
 }

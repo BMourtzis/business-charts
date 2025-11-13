@@ -1,10 +1,22 @@
 import { FilePersistenceService } from '@/infrastructure/services/filePersistenceService';
-import { loadPartners } from './loadPartnersCommand';
+import { LoadPartnersCommandHandler } from './loadPartnersCommand';
 
-export async function importAllDataCommand(file: File): Promise<void> {
-    const fileService = new FilePersistenceService();
-    await fileService.importAll(file);
+export interface ImportAllDataCommand {
+    file: File
+}
 
-    //TODO: probably encapsulate all the calls to a separate command
-    loadPartners();
+export class ImportAllDataCommandHandler {
+    private _fileService: FilePersistenceService;
+    private _loadPartnersCommandHandler: LoadPartnersCommandHandler;
+
+    constructor(fileService: FilePersistenceService) {
+        this._fileService = fileService;
+        this._loadPartnersCommandHandler = new LoadPartnersCommandHandler();
+    }
+
+    async handle(cmd: ImportAllDataCommand) {
+        await this._fileService.importAll(cmd.file);
+
+        this._loadPartnersCommandHandler.handle();
+    }
 }

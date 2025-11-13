@@ -2,41 +2,68 @@ import { partnerRepository } from "@/infrastructure/repositories/partnerReposito
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { PartnerMapper } from "../mapper/partnerMapper";
 
-export async function editPartnerCommand(id: string, contactName: string, businessName?: string) {
-    const partner = await partnerRepository.getById(id);
-    if (!partner) return;
-    
-    partner.updateData(contactName, businessName);
-
-    const store = usePartnersStore();
-    await partnerRepository.update(partner);
-    await store.update(PartnerMapper.toDTO(partner));
-
-    return partner;
+export interface EditPartnerCommand {
+    id: string;
+    contactName: string;
+    businessName?: string;
 }
 
-export async function editSupplierCommand(id: string, contactName: string, activity: string, businessName?: string) {
-    const supplier = await partnerRepository.getSupplierById(id);
-    if (!supplier) return;
-    
-    supplier.updateData(contactName, businessName, activity);
+export class EditPartnerCommandHandler {
+    async handle(cmd: EditPartnerCommand) {
+        const partner = await partnerRepository.getById(cmd.id);
+        if (!partner) return;
+        
+        partner.updateData(cmd.contactName, cmd.businessName);
 
-    const store = usePartnersStore();
-    await partnerRepository.update(supplier);
-    await store.update(PartnerMapper.toDTO(supplier));
+        const store = usePartnersStore();
+        await partnerRepository.update(partner);
+        await store.update(PartnerMapper.toDTO(partner));
 
-    return supplier;
+        return partner;
+    }
 }
 
-export async function updateDeliveryCarrierCommand(id: string, deliveryCarrierId: string) {
-    const b2bCustomer = await partnerRepository.getB2BCustomerById(id);
-    if (!b2bCustomer) return;
-    
-    b2bCustomer.deliverCarrierId = deliveryCarrierId;
+export interface EditSupplierCommand {
+    id: string;
+    contactName: string;
+    activity: string;
+    businessName?: string;
+}
 
-    const store = usePartnersStore();
-    await partnerRepository.update(b2bCustomer);
-    await store.update(PartnerMapper.toDTO(b2bCustomer));
+export class EditSupplierCommandHandler {
+    async handle(cmd: EditSupplierCommand) {
+        const supplier = await partnerRepository.getSupplierById(cmd.id);
+        if (!supplier) return;
+        
+        supplier.updateData(cmd.contactName, cmd.businessName, cmd.activity);
 
-    return b2bCustomer;
+        const store = usePartnersStore();
+        await partnerRepository.update(supplier);
+        await store.update(PartnerMapper.toDTO(supplier));
+
+        return supplier;
+    }
+}
+
+export interface EditB2BCustomerCommand {
+    id: string;
+    contactName: string;
+    deliveryCarrierId: string;
+    businessName?: string;
+}
+
+export class EditB2BCustomerCommandHandler {
+    async handle(cmd: EditB2BCustomerCommand) {
+        const b2bCustomer = await partnerRepository.getB2BCustomerById(cmd.id);
+        if (!b2bCustomer) return;
+        
+        b2bCustomer.updateData(cmd.contactName, cmd.businessName);
+        b2bCustomer.deliverCarrierId = cmd.deliveryCarrierId;
+
+        const store = usePartnersStore();
+        await partnerRepository.update(b2bCustomer);
+        await store.update(PartnerMapper.toDTO(b2bCustomer));
+
+        return b2bCustomer;
+    }
 }

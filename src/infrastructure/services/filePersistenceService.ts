@@ -1,11 +1,21 @@
 import { partnerRepository } from '@/infrastructure/repositories/partnerRepository.local';
 import { orderRepository } from '@/infrastructure/repositories/orderRepository.local';
+import { PartnerDTO } from '@/application/dto/partnerDTO';
+import { OrderDTO } from '@/domain/models/order';
 
 export class FilePersistenceService {
-    async exportAll() {
+    async exportAll(includePartners: boolean, includeOrders: boolean) {
         const data = {
-            partners: await partnerRepository.getAll(),
-            orders: await orderRepository.getAll(),
+            partners: [] as PartnerDTO[],
+            orders: [] as OrderDTO[],
+        }
+
+        if(includePartners) {
+            data.partners = await partnerRepository.getAll();
+        }
+
+        if(includeOrders) {
+            data.orders = await orderRepository.getAll();
         }
 
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })

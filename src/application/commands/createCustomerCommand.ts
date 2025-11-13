@@ -1,19 +1,38 @@
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { createCustomer } from "@/domain/models/partner/partner";
-import { Contact } from "@/domain/models/contact";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
+import { createB2BCustomer } from "@/domain/models/partner/b2bCustomer";
+import { AddressDTO } from "../dto/contactDTO";
+import { createEmail, createPhone } from "@/domain/models/partner/contact";
+import { createAddress } from "@/domain/models/partner/address";
+import { PartnerMapper } from "../mapper/partnerMapper";
 
-export async function createCustomerCommand(name: string, businessName: string, emails: Contact[], phones: Contact[], addresses: Contact[], vatNumber?: string) {
-    const customer = createCustomer(name, businessName, vatNumber);
-    
-    customer.setEmails(emails);
-    customer.setPhones(phones);
-    customer.setAddresses(addresses);
+export interface CreateB2BCustomerCommand {
+    name: string;
+    deliveryCarrierId: string;
+    businessName?: string;
+    email: string;
+    phone: string;
+    address: AddressDTO
+}
 
-    await partnerRepository.add(customer);
+export class CreateB2BCustomerCommandHandler {
+    async handle(cmd: CreateB2BCustomerCommand) {
+        const customer = createB2BCustomer(cmd.name, cmd.deliveryCarrierId, cmd.businessName);
+        
+        if(cmd.email && cmd.email.trim() != '') customer.addEmail(createEmail(cmd.email, true));
+        if(cmd.phone && cmd.phone.trim() != '') customer.addPhone(createPhone(cmd.phone, true));
+        if(cmd.address) customer.addAddress(createAddress(
+            cmd.address.street, 
+            cmd.address.city, 
+            cmd.address.zip, 
+            cmd.address.country, 
+            true
+        ));
 
-    const store = usePartnersStore();
-    await store.add(customer);
+        const store = usePartnersStore();
+        await partnerRepository.add(customer);
+        await store.add(PartnerMapper.toDTO(customer));
 
-    return customer;
+        return customer;
+    }
 }
