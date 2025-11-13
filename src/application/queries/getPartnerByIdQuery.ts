@@ -2,9 +2,16 @@ import { partnerRepository } from "@/infrastructure/repositories/partnerReposito
 import { computed } from "vue";
 
 //TODO: check if this is used
-export async function getPartnerById(id: string) {
-    const partner = await partnerRepository.getById(id);
-    if (!partner) return;
 
-    return computed(() => partner);
+export interface GetPartnerByIdQuery {
+    id: string;
+}
+
+export class GetPartnerByIdQueryHandler {
+    async handle(cmd: GetPartnerByIdQuery) {
+        const partner = await partnerRepository.getById(cmd.id);
+        if (!partner) return;
+
+        return computed(() => partner);
+    }
 }
