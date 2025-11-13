@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="props.partners"
+    :items="data"
   >
     <!-- Custom column slot -->
     <template #[`item.actions`]="{ item }">
@@ -13,12 +13,12 @@
         :to="`/partner/${item.id}`"
       />
       <EditPartnerModal 
-        :partner="item" 
+        :partner="item.value" 
         :mini="true" 
       />
       <ConfirmDeleteModal
-        :name="item.businessName"
-        :action-fn="() => deletePartnerCommand(item.id)"
+        :name="item.name"
+        :action-fn="() => deletePartnerCommandHandler.handle({id: item.id})"
         :mini="true"
       />
     </template>
@@ -26,31 +26,24 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, toRef } from 'vue';
 
-import { PartnerDTO } from '@/application/dto/partnerDTO';
+import { Partner } from '@/domain/models/partner/partner';
 
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import EditPartnerModal from "./EditPartnerModal.vue";
 
 import { usePartners } from '@/presentation/composables/usePartners';
-import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { usePartnerTable } from '@/presentation/composables/usePartnersTable';
 
-const { tCap } = useLocalizationHelpers();
+const { deletePartnerCommandHandler } = usePartners();
 
-const { deletePartnerCommand } = usePartners();
-
+//TODO: based on the item type add the correct edit modal
 const props = defineProps < {
-  partners: PartnerDTO[];
+  partners: Partner[] | undefined;
 } > ();
 
-const headers = [
-  { title: tCap('partner.businessName'), key: "businessName" },
-  { title: tCap('partner.contactName'), key: "contactName" },
-  { title: tCap('partner.vatNumber'), key: "vatNumber" },  
-  { title: tCap('common.action', 2), key: "actions"}
-]
-
+const { data, headers } = usePartnerTable(toRef(props, "partners"));
 
 </script>
 

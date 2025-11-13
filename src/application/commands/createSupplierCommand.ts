@@ -16,6 +16,8 @@ export interface CreateSupplierCommand {
 }
 
 export class CreateSupplierCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle(cmd: CreateSupplierCommand) {
         const supplier = createSupplier(
             cmd.contactName, 
@@ -31,9 +33,8 @@ export class CreateSupplierCommandHandler {
             cmd.address.country, 
             true));
 
-        const store = usePartnersStore();
         await partnerRepository.add(supplier);
-        await store.add(PartnerMapper.toDTO(supplier));
+        this._partnersStore.add(PartnerMapper.toDTO(supplier));
 
         return supplier;
     }

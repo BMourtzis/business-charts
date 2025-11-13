@@ -6,12 +6,12 @@
   </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import PartnersList from '@/presentation/components/partner/PartnerList.vue';
 import AddSupplierModal from '@/presentation/components/partner/AddSupplierModal.vue';
 
 import { usePartners } from '@/presentation/composables/usePartners';
-import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 
 const { suppliers } = usePartners();
