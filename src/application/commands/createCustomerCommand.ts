@@ -16,6 +16,8 @@ export interface CreateB2BCustomerCommand {
 }
 
 export class CreateB2BCustomerCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle(cmd: CreateB2BCustomerCommand) {
         const customer = createB2BCustomer(cmd.name, cmd.deliveryCarrierId, cmd.businessName);
         
@@ -29,9 +31,8 @@ export class CreateB2BCustomerCommandHandler {
             true
         ));
 
-        const store = usePartnersStore();
         await partnerRepository.add(customer);
-        await store.add(PartnerMapper.toDTO(customer));
+        this._partnersStore.add(PartnerMapper.toDTO(customer));
 
         return customer;
     }

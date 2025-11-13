@@ -15,6 +15,7 @@ export interface CreateSupplierCommand {
     address?: AddressDTO
 }
 
+//TODO: to fully decouple the cmd from the store, createa an adapter.
 export class CreateSupplierCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 

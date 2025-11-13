@@ -11,6 +11,8 @@ export interface AddPhoneCommand {
 }
 
 export class AddPhoneCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle(cmd: AddPhoneCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
@@ -18,9 +20,8 @@ export class AddPhoneCommandHandler {
         const phone = createPhone(cmd.phone, cmd.isPrimary, cmd.name);
         partner.addPhone(phone);
 
-        const store = usePartnersStore();
         await partnerRepository.update(partner);
-        await store.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapper.toDTO(partner));
 
         return partner;
     }
@@ -35,6 +36,8 @@ export interface EditPhoneCommand {
 }
 
 export class EditPhoneCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle(cmd: EditPhoneCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
@@ -42,9 +45,8 @@ export class EditPhoneCommandHandler {
         const newPhone = createPhone(cmd.phone, cmd.isPrimary, cmd.name);
         partner.editPhone(cmd.phoneId, newPhone);
 
-        const store = usePartnersStore();
         await partnerRepository.update(partner);
-        await store.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapper.toDTO(partner));
 
         return partner;
     }
@@ -56,15 +58,16 @@ export interface RemovePhoneCommand {
 }
 
 export class RemovePhoneCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle(cmd: RemovePhoneCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
 
         partner.removePhone(cmd.phoneId);
 
-        const store = usePartnersStore();
         await partnerRepository.update(partner);
-        await store.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapper.toDTO(partner));
 
         return partner;
     }

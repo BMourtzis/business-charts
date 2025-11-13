@@ -14,6 +14,8 @@ export interface AddAddressCommand {
 }
 
 export class AddAddressCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle(cmd: AddAddressCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
@@ -28,9 +30,8 @@ export class AddAddressCommandHandler {
         );
         partner.addAddress(address);
 
-        const store = usePartnersStore();
         await partnerRepository.update(partner);
-        await store.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapper.toDTO(partner));
 
         return partner;
     }
@@ -48,6 +49,8 @@ export interface EditAddressCommand {
 }
 
 export class EditAddressCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle(cmd: EditAddressCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
@@ -62,9 +65,8 @@ export class EditAddressCommandHandler {
         );
         partner.editAddress(cmd.addressId, newAddress);
 
-        const store = usePartnersStore();
         await partnerRepository.update(partner);
-        await store.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapper.toDTO(partner));
 
         return partner;
     }
@@ -76,15 +78,16 @@ export interface RemoveAddressCommand {
 }
 
 export class RemoveAddressCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle(cmd: RemoveAddressCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
 
         partner.removeAddress(cmd.addressId);
 
-        const store = usePartnersStore();
         await partnerRepository.update(partner);
-        await store.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapper.toDTO(partner));
 
         return partner;
     }

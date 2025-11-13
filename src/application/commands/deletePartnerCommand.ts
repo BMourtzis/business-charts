@@ -6,10 +6,10 @@ export interface DeletePartnerCommand {
 }
 
 export class DeletePartnerCommandHandler {
-    async handle(cmd: DeletePartnerCommand) {
-        const store = usePartnersStore();
+    constructor(private _partnersStore = usePartnersStore()) {}
 
+    async handle(cmd: DeletePartnerCommand) {
         await partnerRepository.remove(cmd.id);
-        await store.remove(cmd.id);
+        this._partnersStore.remove(cmd.id);
     }
 }

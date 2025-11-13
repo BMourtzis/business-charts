@@ -11,6 +11,8 @@ export interface AddEmailCommand {
 }
 
 export class AddEmailCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle(cmd: AddEmailCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
@@ -18,9 +20,8 @@ export class AddEmailCommandHandler {
         const email = createEmail(cmd.email, cmd.isPrimary, cmd.name);
         partner.addEmail(email);
 
-        const store = usePartnersStore();
         await partnerRepository.update(partner);
-        await store.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapper.toDTO(partner));
 
         return partner;
     }
@@ -36,6 +37,8 @@ export interface EditEmailCommand {
 }
 
 export class EditEmailCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle(cmd: EditEmailCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
@@ -43,9 +46,8 @@ export class EditEmailCommandHandler {
         const newEmail = createEmail(cmd.email, cmd.isPrimary, cmd.name);
         partner.editEmail(cmd.emailId, newEmail);
 
-        const store = usePartnersStore();
         await partnerRepository.update(partner);
-        await store.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapper.toDTO(partner));
 
         return partner;
     }
@@ -57,15 +59,16 @@ export interface RemoveEmailCommand {
 }
 
 export class RemoveEmailCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle(cmd: RemoveEmailCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
 
         partner.removeEmail(cmd.emailId);
 
-        const store = usePartnersStore();
         await partnerRepository.update(partner);
-        await store.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapper.toDTO(partner));
 
         return partner;
     }

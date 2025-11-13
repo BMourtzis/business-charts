@@ -2,9 +2,10 @@ import { partnerRepository } from "@/infrastructure/repositories/partnerReposito
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 
 export class LoadPartnersCommandHandler{
+    constructor(private _partnersStore = usePartnersStore()) {}
+
     async handle() {
         const partners = await partnerRepository.load();
-        const store = usePartnersStore();
-        store.setPartners(partners);
+        this._partnersStore.setPartners(partners);
     }
 }
