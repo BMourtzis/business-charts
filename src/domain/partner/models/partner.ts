@@ -1,7 +1,7 @@
 import { ContactType } from "@/domain/contact/contactTypes";
 import { PartnerType } from "@/domain/partner/partnerTypes";
-import { Address } from "@/domain/contact/models/address";
-import { Contact } from "@/domain/contact/models/contact";
+import { Address, createAddress } from "@/domain/contact/models/address";
+import { Contact, createEmail, createPhone } from "@/domain/contact/models/contact";
 
 export class Partner {
     private _id: string;
@@ -61,7 +61,7 @@ export class Partner {
             }
         }
 
-        this._emails.push(email);
+        this._emails.push(createEmail(email.value, email.isPrimary, email.name));
     }
 
     editEmail(emailId: string, newEmail: Contact) {
@@ -117,7 +117,7 @@ export class Partner {
             }
         }
 
-        this._phones.push(phone);
+        this._phones.push(createPhone(phone.value, phone.isPrimary, phone.name));
     }
 
     editPhone(phoneId: string, newPhone: Contact) {
@@ -169,7 +169,7 @@ export class Partner {
             }
         }
 
-        this._addresses.push(address);
+        this._addresses.push(createAddress(address.street, address.city, address.zip, address.country, address.isPrimary, address.name));
     }
 
     editAddress(addressId: string, newAddress: Address) {
