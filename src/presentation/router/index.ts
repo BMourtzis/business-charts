@@ -8,16 +8,16 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/presentation/views/Home.vue'),
     }, {
         path: '/chart',
-        name: 'about',
+        name: 'chart',
         component: () => import('@/presentation/views/TestChart.vue'),
     }, {
         path: '/suppliers',
         name: 'suppliers',
         component: () => import('@/presentation/views/partner/SuppliersView.vue'),
     }, {
-        path: '/customers',
-        name: 'customers',
-        component: () => import('@/presentation/views/partner/CustomersView.vue'),
+        path: '/b2b-customers',
+        name: 'b2b-customers',
+        component: () => import('@/presentation/views/partner/B2BCustomersView.vue'),
     }, {
         path: '/partner/:id',
         name: 'partner-details',
