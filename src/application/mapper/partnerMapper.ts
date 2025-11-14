@@ -11,8 +11,8 @@ function getModelType(dto: PartnerDTO) {
         case PartnerType.Supplier:
             return new Supplier(
                 dto.id,
-                dto.activity ?? '',
                 dto.contactName,
+                dto.activity ?? '',
                 dto.businessName
             );
         case PartnerType.B2BCustomer:

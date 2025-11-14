@@ -33,7 +33,7 @@ export class CreateSupplierCommandHandler {
             cmd.address.zip, 
             cmd.address.country, 
             true));
-
+        
         await partnerRepository.add(supplier);
         this._partnersStore.add(PartnerMapper.toDTO(supplier));
 

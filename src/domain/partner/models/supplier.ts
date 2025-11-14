@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 export class Supplier extends Partner {
     private _activity: string;
 
-    constructor(id: string, activity: string, contactName: string, businessName?: string) {
+    constructor(id: string, contactName: string, activity: string, businessName?: string) {
         super(id, PartnerType.Supplier, contactName, businessName);
         this._activity = activity;
     }
@@ -16,7 +16,7 @@ export class Supplier extends Partner {
     }
 
     updateData(contactName?: string, businessName?: string, activity?: string) {
-        this.updateData(contactName, businessName);
+        super.updateData(contactName, businessName);
 
         if(activity && activity !== undefined && activity !== this._activity) {
             this._activity = activity;

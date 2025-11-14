@@ -25,7 +25,9 @@ export class Address {
     get id() { return this._id; }
     
     get value() {
-        return[this.street, this.city, this.zip, this.country].join(", ");
+        return[this.street, this.city, this.zip, this.country]
+            .filter(s => s !== null && s !== "")
+            .join(", ");
     }
 }
 

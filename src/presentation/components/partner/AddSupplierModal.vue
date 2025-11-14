@@ -21,23 +21,23 @@
           <v-container>
             <v-row>
               <v-text-field
-                v-model="form.businessName"
-                :label="tCap('partner.businessName')"
+                v-model="form.contactName"
+                :label="tCap('partner.contactName')"
                 :rules="[required, rangeLength(3, 50)]"
               />
             </v-row>
             <v-row>
               <v-text-field
-                v-model="form.contactName"
-                :label="tCap('partner.contactName')"
+                v-model="form.businessName"
+                :label="tCap('partner.businessName')"
                 :rules="[maxLength(50)]"
               />
             </v-row>
             <v-row>
               <v-text-field
-                v-model="form.vatNumber"
-                :label="tCap('partner.vatNumber')"
-                :rules="[numeric, rangeLength(8, 8)]"
+                v-model="form.activity"
+                :label="tCap('partner.activity')"
+                :rules="[required, maxLength(50)]"
               />
             </v-row>
             <v-row>
@@ -60,8 +60,27 @@
             </v-row>
             <v-row>
               <v-text-field
-                v-model="form.address"
-                :label="tCap('partner.mainAddressField')"
+                v-model="form.street"
+                :label="tCap('partner.street')"
+                :rules="[maxLength(50)]"
+              />
+            </v-row>
+            <v-row>
+              <v-text-field
+                v-model="form.city"
+                :label="tCap('partner.city')"
+                :rules="[maxLength(50)]"
+              />
+              <v-text-field
+                v-model="form.zip"
+                :label="tCap('partner.zip')"
+                :rules="[maxLength(50)]"
+              />
+            </v-row>
+            <v-row>
+              <v-text-field
+                v-model="form.country"
+                :label="tCap('partner.country')"
                 :rules="[maxLength(50)]"
               />
             </v-row>
@@ -105,19 +124,23 @@ import { reactive } from 'vue';
 import { usePartners } from '@/presentation/composables/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import { emailFormat, maxLength, numeric, phoneFormat, rangeLength, required } from '@/presentation/utils/validation';
+import { emailFormat, maxLength, phoneFormat, rangeLength, required } from '@/presentation/utils/validation';
+import { AddressDTO } from '@/application/dto/contactDTO';
 
-const { createSupplierCommand } = usePartners();
+const { createSupplierCommandHandler } = usePartners();
 
 const { tCap } = useLocalizationHelpers();
 
 const form = reactive({
   businessName: '',
   contactName: '',
-  vatNumber: '',
+  activity: '',
   email: '',
   phone: '',
-  address: ''
+  street: '',
+  city: '',
+  zip: '',
+  country: ''
 });
 
 const {
@@ -132,7 +155,26 @@ const {
 
 async function saveSupplier() {
   await submit(async (form) => {
-    createSupplierCommand(form.contactName, form.businessName, form.vatNumber, form.email, form.phone, form.address);
+    let address = {} as AddressDTO;
+    if(form.street && form.city) {
+      address = {
+        id: "",
+        isPrimary: true,
+        street: form.street,
+        city: form.city,
+        zip: form.zip,
+        country: form.country
+      };
+    }
+
+    createSupplierCommandHandler.handle({
+      contactName: form.contactName, 
+      activity: form.activity, 
+      businessName: form.businessName, 
+      email: form.email, 
+      phone: form.phone, 
+      address
+    });
   });
 }
 </script>

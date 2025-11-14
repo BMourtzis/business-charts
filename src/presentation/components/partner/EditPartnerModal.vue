@@ -21,7 +21,6 @@
         density="compact"
       />
     </template>
-
     <v-card :title="`${tCap('common.edit')} ${form.businessName}`">
       <v-card-text>
         <v-form 
@@ -31,23 +30,23 @@
           <v-container>
             <v-row>
               <v-text-field
-                v-model="form.businessName"
-                :label="tCap('partner.businessName')"
+                v-model="form.contactName"
+                :label="tCap('partner.contactName')"
                 :rules="[required, rangeLength(3, 50)]"
               />
             </v-row>
             <v-row>
               <v-text-field
-                v-model="form.contactName"
-                :label="tCap('partner.contactName')"
+                v-model="form.businessName"
+                :label="tCap('partner.businessName')"
                 :rules="[maxLength(50)]"
               />
             </v-row>
             <v-row>
               <v-text-field
-                v-model="form.vatNumber"
-                :label="tCap('partner.vatNumber')"
-                :rules="[numeric, rangeLength(8, 8)]"
+                v-model="form.activity"
+                :label="tCap('partner.activity')"
+                :rules="[required, maxLength(50)]"
               />
             </v-row>
             <v-alert
@@ -85,22 +84,22 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, defineProps } from 'vue';
-
-import { PartnerDTO } from '@/application/dto/partnerDTO';
+import { reactive, watch, defineProps, computed } from 'vue';
 
 import { usePartners } from '@/presentation/composables/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
-import { maxLength, numeric, rangeLength, required } from '@/presentation/utils/validation';
+import { maxLength, rangeLength, required } from '@/presentation/utils/validation';
+import { Partner } from '@/domain/partner/models/partner';
+import { isSupplier } from '@/domain/partner/typeGuards';
 
-const { editPartnerCommand } = usePartners();
+const { editSupplierCommandHandler } = usePartners();
 
 const { tCap, t } = useLocalizationHelpers();
 
 const props = defineProps<{
-  partner: PartnerDTO | null;
+  partner: Partner;
   mini: boolean;
 }>();
 
@@ -108,10 +107,7 @@ const props = defineProps<{
 const form = reactive({
   businessName: '',
   contactName: '',
-  vatNumber: '',
-  email: '',
-  phone: '',
-  address: ''
+  activity: '',
 });
 
 const {
@@ -125,25 +121,29 @@ const {
 } = useFormDialog(form);
 
 watch(dialog, (open) => {
-    if(open && props.partner) {
-      form.businessName = props.partner.businessName ?? "";
-      form.contactName = props.partner.contactName;
-      form.vatNumber = props.partner.vatNumber ?? "";
-
-      const primaryEmail = props.partner.emails.find(e => e.isPrimary);
-      form.email = primaryEmail ? primaryEmail.value : '';
-
-      const primaryPhone = props.partner.phones.find(p => p.isPrimary);
-      form.phone = primaryPhone ? primaryPhone.value : '';
-
-      const primaryAddress = props.partner.addresses.find(a => a.isPrimary);
-      form.address = primaryAddress ? primaryAddress.value : '';
+  if(open && props.partner) {
+    form.businessName = props.partner.businessName ?? "";
+    form.contactName = props.partner.contactName;
+    if(supplier.value) {
+      form.activity = supplier.value.activity ?? "";
     }
+  }
 });
+
+const supplier = computed(() =>
+  props.partner && isSupplier(props.partner)
+    ? props.partner
+    : undefined
+);
 
 async function saveSupplier() {
   await submit(async (form) => {
-    editPartnerCommand(props.partner?.id ?? '', form.contactName, form.businessName, form.vatNumber);
+    editSupplierCommandHandler.handle({
+      id: props.partner?.id ?? '', 
+      contactName: form.contactName, 
+      activity: form.activity, 
+      businessName: form.businessName
+    });
   });
 }
 </script>

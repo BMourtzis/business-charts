@@ -9,7 +9,7 @@ import { PartnerMapper } from "@/application/mapper/partnerMapper";
 
 import { CreateSupplierCommandHandler } from "@/application/commands/createSupplierCommand";
 import { CreateB2BCustomerCommandHandler } from "@/application/commands/createCustomerCommand";
-import { EditPartnerCommandHandler } from "@/application/commands/editPartnerCommand";
+import { EditPartnerCommandHandler, EditSupplierCommandHandler } from "@/application/commands/editPartnerCommand";
 import { DeletePartnerCommandHandler } from "@/application/commands/deletePartnerCommand";
 import { AddEmailCommandHandler, EditEmailCommandHandler, RemoveEmailCommandHandler } from "@/application/commands/emailCommands";
 import { AddPhoneCommandHandler, EditPhoneCommandHandler, RemovePhoneCommandHandler } from "@/application/commands/phoneCommands";
@@ -31,6 +31,7 @@ export function usePartners() {
             .map(PartnerMapper.toModel) as Supplier[]),
         createSupplierCommandHandler: new CreateSupplierCommandHandler(store),
         createB2BCustomerCommandHandler: new CreateB2BCustomerCommandHandler(store),
+        editSupplierCommandHandler: new EditSupplierCommandHandler(store),
         editPartnerCommandHandler: new EditPartnerCommandHandler(store),
         addEmailCommandHandler: new AddEmailCommandHandler(store),
         editEmailCommandHandler: new EditEmailCommandHandler(store),
