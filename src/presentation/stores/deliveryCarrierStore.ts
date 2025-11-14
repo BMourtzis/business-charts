@@ -2,7 +2,7 @@ import { DeliveryCarrierDTO } from '@/application/dto/deliveryCarrierDTO';
 import { DeliveryCarrierMapper } from '@/application/mapper/deliverCarrierMapper';
 import { defineStore } from 'pinia';
 
-export const userDeliveryCarrierStore = defineStore("deliveryCarries", {
+export const useDeliveryCarrierStore = defineStore("deliveryCarries", {
     state: () => ({
         deliverCarriers: [] as DeliveryCarrierDTO[]
     }),
