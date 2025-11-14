@@ -1,9 +1,9 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { PartnerMapper } from "../mapper/partnerMapper";
+import { PartnerMapper } from "../../mapper/partnerMapper";
 import { createAddress } from "@/domain/contact/models/address";
 
-export interface AddAddressCommand {
+export interface AddPartnerAddressCommand {
     partnerId: string;
     street: string;
     city: string;
@@ -13,10 +13,10 @@ export interface AddAddressCommand {
     isPrimary?: boolean
 }
 
-export class AddAddressCommandHandler {
+export class AddPartnerAddressCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
-    async handle(cmd: AddAddressCommand) {
+    async handle(cmd: AddPartnerAddressCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
 
@@ -37,7 +37,7 @@ export class AddAddressCommandHandler {
     }
 }
 
-export interface EditAddressCommand {
+export interface EditPartnerAddressCommand {
     partnerId: string;
     addressId: string
     street: string;
@@ -48,10 +48,10 @@ export interface EditAddressCommand {
     isPrimary?: boolean
 }
 
-export class EditAddressCommandHandler {
+export class EditPartnerAddressCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
-    async handle(cmd: EditAddressCommand) {
+    async handle(cmd: EditPartnerAddressCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
         
@@ -72,15 +72,15 @@ export class EditAddressCommandHandler {
     }
 }
 
-export interface RemoveAddressCommand {
+export interface RemovePartnerAddressCommand {
     partnerId: string,
     addressId: string
 }
 
-export class RemoveAddressCommandHandler {
+export class RemovePartnerAddressCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
-    async handle(cmd: RemoveAddressCommand) {
+    async handle(cmd: RemovePartnerAddressCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
 

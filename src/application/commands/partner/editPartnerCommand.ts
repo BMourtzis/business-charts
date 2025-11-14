@@ -1,6 +1,6 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { PartnerMapper } from "../mapper/partnerMapper";
+import { PartnerMapper } from "../../mapper/partnerMapper";
 
 export interface EditPartnerCommand {
     id: string;

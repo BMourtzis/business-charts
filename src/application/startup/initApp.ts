@@ -1,4 +1,4 @@
-import { LoadPartnersCommandHandler } from "../commands/loadPartnersCommand";
+import { LoadPartnersCommandHandler } from "../commands/partner/loadPartnersCommand";
 
 
 export async function initApplication() {

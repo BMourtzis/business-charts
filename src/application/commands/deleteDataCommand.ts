@@ -1,6 +1,6 @@
 import { orderRepository } from "@/infrastructure/repositories/orderRepository.local";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
-import { LoadPartnersCommandHandler } from "./loadPartnersCommand";
+import { LoadPartnersCommandHandler } from "./partner/loadPartnersCommand";
 
 export interface DeleteDataCommand {
     removePartners: boolean;

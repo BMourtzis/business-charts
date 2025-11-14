@@ -1,5 +1,5 @@
 import { FilePersistenceService } from '@/infrastructure/services/filePersistenceService';
-import { LoadPartnersCommandHandler } from './loadPartnersCommand';
+import { LoadPartnersCommandHandler } from './partner/loadPartnersCommand';
 
 export interface ImportDataCommand {
     file: File

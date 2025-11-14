@@ -1,19 +1,19 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { PartnerMapper } from "../mapper/partnerMapper";
+import { PartnerMapper } from "../../mapper/partnerMapper";
 import { createPhone } from "@/domain/contact/models/contact";
 
-export interface AddPhoneCommand {
+export interface AddPartnerPhoneCommand {
     partnerId: string;
     phone: string;
     name?: string;
     isPrimary?: boolean
 }
 
-export class AddPhoneCommandHandler {
+export class AddPartnerPhoneCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
-    async handle(cmd: AddPhoneCommand) {
+    async handle(cmd: AddPartnerPhoneCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
 
@@ -27,7 +27,7 @@ export class AddPhoneCommandHandler {
     }
 }
 
-export interface EditPhoneCommand {
+export interface EditPartnerPhoneCommand {
     partnerId: string;
     phoneId: string;
     phone: string;
@@ -35,10 +35,10 @@ export interface EditPhoneCommand {
     isPrimary?: boolean
 }
 
-export class EditPhoneCommandHandler {
+export class EditPartnerPhoneCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
-    async handle(cmd: EditPhoneCommand) {
+    async handle(cmd: EditPartnerPhoneCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
 
@@ -52,15 +52,15 @@ export class EditPhoneCommandHandler {
     }
 }
 
-export interface RemovePhoneCommand {
+export interface RemovePartnerPhoneCommand {
     partnerId: string,
     phoneId: string
 }
 
-export class RemovePhoneCommandHandler {
+export class RemovePartnerPhoneCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
-    async handle(cmd: RemovePhoneCommand) {
+    async handle(cmd: RemovePartnerPhoneCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
 

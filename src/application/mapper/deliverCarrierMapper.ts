@@ -16,7 +16,7 @@ export class DeliveryCarrierMapper {
         return model;
     }
 
-    static toDto(model: DeliveryCarrier): DeliveryCarrierDTO {
+    static toDTO(model: DeliveryCarrier): DeliveryCarrierDTO {
         return {
             id: model.id,
             name: model.name,

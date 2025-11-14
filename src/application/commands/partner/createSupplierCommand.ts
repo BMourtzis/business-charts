@@ -1,10 +1,10 @@
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
-import { AddressDTO } from "../dto/contactDTO";
+import { AddressDTO } from "@/application/dto/contactDTO";
 import { createSupplier } from "@/domain/partner/models/supplier";
 import { createEmail, createPhone } from "@/domain/contact/models/contact";
 import { createAddress } from "@/domain/contact/models/address";
-import { PartnerMapper } from "../mapper/partnerMapper";
+import { PartnerMapper } from "@/application/mapper/partnerMapper";
 
 export interface CreateSupplierCommand {
     contactName: string, 

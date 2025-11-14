@@ -1,19 +1,19 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { PartnerMapper } from "../mapper/partnerMapper";
+import { PartnerMapper } from "../../mapper/partnerMapper";
 import { createEmail } from "@/domain/contact/models/contact";
 
-export interface AddEmailCommand {
+export interface AddPartnerEmailCommand {
     partnerId: string;
     email: string;
     name?: string;
     isPrimary?: boolean
 }
 
-export class AddEmailCommandHandler {
+export class AddPartnerEmailCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
-    async handle(cmd: AddEmailCommand) {
+    async handle(cmd: AddPartnerEmailCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
 
@@ -28,7 +28,7 @@ export class AddEmailCommandHandler {
 }
 
 
-export interface EditEmailCommand {
+export interface EditPartnerEmailCommand {
     partnerId: string;
     emailId: string;
     email: string;
@@ -36,10 +36,10 @@ export interface EditEmailCommand {
     isPrimary?: boolean
 }
 
-export class EditEmailCommandHandler {
+export class EditPartnerEmailCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
-    async handle(cmd: EditEmailCommand) {
+    async handle(cmd: EditPartnerEmailCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
 
@@ -53,15 +53,15 @@ export class EditEmailCommandHandler {
     }
 }
 
-export interface RemoveEmailCommand {
+export interface RemovePartnerEmailCommand {
     partnerId: string,
     emailId: string
 }
 
-export class RemoveEmailCommandHandler {
+export class RemovePartnerEmailCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
-    async handle(cmd: RemoveEmailCommand) {
+    async handle(cmd: RemovePartnerEmailCommand) {
         const partner = await partnerRepository.getById(cmd.partnerId);
         if (!partner) return;
 
