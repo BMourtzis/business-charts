@@ -1,4 +1,5 @@
 import { computed, Ref } from "vue";
+import type { DataTableHeader } from 'vuetify';
 
 import { Address } from "@/domain/contact/models/address";
 import { ContactType } from "@/domain/contact/contactTypes";
@@ -11,8 +12,7 @@ import { useLocalizationHelpers } from "./useLocalization";
 
 
 function getPrimaryAddress(addresses: Address[]) {
-    const addr = addresses.find(a => a.isPrimary && typeof a.value !== 'string');
-    return addr?.value as Address | undefined;
+    return addresses.find(a => a.isPrimary);
 }
 
 function getPhones(phones: Contact[]) {
@@ -20,8 +20,7 @@ function getPhones(phones: Contact[]) {
         .filter(p => p.type === ContactType.Phone)
         .sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary))
         .slice(0, 3)
-        .map(p => p.value as string)
-        .join("\n");
+        .map(p => p.value as string);
 }
 
 function toPartnerTable(partner: Partner) {
@@ -58,34 +57,34 @@ function toB2BCustomerTable(b2bCustomer: B2BCustomer) {
 
 function getPartnerHeaders(tCap: (key: string, count?: number) => string) {
     return [
-        { title: tCap('common.name'), key: "name" },
-        { title: tCap('partner.city'), key: "city" },  
-        { title: tCap('partner.street'), key: "street" },  
-        { title: tCap('partner.phone', 2), key: "phones" },  
-        { title: tCap('common.action', 2), key: "actions"}
-    ];
+        { title: tCap('common.name'), key: "name", align: 'start' },
+        { title: tCap('partner.city'), key: "city", align: 'start' },  
+        { title: tCap('partner.street'), key: "street", align: 'start' },  
+        { title: tCap('partner.phone', 2), key: "phones", align: 'start' },  
+        { title: tCap('common.action', 2), key: "actions", align: 'start' }
+    ] satisfies DataTableHeader[];
 }
 
 function getSupplierHeaders(tCap: (key: string, count?: number) => string) {
     return [
-        { title: tCap('common.name'), key: "name" },
-        { title: tCap('partner.activity'), key: "activity" },
-        { title: tCap('partner.city'), key: "city" },  
-        { title: tCap('partner.street'), key: "street" },  
-        { title: tCap('partner.phone', 2), key: "phones" },  
-        { title: tCap('common.action', 2), key: "actions"}
-    ];
+        { title: tCap('common.name'), key: "name", align: 'start' },
+        { title: tCap('partner.activity'), key: "activity", align: 'start' },
+        { title: tCap('partner.city'), key: "city", align: 'start' },  
+        { title: tCap('partner.street'), key: "street", align: 'start' },  
+        { title: tCap('partner.phone', 2), key: "phones", align: 'start' },  
+        { title: tCap('common.action', 2), key: "actions", align: 'start' }
+    ] satisfies DataTableHeader[];
 }
 
 function getB2BCustomerHeader(tCap: (key: string, count?: number) => string) {
     return [
-        { title: tCap('common.name'), key: "name" },
-        { title: tCap('partner.city'), key: "city" },  
-        { title: tCap('partner.street'), key: "street" },  
-        { title: tCap('partner.phone', 2), key: "phones" },
-        { title: tCap('partner.carrier'), key: "deliveryCarrier" },
-        { title: tCap('common.action', 2), key: "actions"}
-    ];
+        { title: tCap('common.name'), key: "name", align: 'start' },
+        { title: tCap('partner.city'), key: "city", align: 'start' },  
+        { title: tCap('partner.street'), key: "street", align: 'start' },  
+        { title: tCap('partner.phone', 2), key: "phones", align: 'start' },
+        { title: tCap('partner.carrier'), key: "deliveryCarrier", align: 'start' },
+        { title: tCap('common.action', 2), key: "actions", align: 'start'}
+    ] satisfies DataTableHeader[];
 }
 
 function isSupplierArray(partners: unknown): partners is Supplier[] {
