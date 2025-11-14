@@ -35,8 +35,9 @@
     <v-row>
       <h3>{{ tCap('partner.email', 2) }}</h3>
       <ContactModal 
-        contact-type="email" 
-        :partner-id="partnerModel.id" 
+        :owner-id="partnerModel.id"
+        owner-type="partner"
+        :contact-type="ContactType.Email" 
         mini
       />
     </v-row>
@@ -50,9 +51,10 @@
           <strong>{{ email.value }}</strong> 
           <span v-if="email.isPrimary"> - {{ tCap('common.primary') }}</span>
           <ContactModal
-            :partner-id="props.id"
+            :owner-id="props.id"
             :contact="email"
-            contact-type="email"
+            owner-type="partner"
+            :contact-type="ContactType.Email" 
             mini
           />
           <ConfirmDeleteModal
@@ -66,8 +68,9 @@
     <v-row>
       <h3>{{ tCap('partner.phone', 2) }}</h3>
       <ContactModal 
-        contact-type="phone" 
-        :partner-id="partnerModel.id"
+        :owner-id="partnerModel.id"
+        owner-type="partner"
+        :contact-type="ContactType.Phone" 
         mini
       />
     </v-row>
@@ -81,9 +84,10 @@
           <strong>{{ phone.value }}</strong> 
           <span v-if="phone.isPrimary"> - {{ tCap('common.primary') }}</span>
           <ContactModal
-            :partner-id="props.id"
+            :owner-id="props.id"
             :contact="phone"
-            contact-type="phone"
+            owner-type="partner"
+            :contact-type="ContactType.Phone" 
             mini
           />
           <ConfirmDeleteModal
@@ -96,8 +100,9 @@
     </v-row>
     <v-row>
       <h3>{{ tCap('partner.address', 2) }}</h3>
-      <AddressModal 
+      <AddressModal
         :partner-id="partnerModel.id" 
+        owner-type="partner"
         mini
       />
     </v-row>
@@ -112,6 +117,7 @@
           <span v-if="address.isPrimary"> - {{ tCap('common.primary_gen') }}</span>
           <AddressModal
             :address="address"
+            owner-type="partner"
             :partner-id="props.id"
             mini
           />
@@ -139,6 +145,7 @@ import { usePartners } from "@/presentation/composables/usePartners";
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
 import { usePartnerDetails } from "@/presentation/composables/usePartnerDetails";
 import { isB2BCustomer, isSupplier } from "@/domain/partner/typeGuards";
+import { ContactType } from "@/domain/contact/contactTypes";
 
 const props = defineProps<{ id: string }>();
 

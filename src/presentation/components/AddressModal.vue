@@ -89,7 +89,7 @@
           :text="tCap('common.save')"
           :loading="loading"
           :disabled="!validForm || loading"
-          @click="saveContact"
+          @click="saveAddress"
         />
         <v-btn
           :text="tCap('common.cancel')"
@@ -103,24 +103,25 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, watch } from 'vue';
+import { defineProps, computed, watch, PropType } from 'vue';
 
 import { Address } from '@/domain/contact/models/address';
 
-import { usePartners } from '@/presentation/composables/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useAdressForm } from '@/presentation/composables/useContactForm';
 import { maxLength, required } from '@/presentation/utils/validation';
-
-const { addAddressCommandHandler, editAddressCommandHandler } = usePartners();
+import { useAddressHandlers, AddressOwnerType } from '../composables/useAddressHandlers';
 
 const { tCap } = useLocalizationHelpers();
 
-//TODO: later it will need to be used by deliveryCarrier
 const props = defineProps({
   partnerId: {
     type: String,
+    required: true
+  },
+  ownerType: {
+    type: String as PropType<AddressOwnerType>,
     required: true
   },
   address: {
@@ -182,11 +183,13 @@ watch(dialog, (open) => {
   }
 });
 
-async function saveContact() {
+const { add, edit } = useAddressHandlers(props.ownerType);
+
+async function saveAddress() {
   await submit(async (form) => {
     if(props.address) {
-      await editAddressCommandHandler.handle({
-        partnerId: props.partnerId,
+      await edit({
+        ownerId: props.partnerId,
         addressId: props.address.id,
         street: form.street,
         city: form.city,
@@ -196,8 +199,8 @@ async function saveContact() {
         isPrimary: form.isPrimary
       });
     } else {
-      await addAddressCommandHandler.handle({ 
-          partnerId: props.partnerId, 
+      await add({ 
+          ownerId: props.partnerId, 
           street: form.street,
           city: form.city,
           zip: form.zip,

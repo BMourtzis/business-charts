@@ -88,25 +88,30 @@ import { defineProps, computed, watch, PropType } from 'vue';
 
 import { Contact } from '@/domain/contact/models/contact';
 
-import { usePartners } from '@/presentation/composables/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useContactForm } from '@/presentation/composables/useContactForm';
 import { emailFormat, maxLength, phoneFormat, required } from '@/presentation/utils/validation';
-const { addEmailCommandHandler, addPhoneCommandHandler, editEmailCommandHandler, editPhoneCommandHandler } = usePartners();
+import { ContactType } from '@/domain/contact/contactTypes';
+import { AddressOwnerType } from '../composables/useAddressHandlers';
+import { useContactHandlers } from '../composables/useContactHandlers';
 
 const { tCap } = useLocalizationHelpers();
 
-//TODO: later it will need to be used by deliveryCarrier
 const props = defineProps({
-  partnerId: {
+  ownerId: {
     type: String,
     required: true
   },
   contactType: {
-    type: String as PropType<'email' | 'phone'>,
+    type: String as PropType<ContactType>,
     required: true,
-    validator: (value: string) => ['email', 'phone'].includes(value)
+    validator: (value: ContactType) =>
+      Object.values(ContactType).includes(value)
+  },
+  ownerType: {
+    type: String as PropType<AddressOwnerType>,
+    required: true
   },
   contact: {
     type: Contact,
@@ -126,9 +131,9 @@ const isEditMode = computed(() => !!props.contact)
 
 const rule = computed(() => {
   switch (props.contactType) {
-    case "email":
+    case ContactType.Email:
       return emailFormat;
-    case "phone":
+    case ContactType.Phone:
       return phoneFormat;
     default:
       return required;
@@ -188,45 +193,26 @@ watch(dialog, (open) => {
   }
 });
 
+const { add, edit } = useContactHandlers(props.ownerType, props.contactType);
+
 async function saveContact() {
   await submit(async (form) => {
-    if(props.contactType === "email") {
-      if (props.contact) {
-        await editEmailCommandHandler.handle({
-          partnerId: props.partnerId,
-          emailId: props.contact.id,
-          email: form.value,
-          name: form.name,
-          isPrimary: form.isPrimary
-        });
-      } else {
-        await addEmailCommandHandler.handle({
-          partnerId: props.partnerId,
-          email: form.value,
-          name: form.name,
-          isPrimary: form.isPrimary
-        });
-      }
+    if (props.contact) {
+      await edit({
+        ownerId: props.ownerId,
+        contactId: props.contact.id,
+        value: form.value,
+        name: form.name,
+        isPrimary: form.isPrimary
+      });
     } else {
-      if (props.contact) {
-        await editPhoneCommandHandler.handle({
-          partnerId: props.partnerId,
-          phoneId: props.contact.id,
-          phone: form.value,
-          name: form.name,
-          isPrimary: form.isPrimary
-        });
-      } else {
-        await addPhoneCommandHandler.handle({
-          partnerId: props.partnerId,
-          phone: form.value,
-          name: form.name,
-          isPrimary: form.isPrimary
-        });
-      }
+      await add({
+        ownerId: props.ownerId,
+        value: form.value,
+        name: form.name,
+        isPrimary: form.isPrimary
+      });
     }
-
-
   });
 }
 </script>
