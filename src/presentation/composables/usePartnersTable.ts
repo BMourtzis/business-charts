@@ -19,8 +19,7 @@ function getPhones(phones: Contact[]) {
     return phones
         .filter(p => p.type === ContactType.Phone)
         .sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary))
-        .slice(0, 3)
-        .map(p => p.value as string);
+        .slice(0, 3);
 }
 
 function toPartnerTable(partner: Partner) {
@@ -34,7 +33,7 @@ function toPartnerTable(partner: Partner) {
             ? `${partner.businessName} (${partner.contactName})`
             : partner.contactName,
         city: address?.city,
-        street: address?.street,
+        street: address,
         phones: phones,
         value: partner
     }
