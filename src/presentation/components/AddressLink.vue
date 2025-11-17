@@ -1,27 +1,27 @@
 <template>
-  <div v-if="props.address">
+  <span v-if="address?.street">
     <v-icon 
       icon="mdi-map-marker" 
       size="16" 
       class="mr-1 text-grey" 
     />
     <a
-      :href="googleMapsUrl(props.address.value)"
+      :href="googleMapsUrl(address.value)"
       target="_blank"
       rel="noopener noreferrer"
       class="text-decoration-none text-body-2"
     >
-      <span v-if="format === 'full'">{{ props.address.value }}</span>
-      <span v-if="format === 'street'">{{ props.address.street }}</span>
+      <span v-if="format === 'full'">{{ address.value }}</span>
+      <span v-if="format === 'street'">{{ address.street }}</span>
     </a>
-  </div>
+  </span>
 </template>
 
 <script setup lang="ts">
 import { Address } from '@/domain/contact/models/address';
 import { defineProps } from 'vue';
 
-const props = defineProps<{
+defineProps<{
   address: Address | undefined;
   format: "full" | "street"
 }>();

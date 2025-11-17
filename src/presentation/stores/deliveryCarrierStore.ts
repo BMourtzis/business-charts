@@ -1,22 +1,14 @@
 import { DeliveryCarrierDTO } from '@/application/dto/deliveryCarrierDTO';
-import { DeliveryCarrierMapper } from '@/application/mapper/deliverCarrierMapper';
 import { defineStore } from 'pinia';
 
-export const useDeliveryCarrierStore = defineStore("deliveryCarries", {
+export const useDeliveryCarrierStore = defineStore("deliveryCarriers", {
     state: () => ({
         deliverCarriers: [] as DeliveryCarrierDTO[]
     }),
     getters: {
-        getById: (state) => {
-            return (id: string) => {
-                const dto = state.deliverCarriers.find(d => d.id === id);
-                return dto ? DeliveryCarrierMapper.toModel(dto): undefined;
-            }
-        },
-        carriers: (state) => {
-            const dtos = state.deliverCarriers;
-            return dtos ? dtos.map(DeliveryCarrierMapper.toModel) : undefined;
-        }
+        all: (state) => state.deliverCarriers,
+        getById: (state) => (id: string) => 
+            state.deliverCarriers.find(p => p.id === id),
     },
     actions: {
         setCarriers(carriers: DeliveryCarrierDTO[]) {

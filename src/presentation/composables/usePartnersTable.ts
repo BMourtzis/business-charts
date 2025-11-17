@@ -9,7 +9,7 @@ import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
 import { Contact } from "@/domain/contact/models/contact";
 
 import { useLocalizationHelpers } from "./useLocalization";
-
+import { getCarrierDetails } from "./usePartnerDetails";
 
 function getPrimaryAddress(addresses: Address[]) {
     return addresses.find(a => a.isPrimary);
@@ -47,10 +47,12 @@ function toSupplierTable(supplier: Supplier) {
 }
 
 function toB2BCustomerTable(b2bCustomer: B2BCustomer) {
+    const carrier = getCarrierDetails(b2bCustomer.deliveryCarrierId);
+
     return {
         ...toPartnerTable(b2bCustomer),
-        deliveryCarrier: "",
-        deliveryCarrierAddress: ""
+        deliveryCarrier: carrier.value?.name,
+        deliveryCarrierAddress: carrier.value?.primaryLocation
     }
 }
 

@@ -16,6 +16,7 @@
         "partner": "partner | partners",
         "supplier": "supplier | suppliers",
         "customer": "customer | customers",
+        "b2bCustomer": "B2B customer | B2B customers",
         "businessName": "business Name",
         "contactName": "contact Name",
         "vatNumber": "VAT Number",

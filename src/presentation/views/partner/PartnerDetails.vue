@@ -32,6 +32,15 @@
     <v-row v-if="supplier">
       <p>{{ tCap('partner.activity') }}: <strong>{{ supplier.activity }}</strong></p>
     </v-row>
+    <v-row v-if="b2bCustomer && carrier">
+      <p>
+        {{ tCap('partner.carrier') }}: <strong>{{ carrier.name }}</strong> - 
+        <AddressLink 
+          :address="carrier.primaryLocation"
+          format="full"
+        />
+      </p>
+    </v-row>
     <v-row>
       <h3>{{ tCap('partner.email', 2) }}</h3>
       <ContactModal 
@@ -140,10 +149,11 @@ import EditPartnerModal from "@/presentation/components/partner/EditPartnerModal
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import AddressModal from "@/presentation/components/AddressModal.vue";
 import ContactModal from "@/presentation/components/ContactModal.vue";
+import AddressLink from "@/presentation/components/AddressLink.vue";
 
 import { usePartners } from "@/presentation/composables/usePartners";
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
-import { usePartnerDetails } from "@/presentation/composables/usePartnerDetails";
+import { usePartnerDetails, getCarrierDetails } from "@/presentation/composables/usePartnerDetails";
 import { isB2BCustomer, isSupplier } from "@/domain/partner/typeGuards";
 import { ContactType } from "@/domain/contact/contactTypes";
 
@@ -169,11 +179,13 @@ const supplier = computed(() =>
 );
 
 
-// const b2bCustomer = computed(() =>
-//   partnerModel.value && isB2BCustomer(partnerModel.value)
-//     ? partnerModel.value
-//     : undefined
-// );
+const b2bCustomer = computed(() =>
+  partnerModel.value && isB2BCustomer(partnerModel.value)
+    ? partnerModel.value
+    : undefined
+);
+
+const carrier = b2bCustomer.value ? getCarrierDetails(b2bCustomer.value.deliveryCarrierId) : undefined;
 
 function deletePartner() {
   router.back();

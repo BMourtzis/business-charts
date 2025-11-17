@@ -1,12 +1,25 @@
+import { computed } from "vue";
+import { storeToRefs } from "pinia";
+
 import { AddCarrierAddressCommandHandler, EditCarrierAddressCommandHandler, RemoveCarrierAddressCommandHandler } from "@/application/commands/deliveryCarrier/addressCommands";
 import { useDeliveryCarrierStore } from "../stores/deliveryCarrierStore";
 import { AddCarrierEmailCommandHandler, EditCarrierEmailCommandHandler, RemoveCarrierEmailCommandHandler } from "@/application/commands/deliveryCarrier/emailCommands";
 import { AddCarrierPhoneCommandHandler, EditCarrierPhoneCommandHandler, RemoveCarrierPhoneCommandHandler } from "@/application/commands/deliveryCarrier/phoneCommands";
+import { DeliveryCarrierMapper } from "@/application/mapper/deliverCarrierMapper";
+import { CreateDeliveryCarrierCommandHandler } from "@/application/commands/deliveryCarrier/createDeliveryCarrierCommand";
+import { DeleteDeliveryCarrierCommandHandler } from "@/application/commands/deliveryCarrier/deleteDeliveryCarrierCommand";
+import { EditDeliveryCarrierCommandHandler } from "@/application/commands/deliveryCarrier/editDeliveryCarrierCommand";
 
 export function useDeliveryCarriers() {
     const store = useDeliveryCarrierStore();
+    const { all } = storeToRefs(store);
 
     return {
+        carriers: computed(() => all.value
+            .map(DeliveryCarrierMapper.toModel)),
+        createDeliveryCarrierCommandHandler: new CreateDeliveryCarrierCommandHandler(store),
+        editDeliveryCarrierCommandHandler: new EditDeliveryCarrierCommandHandler(store),
+        deleteDeliveryCarrierCommandHandler: new DeleteDeliveryCarrierCommandHandler(store),
         addEmailCommandHandler: new AddCarrierEmailCommandHandler(store),
         editEmailCommandHandler: new EditCarrierEmailCommandHandler(store),
         removeEmailCommandHandler: new RemoveCarrierEmailCommandHandler(store),

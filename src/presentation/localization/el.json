@@ -16,6 +16,7 @@
         "partner": "partner | partners",
         "supplier": "προμηθευτής | προμηθευτές",
         "customer": "πελάτης | πελάτες",
+        "b2bCustomer": "πελάτης χονδρικής | πελάτες χονδρικής",
         "businessName": "όνομα επιχείρησης",
         "contactName": "όνομα επαφής",
         "vatNumber": "ΑΦΜ",
