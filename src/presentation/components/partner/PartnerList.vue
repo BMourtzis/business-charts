@@ -3,6 +3,7 @@
     :headers="headers"
     :items="data"
     class="text-start"
+    hide-default-footer
   >
     <template #[`item.phones`]="{ item }">
       <div class="d-flex flex-column gap-1">
@@ -59,7 +60,6 @@ import AddressLink from '../AddressLink.vue';
 
 const { deletePartnerCommandHandler } = usePartners();
 
-//TODO: based on the item type add the correct edit modal
 const props = defineProps < {
   partners: Partner[] | undefined;
 } > ();
