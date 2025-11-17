@@ -33,8 +33,8 @@ function toPartnerTable(partner: Partner) {
             ? `${partner.businessName} (${partner.contactName})`
             : partner.contactName,
         city: address?.city,
-        street: address,
-        phones: phones,
+        address,
+        phones,
         value: partner
     }
 }
@@ -58,7 +58,7 @@ function getPartnerHeaders(tCap: (key: string, count?: number) => string) {
     return [
         { title: tCap('common.name'), key: "name", align: 'start' },
         { title: tCap('partner.city'), key: "city", align: 'start' },  
-        { title: tCap('partner.street'), key: "street", align: 'start' },  
+        { title: tCap('partner.street'), key: "address", align: 'start' },  
         { title: tCap('partner.phone', 2), key: "phones", align: 'start' },  
         { title: tCap('common.action', 2), key: "actions", align: 'start' }
     ] satisfies DataTableHeader[];
@@ -69,7 +69,7 @@ function getSupplierHeaders(tCap: (key: string, count?: number) => string) {
         { title: tCap('common.name'), key: "name", align: 'start' },
         { title: tCap('partner.activity'), key: "activity", align: 'start' },
         { title: tCap('partner.city'), key: "city", align: 'start' },  
-        { title: tCap('partner.street'), key: "street", align: 'start' },  
+        { title: tCap('partner.street'), key: "address", align: 'start' },  
         { title: tCap('partner.phone', 2), key: "phones", align: 'start' },  
         { title: tCap('common.action', 2), key: "actions", align: 'start' }
     ] satisfies DataTableHeader[];
@@ -79,7 +79,7 @@ function getB2BCustomerHeader(tCap: (key: string, count?: number) => string) {
     return [
         { title: tCap('common.name'), key: "name", align: 'start' },
         { title: tCap('partner.city'), key: "city", align: 'start' },  
-        { title: tCap('partner.street'), key: "street", align: 'start' },  
+        { title: tCap('partner.street'), key: "address", align: 'start' },  
         { title: tCap('partner.phone', 2), key: "phones", align: 'start' },
         { title: tCap('partner.carrier'), key: "deliveryCarrier", align: 'start' },
         { title: tCap('common.action', 2), key: "actions", align: 'start'}

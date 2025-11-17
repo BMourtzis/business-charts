@@ -14,11 +14,11 @@
         />
       </div>
     </template>
-    <template #[`item.street`]="{ item }">
+    <template #[`item.address`]="{ item }">
       <div class="d-flex flex-column gap-1">
         <AddressLink 
           class="d-flex align-center"
-          :address="item.street"
+          :address="item.address"
           format="street"
         />
       </div>
