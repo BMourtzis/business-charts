@@ -36,32 +36,34 @@
                 :rules="[required, rangeLength(3, 50)]"
               />
             </v-row>
-            <v-row>
-              <v-text-field
-                v-model="form.street"
-                :label="tCap('partner.street')"
-                :rules="[required, rangeLength(3, 50)]"
-              />
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-model="form.city"
-                :label="tCap('partner.city')"
-                :rules="[required, rangeLength(3, 50)]"
-              />
-              <v-text-field
-                v-model="form.zip"
-                :label="tCap('partner.zip')"
-                :rules="[maxLength(50)]"
-              />
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-model="form.country"
-                :label="tCap('partner.country')"
-                :rules="[maxLength(50)]"
-              />
-            </v-row>
+            <template v-if="!isEditMode">
+              <v-row>
+                <v-text-field
+                  v-model="form.street"
+                  :label="tCap('partner.street')"
+                  :rules="[required, rangeLength(3, 50)]"
+                />
+              </v-row>
+              <v-row>
+                <v-text-field
+                  v-model="form.city"
+                  :label="tCap('partner.city')"
+                  :rules="[required, rangeLength(3, 50)]"
+                />
+                <v-text-field
+                  v-model="form.zip"
+                  :label="tCap('partner.zip')"
+                  :rules="[maxLength(50)]"
+                />
+              </v-row>
+              <v-row>
+                <v-text-field
+                  v-model="form.country"
+                  :label="tCap('partner.country')"
+                  :rules="[maxLength(50)]"
+                />
+              </v-row>
+            </template>
             <v-alert
               v-if="errorMessage"
               type="error"
@@ -97,18 +99,24 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, reactive } from 'vue';
+import { defineProps, computed, reactive, watch } from 'vue';
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { maxLength, rangeLength, required } from '@/presentation/utils/validation';
 import { useDeliveryCarriers } from '@/presentation/composables/useDeliveryCarriers';
+import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
 
-const { createDeliveryCarrierCommandHandler } = useDeliveryCarriers();
+const { createDeliveryCarrierCommandHandler, editDeliveryCarrierCommandHandler } = useDeliveryCarriers();
 
 const { tCap } = useLocalizationHelpers();
 
-defineProps({
+const props = defineProps({
+  carrier: {
+    type: DeliveryCarrier,
+    required: false,
+    default: null
+  },
   mini: {
     type: Boolean,
     required: false,
@@ -116,15 +124,27 @@ defineProps({
   }
 });
 
+const isEditMode = computed(() => !!props.carrier);
+
 const label = computed(() => {
-  return `${tCap('common.add')} ${tCap('partner.address')}`;
+  let modeLabel = tCap('common.add');
+  if(isEditMode.value) {
+    modeLabel = tCap('common.edit');
+  }
+  return `${modeLabel} ${tCap('partner.address')}`;
 });
 
 const dialogTitle = computed(() => {
+  if(isEditMode.value) {
+    return tCap('partner.editAddress');
+  }
   return tCap('partner.addAddress');
 });
 
 const modeIcon = computed(() => {
+  if(isEditMode.value) {
+    return "mdi-pencil";
+  }
   return "mdi-plus";
 });
 
@@ -136,7 +156,6 @@ const form = reactive({
   country: ''
 });
 
-
 const {
   dialog, 
   formRef, 
@@ -147,9 +166,21 @@ const {
   submit
 } = useFormDialog(form);
 
+watch(dialog, (open) => {
+  if(open && props.carrier) {
+    form.name = props.carrier.name;
+  }
+});
+
 async function saveCarrier() {
   await submit(async (form) => {
-    await createDeliveryCarrierCommandHandler.handle({ 
+    if(isEditMode.value) {
+      await editDeliveryCarrierCommandHandler.handle({ 
+        id: props.carrier.id,
+        name: form.name
+      });
+    } else {
+      await createDeliveryCarrierCommandHandler.handle({ 
         name: form.name,
         address: {
           id: "",
@@ -159,8 +190,8 @@ async function saveCarrier() {
           zip: form.zip,
           country: form.country
         }
-
-    });
+      });
+    }
   });
 }
 
