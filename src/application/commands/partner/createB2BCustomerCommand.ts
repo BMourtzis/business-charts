@@ -7,7 +7,7 @@ import { createAddress } from "@/domain/contact/models/address";
 import { PartnerMapper } from "@/application/mapper/partnerMapper";
 
 export interface CreateB2BCustomerCommand {
-    name: string;
+    contactName: string;
     deliveryCarrierId: string;
     businessName?: string;
     email: string;
@@ -19,7 +19,7 @@ export class CreateB2BCustomerCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
     async handle(cmd: CreateB2BCustomerCommand) {
-        const customer = createB2BCustomer(cmd.name, cmd.deliveryCarrierId, cmd.businessName);
+        const customer = createB2BCustomer(cmd.contactName, cmd.deliveryCarrierId, cmd.businessName);
         
         if(cmd.email && cmd.email.trim() != '') customer.addEmail(createEmail(cmd.email, true));
         if(cmd.phone && cmd.phone.trim() != '') customer.addPhone(createPhone(cmd.phone, true));

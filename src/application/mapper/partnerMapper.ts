@@ -58,7 +58,7 @@ export class PartnerMapper {
         if(model instanceof B2BCustomer) {
             return {
                 ...base,
-                deliveryCarrierId: model.deliverCarrierId
+                deliveryCarrierId: model.deliveryCarrierId
             };
         }
 

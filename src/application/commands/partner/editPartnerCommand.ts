@@ -62,7 +62,7 @@ export class EditB2BCustomerCommandHandler {
         if (!b2bCustomer) return;
         
         b2bCustomer.updateData(cmd.contactName, cmd.businessName);
-        b2bCustomer.deliverCarrierId = cmd.deliveryCarrierId;
+        b2bCustomer.deliveryCarrierId = cmd.deliveryCarrierId;
 
         await partnerRepository.update(b2bCustomer);
         this._partnersStore.update(PartnerMapper.toDTO(b2bCustomer));
