@@ -31,66 +31,40 @@
         icon="mdi-account-details"
         :to="`/carrier/${item.id}`"
       />
-      <!-- <EditPartnerModal 
-        :partner="item.value" 
-        :mini="true" 
-      /> -->
+      <CarrierModal 
+        :carrier="item.value" 
+        mini 
+      />
       <ConfirmDeleteModal
         :name="item.name"
         :action-fn="() => deleteDeliveryCarrierCommandHandler.handle({id: item.id})"
-        :mini="true"
+        mini
       />
     </template>
   </v-data-table>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
-import type { DataTableHeader } from 'vuetify';
+import { defineProps, toRef } from 'vue';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
-import { ContactType } from "@/domain/contact/contactTypes";
 
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import PhoneLink from '../PhoneLink.vue';
 import AddressLink from '../AddressLink.vue';
+import CarrierModal from './CarrierModal.vue';
 
 import { useDeliveryCarriers } from '@/presentation/composables/useDeliveryCarriers';
-import { useLocalizationHelpers } from "@/presentation/composables/useLocalization";
+import { useDeliveryCarrierTable } from '@/presentation/composables/useCarrierTable';
+
 
 const { deleteDeliveryCarrierCommandHandler } = useDeliveryCarriers();
-
-const { tCap } = useLocalizationHelpers();
 
 const props = defineProps < {
   carriers: DeliveryCarrier[] | undefined;
 } > ();
 
-const headers = [
-    { title: tCap('common.name'), key: "name", align: 'start' },
-    { title: tCap('partner.city'), key: "city", align: 'start' },  
-    { title: tCap('partner.street'), key: "address", align: 'start' },  
-    { title: tCap('partner.phone', 2), key: "phones", align: 'start' },  
-    { title: tCap('common.action', 2), key: "actions", align: 'start' }
-] satisfies DataTableHeader[];
-
-const data = props.carriers?.map(getTableData);
-
-function getTableData(carrier: DeliveryCarrier) {
-    const phones = carrier.phones
-        .filter(p => p.type === ContactType.Phone)
-        .sort((a, b) => Number(b.isPrimary) - Number(a.isPrimary))
-        .slice(0, 3);
-
-    return {
-        id: carrier.id,
-        name: carrier.name,
-        city: carrier.primaryLocation?.city ?? "",
-        address: carrier.primaryLocation,
-        phones,
-        value: carrier
-    };
-}
+const { data, headers } = useDeliveryCarrierTable(toRef(props, "carriers"));
 
 </script>
 
