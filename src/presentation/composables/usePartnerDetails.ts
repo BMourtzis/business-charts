@@ -5,19 +5,6 @@ import { PartnerType } from '@/domain/partner/partnerTypes';
 import { Partner } from '@/domain/partner/models/partner';
 import { Supplier } from '@/domain/partner/models/supplier';
 import { B2BCustomer } from '@/domain/partner/models/b2bCustomer';
-import { useDeliveryCarrierStore } from '../stores/deliveryCarrierStore';
-import { DeliveryCarrierMapper } from '@/application/mapper/deliverCarrierMapper';
-
-export function getCarrierDetails(deliveryCarrierId: string) {
-    const store = useDeliveryCarrierStore();
-
-    return computed(() => {
-        const carrier = store.getById(deliveryCarrierId);
-        if(!carrier) return undefined;
-
-        return DeliveryCarrierMapper.toModel(carrier);
-    });
-}
 
 export function usePartnerDetails(id: string) {
     const store = usePartnersStore();

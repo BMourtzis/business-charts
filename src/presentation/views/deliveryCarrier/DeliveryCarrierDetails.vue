@@ -1,51 +1,29 @@
 <template>
-  <v-container v-if="partnerModel">
+  <v-container v-if="carrierModel">
     <v-row>
       <h1>
-        {{ partnerModel.businessName }} 
+        {{ carrierModel.name }} 
         <span 
-          v-if="supplier" 
           style="font-weight: 100;"
         >
-          ({{ t('partner.supplier') }})
-        </span>
-        <span 
-          v-if="isB2BCustomer(partnerModel)" 
-          style="font-weight: 100;"
-        >
-          ({{ t('partner.customer', 2) }})
+          ({{ t('partner.carrier') }})
         </span>
       </h1>
-      <EditPartnerModal 
+      <!-- <EditPartnerModal 
         :partner="partnerModel" 
         mini
-      />
+      /> -->
       <ConfirmDeleteModal
-        :name="partnerModel.businessName"
-        :action-fn="() => deletePartner()"
+        :name="carrierModel.name"
+        :action-fn="() => deleteCarrier()"
         mini
       />
-    </v-row>
-    <v-row>
-      <p>{{ partnerModel.contactName }}</p>
-    </v-row>
-    <v-row v-if="supplier">
-      <p>{{ tCap('partner.activity') }}: <strong>{{ supplier.activity }}</strong></p>
-    </v-row>
-    <v-row v-if="b2bCustomer && carrier">
-      <p>
-        {{ tCap('partner.carrier') }}: <strong>{{ carrier.name }}</strong> - 
-        <AddressLink 
-          :address="carrier.primaryLocation"
-          format="full"
-        />
-      </p>
     </v-row>
     <v-row>
       <h3>{{ tCap('partner.email', 2) }}</h3>
       <ContactModal 
-        :owner-id="partnerModel.id"
-        owner-type="partner"
+        :owner-id="carrierModel.id"
+        owner-type="deliveryCarrier"
         :contact-type="ContactType.Email" 
         mini
       />
@@ -53,7 +31,7 @@
     <v-row>
       <ul>
         <li 
-          v-for="email in partnerModel.emails" 
+          v-for="email in carrierModel.emails" 
           :key="email.id"
         >
           <span v-if="email.name">{{ email.name }}: </span> 
@@ -62,13 +40,13 @@
           <ContactModal
             :owner-id="props.id"
             :contact="email"
-            owner-type="partner"
+            owner-type="deliveryCarrier"
             :contact-type="ContactType.Email" 
             mini
           />
           <ConfirmDeleteModal
             :name="email.value"
-            :action-fn="() => removeEmailCommandHandler.handle({partnerId: props.id, emailId: email.id})"
+            :action-fn="() => removeEmailCommandHandler.handle({carrierId: props.id, emailId: email.id})"
             :mini="true"
           />
         </li>
@@ -77,8 +55,8 @@
     <v-row>
       <h3>{{ tCap('partner.phone', 2) }}</h3>
       <ContactModal 
-        :owner-id="partnerModel.id"
-        owner-type="partner"
+        :owner-id="carrierModel.id"
+        owner-type="deliveryCarrier"
         :contact-type="ContactType.Phone" 
         mini
       />
@@ -86,7 +64,7 @@
     <v-row>
       <ul>
         <li 
-          v-for="phone in partnerModel.phones" 
+          v-for="phone in carrierModel.phones" 
           :key="phone.id"
         >
           <span v-if="phone.name">{{ phone.name }}: </span> 
@@ -95,13 +73,13 @@
           <ContactModal
             :owner-id="props.id"
             :contact="phone"
-            owner-type="partner"
+            owner-type="deliveryCarrier"
             :contact-type="ContactType.Phone" 
             mini
           />
           <ConfirmDeleteModal
             :name="phone.value"
-            :action-fn="() => removePhoneCommandHandler.handle({partnerId: props.id, phoneId: phone.id})"
+            :action-fn="() => removePhoneCommandHandler.handle({carrierId: props.id, phoneId: phone.id})"
             :mini="true"
           />
         </li>
@@ -110,15 +88,15 @@
     <v-row>
       <h3>{{ tCap('partner.address', 2) }}</h3>
       <AddressModal
-        :partner-id="partnerModel.id" 
-        owner-type="partner"
+        :partner-id="carrierModel.id" 
+        owner-type="deliveryCarrier"
         mini
       />
     </v-row>
     <v-row>
       <ul>
         <li 
-          v-for="address in partnerModel.addresses" 
+          v-for="address in carrierModel.locations" 
           :key="address.id"
         >
           <span v-if="address.name">{{ address.name }}: </span> 
@@ -126,13 +104,13 @@
           <span v-if="address.isPrimary"> - {{ tCap('common.primary_gen') }}</span>
           <AddressModal
             :address="address"
-            owner-type="partner"
+            owner-type="deliveryCarrier"
             :partner-id="props.id"
             mini
           />
           <ConfirmDeleteModal
             :name="address.value"
-            :action-fn="() => removeAddressCommandHandler.handle({partnerId: props.id, addressId: address.id})"
+            :action-fn="() => removeAddressCommandHandler.handle({carrierId: props.id, addressId: address.id})"
             mini
           />
         </li>
@@ -142,22 +120,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from "vue";
+import { defineProps } from "vue";
 import { useRouter } from 'vue-router';
 
-import { isB2BCustomer, isSupplier } from "@/domain/partner/typeGuards";
-import { ContactType } from "@/domain/contact/contactTypes";
-
-import EditPartnerModal from "@/presentation/components/partner/EditPartnerModal.vue";
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import AddressModal from "@/presentation/components/AddressModal.vue";
 import ContactModal from "@/presentation/components/ContactModal.vue";
-import AddressLink from "@/presentation/components/AddressLink.vue";
 
-import { usePartners } from "@/presentation/composables/usePartners";
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
-import { usePartnerDetails } from "@/presentation/composables/usePartnerDetails";
+import { ContactType } from "@/domain/contact/contactTypes";
 import { getCarrierDetails } from "@/presentation/composables/useDeliveryCarrierDetails";
+import { useDeliveryCarriers } from "@/presentation/composables/useDeliveryCarriers";
 
 const props = defineProps<{ id: string }>();
 
@@ -167,31 +140,16 @@ const {
   removeEmailCommandHandler,
   removePhoneCommandHandler,
   removeAddressCommandHandler,
-  deletePartnerCommandHandler 
-} = usePartners();
+  deleteDeliveryCarrierCommandHandler 
+} = useDeliveryCarriers();
 
 const router = useRouter();
 
-const { model: partnerModel} = usePartnerDetails(props.id);
+const carrierModel = getCarrierDetails(props.id);
 
-const supplier = computed(() =>
-  partnerModel.value && isSupplier(partnerModel.value)
-    ? partnerModel.value
-    : undefined
-);
-
-
-const b2bCustomer = computed(() =>
-  partnerModel.value && isB2BCustomer(partnerModel.value)
-    ? partnerModel.value
-    : undefined
-);
-
-const carrier = b2bCustomer.value ? getCarrierDetails(b2bCustomer.value.deliveryCarrierId) : undefined;
-
-function deletePartner() {
+function deleteCarrier() {
   router.back();
-  deletePartnerCommandHandler.handle({id: props.id});
+  deleteDeliveryCarrierCommandHandler.handle({id: props.id});
 }
 
 </script>

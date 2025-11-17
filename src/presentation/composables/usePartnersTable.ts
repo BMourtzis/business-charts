@@ -9,7 +9,7 @@ import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
 import { Contact } from "@/domain/contact/models/contact";
 
 import { useLocalizationHelpers } from "./useLocalization";
-import { getCarrierDetails } from "./usePartnerDetails";
+import { getCarrierDetails } from "./useDeliveryCarrierDetails";
 
 function getPrimaryAddress(addresses: Address[]) {
     return addresses.find(a => a.isPrimary);

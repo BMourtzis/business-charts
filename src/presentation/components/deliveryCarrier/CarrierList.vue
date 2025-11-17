@@ -24,13 +24,13 @@
       </div>
     </template>
     <template #[`item.actions`]="{ item }">
-      <!-- <v-btn
+      <v-btn
         color="primary"
         variant="text"
         density="compact"
         icon="mdi-account-details"
         :to="`/carrier/${item.id}`"
-      /> -->
+      />
       <!-- <EditPartnerModal 
         :partner="item.value" 
         :mini="true" 
