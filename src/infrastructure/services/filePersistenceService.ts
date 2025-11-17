@@ -2,16 +2,23 @@ import { partnerRepository } from '@/infrastructure/repositories/partnerReposito
 import { orderRepository } from '@/infrastructure/repositories/orderRepository.local';
 import { PartnerDTO } from '@/application/dto/partnerDTO';
 import { OrderDTO } from '@/domain/order/models/order';
+import { DeliveryCarrierDTO } from '@/application/dto/deliveryCarrierDTO';
+import { deliveryCarrierRepository } from '../repositories/deliverCarrierRepository.local';
 
 export class FilePersistenceService {
-    async exportAll(includePartners: boolean, includeOrders: boolean) {
+    async exportAll(includePartners: boolean, includeCarriers: boolean, includeOrders: boolean) {
         const data = {
             partners: [] as PartnerDTO[],
             orders: [] as OrderDTO[],
+            carriers: [] as DeliveryCarrierDTO[],
         }
 
         if(includePartners) {
             data.partners = await partnerRepository.getAll();
+        }
+
+        if(includeCarriers) {
+            data.carriers = await deliveryCarrierRepository.getAll();
         }
 
         if(includeOrders) {
@@ -37,6 +44,10 @@ export class FilePersistenceService {
 
         if (data.orders) {
             await orderRepository.saveAll(data.orders);
+        }
+
+        if(data.carriers) {
+            await deliveryCarrierRepository.saveAll(data.carriers);
         }
     }
 }

@@ -2,6 +2,7 @@ import { FilePersistenceService } from '@/infrastructure/services/filePersistenc
 
 export interface ExportDataCommand {
     includePartners: boolean;
+    includeCarriers: boolean;
     includeOrders: boolean;
 }
 
@@ -15,6 +16,7 @@ export class ExportDataCommandHandler {
     async handle(cmd: ExportDataCommand) {
         await this._fileService.exportAll(
             cmd.includePartners,
+            cmd.includeCarriers,
             cmd.includeOrders
         );
     }
