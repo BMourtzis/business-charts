@@ -28,42 +28,49 @@
           ref="formRef" 
           v-model="validForm"
         >
-          <v-container>
-            <v-row>
-              <v-text-field
-                v-model="form.name"
-                :label="tCap('common.name')"
-                :rules="[required, rangeLength(3, 50)]"
-              />
+          <v-container
+            class="pa-0" 
+            fluid
+          >
+            <v-row dense>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.name"
+                  :label="tCap('common.name')"
+                  :rules="[required, rangeLength(3, 50)]"
+                />
+              </v-col>
+              <template v-if="!isEditMode">
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="form.street"
+                    :label="tCap('partner.street')"
+                    :rules="[required, rangeLength(3, 50)]"
+                  />
+                </v-col>
+                <v-col cols="8">
+                  <v-text-field
+                    v-model="form.city"
+                    :label="tCap('partner.city')"
+                    :rules="[required, rangeLength(3, 50)]"
+                  />
+                </v-col>
+                <v-col cols="4">
+                  <v-text-field
+                    v-model="form.zip"
+                    :label="tCap('partner.zip')"
+                    :rules="[maxLength(50)]"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    v-model="form.country"
+                    :label="tCap('partner.country')"
+                    :rules="[maxLength(50)]"
+                  />
+                </v-col>
+              </template>
             </v-row>
-            <template v-if="!isEditMode">
-              <v-row>
-                <v-text-field
-                  v-model="form.street"
-                  :label="tCap('partner.street')"
-                  :rules="[required, rangeLength(3, 50)]"
-                />
-              </v-row>
-              <v-row>
-                <v-text-field
-                  v-model="form.city"
-                  :label="tCap('partner.city')"
-                  :rules="[required, rangeLength(3, 50)]"
-                />
-                <v-text-field
-                  v-model="form.zip"
-                  :label="tCap('partner.zip')"
-                  :rules="[maxLength(50)]"
-                />
-              </v-row>
-              <v-row>
-                <v-text-field
-                  v-model="form.country"
-                  :label="tCap('partner.country')"
-                  :rules="[maxLength(50)]"
-                />
-              </v-row>
-            </template>
             <v-alert
               v-if="errorMessage"
               type="error"

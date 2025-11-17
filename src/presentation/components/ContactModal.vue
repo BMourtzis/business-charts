@@ -30,25 +30,27 @@
         >
           <v-container>
             <v-row>
-              <v-text-field 
-                v-model="form.value" 
-                :label="label" 
-                type="email" 
-                :rules="[rule]" 
-              />
-            </v-row>
-            <v-row>
-              <v-text-field 
-                v-model="form.name" 
-                :label="tCap('common.name')" 
-                :rules="[maxLength(50)]" 
-              />
-            </v-row>
-            <v-row>
-              <v-switch 
-                v-model="form.isPrimary" 
-                :label="tCap('common.primary_gen')" 
-              />
+              <v-col cols="12">
+                <v-text-field 
+                  v-model="form.value" 
+                  :label="label" 
+                  type="email" 
+                  :rules="[rule]" 
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-text-field 
+                  v-model="form.name" 
+                  :label="tCap('common.name')" 
+                  :rules="[maxLength(50)]" 
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-switch 
+                  v-model="form.isPrimary" 
+                  :label="tCap('common.primary_gen')" 
+                />
+              </v-col>
             </v-row>
             <v-alert 
               v-if="errorMessage" 
