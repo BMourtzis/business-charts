@@ -9,7 +9,7 @@ import { PartnerMapper } from "@/application/mapper/partnerMapper";
 
 import { CreateSupplierCommandHandler } from "@/application/commands/partner/createSupplierCommand";
 import { CreateB2BCustomerCommandHandler } from "@/application/commands/partner/createB2BCustomerCommand";
-import { EditPartnerCommandHandler, EditSupplierCommandHandler } from "@/application/commands/partner/editPartnerCommand";
+import { EditB2BCustomerCommandHandler, EditPartnerCommandHandler, EditSupplierCommandHandler } from "@/application/commands/partner/editPartnerCommand";
 import { DeletePartnerCommandHandler } from "@/application/commands/partner/deletePartnerCommand";
 import { AddPartnerEmailCommandHandler, EditPartnerEmailCommandHandler, RemovePartnerEmailCommandHandler } from "@/application/commands/partner/emailCommands";
 import { AddPartnerPhoneCommandHandler, EditPartnerPhoneCommandHandler, RemovePartnerPhoneCommandHandler } from "@/application/commands/partner/phoneCommands";
@@ -32,6 +32,7 @@ export function usePartners() {
         createSupplierCommandHandler: new CreateSupplierCommandHandler(store),
         createB2BCustomerCommandHandler: new CreateB2BCustomerCommandHandler(store),
         editSupplierCommandHandler: new EditSupplierCommandHandler(store),
+        editB2BCustomerCommandHandler: new EditB2BCustomerCommandHandler(store),
         editPartnerCommandHandler: new EditPartnerCommandHandler(store),
         addEmailCommandHandler: new AddPartnerEmailCommandHandler(store),
         editEmailCommandHandler: new EditPartnerEmailCommandHandler(store),

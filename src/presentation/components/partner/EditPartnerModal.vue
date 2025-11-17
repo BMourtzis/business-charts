@@ -27,27 +27,50 @@
           ref="formRef" 
           v-model="validForm"
         >
-          <v-container>
-            <v-row>
-              <v-text-field
-                v-model="form.contactName"
-                :label="tCap('partner.contactName')"
-                :rules="[required, rangeLength(3, 50)]"
-              />
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-model="form.businessName"
-                :label="tCap('partner.businessName')"
-                :rules="[maxLength(50)]"
-              />
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-model="form.activity"
-                :label="tCap('partner.activity')"
-                :rules="[required, maxLength(50)]"
-              />
+          <v-container
+            class="pa-0" 
+            fluid
+          >
+            <v-row dense>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.contactName"
+                  :label="tCap('partner.contactName')"
+                  :rules="[required, rangeLength(3, 50)]"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.businessName"
+                  :label="tCap('partner.businessName')"
+                  :rules="[maxLength(50)]"
+                />
+              </v-col>
+              <v-col 
+                v-if="supplier" 
+                cols="12"
+              >
+                <v-text-field
+                  v-model="form.activity"
+                  :label="tCap('partner.activity')"
+                  :rules="[required, maxLength(50)]"
+                />
+              </v-col>
+              <v-col 
+                v-if="b2bCustomer" 
+                cols="12"
+              >
+                <v-autocomplete
+                  v-model="form.deliveryCarrierId"
+                  :item-props="itemProps"
+                  label="Carrier"
+                  :items="carriers"
+                >
+                  <template #append-inner>
+                    <CarrierModal mini />
+                  </template>
+                </v-autocomplete>
+              </v-col>
             </v-row>
             <v-alert
               v-if="errorMessage"
@@ -86,15 +109,21 @@
 <script setup lang="ts">
 import { reactive, watch, defineProps, computed } from 'vue';
 
+import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
+import { isB2BCustomer, isSupplier } from '@/domain/partner/typeGuards';
+import { Partner } from '@/domain/partner/models/partner';
+
 import { usePartners } from '@/presentation/composables/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 import { maxLength, rangeLength, required } from '@/presentation/utils/validation';
-import { Partner } from '@/domain/partner/models/partner';
-import { isSupplier } from '@/domain/partner/typeGuards';
+import { useDeliveryCarriers } from '@/presentation/composables/useDeliveryCarriers';
+import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal.vue'
 
-const { editSupplierCommandHandler } = usePartners();
+const { editSupplierCommandHandler, editB2BCustomerCommandHandler } = usePartners();
+
+const { carriers } = useDeliveryCarriers()
 
 const { tCap, t } = useLocalizationHelpers();
 
@@ -108,7 +137,16 @@ const form = reactive({
   businessName: '',
   contactName: '',
   activity: '',
+  deliveryCarrierId: ''
 });
+
+function itemProps(item: DeliveryCarrier) {
+    return {
+        title: item.name,
+        value: item.id,
+        subtitle: item.primaryLocation?.value ?? ""
+    }
+}
 
 const {
   dialog, 
@@ -127,6 +165,9 @@ watch(dialog, (open) => {
     if(supplier.value) {
       form.activity = supplier.value.activity ?? "";
     }
+    if(b2bCustomer.value) {
+      form.deliveryCarrierId = b2bCustomer.value.deliveryCarrierId ?? "";
+    }
   }
 });
 
@@ -136,14 +177,30 @@ const supplier = computed(() =>
     : undefined
 );
 
+const b2bCustomer = computed(() =>
+  props.partner && isB2BCustomer(props.partner)
+    ? props.partner
+    : undefined
+);
+
 async function saveSupplier() {
   await submit(async (form) => {
-    editSupplierCommandHandler.handle({
-      id: props.partner?.id ?? '', 
-      contactName: form.contactName, 
-      activity: form.activity, 
-      businessName: form.businessName
-    });
+    if(supplier.value) {
+      editSupplierCommandHandler.handle({
+        id: props.partner?.id ?? '', 
+        contactName: form.contactName, 
+        activity: form.activity, 
+        businessName: form.businessName
+      });
+    } else if(b2bCustomer.value) {
+      editB2BCustomerCommandHandler.handle({
+        id: props.partner?.id ?? '',
+        contactName: form.contactName,
+        businessName: form.businessName,
+        deliveryCarrierId: form.deliveryCarrierId
+      });
+    }
+
   });
 }
 </script>
