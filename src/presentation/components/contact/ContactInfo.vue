@@ -168,6 +168,7 @@ import AddressLink from "@/presentation/components/contact/AddressLink.vue";
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 
 import { useDeliveryCarriers } from "@/presentation/composables/deliveryCarrier/useDeliveryCarriers";
+import { DeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";
 
 const { tCap } = useLocalizationHelpers();
 
@@ -188,14 +189,17 @@ const props = defineProps<{
 const ownerType = computed(() => {
   if(props.contactInfo instanceof Partner) {
     return "partner";
+  } else if(props.contactInfo instanceof DeliveryCarrier) {
+    return "deliveryCarrier";
   }
-  return "deliveryCarrier";
+  
+  throw new Error("ContactInfo is not of type Partner or DeliveryCarrier");
 });
 
 function removeEmailCommandHandler(ownerId: string, emailId: string) {
   if(ownerType.value === 'partner') {
     partnerCommands.removeEmailCommandHandler.handle({partnerId: ownerId, emailId: emailId});
-  } else {
+  } else if(ownerType.value === 'deliveryCarrier') {
     carrierCommands.removeEmailCommandHandler.handle({carrierId: ownerId, emailId: emailId});
   }
 }
@@ -203,7 +207,7 @@ function removeEmailCommandHandler(ownerId: string, emailId: string) {
 function removePhoneCommandHandler(ownerId: string, phoneId: string) {
   if(ownerType.value === 'partner') {
     partnerCommands.removePhoneCommandHandler.handle({partnerId: ownerId, phoneId: phoneId});
-  } else {
+  } else if(ownerType.value === 'deliveryCarrier') {
     carrierCommands.removePhoneCommandHandler.handle({carrierId: ownerId, phoneId: phoneId});
   }
 }
@@ -211,7 +215,7 @@ function removePhoneCommandHandler(ownerId: string, phoneId: string) {
 function removeAddressCommandHandler(ownerId: string, addressId: string) {
   if(ownerType.value === 'partner') {
     partnerCommands.removeAddressCommandHandler.handle({partnerId: ownerId, addressId: addressId});
-  } else {
+  } else if(ownerType.value === 'deliveryCarrier') {
     carrierCommands.removeAddressCommandHandler.handle({carrierId: ownerId, addressId: addressId});
   }
 }
