@@ -117,7 +117,7 @@ import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useAdressForm } from '@/presentation/composables/contact/useContactForm';
 import { maxLength, required } from '@/presentation/utils/validation';
-import { useAddressHandlers, AddressOwnerType } from '../composables/contact/useAddressHandlers';
+import { useAddressHandlers, AddressOwnerType } from '@/presentation/composables/contact/useAddressHandlers';
 
 const { tCap } = useLocalizationHelpers();
 

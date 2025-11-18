@@ -50,13 +50,13 @@ import { defineProps, toRef } from 'vue';
 
 import { Partner } from '@/domain/partner/models/partner';
 
-import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
-import EditPartnerModal from "./EditPartnerModal.vue";
-
 import { usePartners } from '@/presentation/composables/partner/usePartners';
 import { usePartnerTable } from '@/presentation/composables/partner/usePartnersTable';
-import PhoneLink from '../PhoneLink.vue';
-import AddressLink from '../AddressLink.vue';
+
+import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
+import EditPartnerModal from "./EditPartnerModal.vue";
+import PhoneLink from '@/presentation/components/contact/PhoneLink.vue';
+import AddressLink from '@/presentation/components/contact/AddressLink.vue';
 
 const { deletePartnerCommandHandler } = usePartners();
 

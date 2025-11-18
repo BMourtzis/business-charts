@@ -123,15 +123,15 @@
 import { defineProps } from "vue";
 import { useRouter } from 'vue-router';
 
-import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
-import AddressModal from "@/presentation/components/AddressModal.vue";
-import ContactModal from "@/presentation/components/ContactModal.vue";
-import CarrierModal from "@/presentation/components/deliveryCarrier/CarrierModal.vue";
-
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
 import { ContactType } from "@/domain/contact/contactTypes";
 import { getCarrierDetails } from "@/presentation/composables/deliveryCarrier/useDeliveryCarrierDetails";
 import { useDeliveryCarriers } from "@/presentation/composables/deliveryCarrier/useDeliveryCarriers";
+
+import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
+import AddressModal from "@/presentation/components/contact/AddressModal.vue";
+import ContactModal from "@/presentation/components/contact/ContactModal.vue";
+import CarrierModal from "@/presentation/components/deliveryCarrier/CarrierModal.vue";
 
 const props = defineProps<{ id: string }>();
 

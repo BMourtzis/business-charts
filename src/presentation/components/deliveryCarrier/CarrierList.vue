@@ -50,13 +50,13 @@ import { defineProps, toRef } from 'vue';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
 
-import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
-import PhoneLink from '../PhoneLink.vue';
-import AddressLink from '../AddressLink.vue';
-import CarrierModal from './CarrierModal.vue';
-
 import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
 import { useDeliveryCarrierTable } from '@/presentation/composables/deliveryCarrier/useCarrierTable';
+
+import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
+import PhoneLink from '@/presentation/components/contact/PhoneLink.vue';
+import AddressLink from '@/presentation/components/contact/AddressLink.vue';
+import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal.vue';
 
 
 const { deleteDeliveryCarrierCommandHandler } = useDeliveryCarriers();

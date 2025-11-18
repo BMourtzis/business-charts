@@ -155,9 +155,9 @@ import { getCarrierDetails } from "@/presentation/composables/deliveryCarrier/us
 
 import EditPartnerModal from "@/presentation/components/partner/EditPartnerModal.vue";
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
-import AddressModal from "@/presentation/components/AddressModal.vue";
-import ContactModal from "@/presentation/components/ContactModal.vue";
-import AddressLink from "@/presentation/components/AddressLink.vue";
+import AddressModal from "@/presentation/components/contact/AddressModal.vue";
+import ContactModal from "@/presentation/components/contact/ContactModal.vue";
+import AddressLink from "@/presentation/components/contact/AddressLink.vue";
 
 const props = defineProps<{ id: string }>();
 
