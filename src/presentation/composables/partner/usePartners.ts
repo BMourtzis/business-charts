@@ -15,7 +15,7 @@ import { AddPartnerEmailCommandHandler, EditPartnerEmailCommandHandler, RemovePa
 import { AddPartnerPhoneCommandHandler, EditPartnerPhoneCommandHandler, RemovePartnerPhoneCommandHandler } from "@/application/commands/partner/phoneCommands";
 import { AddPartnerAddressCommandHandler, EditPartnerAddressCommandHandler, RemovePartnerAddressCommandHandler } from "@/application/commands/partner/addressCommands";
 
-import { usePartnersStore } from "../stores/partnerStore";
+import { usePartnersStore } from "@/presentation/stores/partnerStore";
 
 
 export function usePartners() {

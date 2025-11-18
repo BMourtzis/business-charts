@@ -108,11 +108,12 @@
 <script setup lang="ts">
 import { defineProps, computed, reactive, watch } from 'vue';
 
+import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
+
+import { maxLength, rangeLength, required } from '@/presentation/utils/validation';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
-import { maxLength, rangeLength, required } from '@/presentation/utils/validation';
-import { useDeliveryCarriers } from '@/presentation/composables/useDeliveryCarriers';
-import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
+import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
 
 const { createDeliveryCarrierCommandHandler, editDeliveryCarrierCommandHandler } = useDeliveryCarriers();
 

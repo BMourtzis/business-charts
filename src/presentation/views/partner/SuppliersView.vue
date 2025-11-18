@@ -10,7 +10,7 @@
 import PartnersList from '@/presentation/components/partner/PartnerList.vue';
 import AddSupplierModal from '@/presentation/components/partner/AddSupplierModal.vue';
 
-import { usePartners } from '@/presentation/composables/usePartners';
+import { usePartners } from '@/presentation/composables/partner/usePartners';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 

@@ -148,16 +148,16 @@ import { useRouter } from 'vue-router';
 import { isB2BCustomer, isSupplier } from "@/domain/partner/typeGuards";
 import { ContactType } from "@/domain/contact/contactTypes";
 
+import { usePartners } from "@/presentation/composables/partner/usePartners";
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
+import { usePartnerDetails } from "@/presentation/composables/partner/usePartnerDetails";
+import { getCarrierDetails } from "@/presentation/composables/deliveryCarrier/useDeliveryCarrierDetails";
+
 import EditPartnerModal from "@/presentation/components/partner/EditPartnerModal.vue";
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import AddressModal from "@/presentation/components/AddressModal.vue";
 import ContactModal from "@/presentation/components/ContactModal.vue";
 import AddressLink from "@/presentation/components/AddressLink.vue";
-
-import { usePartners } from "@/presentation/composables/usePartners";
-import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
-import { usePartnerDetails } from "@/presentation/composables/usePartnerDetails";
-import { getCarrierDetails } from "@/presentation/composables/useDeliveryCarrierDetails";
 
 const props = defineProps<{ id: string }>();
 

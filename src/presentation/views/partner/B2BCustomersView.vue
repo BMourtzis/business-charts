@@ -10,7 +10,7 @@
 import PartnersList from '@/presentation/components/partner/PartnerList.vue';
 import AddB2BCustomerModal from '@/presentation/components/partner/AddB2BCustomerModal.vue';
 
-import { usePartners } from '@/presentation/composables/usePartners';
+import { usePartners } from '@/presentation/composables/partner/usePartners';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 const { b2bCustomers } = usePartners();

@@ -1,10 +1,13 @@
 import { computed } from 'vue';
-import { usePartnersStore } from '@/presentation/stores/partnerStore';
-import { PartnerMapper } from '@/application/mapper/partnerMapper';
+
 import { PartnerType } from '@/domain/partner/partnerTypes';
 import { Partner } from '@/domain/partner/models/partner';
 import { Supplier } from '@/domain/partner/models/supplier';
 import { B2BCustomer } from '@/domain/partner/models/b2bCustomer';
+
+import { PartnerMapper } from '@/application/mapper/partnerMapper';
+
+import { usePartnersStore } from '@/presentation/stores/partnerStore';
 
 export function usePartnerDetails(id: string) {
     const store = usePartnersStore();

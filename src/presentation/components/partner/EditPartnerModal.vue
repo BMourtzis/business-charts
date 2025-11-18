@@ -112,12 +112,12 @@ import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
 import { isB2BCustomer, isSupplier } from '@/domain/partner/typeGuards';
 import { Partner } from '@/domain/partner/models/partner';
 
-import { usePartners } from '@/presentation/composables/usePartners';
+import { maxLength, rangeLength, required } from '@/presentation/utils/validation';
+import { usePartners } from '@/presentation/composables/partner/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
 
-import { maxLength, rangeLength, required } from '@/presentation/utils/validation';
-import { useDeliveryCarriers } from '@/presentation/composables/useDeliveryCarriers';
 import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal.vue'
 
 const { editSupplierCommandHandler, editB2BCustomerCommandHandler } = usePartners();

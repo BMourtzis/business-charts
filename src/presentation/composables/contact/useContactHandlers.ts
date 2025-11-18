@@ -1,6 +1,7 @@
 import { ContactType } from "@/domain/contact/contactTypes";
-import { usePartners } from "./usePartners";
-import { useDeliveryCarriers } from "./useDeliveryCarriers";
+
+import { usePartners } from "@/presentation/composables/partner/usePartners";
+import { useDeliveryCarriers } from "@/presentation/composables/deliveryCarrier/useDeliveryCarriers";
 
 export interface BaseContactPayload {
     ownerId: string;

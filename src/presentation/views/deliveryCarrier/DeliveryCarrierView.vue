@@ -11,7 +11,7 @@ import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal
 import CarrierList from '@/presentation/components/deliveryCarrier/CarrierList.vue';
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import { useDeliveryCarriers } from '@/presentation/composables/useDeliveryCarriers';
+import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
 
 
 

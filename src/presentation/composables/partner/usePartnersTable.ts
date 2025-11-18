@@ -8,8 +8,8 @@ import { Supplier } from "@/domain/partner/models/supplier";
 import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
 import { Contact } from "@/domain/contact/models/contact";
 
-import { useLocalizationHelpers } from "./useLocalization";
-import { getCarrierDetails } from "./useDeliveryCarrierDetails";
+import { useLocalizationHelpers } from "@/presentation/composables/useLocalization";
+import { getCarrierDetails } from "@/presentation/composables/deliveryCarrier/useDeliveryCarrierDetails";
 
 function getPrimaryAddress(addresses: Address[]) {
     return addresses.find(a => a.isPrimary);

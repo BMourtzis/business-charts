@@ -89,14 +89,14 @@
 import { defineProps, computed, watch, PropType } from 'vue';
 
 import { Contact } from '@/domain/contact/models/contact';
+import { ContactType } from '@/domain/contact/contactTypes';
 
+import { emailFormat, maxLength, phoneFormat, required } from '@/presentation/utils/validation';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import { useContactForm } from '@/presentation/composables/useContactForm';
-import { emailFormat, maxLength, phoneFormat, required } from '@/presentation/utils/validation';
-import { ContactType } from '@/domain/contact/contactTypes';
-import { AddressOwnerType } from '../composables/useAddressHandlers';
-import { useContactHandlers } from '../composables/useContactHandlers';
+import { useContactForm } from '@/presentation/composables/contact/useContactForm';
+import { AddressOwnerType } from '@/presentation/composables/contact/useAddressHandlers';
+import { useContactHandlers } from '@/presentation/composables/contact/useContactHandlers';
 
 const { tCap } = useLocalizationHelpers();
 
@@ -142,29 +142,15 @@ const rule = computed(() => {
   }
 });
 
-// const label = computed(() => {
-//   let modeLabel = tCap('common.add');
-//   if (isEditMode.value) {
-//     modeLabel = tCap('common.edit');
-//   }
-
-//   let typeLabel = tCap('partner.email');
-//   if (props.contactType === "phone") {
-//     typeLabel = tCap('partner.phone');
-//   }
-
-//   return `${modeLabel} ${typeLabel}`;
-// });
-
 const contactTypLabel = computed(() => {
-  if (props.contactType === "phone") {
+  if (props.contactType === ContactType.Phone) {
     return tCap('contact.phone');
   }
   return tCap('contact.email');
 })
 
 const dialogTitle = computed(() => {
-  if(props.contactType === "email") {
+  if(props.contactType === ContactType.Email) {
     if (isEditMode.value) {
       return tCap('contact.editEmail');
   }

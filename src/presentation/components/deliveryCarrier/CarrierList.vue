@@ -55,8 +55,8 @@ import PhoneLink from '../PhoneLink.vue';
 import AddressLink from '../AddressLink.vue';
 import CarrierModal from './CarrierModal.vue';
 
-import { useDeliveryCarriers } from '@/presentation/composables/useDeliveryCarriers';
-import { useDeliveryCarrierTable } from '@/presentation/composables/useCarrierTable';
+import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
+import { useDeliveryCarrierTable } from '@/presentation/composables/deliveryCarrier/useCarrierTable';
 
 
 const { deleteDeliveryCarrierCommandHandler } = useDeliveryCarriers();

@@ -1,8 +1,10 @@
-import { DeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";
-import { useLocalizationHelpers } from "./useLocalization";
 import { computed, Ref } from "vue";
 import { DataTableHeader } from "vuetify";
+
+import { DeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";
 import { ContactType } from "@/domain/contact/contactTypes";
+
+import { useLocalizationHelpers } from "../useLocalization";
 
 function getCarrierTableHeaders(tCap: (key: string, count?: number) => string) {
     return [

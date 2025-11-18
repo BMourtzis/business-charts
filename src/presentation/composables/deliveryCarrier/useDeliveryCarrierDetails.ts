@@ -1,6 +1,8 @@
 import { computed } from "vue";
-import { useDeliveryCarrierStore } from "../stores/deliveryCarrierStore";
+
 import { DeliveryCarrierMapper } from "@/application/mapper/deliverCarrierMapper";
+
+import { useDeliveryCarrierStore } from "@/presentation/stores/deliveryCarrierStore";
 
 export function getCarrierDetails(deliveryCarrierId: string) {
     const store = useDeliveryCarrierStore();

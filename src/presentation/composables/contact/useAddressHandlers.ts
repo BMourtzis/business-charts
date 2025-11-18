@@ -1,5 +1,5 @@
-import { useDeliveryCarriers } from "./useDeliveryCarriers";
-import { usePartners } from "./usePartners";
+import { useDeliveryCarriers } from "@/presentation/composables/deliveryCarrier/useDeliveryCarriers";
+import { usePartners } from "@/presentation/composables/partner/usePartners";
 
 export interface AddressHandlers {
   add(data: AddAddressPayload): Promise<void>;

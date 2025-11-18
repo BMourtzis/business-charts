@@ -133,14 +133,17 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 
-import { usePartners } from '@/presentation/composables/usePartners';
+import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
+
+import { AddressDTO } from '@/application/dto/contactDTO';
+
+import { emailFormat, maxLength, phoneFormat, rangeLength, required } from '@/presentation/utils/validation';
+import { usePartners } from '@/presentation/composables/partner/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import { emailFormat, maxLength, phoneFormat, rangeLength, required } from '@/presentation/utils/validation';
-import { AddressDTO } from '@/application/dto/contactDTO';
-import { useDeliveryCarriers } from '@/presentation/composables/useDeliveryCarriers';
-import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
-import CarrierModal from '../deliveryCarrier/CarrierModal.vue';
+import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
+
+import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal.vue';
 
 const { createB2BCustomerCommandHandler } = usePartners();
 const { carriers } = useDeliveryCarriers()

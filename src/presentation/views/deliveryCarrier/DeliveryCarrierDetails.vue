@@ -130,8 +130,8 @@ import CarrierModal from "@/presentation/components/deliveryCarrier/CarrierModal
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
 import { ContactType } from "@/domain/contact/contactTypes";
-import { getCarrierDetails } from "@/presentation/composables/useDeliveryCarrierDetails";
-import { useDeliveryCarriers } from "@/presentation/composables/useDeliveryCarriers";
+import { getCarrierDetails } from "@/presentation/composables/deliveryCarrier/useDeliveryCarrierDetails";
+import { useDeliveryCarriers } from "@/presentation/composables/deliveryCarrier/useDeliveryCarriers";
 
 const props = defineProps<{ id: string }>();
 

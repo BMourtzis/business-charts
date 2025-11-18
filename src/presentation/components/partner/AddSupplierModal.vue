@@ -128,7 +128,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 
-import { usePartners } from '@/presentation/composables/usePartners';
+import { usePartners } from '@/presentation/composables/partner/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { emailFormat, maxLength, phoneFormat, rangeLength, required } from '@/presentation/utils/validation';
