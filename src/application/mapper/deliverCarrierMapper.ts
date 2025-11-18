@@ -7,7 +7,7 @@ export class DeliveryCarrierMapper {
         const model = new DeliveryCarrier(
             dto.id,
             dto.name,
-            dto.locations.map(AddressMapper.toModel)
+            dto.addresses.map(AddressMapper.toModel)
         );
 
         model.setEmails(dto.emails.map(ContactMapper.toModel));
@@ -20,7 +20,7 @@ export class DeliveryCarrierMapper {
         return {
             id: model.id,
             name: model.name,
-            locations: model.locations.map(AddressMapper.toDto),
+            addresses: model.addresses.map(AddressMapper.toDto),
             emails: model.emails.map(ContactMapper.toDto),
             phones: model.phones.map(ContactMapper.toDto)
         };

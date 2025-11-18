@@ -4,40 +4,40 @@ import { Contact, createEmail, createPhone } from "../contact/models/contact";
 
 export class DeliveryCarrier {
     private _id: string;
-    private _locations: Address[];
+    private _addresses: Address[];
     private _emails: Contact[];
     private _phones: Contact[];
 
     name: string;
 
-    constructor(id: string, name: string, locations: Address[]) {
+    constructor(id: string, name: string, addresses: Address[]) {
         this._id = id;
         this.name = name;
-        this._locations = locations;
+        this._addresses = addresses;
         this._emails = [];
         this._phones = [];
     }
 
     get id() { return this._id; }
-    get primaryLocation() { return this._locations.find(l => l.isPrimary); }
-    get locations() { return this._locations.slice(); }
+    get primaryLocation() { return this._addresses.find(l => l.isPrimary); }
+    get addresses() { return this._addresses.slice(); }
     get emails() { return this._emails.slice(); }
     get phones() { return this._phones.slice(); }
 
     //Address
     addAddress(address: Address) {
         if(address.isPrimary) {
-            const primaryAddress = this.locations.find(a => a.isPrimary === true);
+            const primaryAddress = this.addresses.find(a => a.isPrimary === true);
             if(primaryAddress) {
                 primaryAddress.isPrimary = false;
             }
         }
 
-        this.locations.push(createAddress(address.street, address.city, address.zip, address.country, address.isPrimary, address.name));
+        this.addresses.push(createAddress(address.street, address.city, address.zip, address.country, address.isPrimary, address.name));
     }
 
     editAddress(addressId: string, newAddress: Address) {
-        const address = this.locations.find(e => e.id === addressId);
+        const address = this.addresses.find(e => e.id === addressId);
         if(!address) return;
 
         if(newAddress) {
@@ -52,7 +52,7 @@ export class DeliveryCarrier {
 
         if (newAddress.isPrimary !== undefined) {
             if(newAddress.isPrimary) {
-                const primaryAddress = this.locations.find(e => e.isPrimary === true);
+                const primaryAddress = this.addresses.find(e => e.isPrimary === true);
                 if(primaryAddress && primaryAddress.id !== addressId) {
                     primaryAddress.isPrimary = false;
                 }
@@ -64,15 +64,15 @@ export class DeliveryCarrier {
     }
 
     setAddresses(addresses: Address[]) {
-        this._locations = addresses.slice();
+        this._addresses = addresses.slice();
     }
 
     removeAddress(id: string) {
-        const addressIndex = this.locations.findIndex(a => a.id === id);
+        const addressIndex = this.addresses.findIndex(a => a.id === id);
 
         if(addressIndex == -1) return;
 
-        this.locations.splice(addressIndex, 1);
+        this.addresses.splice(addressIndex, 1);
     }
 
     //Emails
@@ -172,6 +172,6 @@ export class DeliveryCarrier {
     }
 }
 
-export function createDeliveryCarrier(name: string, location: Address) {
-    return new DeliveryCarrier(uuidv4(), name, [location]);
+export function createDeliveryCarrier(name: string, address: Address) {
+    return new DeliveryCarrier(uuidv4(), name, [address]);
 }
