@@ -1,5 +1,19 @@
 {
     "hello": "Γεία",
+    "pages": {
+        "home": "Αρχική",
+        "dataTransfer": "Μεταφορά Δεδομένων",
+        "partner": {
+            "partners": "Συνεργάτες",
+            "suppliers": "Προμηθευτές",
+            "b2bCustomer": "Πελάτες Χονδρικής",
+            "details": "Στοιχεία Συνεργάτη"
+        },
+        "deliveryCarrier": {
+            "carriers": "Μεταφορικές",
+            "details": "Στοιχεία Μεταφορικής"
+        }
+    },
     "common": {
         "name": "όνομα",
         "save": "αποθήκευση",

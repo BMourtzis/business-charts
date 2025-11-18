@@ -11,7 +11,7 @@
     <v-list>
       <v-list-item
         prepend-icon="mdi-home"
-        title="Home"
+        :title="t('pages.home')"
         to="/"
       />
     </v-list>
@@ -77,11 +77,11 @@
     color="primary" 
     dark
   >
-    <!-- <v-app-bar-title
-    class="app-bar-title"
+    <v-app-bar-title
+      class="app-bar-title"
     >
-    {{ pageTitle }}
-    </v-app-bar-title> -->
+      {{ pageTitle }}
+    </v-app-bar-title>
 
     <!-- <v-spacer /> -->
 
@@ -92,15 +92,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { useRoute } from 'vue-router';
 
 const isExpanded = ref(false);
 
-const { tCap } = useLocalizationHelpers();
+const { t } = useLocalizationHelpers();
 
-const open = ref(["Partners"]);
+const route = useRoute();
+
+const open = ref([]);
+
+const pageTitle = computed(() => {
+  const key = titleMap[route.name as string];
+  return key ? t(key) : "";
+});
 
 type NavItem = {
   title: string;
@@ -111,14 +119,24 @@ type NavItem = {
 };
 
 const navItems = [
-  { title: tCap('partner.partner', 2), icon: "mdi-account-multiple-outline", name:"Partners", items: [
-    { title: tCap('partner.supplier', 2), icon: 'mdi-account-multiple-outline', to: '/suppliers' },
-    { title: tCap('partner.b2bCustomer', 2), icon: 'mdi-account-multiple-outline', to: '/b2b-customers' },
-    { title: tCap('deliveryCarrier.carrier', 2), icon: 'mdi-truck-delivery', to: '/carriers' },
+  { title: t('pages.partner.partners', 2), icon: "mdi-account-multiple-outline", name:"Partners", items: [
+    { title: t('pages.partner.suppliers', 2), icon: 'mdi-account-multiple-outline', to: '/suppliers' },
+    { title: t('pages.partner.b2bCustomer', 2), icon: 'mdi-account-multiple-outline', to: '/b2b-customers' },
+    { title: t('pages.deliveryCarrier.carriers', 2), icon: 'mdi-truck-delivery', to: '/carriers' },
   ]},
   // { title: 'Orders', icon: 'mdi-receipt-text-outline', to: '/orders' },
   // { title: 'Reports', icon: 'mdi-chart-bar', to: '/reports' },
 ] as NavItem[];
+
+const titleMap: Record<string, string> = {
+  home:"pages.home",
+  suppliers: 'pages.partner.suppliers',
+  b2bCustomers: 'pages.partner.b2bCustomers',
+  partnerDetails: "pages.partner.details",
+  deliveryCarriers: "pages.deliveryCarrier.carriers",
+  deliveryCarrierDetails: "pages.deliveryCarrier.details",
+  dataTransfer: "pages.dataTransfer"
+};
 
 function isLeaf(item: NavItem): boolean {
   return !item.items?.length && Boolean(item.to);
@@ -126,7 +144,7 @@ function isLeaf(item: NavItem): boolean {
 
 
 const settingsLinks = [
-  { title: 'Data', icon: 'mdi-file-arrow-left-right', to: '/data-transfer' },
+  { title: t('pages.dataTransfer'), icon: 'mdi-file-arrow-left-right', to: '/data-transfer' },
 ]
 </script>
 

@@ -1,5 +1,19 @@
 {
     "hello": "Hello",
+    "pages": {
+        "home": "Home",
+        "dataTransfer": "Data Transfer",
+        "partner": {
+            "partners": "Partners",
+            "suppliers": "Suppliers",
+            "b2bCustomers": "B2B Customers",
+            "details": "Patner Details"
+        },
+        "deliveryCarrier": {
+            "carriers": "Delivery Carriers",
+            "details": "Delivery Carrier Details"
+        }
+    },
     "common": {
         "name": "name",
         "save": "save",

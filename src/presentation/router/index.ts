@@ -16,25 +16,25 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/presentation/views/partner/SuppliersView.vue'),
     }, {
         path: '/b2b-customers',
-        name: 'b2b-customers',
+        name: 'b2bCustomers',
         component: () => import('@/presentation/views/partner/B2BCustomersView.vue'),
     }, {
         path: '/partner/:id',
-        name: 'partner-details',
+        name: 'partnerDetails',
         component: () => import('@/presentation/views/partner/PartnerDetails.vue'),
         props: true,
     }, {
         path: '/carriers',
-        name: 'delivery-carriers',
+        name: 'deliveryCarriers',
         component: () => import('@/presentation/views/deliveryCarrier/DeliveryCarrierView.vue'),
     }, {
         path: '/carrier/:id',
-        name: 'delivery-carrier-details',
+        name: 'deliveryCarrierDetails',
         component: () => import('@/presentation/views/deliveryCarrier/DeliveryCarrierDetails.vue'),
         props: true,
     }, {
         path: '/data-transfer',
-        name: 'data-transfer',
+        name: 'dataTransfer',
         component: () => import('@/presentation/views/DataTransfer.vue'),
     }
 ];
