@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>{{ tCap('partner.carrier', 2) }}</h1>
+    <h1>{{ tCap('deliveryCarrier.carrier', 2) }}</h1>
     <CarrierModal />
     <CarrierList :carriers="carriers" />
   </v-container>

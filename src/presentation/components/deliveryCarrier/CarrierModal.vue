@@ -8,7 +8,7 @@
         v-if="!mini"
         v-bind="activatorProps"
         :color="'indigo'"
-        :text="label"
+        :text="dialogTitle"
         :prepend-icon="modeIcon"
         variant="flat"
       />
@@ -134,19 +134,11 @@ const props = defineProps({
 
 const isEditMode = computed(() => !!props.carrier);
 
-const label = computed(() => {
-  let modeLabel = tCap('common.add');
-  if(isEditMode.value) {
-    modeLabel = tCap('common.edit');
-  }
-  return `${modeLabel} ${tCap('partner.address')}`;
-});
-
 const dialogTitle = computed(() => {
   if(isEditMode.value) {
-    return tCap('partner.editAddress');
+    return tCap('deliveryCarrier.editCarrier');
   }
-  return tCap('partner.addAddress');
+  return tCap('deliveryCarrier.addCarrier');
 });
 
 const modeIcon = computed(() => {
