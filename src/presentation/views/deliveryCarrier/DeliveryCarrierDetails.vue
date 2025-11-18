@@ -88,7 +88,7 @@
     <v-row>
       <h3>{{ tCap('address.address', 2) }}</h3>
       <AddressModal
-        :partner-id="carrierModel.id" 
+        :owner-id="carrierModel.id" 
         owner-type="deliveryCarrier"
         mini
       />
@@ -105,7 +105,7 @@
           <AddressModal
             :address="address"
             owner-type="deliveryCarrier"
-            :partner-id="props.id"
+            :owner-id="props.id"
             mini
           />
           <ConfirmDeleteModal

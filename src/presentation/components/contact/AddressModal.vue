@@ -122,7 +122,7 @@ import { useAddressHandlers, AddressOwnerType } from '@/presentation/composables
 const { tCap } = useLocalizationHelpers();
 
 const props = defineProps({
-  partnerId: {
+  ownerId: {
     type: String,
     required: true
   },
@@ -187,7 +187,7 @@ async function saveAddress() {
   await submit(async (form) => {
     if(props.address) {
       await edit({
-        ownerId: props.partnerId,
+        ownerId: props.ownerId,
         addressId: props.address.id,
         street: form.street,
         city: form.city,
@@ -198,7 +198,7 @@ async function saveAddress() {
       });
     } else {
       await add({ 
-          ownerId: props.partnerId, 
+          ownerId: props.ownerId, 
           street: form.street,
           city: form.city,
           zip: form.zip,

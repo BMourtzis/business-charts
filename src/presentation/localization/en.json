@@ -34,7 +34,11 @@
         "addEmail": "add email",
         "addPhone": "add phone",
         "editEmail": "edit email",
-        "editPhone": "edit phone"
+        "editPhone": "edit phone",
+        "contactInfo": "contactInfo",
+        "noEmails": "No emails",
+        "noPhones": "No phones",
+        "noAddresses": "No addresses"
     },
     "address": {
         "address": "address | addresses",

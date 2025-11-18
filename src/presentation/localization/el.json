@@ -27,14 +27,18 @@
         "primary_gen": "κύρια"
     },
     "contact": {
-        "email": "email | emails",
+        "email": "email",
         "phone": "τηλέφωνο | τηλέφωνα",
         "mainEmailField": "κύριο email",
         "mainPhoneField": "κύριο phone",
         "addEmail": "προσθήκη email",
         "addPhone": "προσθήκη τηλεφώνου",
         "editEmail": "επεξεργασία email",
-        "editPhone": "επεξεργασία τηλεφώνου"
+        "editPhone": "επεξεργασία τηλεφώνου",
+        "contactInfo": "επικοινωνία",
+        "noEmails": "Δεν υπάρχουν email",
+        "noPhones": "Δεν υπάρχουν τηλέφωνα",
+        "noAddresses": "Δεν υπάρχουν διευθύνσεις"
     },
     "address": {
         "address": "διεύθυνση | διευθύνσεις",
