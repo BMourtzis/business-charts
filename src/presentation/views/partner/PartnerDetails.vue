@@ -13,7 +13,7 @@
           v-if="isB2BCustomer(partnerModel)" 
           style="font-weight: 100;"
         >
-          ({{ t('partner.customer', 2) }})
+          ({{ t('partner.b2bCustomer') }})
         </span>
       </h1>
       <EditPartnerModal 
@@ -34,7 +34,7 @@
     </v-row>
     <v-row v-if="b2bCustomer && carrier">
       <p>
-        {{ tCap('partner.carrier') }}: <strong>{{ carrier.name }}</strong> - 
+        {{ tCap('deliveryCarrier.carrier') }}: <strong>{{ carrier.name }}</strong> - 
         <AddressLink 
           :address="carrier.primaryLocation"
           format="full"
@@ -42,7 +42,7 @@
       </p>
     </v-row>
     <v-row>
-      <h3>{{ tCap('partner.email', 2) }}</h3>
+      <h3>{{ tCap('contact.email', 2) }}</h3>
       <ContactModal 
         :owner-id="partnerModel.id"
         owner-type="partner"
@@ -75,7 +75,7 @@
       </ul>
     </v-row>
     <v-row>
-      <h3>{{ tCap('partner.phone', 2) }}</h3>
+      <h3>{{ tCap('contact.phone', 2) }}</h3>
       <ContactModal 
         :owner-id="partnerModel.id"
         owner-type="partner"
@@ -108,7 +108,7 @@
       </ul>
     </v-row>
     <v-row>
-      <h3>{{ tCap('partner.address', 2) }}</h3>
+      <h3>{{ tCap('address.address', 2) }}</h3>
       <AddressModal
         :partner-id="partnerModel.id" 
         owner-type="partner"

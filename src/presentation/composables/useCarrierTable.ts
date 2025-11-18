@@ -7,9 +7,9 @@ import { ContactType } from "@/domain/contact/contactTypes";
 function getCarrierTableHeaders(tCap: (key: string, count?: number) => string) {
     return [
         { title: tCap('common.name'), key: "name", align: 'start' },
-        { title: tCap('partner.city'), key: "city", align: 'start' },  
-        { title: tCap('partner.street'), key: "address", align: 'start' },  
-        { title: tCap('partner.phone', 2), key: "phones", align: 'start' },  
+        { title: tCap('address.city'), key: "city", align: 'start' },  
+        { title: tCap('address.street'), key: "address", align: 'start' },  
+        { title: tCap('contact.phone', 2), key: "phones", align: 'start' },  
         { title: tCap('common.action', 2), key: "actions", align: 'start' }
     ] satisfies DataTableHeader[];
 }

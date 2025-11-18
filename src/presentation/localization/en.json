@@ -12,6 +12,31 @@
         "primary": "primary",
         "primary_gen": "primary"
     },
+    "contact": {
+        "email": "email | emails",
+        "phone": "phone | phones",
+        "mainEmailField": "primary email",
+        "mainPhoneField": "primary phone",
+        "addEmail": "add email",
+        "addPhone": "add phone",
+        "editEmail": "edit email",
+        "editPhone": "edit phone"
+    },
+    "address": {
+        "address": "address | addresses",
+        "street": "street",
+        "city": "city",
+        "zip": "zip code",
+        "country": "country",
+        "mainAddressField": "primary address",
+        "addAddress": "add address",
+        "editAddress": "edit address"
+    },
+    "deliveryCarrier": {
+        "carrier": "delivery carrier | delivery carriers",
+        "addCarrier": "add delivery carrier",
+        "editCarrier": "edit delivery carrier"
+    },
     "partner": {
         "partner": "partner | partners",
         "supplier": "supplier | suppliers",
@@ -21,24 +46,8 @@
         "contactName": "contact Name",
         "vatNumber": "VAT Number",
         "activity": "Activity",
-        "email": "email | emails",
-        "phone": "phone | phones",
-        "address": "address | addresses",
-        "street": "street",
-        "city": "city",
-        "zip": "zip code",
-        "country": "country",
-        "carrier": "carrier",
         "addSupplierTitle": "Add Supplier",
-        "addCustomerTitle": "Add Customer",
-        "mainEmailField": "primary email",
-        "mainPhoneField": "primary phone",
-        "mainAddressField": "primary address",
-        "addEmail": "add email",
-        "addPhone": "add phone",
-        "addAddress": "add address",
-        "editEmail": "edit email",
-        "editPhone": "edit phone",
-        "editAddress": "edit address"
+        "addΒ2ΒCustomerTitle": "Add B2B customer",
+        "addCustomerTitle": "Add Customer"
     }
 }

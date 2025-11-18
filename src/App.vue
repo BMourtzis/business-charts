@@ -85,7 +85,7 @@ const { tCap } = useLocalizationHelpers();
 const mainLinks = [
   { title: tCap('partner.supplier', 2), icon: 'mdi-account-multiple-outline', to: '/suppliers' },
   { title: tCap('partner.b2bCustomer', 2), icon: 'mdi-account-multiple-outline', to: '/b2b-customers' },
-  { title: tCap('partner.carrier', 2), icon: 'mdi-truck-delivery', to: '/carriers' },
+  { title: tCap('deliveryCarrier.carrier', 2), icon: 'mdi-truck-delivery', to: '/carriers' },
   // { title: 'Orders', icon: 'mdi-receipt-text-outline', to: '/orders' },
   // { title: 'Reports', icon: 'mdi-chart-bar', to: '/reports' },
 ]

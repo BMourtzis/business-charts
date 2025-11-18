@@ -8,7 +8,7 @@
         v-if="!mini" 
         v-bind="activatorProps" 
         :color="isEditMode ? 'indigo' : 'success'" 
-        :text="label" 
+        :text="dialogTitle" 
         :prepend-icon="modeIcon"
         variant="flat" 
       />
@@ -33,7 +33,7 @@
               <v-col cols="12">
                 <v-text-field 
                   v-model="form.value" 
-                  :label="label" 
+                  :label="contactTypLabel" 
                   type="email" 
                   :rules="[rule]" 
                 />
@@ -142,32 +142,39 @@ const rule = computed(() => {
   }
 });
 
-const label = computed(() => {
-  let modeLabel = tCap('common.add');
-  if (isEditMode.value) {
-    modeLabel = tCap('common.edit');
-  }
+// const label = computed(() => {
+//   let modeLabel = tCap('common.add');
+//   if (isEditMode.value) {
+//     modeLabel = tCap('common.edit');
+//   }
 
-  let typeLabel = tCap('partner.email');
+//   let typeLabel = tCap('partner.email');
+//   if (props.contactType === "phone") {
+//     typeLabel = tCap('partner.phone');
+//   }
+
+//   return `${modeLabel} ${typeLabel}`;
+// });
+
+const contactTypLabel = computed(() => {
   if (props.contactType === "phone") {
-    typeLabel = tCap('partner.phone');
+    return tCap('contact.phone');
   }
-
-  return `${modeLabel} ${typeLabel}`;
-});
+  return tCap('contact.email');
+})
 
 const dialogTitle = computed(() => {
   if(props.contactType === "email") {
     if (isEditMode.value) {
-      return tCap('partner.editEmail');
+      return tCap('contact.editEmail');
   }
-    return tCap('partner.addEmail');
+    return tCap('contact.addEmail');
   }
 
   if (isEditMode.value) {
-    return tCap('partner.editPhone');
+    return tCap('contact.editPhone');
   }
-  return tCap('partner.addPhone');
+  return tCap('contact.addPhone');
 });
 
 const modeIcon = computed(() => {

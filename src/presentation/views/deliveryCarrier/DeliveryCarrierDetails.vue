@@ -6,7 +6,7 @@
         <span 
           style="font-weight: 100;"
         >
-          ({{ t('partner.carrier') }})
+          ({{ t('deliveryCarrier.carrier') }})
         </span>
       </h1>
       <CarrierModal 
@@ -20,7 +20,7 @@
       />
     </v-row>
     <v-row>
-      <h3>{{ tCap('partner.email', 2) }}</h3>
+      <h3>{{ tCap('contact.email', 2) }}</h3>
       <ContactModal 
         :owner-id="carrierModel.id"
         owner-type="deliveryCarrier"
@@ -53,7 +53,7 @@
       </ul>
     </v-row>
     <v-row>
-      <h3>{{ tCap('partner.phone', 2) }}</h3>
+      <h3>{{ tCap('contact.phone', 2) }}</h3>
       <ContactModal 
         :owner-id="carrierModel.id"
         owner-type="deliveryCarrier"
@@ -86,7 +86,7 @@
       </ul>
     </v-row>
     <v-row>
-      <h3>{{ tCap('partner.address', 2) }}</h3>
+      <h3>{{ tCap('address.address', 2) }}</h3>
       <AddressModal
         :partner-id="carrierModel.id" 
         owner-type="deliveryCarrier"

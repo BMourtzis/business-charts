@@ -52,7 +52,7 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="form.email"
-                  :label="tCap('partner.mainEmailField')"
+                  :label="tCap('contact.mainEmailField')"
                   placeholder="johndoe@gmail.com"
                   type="email"
                   :rules="[emailFormat]"
@@ -61,7 +61,7 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="form.phone"
-                  :label="tCap('partner.mainPhoneField')"
+                  :label="tCap('contact.mainPhoneField')"
                   placeholder="21080212345"
                   type="tel"
                   :rules="[phoneFormat]"
@@ -70,28 +70,28 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="form.street"
-                  :label="tCap('partner.street')"
+                  :label="tCap('address.street')"
                   :rules="[maxLength(50)]"
                 />
               </v-col>
               <v-col cols="8">
                 <v-text-field
                   v-model="form.city"
-                  :label="tCap('partner.city')"
+                  :label="tCap('address.city')"
                   :rules="[maxLength(50)]"
                 />
               </v-col>
               <v-col cols="4">
                 <v-text-field
                   v-model="form.zip"
-                  :label="tCap('partner.zip')"
+                  :label="tCap('address.zip')"
                   :rules="[maxLength(50)]"
                 />
               </v-col>
               <v-col cols="12">
                 <v-text-field
                   v-model="form.country"
-                  :label="tCap('partner.country')"
+                  :label="tCap('address.country')"
                   :rules="[maxLength(50)]"
                 />
               </v-col>

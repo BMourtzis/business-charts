@@ -44,28 +44,28 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="form.street"
-                    :label="tCap('partner.street')"
+                    :label="tCap('address.street')"
                     :rules="[required, rangeLength(3, 50)]"
                   />
                 </v-col>
                 <v-col cols="8">
                   <v-text-field
                     v-model="form.city"
-                    :label="tCap('partner.city')"
+                    :label="tCap('address.city')"
                     :rules="[required, rangeLength(3, 50)]"
                   />
                 </v-col>
                 <v-col cols="4">
                   <v-text-field
                     v-model="form.zip"
-                    :label="tCap('partner.zip')"
+                    :label="tCap('address.zip')"
                     :rules="[maxLength(50)]"
                   />
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
                     v-model="form.country"
-                    :label="tCap('partner.country')"
+                    :label="tCap('address.country')"
                     :rules="[maxLength(50)]"
                   />
                 </v-col>

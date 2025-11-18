@@ -8,7 +8,7 @@
         v-if="!mini"
         v-bind="activatorProps"
         :color="isEditMode ? 'indigo' : 'success'"
-        :text="label"
+        :text="dialogTitle"
         :prepend-icon="modeIcon"
         variant="flat"
       />
@@ -35,28 +35,28 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="form.street"
-                  :label="tCap('partner.street')"
+                  :label="tCap('address.street')"
                   :rules="[required, maxLength(50)]"
                 />
               </v-col>
               <v-col cols="8">
                 <v-text-field
                   v-model="form.city"
-                  :label="tCap('partner.city')"
+                  :label="tCap('address.city')"
                   :rules="[required, maxLength(50)]"
                 />
               </v-col>
               <v-col cols="4">
                 <v-text-field
                   v-model="form.zip"
-                  :label="tCap('partner.zip')"
+                  :label="tCap('address.zip')"
                   :rules="[maxLength(50)]"
                 />
               </v-col>
               <v-col cols="12">
                 <v-text-field
                   v-model="form.country"
-                  :label="tCap('partner.country')"
+                  :label="tCap('address.country')"
                   :rules="[maxLength(50)]"
                 />
               </v-col>
@@ -146,19 +146,11 @@ const { form } = useAdressForm();
 
 const isEditMode = computed(() => !!props.address);
 
-const label = computed(() => {
-  let modeLabel = tCap('common.add');
-  if(isEditMode.value) {
-    modeLabel = tCap('common.edit');
-  }
-  return `${modeLabel} ${tCap('partner.address')}`;
-});
-
 const dialogTitle = computed(() => {
   if(isEditMode.value) {
-    return tCap('partner.editAddress');
+    return tCap('address.editAddress');
   }
-  return tCap('partner.addAddress');
+  return tCap('address.addAddress');
 });
 
 const modeIcon = computed(() => {
