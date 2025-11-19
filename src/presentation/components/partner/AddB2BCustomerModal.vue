@@ -6,7 +6,7 @@
     <template #activator="{ props: activatorProps }">
       <v-btn
         v-bind="activatorProps"
-        color="surface-variant"
+        color="indigo"
         :text="tCap('partner.addΒ2ΒCustomerTitle')"
         prepend-icon="mdi-plus"
         variant="flat"
