@@ -1,1 +1,0 @@
-export type ContactType = "phone" | "email" | "address"

@@ -1,4 +1,4 @@
-import { Order, OrderDTO } from "@/domain/models/order";
+import { Order, OrderDTO } from "@/domain/order/models/order";
 import { Repository } from "./type";
 
 const STORAGE_KEY = 'orders';
@@ -27,6 +27,10 @@ export const orderRepository: Repository<Order, OrderDTO> = {
         const plain = JSON.parse(json);
         return plain;
     },
+    async getById(id: string) {
+        //TODO: create the OrderMapper to fix this.
+        return undefined;
+    },
     async add(order) {
         const all = await this.load();
         all.push(order);
@@ -45,4 +49,7 @@ export const orderRepository: Repository<Order, OrderDTO> = {
         const filtered = all.filter((o: Order) => o.id !== id);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
     },
+    async removeAll() {
+        await saveDTOs([]);
+    }
 };

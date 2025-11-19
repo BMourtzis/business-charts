@@ -1,0 +1,215 @@
+<template>
+  <v-dialog 
+    v-model="dialog" 
+    max-width="500"
+  >
+    <template #activator="{ props: activatorProps }">
+      <v-btn 
+        v-if="!mini"
+        v-bind="activatorProps"
+        :color="isEditMode ? 'indigo' : 'success'"
+        :text="dialogTitle"
+        :prepend-icon="modeIcon"
+        variant="flat"
+      />
+      <v-btn 
+        v-if="mini"
+        v-bind="activatorProps"
+        :color="isEditMode ? 'indigo' : 'success'"
+        :icon="modeIcon"
+        variant="text"
+        density="compact"
+      />
+    </template>
+    <v-card :title="dialogTitle">
+      <v-card-text>
+        <v-form 
+          ref="formRef" 
+          v-model="validForm"
+        >
+          <v-container
+            class="pa-0" 
+            fluid
+          >
+            <v-row dense>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.street"
+                  :label="tCap('address.street')"
+                  :rules="[required, maxLength(50)]"
+                />
+              </v-col>
+              <v-col cols="8">
+                <v-text-field
+                  v-model="form.city"
+                  :label="tCap('address.city')"
+                  :rules="[required, maxLength(50)]"
+                />
+              </v-col>
+              <v-col cols="4">
+                <v-text-field
+                  v-model="form.zip"
+                  :label="tCap('address.zip')"
+                  :rules="[maxLength(50)]"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.country"
+                  :label="tCap('address.country')"
+                  :rules="[maxLength(50)]"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.name"
+                  :label="tCap('common.name')"
+                  :rules="[maxLength(50)]"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-switch 
+                  v-model="form.isPrimary"
+                  :label="tCap('common.primary_gen')"
+                />
+              </v-col>
+            </v-row>
+            <v-alert
+              v-if="errorMessage"
+              type="error"
+              variant="tonal"
+              density="compact"
+              class="mt-2"
+            >
+              {{ errorMessage }}
+            </v-alert>
+          </v-container>
+        </v-form>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          variant="tonal"
+          color="indigo"
+          :text="tCap('common.save')"
+          :loading="loading"
+          :disabled="!validForm || loading"
+          @click="saveAddress"
+        />
+        <v-btn
+          :text="tCap('common.cancel')"
+          color="red"
+          :disabled="loading"
+          @click="close"
+        />
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>
+
+<script setup lang="ts">
+import { defineProps, computed, watch, PropType } from 'vue';
+
+import { Address } from '@/domain/contact/models/address';
+
+import { useFormDialog } from '@/presentation/composables/useFormDialog';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { useAdressForm } from '@/presentation/composables/contact/useContactForm';
+import { maxLength, required } from '@/presentation/utils/validation';
+import { useAddressHandlers, AddressOwnerType } from '@/presentation/composables/contact/useAddressHandlers';
+
+const { tCap } = useLocalizationHelpers();
+
+const props = defineProps({
+  ownerId: {
+    type: String,
+    required: true
+  },
+  ownerType: {
+    type: String as PropType<AddressOwnerType>,
+    required: true
+  },
+  address: {
+    type: Address,
+    required: false,
+    default: null
+  },
+  mini: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
+});
+
+const { form } = useAdressForm();
+
+const isEditMode = computed(() => !!props.address);
+
+const dialogTitle = computed(() => {
+  if(isEditMode.value) {
+    return tCap('address.editAddress');
+  }
+  return tCap('address.addAddress');
+});
+
+const modeIcon = computed(() => {
+  if(isEditMode.value) {
+    return "mdi-pencil";
+  }
+  return "mdi-plus";
+});
+
+const {
+  dialog, 
+  formRef, 
+  validForm,
+  loading,
+  errorMessage,
+  close,
+  submit
+} = useFormDialog(form);
+
+watch(dialog, (open) => {
+  if(open && props.address) {
+    form.street = props.address.street;
+    form.city = props.address.city;
+    form.zip = props.address.zip;
+    form.country = props.address.country;
+    form.name = props.address.name ?? "";
+    form.isPrimary = props.address.isPrimary;
+  }
+});
+
+const { add, edit } = useAddressHandlers(props.ownerType);
+
+async function saveAddress() {
+  await submit(async (form) => {
+    if(props.address) {
+      await edit({
+        ownerId: props.ownerId,
+        addressId: props.address.id,
+        street: form.street,
+        city: form.city,
+        zip: form.zip,
+        country: form.country,
+        name: form.name,
+        isPrimary: form.isPrimary
+      });
+    } else {
+      await add({ 
+          ownerId: props.ownerId, 
+          street: form.street,
+          city: form.city,
+          zip: form.zip,
+          country: form.country,
+          name: form.name,
+          isPrimary: form.isPrimary
+      });
+    }
+  });
+}
+</script>
+
+<style scoped>
+</style>

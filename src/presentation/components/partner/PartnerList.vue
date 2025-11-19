@@ -1,9 +1,40 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="props.partners"
+    :items="data"
+    class="text-start"
+    hide-default-footer
+    density="comfortable"
+    hover
   >
-    <!-- Custom column slot -->
+    <template #[`item.phones`]="{ item }">
+      <div class="d-flex flex-column gap-1">
+        <PhoneLink 
+          v-for="(phone, i) in item.phones" 
+          :key="i" 
+          class="d-flex align-center"
+          :phone="phone"
+        />
+      </div>
+    </template>
+    <template #[`item.address`]="{ item }">
+      <div class="d-flex flex-column gap-1">
+        <AddressLink 
+          class="d-flex align-center"
+          :address="item.address"
+          format="street"
+        />
+      </div>
+    </template>
+    <template #[`item.deliveryCarrier`]="{ item }">
+      <v-btn 
+        v-if="item.rowType === 'b2b' && item.deliveryCarrier"
+        variant="text" 
+        :to="`/carrier/${item.deliveryCarrier.id}`"
+      >
+        {{ item.deliveryCarrier.name }}
+      </v-btn>
+    </template>
     <template #[`item.actions`]="{ item }">
       <v-btn
         color="primary"
@@ -13,12 +44,12 @@
         :to="`/partner/${item.id}`"
       />
       <EditPartnerModal 
-        :partner="item" 
+        :partner="item.value" 
         :mini="true" 
       />
       <ConfirmDeleteModal
-        :name="item.businessName"
-        :action-fn="() => deletePartnerCommand(item.id)"
+        :name="item.name"
+        :action-fn="() => deletePartnerCommandHandler.handle({id: item.id})"
         :mini="true"
       />
     </template>
@@ -26,31 +57,25 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, toRef } from 'vue';
 
-import { PartnerDTO } from '@/application/dto/partnerDTO';
+import { Partner } from '@/domain/partner/models/partner';
+
+import { usePartners } from '@/presentation/composables/partner/usePartners';
+import { usePartnerTable } from '@/presentation/composables/partner/usePartnersTable';
 
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import EditPartnerModal from "./EditPartnerModal.vue";
+import PhoneLink from '@/presentation/components/contact/PhoneLink.vue';
+import AddressLink from '@/presentation/components/contact/AddressLink.vue';
 
-import { usePartners } from '@/presentation/composables/usePartners';
-import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-
-const { tCap } = useLocalizationHelpers();
-
-const { deletePartnerCommand } = usePartners();
+const { deletePartnerCommandHandler } = usePartners();
 
 const props = defineProps < {
-  partners: PartnerDTO[];
+  partners: Partner[] | undefined;
 } > ();
 
-const headers = [
-  { title: tCap('partner.businessName'), key: "businessName" },
-  { title: tCap('partner.contactName'), key: "contactName" },
-  { title: tCap('partner.vatNumber'), key: "vatNumber" },  
-  { title: tCap('common.action', 2), key: "actions"}
-]
-
+const { data, headers } = usePartnerTable(toRef(props, "partners"));
 
 </script>
 
