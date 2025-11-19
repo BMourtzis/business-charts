@@ -121,7 +121,7 @@ type NavItem = {
 const navItems = [
   { title: t('pages.partner.partners', 2), icon: "mdi-account-multiple-outline", name:"Partners", items: [
     { title: t('pages.partner.suppliers', 2), icon: 'mdi-account-multiple-outline', to: '/suppliers' },
-    { title: t('pages.partner.b2bCustomer', 2), icon: 'mdi-account-multiple-outline', to: '/b2b-customers' },
+    { title: t('pages.partner.b2bCustomers', 2), icon: 'mdi-account-multiple-outline', to: '/b2b-customers' },
     { title: t('pages.deliveryCarrier.carriers', 2), icon: 'mdi-truck-delivery', to: '/carriers' },
   ]},
   // { title: 'Orders', icon: 'mdi-receipt-text-outline', to: '/orders' },

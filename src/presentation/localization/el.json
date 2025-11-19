@@ -6,7 +6,7 @@
         "partner": {
             "partners": "Συνεργάτες",
             "suppliers": "Προμηθευτές",
-            "b2bCustomer": "Πελάτες Χονδρικής",
+            "b2bCustomers": "Πελάτες Χονδρικής",
             "details": "Στοιχεία Συνεργάτη"
         },
         "deliveryCarrier": {

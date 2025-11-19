@@ -1,24 +1,8 @@
 <template>
   <v-container v-if="carrierModel">
-    <v-row>
-      <h1>
-        {{ carrierModel.name }} 
-        <span 
-          style="font-weight: 100;"
-        >
-          ({{ t('deliveryCarrier.carrier') }})
-        </span>
-      </h1>
-      <CarrierModal 
-        :carrier="carrierModel" 
-        mini
-      />
-      <ConfirmDeleteModal
-        :name="carrierModel.name"
-        :action-fn="() => deleteCarrier()"
-        mini
-      />
-    </v-row>
+    <CarrierHeader
+      :carrier="carrierModel"
+    />
     <v-row
       class="mt-6"
       align="start"
@@ -28,9 +12,7 @@
         md="8"
         xl="10"
       >
-        <v-card 
-          class="mt-6" 
-        >
+        <v-card>
           <v-card-title>
             <div class="d-flex align-center justify-space-between w-100">
               <span>{{ tCap('partner.b2bCustomer', 2) }}</span>
@@ -42,6 +24,8 @@
               </v-chip>
             </div>
           </v-card-title>
+
+          <v-divider />
 
           <v-card-text>
             <div 
@@ -87,33 +71,19 @@
 
 <script setup lang="ts">
 import { defineProps } from "vue";
-import { useRouter } from 'vue-router';
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
 import { getCarrierDetails, useCarrierCustomers } from "@/presentation/composables/deliveryCarrier/useDeliveryCarrierDetails";
-import { useDeliveryCarriers } from "@/presentation/composables/deliveryCarrier/useDeliveryCarriers";
 
-import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
-import CarrierModal from "@/presentation/components/deliveryCarrier/CarrierModal.vue";
 import ContactInfo from "@/presentation/components/contact/ContactInfo.vue";
+import CarrierHeader from "@/presentation/components/deliveryCarrier/CarrierHeader.vue";
 
 const props = defineProps<{ id: string }>();
 
-const { t, tCap } = useLocalizationHelpers()
-
-const { 
-  deleteDeliveryCarrierCommandHandler 
-} = useDeliveryCarriers();
-
-const router = useRouter();
+const { tCap } = useLocalizationHelpers()
 
 const carrierModel = getCarrierDetails(props.id);
 const { b2bCustomers } = useCarrierCustomers(props.id);
-
-function deleteCarrier() {
-  router.back();
-  deleteDeliveryCarrierCommandHandler.handle({id: props.id});
-}
 
 </script>
 
