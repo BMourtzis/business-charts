@@ -10,6 +10,8 @@ import { Contact } from "@/domain/contact/models/contact";
 
 import { useLocalizationHelpers } from "@/presentation/composables/useLocalization";
 import { getCarrierDetails } from "@/presentation/composables/deliveryCarrier/useDeliveryCarrierDetails";
+import { PartnerType } from "@/domain/partner/partnerTypes";
+import { DeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";
 
 function getPrimaryAddress(addresses: Address[]) {
     return addresses.find(a => a.isPrimary);
@@ -22,7 +24,7 @@ function getPhones(phones: Contact[]) {
         .slice(0, 3);
 }
 
-function toPartnerTable(partner: Partner) {
+function toPartnerTable(partner: Partner): PartnerTableRow {
     const phones = getPhones(partner.phones);
     const address = getPrimaryAddress(partner.addresses);
 
@@ -35,24 +37,24 @@ function toPartnerTable(partner: Partner) {
         city: address?.city,
         address,
         phones,
+        rowType: "partner",
         value: partner
     }
 }
 
-function toSupplierTable(supplier: Supplier) {
+function toSupplierTable(supplier: Supplier): SupplierTableRow {
     return {
         ...toPartnerTable(supplier),
-        activity: supplier.activity
+        activity: supplier.activity,
+        rowType: "supplier"
     };
 }
 
-function toB2BCustomerTable(b2bCustomer: B2BCustomer) {
-    const carrier = getCarrierDetails(b2bCustomer.deliveryCarrierId);
-
+function toB2BCustomerTable(b2bCustomer: B2BCustomer): B2BCustomerTableRow {
     return {
         ...toPartnerTable(b2bCustomer),
-        deliveryCarrier: carrier.value?.name,
-        deliveryCarrierAddress: carrier.value?.primaryLocation
+        deliveryCarrier: getCarrierDetails(b2bCustomer.deliveryCarrierId),
+        rowType: "b2b"
     }
 }
 
@@ -117,3 +119,35 @@ export function usePartnerTable(partnersRef: Ref<Partner[] | undefined>) {
 
     return { data, headers };
 }
+
+export type PartnerRowType = "partner" | "supplier" | "b2b";
+
+interface BasePartnerRow {
+    rowType: PartnerRowType,
+    id: string;
+    type: PartnerType,
+    name: string;
+    city?: string;
+    address?: Address;
+    phones: Contact[],
+    value: Partner
+}
+
+export interface PartnerTableRow extends BasePartnerRow {
+    rowType: "partner";
+}
+
+export interface SupplierTableRow extends BasePartnerRow {
+    rowType: "supplier";
+    activity: string;
+}
+
+export interface B2BCustomerTableRow extends BasePartnerRow {
+    rowType: "b2b";
+    deliveryCarrier?: DeliveryCarrier
+}
+
+export type PartnerTableRowAny =
+  | PartnerTableRow
+  | SupplierTableRow
+  | B2BCustomerTableRow;

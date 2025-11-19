@@ -24,6 +24,15 @@
         />
       </div>
     </template>
+    <template #[`item.deliveryCarrier`]="{ item }">
+      <v-btn 
+        v-if="item.rowType === 'b2b' && item.deliveryCarrier"
+        variant="text" 
+        :to="`/carrier/${item.deliveryCarrier.id}`"
+      >
+        {{ item.deliveryCarrier.name }}
+      </v-btn>
+    </template>
     <template #[`item.actions`]="{ item }">
       <v-btn
         color="primary"

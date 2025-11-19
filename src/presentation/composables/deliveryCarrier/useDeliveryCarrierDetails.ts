@@ -1,5 +1,3 @@
-import { computed } from "vue";
-
 import { DeliveryCarrierMapper } from "@/application/mapper/deliverCarrierMapper";
 
 import { useDeliveryCarrierStore } from "@/presentation/stores/deliveryCarrierStore";
@@ -7,10 +5,9 @@ import { useDeliveryCarrierStore } from "@/presentation/stores/deliveryCarrierSt
 export function getCarrierDetails(deliveryCarrierId: string) {
     const store = useDeliveryCarrierStore();
 
-    return computed(() => {
-        const carrier = store.getById(deliveryCarrierId);
-        if(!carrier) return undefined;
+    const carrier = store.getById(deliveryCarrierId);
+    if(!carrier) return undefined;
 
-        return DeliveryCarrierMapper.toModel(carrier);
-    });
+    return DeliveryCarrierMapper.toModel(carrier);
 }
+

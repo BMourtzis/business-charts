@@ -7,12 +7,12 @@
       <v-btn
         v-bind="activatorProps"
         color="surface-variant"
-        :text="tCap('partner.addSupplierTitle')"
+        :text="tCap('partner.addΒ2ΒCustomerTitle')"
         prepend-icon="mdi-plus"
         variant="flat"
       />
     </template>
-    <v-card :title="tCap('partner.addSupplierTitle')">
+    <v-card :title="tCap('partner.addΒ2ΒCustomerTitle')">
       <v-card-text>
         <v-form 
           ref="formRef" 

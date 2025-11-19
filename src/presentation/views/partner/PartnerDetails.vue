@@ -34,7 +34,13 @@
     </v-row>
     <v-row v-if="b2bCustomer && carrier">
       <p>
-        {{ tCap('deliveryCarrier.carrier') }}: <strong>{{ carrier.name }}</strong> - 
+        {{ tCap('deliveryCarrier.carrier') }}: 
+        <v-btn 
+          variant="text" 
+          :to="`/carrier/${carrier.id}`"
+        >
+          {{ carrier.name }}
+        </v-btn> - 
         <AddressLink 
           :address="carrier.primaryLocation"
           format="full"
@@ -113,7 +119,7 @@ const b2bCustomer = computed(() =>
     : undefined
 );
 
-const carrier = b2bCustomer.value ? getCarrierDetails(b2bCustomer.value.deliveryCarrierId) : undefined;
+const carrier = computed(() => b2bCustomer.value ? getCarrierDetails(b2bCustomer.value.deliveryCarrierId) : undefined);
 
 function deletePartner() {
   router.back();
