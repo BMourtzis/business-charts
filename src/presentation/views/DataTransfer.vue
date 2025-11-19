@@ -3,7 +3,7 @@
   <h2>Export</h2>
   <v-btn 
     color="warning"
-    @click="exportData"
+    @click="exportDataCommandHandler.handle"
   >
     Export JSON
   </v-btn>
@@ -14,17 +14,24 @@
     accept="application/json"
     @change="onImport" 
   />
+  <h2>Delete all data</h2>
+  <ConfirmDeleteModal
+    name="All Data"
+    :action-fn="deleteDataCommandHandler.handle"
+    :mini="false"
+  />
 </template>
 
 <script setup lang="ts">
-import { useDataManagement } from '@/presentation/composables/useDataManagement'
+import ConfirmDeleteModal from '@/presentation/components/ConfirmDeleteModal.vue';
+import { useDataManagement } from '@/presentation/composables/useDataManagement';
 
-const { exportData, importData } = useDataManagement()
+const { exportDataCommandHandler, importDataCommandHandler, deleteDataCommandHandler } = useDataManagement()
 
 function onImport(e: Event) {
     const file = (e.target as HTMLInputElement).files?.[0]
-    if (file) importData(file)
+    if (file) importDataCommandHandler.handle({file})
 }
 </script>
 
-<style scoped></style>
+<style scoped></style>s

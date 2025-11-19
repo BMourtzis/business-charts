@@ -1,5 +1,19 @@
 {
     "hello": "Γεία",
+    "pages": {
+        "home": "Αρχική",
+        "dataTransfer": "Μεταφορά Δεδομένων",
+        "partner": {
+            "partners": "Συνεργάτες",
+            "suppliers": "Προμηθευτές",
+            "b2bCustomers": "Πελάτες Χονδρικής",
+            "details": "Στοιχεία Συνεργάτη"
+        },
+        "deliveryCarrier": {
+            "carriers": "Μεταφορικές",
+            "details": "Στοιχεία Μεταφορικής"
+        }
+    },
     "common": {
         "name": "όνομα",
         "save": "αποθήκευση",
@@ -12,26 +26,46 @@
         "primary": "κύριο",
         "primary_gen": "κύρια"
     },
+    "contact": {
+        "email": "email",
+        "phone": "τηλέφωνο | τηλέφωνα",
+        "mainEmailField": "κύριο email",
+        "mainPhoneField": "κύριο phone",
+        "addEmail": "προσθήκη email",
+        "addPhone": "προσθήκη τηλεφώνου",
+        "editEmail": "επεξεργασία email",
+        "editPhone": "επεξεργασία τηλεφώνου",
+        "contactInfo": "επικοινωνία",
+        "noEmails": "Δεν υπάρχουν email",
+        "noPhones": "Δεν υπάρχουν τηλέφωνα",
+        "noAddresses": "Δεν υπάρχουν διευθύνσεις"
+    },
+    "address": {
+        "address": "διεύθυνση | διευθύνσεις",
+        "street": "οδός",
+        "city": "περιοχή",
+        "zip": "Τ.Κ.",
+        "country": "χώρα",
+        "mainAddressField": "κύρια διεύθυνση",
+        "addAddress": "προσθήκη διεύθυνσης",
+        "editAddress": "επεξεργασία διεύθυνσης"
+    },
+    "deliveryCarrier": {
+        "carrier": "μεταφορική | μεταφορικές",
+        "addCarrier": "προσθήκη μεταφορικής",
+        "editCarrier": "επεξεργασία μεταφορικής"
+    },
     "partner": {
-        "partner": "partner | partners",
+        "partner": "συνεργάτης | συνεργάτες",
         "supplier": "προμηθευτής | προμηθευτές",
         "customer": "πελάτης | πελάτες",
+        "b2bCustomer": "πελάτης χονδρικής | πελάτες χονδρικής",
         "businessName": "όνομα επιχείρησης",
         "contactName": "όνομα επαφής",
         "vatNumber": "ΑΦΜ",
-        "email": "email | emails",
-        "phone": "τηλέφωνο | τηλέφωνα",
-        "address": "διεύθυνση | διευθύνσεις",
+        "activity": "δραστηριότητα",
         "addSupplierTitle": "προσθήκη προμηθευτή",
-        "addCustomerTitle": "προσθήκη πελάτη",
-        "mainEmailField": "κύριο email",
-        "mainPhoneField": "κύριο phone",
-        "mainAddressField": "κύρια διεύθυνση",
-        "addEmail": "προσθήκη email",
-        "addPhone": "προσθήκη τηλεφώνου",
-        "addAddress": "προσθήκη διεύθυνσης",
-        "editEmail": "επεξεργασία email",
-        "editPhone": "επεξεργασία τηλεφώνου",
-        "editAddress": "επεξεργασία διεύθυνσης"
+        "addΒ2ΒCustomerTitle": "προσθήκη πελάτη χονδρικής",
+        "addCustomerTitle": "προσθήκη πελάτη"
     }
 }
