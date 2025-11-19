@@ -40,4 +40,7 @@ const { tCap } = useLocalizationHelpers()
 </script>
 
 <style scoped>
+.v-card {
+  border-radius: 16px;
+}
 </style>

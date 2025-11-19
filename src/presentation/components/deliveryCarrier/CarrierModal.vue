@@ -7,7 +7,7 @@
       <v-btn 
         v-if="!mini"
         v-bind="activatorProps"
-        :color="'indigo'"
+        color="indigo"
         :text="dialogTitle"
         :prepend-icon="modeIcon"
         variant="flat"
@@ -15,7 +15,7 @@
       <v-btn 
         v-if="mini"
         v-bind="activatorProps"
-        :color="'indigo'"
+        color="surface-variant"
         :icon="modeIcon"
         variant="text"
         density="compact"

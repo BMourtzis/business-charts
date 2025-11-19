@@ -4,6 +4,8 @@
     :items="data"
     class="text-start"
     hide-default-footer
+    density="comfortable"
+    hover
   >
     <template #[`item.phones`]="{ item }">
       <div class="d-flex flex-column gap-1">
