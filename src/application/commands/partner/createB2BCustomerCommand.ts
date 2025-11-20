@@ -10,9 +10,9 @@ export interface CreateB2BCustomerCommand {
     contactName: string;
     deliveryCarrierId: string;
     businessName?: string;
-    email: string;
-    phone: string;
-    address: AddressDTO
+    email?: string;
+    phone?: string;
+    address?: AddressDTO
 }
 
 export class CreateB2BCustomerCommandHandler {

@@ -116,8 +116,10 @@ import { Address } from '@/domain/contact/models/address';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useAdressForm } from '@/presentation/composables/contact/useContactForm';
-import { maxLength, required } from '@/presentation/utils/validation';
 import { useAddressHandlers, AddressOwnerType } from '@/presentation/composables/contact/useAddressHandlers';
+import { useValidationRules } from '@/presentation/composables/useValidationRules';
+
+const { maxLength, required } = useValidationRules();
 
 const { tCap } = useLocalizationHelpers();
 

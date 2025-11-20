@@ -91,12 +91,14 @@ import { defineProps, computed, watch, PropType } from 'vue';
 import { Contact } from '@/domain/contact/models/contact';
 import { ContactType } from '@/domain/contact/contactTypes';
 
-import { emailFormat, maxLength, phoneFormat, required } from '@/presentation/utils/validation';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useContactForm } from '@/presentation/composables/contact/useContactForm';
 import { AddressOwnerType } from '@/presentation/composables/contact/useAddressHandlers';
 import { useContactHandlers } from '@/presentation/composables/contact/useContactHandlers';
+import { useValidationRules } from '@/presentation/composables/useValidationRules';
+
+const { maxLength, required, emailFormat, phoneFormat } = useValidationRules();
 
 const { tCap } = useLocalizationHelpers();
 

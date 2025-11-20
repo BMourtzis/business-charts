@@ -14,6 +14,20 @@
             "details": "Delivery Carrier Details"
         }
     },
+    "validation": {
+        "required": "This field is required.",
+        "invalidEmail": "Please enter a valid email address.",
+        "invalidPhone": "Please enter a valid phone number.",
+        "minLength": "Minimum length is {min} characters.",
+        "maxLength": "Maximum length is {max} characters.",
+        "rangeLength": "Length must be between {min} and {max} characters.",
+        "numeric": "This field must be a numeric value.",
+        "integer": "This field must be an integer value.",
+        "positiveNumber": "This field must be a positive number.",
+        "negativeNumber": "This field must be a negative number.",
+        "streetRequired": "street is required",
+        "cityRequired": "city is required"
+    },
     "common": {
         "name": "name",
         "save": "save",
@@ -39,6 +53,7 @@
         "noEmails": "No emails",
         "noPhones": "No phones",
         "noAddresses": "No addresses"
+
     },
     "address": {
         "address": "address | addresses",

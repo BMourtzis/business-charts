@@ -111,7 +111,7 @@
             v-if="contactInfo.addresses.length === 0"
             class="text-grey text-body-2 mb-2"
           >
-            {{ tCap('contact.noAddress') }}
+            {{ tCap('contact.noAddresses') }}
           </div>
 
           <div
