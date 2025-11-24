@@ -34,19 +34,19 @@ export class FilePersistenceService {
         URL.revokeObjectURL(url)
     }
 
-    async importAll(file: File) {
+    async importAll(file: File, includePartners: boolean, includeCarriers: boolean, includeOrders: boolean) {
         const text = await file.text();
         const data = JSON.parse(text);
 
-        if (data.partners) {
+        if (includePartners && data.partners) {
             await partnerRepository.saveAll(data.partners);
         }
 
-        if (data.orders) {
+        if (includeCarriers && data.orders) {
             await orderRepository.saveAll(data.orders);
         }
 
-        if(data.carriers) {
+        if(includeOrders && data.carriers) {
             await deliveryCarrierRepository.saveAll(data.carriers);
         }
     }
