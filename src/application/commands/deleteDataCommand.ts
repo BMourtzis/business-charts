@@ -7,6 +7,7 @@ import { LoadDeliveryCarriersCommandHandler } from "./deliveryCarrier/loadDelive
 export interface DeleteDataCommand {
     removePartners: boolean;
     removeOrders: boolean;
+    removeCarriers: boolean;
 }
 
 export class DeleteDataCommandHandler {
@@ -18,12 +19,12 @@ export class DeleteDataCommandHandler {
         this._loadDeliveryCarriesCommandHandler = new LoadDeliveryCarriersCommandHandler();
     }
 
-    async handle() {
-        await partnerRepository.removeAll();
-        await orderRepository.removeAll();
-        await deliveryCarrierRepository.removeAll();
-
-        this._loadPartnersCommandHandler.handle();
-        this._loadDeliveryCarriesCommandHandler.handle();
+    async handle(cmd: DeleteDataCommand) {
+        if(cmd.removePartners) await partnerRepository.removeAll();
+        if(cmd.removeCarriers) await deliveryCarrierRepository.removeAll();
+        if(cmd.removeOrders) await orderRepository.removeAll();
+        
+        if(cmd.removePartners) this._loadPartnersCommandHandler.handle();
+        if(cmd.removeCarriers) this._loadDeliveryCarriesCommandHandler.handle();
     }
 }

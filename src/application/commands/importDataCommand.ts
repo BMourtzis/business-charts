@@ -4,6 +4,9 @@ import { LoadDeliveryCarriersCommandHandler } from './deliveryCarrier/loadDelive
 
 export interface ImportDataCommand {
     file: File
+    includeOrders: boolean,
+    includePartners: boolean,
+    includeCarriers: boolean
 }
 
 export class ImportDataCommandHandler {
@@ -19,9 +22,14 @@ export class ImportDataCommandHandler {
     }
 
     async handle(cmd: ImportDataCommand) {
-        await this._fileService.importAll(cmd.file);
+        await this._fileService.importAll(
+            cmd.file,
+            cmd.includePartners,
+            cmd.includeCarriers,
+            cmd.includeOrders
+        );
 
-        this._loadPartnersCommandHandler.handle();
-         this._loadDeliveryCarriesCommandHandler.handle();
+        if(cmd.includePartners) this._loadPartnersCommandHandler.handle();
+        if(cmd.includeCarriers) this._loadDeliveryCarriesCommandHandler.handle();
     }
 }

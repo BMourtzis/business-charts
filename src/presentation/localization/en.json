@@ -40,6 +40,14 @@
         "primary": "primary",
         "primary_gen": "primary"
     },
+    "export": {
+        "dataTransfer": "Data Transfer",
+        "export": "export",
+        "import": "import",
+        "deleteData": "delete data",
+        "importJson": "import JSON",
+        "exportJson": "export JSON"
+    },
     "contact": {
         "email": "email | emails",
         "phone": "phone | phones",

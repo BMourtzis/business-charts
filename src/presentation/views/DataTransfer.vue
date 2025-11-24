@@ -1,37 +1,41 @@
 <template>
-  <h1>Data Transfer</h1>
-  <h2>Export</h2>
-  <v-btn 
-    color="warning"
-    @click="exportDataCommandHandler.handle"
+  <v-row justify="center">
+    <h1>{{ tCap('options.dataTransfer') }}</h1>
+  </v-row>
+  <v-row 
+    justify="center"
+    class="mt-6"
   >
-    Export JSON
-  </v-btn>
-  <h2>Import</h2>
-  <v-file-input
-    label="JSON file"
-    type="file"
-    accept="application/json"
-    @change="onImport" 
-  />
-  <h2>Delete all data</h2>
-  <ConfirmDeleteModal
-    name="All Data"
-    :action-fn="deleteDataCommandHandler.handle"
-    :mini="false"
-  />
+    <v-col cols="auto">
+      <ExportData />
+    </v-col>
+  </v-row>
+  <v-row 
+    justify="center"
+    class="mt-6"
+  >
+    <v-col cols="auto">
+      <ImportData />
+    </v-col>
+  </v-row>
+  <v-row 
+    justify="center"
+    class="mt-6"
+  >
+    <v-col cols="auto">
+      <DeleteData />
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
-import ConfirmDeleteModal from '@/presentation/components/ConfirmDeleteModal.vue';
-import { useDataManagement } from '@/presentation/composables/useDataManagement';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
-const { exportDataCommandHandler, importDataCommandHandler, deleteDataCommandHandler } = useDataManagement()
+import ExportData from '@/presentation/components/options/ExportData.vue';
+import ImportData from '@/presentation/components/options/ImportData.vue';
+import DeleteData from '@/presentation/components/options/DeleteData.vue';
 
-function onImport(e: Event) {
-    const file = (e.target as HTMLInputElement).files?.[0]
-    if (file) importDataCommandHandler.handle({file})
-}
+const { tCap } = useLocalizationHelpers();
 </script>
 
-<style scoped></style>s
+<style scoped></style>

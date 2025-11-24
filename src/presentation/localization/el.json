@@ -28,6 +28,14 @@
         "streetRequired": "η οδός είναι υποχρεωτική",
         "cityRequired": "η περιοχή είναι υποχρεωτική"
     },
+    "options": {
+        "dataTransfer": "Μεταφορά Δεδομένων",
+        "export": "εξάγωγη",
+        "import": "εισαγωγή",
+        "deleteData": "Διαγραφή δεγομένων",
+        "importJson": "εισαγωγή JSON",
+        "exportJson": "εξάγωγη JSON"
+    },
     "common": {
         "name": "όνομα",
         "save": "αποθήκευση",
