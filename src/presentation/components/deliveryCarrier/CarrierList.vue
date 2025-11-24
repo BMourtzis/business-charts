@@ -6,6 +6,7 @@
     hide-default-footer
     density="comfortable"
     hover
+    @click:row="rowClick"
   >
     <template #[`item.phones`]="{ item }">
       <div class="d-flex flex-column gap-1">
@@ -27,13 +28,6 @@
       </div>
     </template>
     <template #[`item.actions`]="{ item }">
-      <v-btn
-        color="primary"
-        variant="text"
-        density="compact"
-        icon="mdi-account-details"
-        :to="`/carrier/${item.id}`"
-      />
       <CarrierModal 
         :carrier="item.value" 
         mini 
@@ -49,11 +43,13 @@
 
 <script setup lang="ts">
 import { defineProps, toRef } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
 
 import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
 import { useDeliveryCarrierTable } from '@/presentation/composables/deliveryCarrier/useCarrierTable';
+import { VDataTableRow } from '@/presentation/types/types';
 
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import PhoneLink from '@/presentation/components/contact/PhoneLink.vue';
@@ -63,11 +59,17 @@ import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal
 
 const { deleteDeliveryCarrierCommandHandler } = useDeliveryCarriers();
 
+const router = useRouter();
+
 const props = defineProps < {
   carriers: DeliveryCarrier[] | undefined;
 } > ();
 
 const { data, headers } = useDeliveryCarrierTable(toRef(props, "carriers"));
+
+function rowClick(_: MouseEvent, row: VDataTableRow<DeliveryCarrier>) {
+  router.push(`/carrier/${row.item.id}`);
+}
 
 </script>
 

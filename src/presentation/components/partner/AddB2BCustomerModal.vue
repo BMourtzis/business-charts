@@ -43,6 +43,7 @@
                   :item-props="itemProps"
                   label="Carrier"
                   :items="carriers"
+                  :rules="[required]"
                 >
                   <template #append-inner>
                     <CarrierModal mini />
@@ -71,14 +72,14 @@
                 <v-text-field
                   v-model="form.street"
                   :label="tCap('address.street')"
-                  :rules="[maxLength(50)]"
+                  :rules="[streetRule, maxLength(50)]"
                 />
               </v-col>
               <v-col cols="8">
                 <v-text-field
                   v-model="form.city"
                   :label="tCap('address.city')"
-                  :rules="[maxLength(50)]"
+                  :rules="[cityRule, maxLength(50)]"
                 />
               </v-col>
               <v-col cols="4">
@@ -135,20 +136,37 @@ import { reactive } from 'vue';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
 
-import { AddressDTO } from '@/application/dto/contactDTO';
-
-import { emailFormat, maxLength, phoneFormat, rangeLength, required } from '@/presentation/utils/validation';
 import { usePartners } from '@/presentation/composables/partner/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
+import { useValidationRules } from '@/presentation/composables/useValidationRules';
 
 import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal.vue';
 
+const { 
+  maxLength, 
+  required, 
+  emailFormat, 
+  phoneFormat, 
+  rangeLength 
+} = useValidationRules();
 const { createB2BCustomerCommandHandler } = usePartners();
 const { carriers } = useDeliveryCarriers()
 
 const { tCap } = useLocalizationHelpers();
+
+type FormType = {
+  contactName: string;
+  businessName?: string;
+  deliveryCarrierId: string;
+  email?: string;
+  phone?: string;
+  street?: string;
+  city?: string;
+  zip?: string;
+  country?: string;
+}
 
 const form = reactive({
   businessName: '',
@@ -160,7 +178,7 @@ const form = reactive({
   city: '',
   zip: '',
   country: ''
-});
+} as FormType);
 
 const {
   dialog, 
@@ -180,29 +198,40 @@ function itemProps(item: DeliveryCarrier) {
     }
 }
 
+function streetRule(value: string) {
+  if ((form.city || form.zip || form.country) && !form.street) return tCap('validation.streetRequired');
+  return true;
+}
+
+function cityRule(value: string) {
+  if ((form.street || form.zip || form.country) && !form.city) return tCap('validation.cityRequired');
+  return true;
+}
+
 async function saveB2BCustomer() {
   await submit(async (form) => {
-    let address = {} as AddressDTO;
-    if(form.street && form.city) {
-      address = {
-        id: "",
-        isPrimary: true,
-        street: form.street,
-        city: form.city,
-        zip: form.zip,
-        country: form.country
-      };
-    }
-
     createB2BCustomerCommandHandler.handle({
       contactName: form.contactName, 
       deliveryCarrierId: form.deliveryCarrierId, 
       businessName: form.businessName, 
       email: form.email, 
       phone: form.phone, 
-      address
+      address: getAddressFromForm(form)
     });
   });
+}
+
+function getAddressFromForm(form: FormType) {
+  if(!form.street && !form.city) return undefined;
+
+  return {
+    id: "",
+    isPrimary: true,
+    street: form.street ?? "",
+    city: form.city ?? "",
+    zip: form.zip,
+    country: form.country
+  };
 }
 </script>
 

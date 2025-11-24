@@ -110,10 +110,12 @@ import { defineProps, computed, reactive, watch } from 'vue';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
 
-import { maxLength, rangeLength, required } from '@/presentation/utils/validation';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
+import { useValidationRules } from '@/presentation/composables/useValidationRules';
+
+const { maxLength, required, rangeLength } = useValidationRules();
 
 const { createDeliveryCarrierCommandHandler, editDeliveryCarrierCommandHandler } = useDeliveryCarriers();
 

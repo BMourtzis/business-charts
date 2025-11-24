@@ -111,7 +111,7 @@
             v-if="contactInfo.addresses.length === 0"
             class="text-grey text-body-2 mb-2"
           >
-            {{ tCap('contact.noAddress') }}
+            {{ tCap('contact.noAddresses') }}
           </div>
 
           <div
@@ -156,9 +156,11 @@ import { Partner } from "@/domain/partner/models/partner";
 import { ContactType } from "@/domain/contact/contactTypes";
 import { Address } from "@/domain/contact/models/address";
 import { Contact } from "@/domain/contact/models/contact";
+import { DeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { usePartners } from "@/presentation/composables/partner/usePartners";
+import { useDeliveryCarriers } from "@/presentation/composables/deliveryCarrier/useDeliveryCarriers";
 
 import AddressModal from "@/presentation/components/contact/AddressModal.vue";
 import ContactModal from "@/presentation/components/contact/ContactModal.vue";
@@ -166,9 +168,6 @@ import EmailLink from "@/presentation/components/contact/EmailLink.vue";
 import PhoneLink from "@/presentation/components/contact/PhoneLink.vue";
 import AddressLink from "@/presentation/components/contact/AddressLink.vue";
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
-
-import { useDeliveryCarriers } from "@/presentation/composables/deliveryCarrier/useDeliveryCarriers";
-import { DeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";
 
 const { tCap } = useLocalizationHelpers();
 

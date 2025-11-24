@@ -8,6 +8,7 @@
     <a
       :href="`tel:${props.phone.value}`"
       class="text-decoration-none text-body-2"
+      @click.stop
     >
       {{ props.phone.value }}
     </a>

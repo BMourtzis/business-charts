@@ -1,5 +1,5 @@
 <template>
-  <span v-if="address?.street">
+  <div v-if="address?.street">
     <v-icon 
       icon="mdi-map-marker" 
       size="16" 
@@ -10,11 +10,12 @@
       target="_blank"
       rel="noopener noreferrer"
       class="text-decoration-none text-body-2"
+      @click.stop
     >
       <span v-if="format === 'full'">{{ address.value }}</span>
       <span v-if="format === 'street'">{{ address.street }}</span>
     </a>
-  </span>
+  </div>
 </template>
 
 <script setup lang="ts">

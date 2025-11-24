@@ -31,8 +31,22 @@ export function useFormDialog<T extends object>(form: T, options?: { autoReset?:
   }
 
   async function validate(): Promise<boolean> {
-    const result = await formRef.value?.validate?.();
-    return !!result?.valid;
+    let result = false;
+
+    // If v-form has validate(), this triggers all field rules
+    if (formRef.value?.validate) {
+      result = await formRef.value.validate();
+    }
+
+    // In case Vuetify only validates dirty fields, force individual field validation
+    if (formRef.value?.items) {
+      for (const field of formRef.value.items) {
+        field.validate?.();
+      }
+    }
+
+    validForm.value = formRef.value?.valid ?? !!result;
+    return validForm.value;
   }
 
   function close() {
@@ -41,6 +55,7 @@ export function useFormDialog<T extends object>(form: T, options?: { autoReset?:
 
   async function submit(action: (form: T) => Promise<void> | void) {
     errorMessage.value = null;
+    
     const isValid = await validate();
     if (!isValid) return;
 
@@ -56,6 +71,17 @@ export function useFormDialog<T extends object>(form: T, options?: { autoReset?:
       loading.value = false;
     }
   }
+
+  // Optional: watch for any change and re-validate form live
+  watch(
+    form,
+    async () => {
+      if (dialog.value) {
+        await validate();
+      }
+    },
+    { deep: true }
+  );
 
   watch(dialog, (open) => {
     if (!open && autoReset) reset();

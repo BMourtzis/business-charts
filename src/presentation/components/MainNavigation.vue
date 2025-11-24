@@ -159,8 +159,11 @@ const settingsLinks = [
   transition: left 0.3s ease;
 }
 
-.v-navigation-drawer:hover ~ .v-application .app-bar-title,
-.v-navigation-drawer:hover + .v-app-bar .app-bar-title {
-  left: 18%; /* expanded width */
+@media (min-width: 960px) {
+  .v-navigation-drawer:hover ~ .v-application .app-bar-title,
+  .v-navigation-drawer:hover + .v-app-bar .app-bar-title {
+    left: 200px;
+  }
 }
+
 </style>
