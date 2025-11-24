@@ -8,6 +8,7 @@
     <a
       :href="`mailto:${props.email.value}`"
       class="text-decoration-none text-body-2"
+      @clic.stop
     >
       {{ props.email.value }}
     </a>

@@ -6,6 +6,7 @@
     hide-default-footer
     density="comfortable"
     hover
+    @click:row="rowClick"
   >
     <template #[`item.phones`]="{ item }">
       <div class="d-flex flex-column gap-1">
@@ -28,21 +29,14 @@
     </template>
     <template #[`item.deliveryCarrier`]="{ item }">
       <v-btn 
-        v-if="item.rowType === 'b2b' && item.deliveryCarrier"
+        v-if="item.rowType === 'b2b' && item.deliveryCarrier !== undefined"
         variant="text" 
-        :to="`/carrier/${item.deliveryCarrier.id}`"
+        @click.stop="() => router.push(`/carrier/${item.deliveryCarrier?.id}`)"
       >
         {{ item.deliveryCarrier.name }}
       </v-btn>
     </template>
     <template #[`item.actions`]="{ item }">
-      <v-btn
-        color="primary"
-        variant="text"
-        density="compact"
-        icon="mdi-account-details"
-        :to="`/partner/${item.id}`"
-      />
       <EditPartnerModal 
         :partner="item.value" 
         :mini="true" 
@@ -58,11 +52,13 @@
 
 <script setup lang="ts">
 import { defineProps, toRef } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { Partner } from '@/domain/partner/models/partner';
 
 import { usePartners } from '@/presentation/composables/partner/usePartners';
 import { usePartnerTable } from '@/presentation/composables/partner/usePartnersTable';
+import { VDataTableRow } from '@/presentation/types/types';
 
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import EditPartnerModal from "./EditPartnerModal.vue";
@@ -70,10 +66,16 @@ import PhoneLink from '@/presentation/components/contact/PhoneLink.vue';
 import AddressLink from '@/presentation/components/contact/AddressLink.vue';
 
 const { deletePartnerCommandHandler } = usePartners();
+const router = useRouter();
 
 const props = defineProps < {
   partners: Partner[] | undefined;
 } > ();
+
+function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
+  router.push(`/partner/${row.item.id}`);
+}
+
 
 const { data, headers } = usePartnerTable(toRef(props, "partners"));
 
