@@ -32,5 +32,5 @@ createApp(App)
     .use(createPinia())
     .use(i18n)
     .use(vuetify)
-    .use(initStartup)
+    // .use(initStartup)
     .mount('#app');

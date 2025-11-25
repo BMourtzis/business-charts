@@ -1,6 +1,7 @@
 <template> 
   <v-app>
     <MainNavigation />
+    <VaultModal />
     <!-- Main Content -->
     <v-main>
       <v-container class="py-6">
@@ -12,6 +13,7 @@
 
 <script setup lang="ts">
 import MainNavigation from './presentation/components/MainNavigation.vue';
+import VaultModal from './presentation/components/VaultModal.vue';
 
 </script>
 

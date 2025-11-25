@@ -15,7 +15,7 @@ export function isVaultUnlocked(): boolean {
 }
 
 export function getSessionKeyOrThrow(): CryptoKey {
-    if(!sessionKey) throw new Error("Vualt is locked. Call unlockVault(password) first.");
+    if(!sessionKey) throw new Error("Vault is locked. Call unlockVault(password) first.");
 
     return sessionKey;
 }

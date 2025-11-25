@@ -40,7 +40,7 @@ export async function deriveKeyFromPassword(password: string): Promise<CryptoKey
             name: "PBKDF2",
             salt: salt.buffer as ArrayBuffer,
             iterations: 100_000,
-            hash: 'SHA_256'
+            hash: 'SHA-256'
         },
         baseKey,
         { name: "AES-GCM", length: 256},

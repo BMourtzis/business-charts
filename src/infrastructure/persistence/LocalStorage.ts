@@ -8,6 +8,6 @@ export const LocalStorage: IStorage = {
         return localStorage.setItem(key, value);
     },
     removeItem(key: string): void {
-        return localStorage.removeItem(key); 
+        return localStorage.removeItem(key) 
     }
 }

@@ -8,7 +8,9 @@ export const EncryptedStorage: IStorage = {
         if(!encrypted) return null;
 
         const cryptoKey = getSessionKeyOrThrow();
-        return await decryptData(cryptoKey, encrypted);
+        const decryptedData = await decryptData(cryptoKey, encrypted);
+        
+        return JSON.parse(decryptedData);
     },
     async setItem(key: string, value: string): Promise<void> {
         const cryptoKey = getSessionKeyOrThrow();
