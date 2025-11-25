@@ -1,7 +1,7 @@
 import { createPhone } from "@/domain/contact/models/contact";
 import { useDeliveryCarrierStore } from "@/presentation/stores/deliveryCarrierStore";
 import { deliveryCarrierRepository } from "@/infrastructure/repositories/deliverCarrierRepository.local";
-import { DeliveryCarrierMapper } from "@/application/mapper/deliverCarrierMapper";
+import { DeliveryCarrierMapperInstance } from "@/application/mapper/deliverCarrierMapper";
 
 export interface AddCarrierPhoneCommand {
     carrierId: string;
@@ -21,7 +21,7 @@ export class AddCarrierPhoneCommandHandler {
         carrier.addPhone(phone);
 
         await deliveryCarrierRepository.update(carrier);
-        this._carrierStore.update(DeliveryCarrierMapper.toDTO(carrier));
+        this._carrierStore.update(DeliveryCarrierMapperInstance.toDTO(carrier));
 
         return carrier;
     }
@@ -46,7 +46,7 @@ export class EditCarrierPhoneCommandHandler {
         carrier.editPhone(cmd.phoneId, newPhone);
 
         await deliveryCarrierRepository.update(carrier);
-        this._carrierStore.update(DeliveryCarrierMapper.toDTO(carrier));
+        this._carrierStore.update(DeliveryCarrierMapperInstance.toDTO(carrier));
 
         return carrier;
     }
@@ -67,7 +67,7 @@ export class RemoveCarrierPhoneCommandHandler {
         carrier.removePhone(cmd.phoneId);
 
         await deliveryCarrierRepository.update(carrier);
-        this._carrierStore.update(DeliveryCarrierMapper.toDTO(carrier));
+        this._carrierStore.update(DeliveryCarrierMapperInstance.toDTO(carrier));
 
         return carrier;
     }

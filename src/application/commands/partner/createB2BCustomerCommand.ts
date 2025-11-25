@@ -4,7 +4,7 @@ import { createB2BCustomer } from "@/domain/partner/models/b2bCustomer";
 import { AddressDTO } from "@/application/dto/contactDTO";
 import { createEmail, createPhone } from "@/domain/contact/models/contact";
 import { createAddress } from "@/domain/contact/models/address";
-import { PartnerMapper } from "@/application/mapper/partnerMapper";
+import { PartnerMapperInstance } from "@/application/mapper/partnerMapper";
 
 export interface CreateB2BCustomerCommand {
     contactName: string;
@@ -32,7 +32,7 @@ export class CreateB2BCustomerCommandHandler {
         ));
 
         await partnerRepository.add(customer);
-        this._partnersStore.add(PartnerMapper.toDTO(customer));
+        this._partnersStore.add(PartnerMapperInstance.toDTO(customer));
 
         return customer;
     }

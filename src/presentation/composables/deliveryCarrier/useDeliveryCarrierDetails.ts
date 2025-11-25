@@ -1,5 +1,5 @@
-import { DeliveryCarrierMapper } from "@/application/mapper/deliverCarrierMapper";
-import { PartnerMapper } from "@/application/mapper/partnerMapper";
+import { DeliveryCarrierMapperInstance } from "@/application/mapper/deliverCarrierMapper";
+import { PartnerMapperInstance } from "@/application/mapper/partnerMapper";
 import { PartnerType } from "@/domain/partner/partnerTypes";
 
 import { useDeliveryCarrierStore } from "@/presentation/stores/deliveryCarrierStore";
@@ -12,7 +12,7 @@ export function getCarrierDetails(deliveryCarrierId: string) {
     const carrier = store.getById(deliveryCarrierId);
     if(!carrier) return undefined;
 
-    return DeliveryCarrierMapper.toModel(carrier);
+    return DeliveryCarrierMapperInstance.toModel(carrier);
 }
 
 export function useCarrierCustomers(carrierId: string) {
@@ -22,7 +22,7 @@ export function useCarrierCustomers(carrierId: string) {
         partnersStore
             .getByType(PartnerType.B2BCustomer)
             .filter(p => p.deliveryCarrierId === carrierId)
-            .map(PartnerMapper.toModel)
+            .map(PartnerMapperInstance.toModel)
     );
 
     return { b2bCustomers };

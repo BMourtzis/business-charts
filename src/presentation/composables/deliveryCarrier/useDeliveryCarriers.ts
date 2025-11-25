@@ -1,7 +1,7 @@
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 
-import { DeliveryCarrierMapper } from "@/application/mapper/deliverCarrierMapper";
+import { DeliveryCarrierMapperInstance } from "@/application/mapper/deliverCarrierMapper";
 import { AddCarrierAddressCommandHandler, EditCarrierAddressCommandHandler, RemoveCarrierAddressCommandHandler } from "@/application/commands/deliveryCarrier/addressCommands";
 import { CreateDeliveryCarrierCommandHandler } from "@/application/commands/deliveryCarrier/createDeliveryCarrierCommand";
 import { DeleteDeliveryCarrierCommandHandler } from "@/application/commands/deliveryCarrier/deleteDeliveryCarrierCommand";
@@ -19,7 +19,7 @@ export function useDeliveryCarriers() {
 
     return {
         carriers: computed(() => all.value
-            .map(DeliveryCarrierMapper.toModel)),
+            .map(DeliveryCarrierMapperInstance.toModel)),
         createDeliveryCarrierCommandHandler: new CreateDeliveryCarrierCommandHandler(store),
         editDeliveryCarrierCommandHandler: new EditDeliveryCarrierCommandHandler(store),
         deleteDeliveryCarrierCommandHandler: new DeleteDeliveryCarrierCommandHandler(store),

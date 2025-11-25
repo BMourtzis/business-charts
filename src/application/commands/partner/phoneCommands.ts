@@ -1,6 +1,6 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { PartnerMapper } from "../../mapper/partnerMapper";
+import { PartnerMapperInstance } from "../../mapper/partnerMapper";
 import { createPhone } from "@/domain/contact/models/contact";
 
 export interface AddPartnerPhoneCommand {
@@ -21,7 +21,7 @@ export class AddPartnerPhoneCommandHandler {
         partner.addPhone(phone);
 
         await partnerRepository.update(partner);
-        this._partnersStore.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
         return partner;
     }
@@ -46,7 +46,7 @@ export class EditPartnerPhoneCommandHandler {
         partner.editPhone(cmd.phoneId, newPhone);
 
         await partnerRepository.update(partner);
-        this._partnersStore.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
         return partner;
     }
@@ -67,7 +67,7 @@ export class RemovePartnerPhoneCommandHandler {
         partner.removePhone(cmd.phoneId);
 
         await partnerRepository.update(partner);
-        this._partnersStore.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
         return partner;
     }
