@@ -54,7 +54,7 @@ export abstract class LocalRepository<T extends IEntity, DTO extends IEntityDTO>
 
 
     private async loadDTOs(): Promise<DTO[]> {
-        const json = this._storage.getItem(this._storageKey);
+        const json = await this._storage.getItem(this._storageKey);
         if(!json) return [];
 
         return JSON.parse(json);

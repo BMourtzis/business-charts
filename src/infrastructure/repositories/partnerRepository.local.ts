@@ -6,6 +6,7 @@ import { Supplier } from "@/domain/partner/models/supplier";
 import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
 import { LocalRepository } from "./localRepository";
 import { Partner } from "@/domain/partner/models/partner";
+import { LocalStorage } from "../persistence/LocalStorage";
 
 export class PartnerRepository extends LocalRepository<Partner, PartnerDTO> implements IPartnerRepository { 
     async getSupplierById(id: string) {
@@ -31,4 +32,4 @@ export class PartnerRepository extends LocalRepository<Partner, PartnerDTO> impl
 
 const STORAGE_KEY = 'partners';
 
-export const partnerRepository = new PartnerRepository(localStorage, PartnerMapperInstance, STORAGE_KEY);
+export const partnerRepository = new PartnerRepository(LocalStorage, PartnerMapperInstance, STORAGE_KEY);
