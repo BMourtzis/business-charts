@@ -1,15 +1,17 @@
 import { PartnerDTO } from "@/application/dto/partnerDTO";
+import { IEntityDTO } from "@/application/dto/type";
 import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
 import { Partner } from "@/domain/partner/models/partner";
 import { Supplier } from "@/domain/partner/models/supplier";
+import { IEntity } from "@/domain/type";
 
-export interface IRepository<T, DTO> {
+export interface IRepository<T extends IEntity, DTO extends IEntityDTO> {
     getAll(): Promise<DTO[]>;
     saveAll(items: DTO[]): Promise<void>;
     load(): Promise<T[]>;
     getById(id: string): Promise<T | undefined>;
-    add(order: T): Promise<void>;
-    update(order: T): Promise<void>;
+    add(item: T): Promise<void>;
+    update(item: T): Promise<void>;
     remove(id: string): Promise<void>;
     removeAll(): Promise<void>
 }

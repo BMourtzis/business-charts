@@ -1,4 +1,5 @@
-export type StorageType = {
-    getItems: (key: string) => string;
-    setItem: (key: string, value: string) => string;
+export interface IStorage {
+  getItem(key: string): string | null;
+  setItem(key: string, value: string): void;
+  removeItem(key: string): void;
 }

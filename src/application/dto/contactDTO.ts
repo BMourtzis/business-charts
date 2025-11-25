@@ -1,6 +1,7 @@
 import { ContactType } from "@/domain/contact/contactTypes"
+import { IEntityDTO } from "./type";
 
-export interface ContactDTO {
+export interface ContactDTO extends IEntityDTO {
     id: string;
     type: ContactType;
     name?: string;
@@ -8,7 +9,7 @@ export interface ContactDTO {
     isPrimary: boolean;
 }
 
-export interface AddressDTO {
+export interface AddressDTO extends IEntityDTO {
     id: string;
     name?: string;
     isPrimary: boolean;

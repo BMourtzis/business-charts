@@ -2,8 +2,9 @@ import { ContactType } from "@/domain/contact/contactTypes";
 import { PartnerType } from "@/domain/partner/partnerTypes";
 import { Address, createAddress } from "@/domain/contact/models/address";
 import { Contact, createEmail, createPhone } from "@/domain/contact/models/contact";
+import { IEntity } from "@/domain/type";
 
-export class Partner {
+export class Partner implements IEntity {
     private _id: string;
     private _emails: Contact[];
     private _phones: Contact[];
