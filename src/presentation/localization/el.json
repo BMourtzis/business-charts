@@ -26,7 +26,9 @@
         "positiveNumber": "Αυτό το πεδίο πρέπει να είναι θετικός αριθμός.",
         "negativeNumber": "Αυτό το πεδίο πρέπει να είναι αρνητικός αριθμός.",
         "streetRequired": "η οδός είναι υποχρεωτική",
-        "cityRequired": "η περιοχή είναι υποχρεωτική"
+        "cityRequired": "η περιοχή είναι υποχρεωτική",
+        "sameAs": "Οι τιμές δεν ταιριάζουν",
+        "passwordsDoNotMatch": "Τα συνθηματικά δεν ταιριάζουν"
     },
     "options": {
         "dataTransfer": "Μεταφορά Δεδομένων",
@@ -35,6 +37,10 @@
         "deleteData": "Διαγραφή δεγομένων",
         "importJson": "εισαγωγή JSON",
         "exportJson": "εξάγωγη JSON"
+    },
+    "vault": {
+        "enterPassword": "Εισάγετε το συνθηματικό για να ξεκλειδώσετε",
+        "decryptionError": "Λάθος συνθηματικό ή πρόβλημα στην αποκρυπτογράφηση δεδομένων"
     },
     "common": {
         "name": "όνομα",
@@ -46,7 +52,8 @@
         "confirmDeleteMessage": "είστε σίγουρος/η ότι θέλετε να διαγράψετε το",
         "action": "ενέργεια | ενέργειες",
         "primary": "κύριο",
-        "primary_gen": "κύρια"
+        "primary_gen": "κύρια",
+        "password": "συνθηματικό"
     },
     "contact": {
         "email": "email",

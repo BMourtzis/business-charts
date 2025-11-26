@@ -1,7 +1,13 @@
-import { LoadDeliveryCarriersCommandHandler } from "@/application/commands/deliveryCarrier/loadDeliveryCarriersCommand";
-import { LoadPartnersCommandHandler } from "@/application/commands/partner/loadPartnersCommand";
-import * as cryptoSession from "@/infrastructure/security/crypto-session";
 import { computed, ref } from "vue";
+
+import * as cryptoSession from "@/infrastructure/security/crypto-session";
+
+import { ClearStoresCommandHandler } from "@/application/commands/clearStoresCommand";
+import { LoadDeliveryCarriersCommandHandler } from "@/application/commands/deliveryCarrier/loadDeliveryCarriersCommand";
+import { LoadAllDataCommandHandler } from "@/application/commands/loadAllDataCommand";
+import { LoadPartnersCommandHandler } from "@/application/commands/partner/loadPartnersCommand";
+import { LockVaultCommandHandler } from "@/application/commands/vault/lockVaultCommand";
+import { UnlockVaultCommandHandler } from "@/application/commands/vault/unlockVaultCommand";
 
 const unlocked = ref(cryptoSession.isVaultUnlocked());
 
@@ -10,26 +16,21 @@ export function useVault() {
     const isLocked = computed(() => !unlocked.value);
     const isInitialSetup = computed(() => cryptoSession.isInitialSetup());
 
-    //TODO: make this into a command, separate load to separate command
     async function unlock(password: string) {
-        await cryptoSession.unlockVault(password);
+        const allDataCmdHandler = new LoadAllDataCommandHandler(
+            new LoadPartnersCommandHandler(),
+            new LoadDeliveryCarriersCommandHandler()
+        );
+        const handler = new UnlockVaultCommandHandler(allDataCmdHandler);
 
-        try {
-            await new LoadPartnersCommandHandler().handle();
-            await new LoadDeliveryCarriersCommandHandler().handle();
-        } catch(e) {
-            console.log(e);
-            cryptoSession.lockVault();
-            throw e;
-        }
-
-        unlocked.value = cryptoSession.isVaultUnlocked();
+        unlocked.value = await handler.handle({
+            password
+        });
     }
 
-    //TODO: clean stores
     async function lock() {
-        cryptoSession.lockVault();
-        unlocked.value = cryptoSession.isVaultUnlocked();
+        const handler = new LockVaultCommandHandler(new ClearStoresCommandHandler());
+        unlocked.value = await handler.handle();
     }
 
     return { isUnlocked, isLocked, unlock, lock, isInitialSetup };

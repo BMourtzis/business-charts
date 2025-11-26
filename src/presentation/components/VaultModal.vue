@@ -5,7 +5,7 @@
   >
     <v-card>
       <v-card-title>
-        Data is encrypted
+        {{ tCap('vault.enterPassword') }}
       </v-card-title>
       <v-divider />
 
@@ -22,7 +22,7 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="form.password"
-                  label="Password"
+                  :label="tCap('common.password')"
                   :rules="[required]"
                   type="password"
                 />
@@ -101,10 +101,13 @@ async function tryUnlock() {
   await submit (async (form) => {
     try {
       await unlock(form.value.password);
+      form.value.password = "";
+      form.value.confirmPassword = "";
+      errorMessage.value = "";
     }
     catch(e) {
       console.log(e);
-      errorMessage.value = "Invalid passowrd or unable to decrypt data."
+      errorMessage.value = tCap('vault.decryptionError')
     }
   });
 }

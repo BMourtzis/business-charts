@@ -83,27 +83,37 @@
       {{ pageTitle }}
     </v-app-bar-title>
 
-    <!-- <v-spacer /> -->
+    <v-spacer />
 
-    <!-- <v-btn icon>
-    <v-icon>mdi-account-circle</v-icon>
-    </v-btn> -->
+    <v-btn 
+      :icon="lockIcon"
+      @click="lock"
+    />
   </v-app-bar>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-
-import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useRoute } from 'vue-router';
 
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { useVault } from '@/presentation/composables/useVault';
+
 const isExpanded = ref(false);
+
+const { isLocked, lock } = useVault();
 
 const { t } = useLocalizationHelpers();
 
 const route = useRoute();
 
 const open = ref([]);
+
+const lockIcon = computed(() => {
+  if(isLocked.value) return "mdi-lock";
+
+  return "mdi-lock-open-variant"
+})
 
 const pageTitle = computed(() => {
   const key = titleMap[route.name as string];

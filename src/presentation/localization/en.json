@@ -26,7 +26,21 @@
         "positiveNumber": "This field must be a positive number.",
         "negativeNumber": "This field must be a negative number.",
         "streetRequired": "street is required",
-        "cityRequired": "city is required"
+        "cityRequired": "city is required",
+        "sameAs": "Values do not match",
+        "passwordsDoNotMatch": "Passwords do not match"
+    },
+    "options": {
+        "dataTransfer": "Data Transfer",
+        "export": "Export",
+        "import": "Import",
+        "deleteData": "Delete Data",
+        "importJson": "Import JSON",
+        "exportJson": "Export JSON"
+    },
+    "vault": {
+        "enterPassword": "enter password to unlock",
+        "decryptionError": "Invalid passowrd or unable to decrypt data."
     },
     "common": {
         "name": "name",
@@ -38,7 +52,8 @@
         "confirmDeleteMessage": "are sure you want to delete",
         "action": "action | actions",
         "primary": "primary",
-        "primary_gen": "primary"
+        "primary_gen": "primary",
+        "password": "password"
     },
     "export": {
         "dataTransfer": "Data Transfer",
