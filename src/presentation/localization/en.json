@@ -40,7 +40,9 @@
     },
     "vault": {
         "enterPassword": "enter password to unlock",
-        "decryptionError": "Invalid passowrd or unable to decrypt data."
+        "decryptionError": "Invalid passowrd or unable to decrypt data.",
+        "lock": "lock",
+        "unlock": "unlock"
     },
     "common": {
         "name": "name",

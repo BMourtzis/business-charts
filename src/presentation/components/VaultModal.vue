@@ -59,7 +59,7 @@
         <v-btn
           variant="tonal"
           color="primary"
-          text="unlock"
+          :text="tCap('vault.unlock')"
           :loading="loading"
           :disabled="loading"
           @click="tryUnlock"
