@@ -30,6 +30,12 @@ async function getOrCreateSalt(): Promise<Uint8Array> {
     return salt;
 }
 
+export function hasSalt(): boolean {
+    if(localStorage.getItem(SALT_KEY)) return true;
+
+    return false;
+}
+
 export async function deriveKeyFromPassword(password: string): Promise<CryptoKey> {
     const salt = await getOrCreateSalt();
 

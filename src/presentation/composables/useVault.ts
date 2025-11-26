@@ -8,20 +8,29 @@ const unlocked = ref(cryptoSession.isVaultUnlocked());
 export function useVault() {
     const isUnlocked = computed(() => unlocked.value);
     const isLocked = computed(() => !unlocked.value);
+    const isInitialSetup = computed(() => cryptoSession.isInitialSetup());
 
-    //TODO: make this 
+    //TODO: make this into a command, separate load to separate command
     async function unlock(password: string) {
         await cryptoSession.unlockVault(password);
-        unlocked.value = cryptoSession.isVaultUnlocked();
 
-        new LoadPartnersCommandHandler().handle();
-        new LoadDeliveryCarriersCommandHandler().handle();
+        try {
+            await new LoadPartnersCommandHandler().handle();
+            await new LoadDeliveryCarriersCommandHandler().handle();
+        } catch(e) {
+            console.log(e);
+            cryptoSession.lockVault();
+            throw e;
+        }
+
+        unlocked.value = cryptoSession.isVaultUnlocked();
     }
 
+    //TODO: clean stores
     async function lock() {
         cryptoSession.lockVault();
         unlocked.value = cryptoSession.isVaultUnlocked();
     }
 
-    return { isUnlocked, isLocked, unlock, lock };
+    return { isUnlocked, isLocked, unlock, lock, isInitialSetup };
 }

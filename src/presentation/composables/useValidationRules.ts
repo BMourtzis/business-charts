@@ -71,6 +71,15 @@ export function useValidationRules() {
     return typeof value === 'number' && value < 0 ? true : tCap('validation.negativeNumber');
   };
 
+  const sameAs = (other: () => ValueType, messageKey = 'validation.sameAs'): ValidationRule =>
+    (value: ValueType) => {
+      if (value === null || value === undefined || value === '') return true;
+
+      return value === other()
+        ? true
+        : tCap(messageKey);
+    };
+
   return {
     required,
     emailFormat,
@@ -82,5 +91,6 @@ export function useValidationRules() {
     integer,
     positiveNumber,
     negativeNumber,
+    sameAs
   };
 }

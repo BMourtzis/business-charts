@@ -28,7 +28,20 @@
                 />
               </v-col>
             </v-row>
-            <!-- <v-alert
+            <v-row 
+              v-if="isInitialSetup" 
+              dense
+            >
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.confirmPassword"
+                  label="Confirm Password"
+                  :rules="[required, sameAs(() => form.password, 'validation.passwordsDoNotMatch')]"
+                  type="password"
+                />
+              </v-col>
+            </v-row>
+            <v-alert
               v-if="errorMessage"
               type="error"
               variant="tonal"
@@ -36,7 +49,7 @@
               class="mt-2"
             >
               {{ errorMessage }}
-            </v-alert> -->
+            </v-alert>
           </v-container>
         </v-form>
       </v-card-text>
@@ -64,24 +77,36 @@ import { useLocalizationHelpers } from '@/presentation/composables/useLocalizati
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 import { useVault } from '@/presentation/composables/useVault';
 
-const { required } = useValidationRules();
+const { required, sameAs } = useValidationRules();
 
-const { isLocked, unlock } = useVault();
+const { isLocked, unlock, isInitialSetup } = useVault();
 
 const { tCap } = useLocalizationHelpers();
 
+const errorMessage = ref("");
+
 const form = ref({
-  password: ""
+  password: "",
+  confirmPassword: ""
 });
 
 const {
   formRef,
   validForm,
   loading,
+  submit
 } = useFormDialog(form); 
 
 async function tryUnlock() {
-  unlock(form.value.password);
+  await submit (async (form) => {
+    try {
+      await unlock(form.value.password);
+    }
+    catch(e) {
+      console.log(e);
+      errorMessage.value = "Invalid passowrd or unable to decrypt data."
+    }
+  });
 }
 </script>
 
