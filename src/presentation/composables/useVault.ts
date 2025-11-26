@@ -8,6 +8,7 @@ import { LoadAllDataCommandHandler } from "@/application/commands/loadAllDataCom
 import { LoadPartnersCommandHandler } from "@/application/commands/partner/loadPartnersCommand";
 import { LockVaultCommandHandler } from "@/application/commands/vault/lockVaultCommand";
 import { UnlockVaultCommandHandler } from "@/application/commands/vault/unlockVaultCommand";
+import { ChangePasswordCommandHandler } from "@/application/commands/vault/changePasswordCommand";
 
 const unlocked = ref(cryptoSession.isVaultUnlocked());
 
@@ -33,5 +34,13 @@ export function useVault() {
         unlocked.value = await handler.handle();
     }
 
-    return { isUnlocked, isLocked, unlock, lock, isInitialSetup };
+    async function changePassword(oldPassword: string, newPassword: string) {
+        const handler = new ChangePasswordCommandHandler();
+        handler.handle({
+            oldPassword,
+            newPassword
+        });
+    }
+
+    return { isUnlocked, isLocked, unlock, lock, isInitialSetup, changePassword };
 }

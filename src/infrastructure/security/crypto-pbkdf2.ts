@@ -7,6 +7,12 @@ function getRandomSalt(length = 16): Uint8Array  {
     return salt;
 }
 
+export function regenSalt() {
+    const salt = getRandomSalt();
+    localStorage.setItem(SALT_KEY, saltToBase64(salt));
+}
+
+
 function saltToBase64(salt: Uint8Array ): string {
     return btoa(String.fromCharCode(...salt));
 }

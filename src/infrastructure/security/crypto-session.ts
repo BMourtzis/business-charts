@@ -1,4 +1,4 @@
-import { deriveKeyFromPassword, hasSalt } from "./crypto-pbkdf2";
+import { deriveKeyFromPassword, hasSalt, regenSalt } from "./crypto-pbkdf2";
 
 let sessionKey: CryptoKey | null = null;
 
@@ -22,4 +22,14 @@ export function getSessionKeyOrThrow(): CryptoKey {
 
 export function isInitialSetup(): boolean {
     return !hasSalt();
+}
+
+export async function validatePassword(password: string): Promise<boolean> {
+    const key = await deriveKeyFromPassword(password);
+
+    return sessionKey === key;
+}
+
+export function createNewSalt() {
+    regenSalt();
 }
