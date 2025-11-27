@@ -4,100 +4,45 @@ on:
   push:
     branches: [ main, dev ]
   pull_request:
-    branches: [ main, dev ]
+
+permissions:
+  contents: write
+  actions: write
 
 jobs:
   security:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
 
     steps:
-      # ---------------------------
-      # 1. Checkout code
-      # ---------------------------
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # ---------------------------
-      # 2. Setup Node.js
-      # ---------------------------
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      # ---------------------------
-      # 3. Install dependencies
-      # ---------------------------
       - name: Install dependencies
         run: npm ci
 
-      # ---------------------------
-      # 4. ESLint Security Scan
-      # ---------------------------
-      - name: ESLint Security Scan
-        run: |
-          npm install --no-save eslint-plugin-security eslint-plugin-no-unsanitized
-          npx eslint . || true
-        continue-on-error: true
-
-      # ---------------------------
-      # 5. Dependency Vulnerability Scan
-      # ---------------------------
-      - name: npm audit
-        run: npm audit --audit-level=high || true
-        continue-on-error: true
-
-      # ---------------------------
-      # 6. Build Project
-      # ---------------------------
-      - name: Build
+      - name: Build app
         run: npm run build
 
-      # ---------------------------
-      # 7. Serve App on Port 8080
-      # ---------------------------
-      - name: Start Server
+      - name: Serve app
         run: |
           npm install -g serve
-          nohup serve -s dist -l 8080 &
-          sleep 5   # wait for server to start
+          serve -s dist -l 8080 &
+        shell: bash
 
-      # ---------------------------
-      # 8. DalFox XSS Scanner
-      # ---------------------------
-      - name: DalFox
-        uses: docker://hahwul/dalfox
-        with:
-          args: url http://localhost:8080 --output dalfox-report.txt
-        continue-on-error: true
+      - name: Wait for server
+        run: sleep 5
 
-      # ---------------------------
-      # 9. DOM XSS Scanner
-      # ---------------------------
-      - name: DOM XSS Scanner
-        run: |
-          npx dom-xss-scanner http://localhost:8080 --output dom-xss-report.json || true
-        continue-on-error: true
-
-      # ---------------------------
-      # 10. OWASP ZAP Baseline Scan
-      # ---------------------------
-      - name: OWASP ZAP Baseline Scan
+      - name: ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.10.0
         with:
-          target: http://localhost:8080
-          cmd_options: "-a"
-        continue-on-error: true
+          target: "http://localhost:8080"
+          cmd_options: "-J zap-report.json -w zap-report.md -r zap-report.html"
 
-      # ---------------------------
-      # 11. Upload Security Reports
-      # ---------------------------
-      - name: Upload Reports
+      - name: Upload ZAP Reports
         uses: actions/upload-artifact@v4
         with:
-          name: security-reports
+          name: zap-reports
           path: |
-            dalfox-report.txt
-            dom-xss-report.json
+            zap-report.json
+            zap-report.md
             zap-report.html
