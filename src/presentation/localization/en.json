@@ -3,6 +3,7 @@
     "pages": {
         "home": "Home",
         "dataTransfer": "Data Transfer",
+        "changePassword": "Change Password",
         "partner": {
             "partners": "Partners",
             "suppliers": "Suppliers",
@@ -36,7 +37,13 @@
         "import": "Import",
         "deleteData": "Delete Data",
         "importJson": "Import JSON",
-        "exportJson": "Export JSON"
+        "exportJson": "Export JSON",
+        "password": "password",
+        "confirmPassword": "confirm password",
+        "changePassword": "change password",
+        "oldPassword": "old password",
+        "newPassword": "new password",
+        "confirmNewPassword": "confirm new password"
     },
     "vault": {
         "enterPassword": "enter password to unlock",
@@ -54,8 +61,7 @@
         "confirmDeleteMessage": "are sure you want to delete",
         "action": "action | actions",
         "primary": "primary",
-        "primary_gen": "primary",
-        "password": "password"
+        "primary_gen": "primary"
     },
     "export": {
         "dataTransfer": "Data Transfer",

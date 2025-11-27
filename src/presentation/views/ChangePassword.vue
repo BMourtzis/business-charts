@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      {{ tCap('vault.enterPassword') }}
+      {{ tCap('vault.changePassword') }}
     </v-card-title>
     <v-divider />
 
@@ -18,7 +18,7 @@
             <v-col cols="12">
               <v-text-field
                 v-model="form.oldPassword"
-                :label="tCap('common.password')"
+                :label="tCap('vault.oldPassword')"
                 :rules="[required]"
                 type="password"
               />
@@ -28,7 +28,7 @@
             <v-col cols="12">
               <v-text-field
                 v-model="form.newPassword"
-                :label="tCap('common.password')"
+                :label="tCap('vault.newPassword')"
                 :rules="[required]"
                 type="password"
               />
@@ -38,7 +38,7 @@
             <v-col cols="12">
               <v-text-field
                 v-model="form.confirmNewPassword"
-                label="Confirm Password"
+                :label="tCap('vault.confirmNewPassword')"
                 :rules="[required, sameAs(() => form.newPassword, 'validation.passwordsDoNotMatch')]"
                 type="password"
               />

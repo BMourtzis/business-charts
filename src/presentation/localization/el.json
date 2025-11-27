@@ -3,6 +3,7 @@
     "pages": {
         "home": "Αρχική",
         "dataTransfer": "Μεταφορά Δεδομένων",
+        "changePassword": "Αλλαγή συνθηματικού",
         "partner": {
             "partners": "Συνεργάτες",
             "suppliers": "Προμηθευτές",
@@ -42,7 +43,13 @@
         "enterPassword": "Εισάγετε το συνθηματικό για να ξεκλειδώσετε",
         "decryptionError": "Λάθος συνθηματικό ή πρόβλημα στην αποκρυπτογράφηση δεδομένων",
         "lock": "κλείδωσε",
-        "unlock": "ξεκλείδωσε"
+        "unlock": "ξεκλείδωσε",
+        "password": "συνθηματικό",
+        "confirmPassword": "επαλήθευση συνθηματικού",
+        "changePassword": "αλλαγή συνθηματικού",
+        "oldPassword": "παλιό συνθηματικό",
+        "newPassword": "νέο συνθηματικό",
+        "confirmNewPassword": "επαλήθευση νέου συνθηματικού"
     },
     "common": {
         "name": "όνομα",
@@ -54,8 +61,7 @@
         "confirmDeleteMessage": "είστε σίγουρος/η ότι θέλετε να διαγράψετε το",
         "action": "ενέργεια | ενέργειες",
         "primary": "κύριο",
-        "primary_gen": "κύρια",
-        "password": "συνθηματικό"
+        "primary_gen": "κύρια"
     },
     "contact": {
         "email": "email",

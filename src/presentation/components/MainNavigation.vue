@@ -55,7 +55,7 @@
       </template>
     </v-list>
 
-    <v-divider />
+    <!-- <v-divider />
 
     <v-list 
       density="compact" 
@@ -68,7 +68,7 @@
         :title="item.title" 
         :to="item.to"
       />
-    </v-list>
+    </v-list> -->
   </v-navigation-drawer>
 
   <!-- Top Bar -->
@@ -89,6 +89,28 @@
       :icon="lockIcon"
       @click="lock"
     />
+
+    <v-menu>
+      <template #activator="{ props }">
+        <v-btn
+          v-bind="props"
+          icon="mdi-dots-vertical"
+        />
+      </template>
+
+      <v-list density="compact">
+        <v-list-item
+          prepend-icon="mdi-form-textbox-password"
+          :title="t('pages.changePassword')"
+          to="/change-password"
+        />
+        <v-list-item
+          prepend-icon="mdi-file-arrow-left-right"
+          :title="t('pages.dataTransfer')"
+          to="/data-transfer"
+        />
+      </v-list>
+    </v-menu>
   </v-app-bar>
 </template>
 
@@ -145,7 +167,8 @@ const titleMap: Record<string, string> = {
   partnerDetails: "pages.partner.details",
   deliveryCarriers: "pages.deliveryCarrier.carriers",
   deliveryCarrierDetails: "pages.deliveryCarrier.details",
-  dataTransfer: "pages.dataTransfer"
+  dataTransfer: "pages.dataTransfer",
+  changePassword: "pages.changePassword"
 };
 
 function isLeaf(item: NavItem): boolean {
@@ -153,9 +176,9 @@ function isLeaf(item: NavItem): boolean {
 }
 
 
-const settingsLinks = [
-  { title: t('pages.dataTransfer'), icon: 'mdi-file-arrow-left-right', to: '/data-transfer' },
-]
+// const settingsLinks = [
+//   { title: t('pages.dataTransfer'), icon: 'mdi-file-arrow-left-right', to: '/data-transfer' },
+// ]
 </script>
 
 <style scoped>

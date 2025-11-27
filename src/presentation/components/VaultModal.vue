@@ -22,7 +22,7 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="form.password"
-                  :label="tCap('common.password')"
+                  :label="tCap('vault.password')"
                   :rules="[required]"
                   type="password"
                 />
@@ -35,7 +35,7 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="form.confirmPassword"
-                  label="Confirm Password"
+                  :label="tCap('vault.confirmPassword')"
                   :rules="[required, sameAs(() => form.password, 'validation.passwordsDoNotMatch')]"
                   type="password"
                 />
