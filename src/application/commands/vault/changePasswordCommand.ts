@@ -1,4 +1,4 @@
-import * as cryptoSession from "@/infrastructure/security/crypto-session";
+import { VaultSession } from "@/infrastructure/security/crypto-session";
 
 import { deliveryCarrierRepository } from "@/infrastructure/repositories/deliverCarrierRepository.local";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
@@ -29,15 +29,13 @@ export class ChangePasswordCommandHandler {
     async handle(cmd: ChangePasswordCommand) {
         await this.validateOldPassword(cmd.oldPassword);
         const allData = await this.pullAllData();
-        // await this.deleteAllData();
-        cryptoSession.createNewSalt();
-        await cryptoSession.unlockVault(cmd.newPassword);
+        VaultSession.changePassword(cmd.oldPassword, cmd.newPassword);
         await this.saveAllData(allData);
         await this.loadAllData();
     }
 
     private async validateOldPassword(oldPassword: string) {
-        const isValid = cryptoSession.validatePassword(oldPassword);
+        const isValid = await VaultSession.validatePassword(oldPassword);
         if(!isValid) throw new Error("Invalid Password");
     }
 
@@ -59,7 +57,7 @@ export class ChangePasswordCommandHandler {
     }
 
     private async loadAllData() {
-        this._loadPartnersCommandHandler.handle();
-        this._loadDeliveryCarriesCommandHandler.handle();
+        await this._loadPartnersCommandHandler.handle();
+        await this._loadDeliveryCarriesCommandHandler.handle();
     }
 }

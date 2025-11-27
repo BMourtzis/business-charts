@@ -1,5 +1,4 @@
-import { getSessionKeyOrThrow } from "../security/crypto-session";
-import { decryptData, encryptData } from "../security/encryption";
+import { VaultSession } from "@/infrastructure/security/crypto-session";
 import { IStorage } from "./type";
 
 export const EncryptedStorage: IStorage = {
@@ -7,14 +6,12 @@ export const EncryptedStorage: IStorage = {
         const encrypted = localStorage.getItem(key);
         if(!encrypted) return null;
 
-        const cryptoKey = getSessionKeyOrThrow();
-        const decryptedData = await decryptData(cryptoKey, encrypted);
+        const decryptedData = await VaultSession.decrypt(encrypted);
         
         return JSON.parse(decryptedData);
     },
     async setItem(key: string, value: string): Promise<void> {
-        const cryptoKey = getSessionKeyOrThrow();
-        const encrypted = await encryptData(cryptoKey, value);
+        const encrypted = await VaultSession.encrypt(value);
         localStorage.setItem(key, encrypted);
     },
     removeItem(key: string): void {

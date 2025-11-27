@@ -1,4 +1,4 @@
-import * as cryptoSession from "@/infrastructure/security/crypto-session";
+import { VaultSession } from "@/infrastructure/security/crypto-session";
 
 import { ClearStoresCommandHandler } from "@/application/commands/clearStoresCommand";
 
@@ -6,7 +6,7 @@ export class LockVaultCommandHandler {
     constructor(private _clearStoresCommandHandler: ClearStoresCommandHandler) {}
 
     async handle(): Promise<boolean> {
-        cryptoSession.lockVault();
+        VaultSession.lockVault();
 
         this._clearStoresCommandHandler.handle({
             removeCarriers: true,
@@ -14,6 +14,6 @@ export class LockVaultCommandHandler {
             removeOrders: true
         });
 
-        return cryptoSession.isVaultUnlocked();
+        return VaultSession.isVaultUnlocked();
     }
 }

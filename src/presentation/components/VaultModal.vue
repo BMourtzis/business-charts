@@ -106,7 +106,6 @@ async function tryUnlock() {
       errorMessage.value = "";
     }
     catch(e) {
-      console.log(e);
       errorMessage.value = tCap('vault.decryptionError')
     }
   });

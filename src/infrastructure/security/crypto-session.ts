@@ -1,35 +1,87 @@
-import { deriveKeyFromPassword, hasSalt, regenSalt } from "./crypto-pbkdf2";
+import { CryptoCore } from "./crypto-core";
 
-let sessionKey: CryptoKey | null = null;
+export class VaultSession {
+    private static sessionKey: CryptoKey | null = null;
 
-export async function unlockVault(password: string): Promise<void> {
-    sessionKey = await deriveKeyFromPassword(password);
-}
+    private static readonly TEST_TAG = "crypto_test_value";
+    private static readonly TEST_KEY = "crypto_test_ciphertext";
 
-export function lockVault(): void {
-    sessionKey = null;
-}
+    static async unlockVault(password: string): Promise<boolean> {
+        const derivedKey = await CryptoCore.deriveKeyFromPassword(password);
 
-export function isVaultUnlocked(): boolean {
-    return sessionKey !== null;
-}
+        const isValid = await this.validatePasswordInternal(derivedKey);
+        if (isValid) this.sessionKey = derivedKey;
 
-export function getSessionKeyOrThrow(): CryptoKey {
-    if(!sessionKey) throw new Error("Vault is locked. Call unlockVault(password) first.");
+        return isValid;
+    }
 
-    return sessionKey;
-}
+    static lockVault(): void {
+        this.sessionKey = null;
+    }
 
-export function isInitialSetup(): boolean {
-    return !hasSalt();
-}
+    static isVaultUnlocked(): boolean {
+        return this.sessionKey !== null;
+    }
 
-export async function validatePassword(password: string): Promise<boolean> {
-    const key = await deriveKeyFromPassword(password);
+    private static getSessionKeyOrThrow(): CryptoKey {
+        if (!this.sessionKey) throw new Error("Vault is locked. Call unlockVault() first.");
+        return this.sessionKey;
+    }
 
-    return sessionKey === key;
-}
+    static isInitialSetup(): boolean {
+        return !CryptoCore.hasSalt() || !localStorage.getItem(this.TEST_KEY);
+    }
 
-export function createNewSalt() {
-    regenSalt();
+    private static async validatePasswordInternal(key: CryptoKey): Promise<boolean> {
+        const existing = localStorage.getItem(this.TEST_KEY);
+
+        if (!existing) {
+            await this.encryptAndStoreTestCiphertext(key);
+            return true;
+        }
+
+        try {
+            const decrypted = await this.decryptTestCiphertext(key, existing);
+            return decrypted === this.TEST_TAG;
+        } catch {
+            return false;
+        }
+    }
+
+    private static async encryptAndStoreTestCiphertext(key: CryptoKey): Promise<void> {
+        const encrypted = await CryptoCore.encryptData(key, this.TEST_TAG);
+        localStorage.setItem(this.TEST_KEY, encrypted);
+    }
+
+    private static async decryptTestCiphertext(key: CryptoKey, encrypted: string): Promise<string> {
+        return CryptoCore.decryptData(key, encrypted);
+    }
+
+    static async validatePassword(password: string): Promise<boolean> {
+        const derivedKey = await CryptoCore.deriveKeyFromPassword(password);
+        return this.validatePasswordInternal(derivedKey);
+    }
+
+    static async changePassword(oldPassword: string, newPassword: string): Promise<void> {
+        const unlocked = await this.unlockVault(oldPassword);
+        if (!unlocked) throw new Error("Old password is incorrect");
+
+        CryptoCore.createNewSalt();
+
+        const newKey = await CryptoCore.deriveKeyFromPassword(newPassword);
+
+        this.sessionKey = newKey;
+
+        await this.encryptAndStoreTestCiphertext(newKey);
+    }
+
+    static async decrypt(data: string): Promise<string> {
+        const key = this.getSessionKeyOrThrow();
+        return await CryptoCore.decryptData(key, data);
+    }
+
+    static async encrypt(data: string): Promise<string> {
+        const key = this.getSessionKeyOrThrow();
+        return await CryptoCore.encryptData(key, data);
+    }
 }
