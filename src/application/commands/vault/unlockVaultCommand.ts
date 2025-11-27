@@ -10,14 +10,10 @@ export class UnlockVaultCommandHandler {
     constructor(private _loadAllDataCommandHandler: LoadAllDataCommandHandler) {}
 
     async handle(cmd: UnlockVaultCommand) {
-        await VaultSession.unlockVault(cmd.password);
+        const unlocked =  await VaultSession.unlockVault(cmd.password);
 
-        try {
+        if(unlocked) {
             await this._loadAllDataCommandHandler.handle();
-        } catch(e) {
-            console.log(e);
-            VaultSession.lockVault();
-            throw e;
         }
 
         return VaultSession.isVaultUnlocked();

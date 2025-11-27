@@ -78,6 +78,8 @@ export class CryptoCore {
         const ciphertext = combined.slice(12);
 
         const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ciphertext);
-        return this.decoder.decode(decrypted);
+        const decoded = this.decoder.decode(decrypted);
+
+        return JSON.parse(decoded);
     }
 }

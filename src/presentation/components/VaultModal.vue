@@ -100,15 +100,23 @@ const {
 async function tryUnlock() {
   await submit (async (form) => {
     try {
-      await unlock(form.value.password);
-      form.value.password = "";
-      form.value.confirmPassword = "";
-      errorMessage.value = "";
+      await tryUnlockInternal(form);
     }
     catch(e) {
       errorMessage.value = tCap('vault.decryptionError')
     }
   });
+}
+
+async function tryUnlockInternal(form: typeof formRef) {
+  await unlock(form.value.password);
+    if(isLocked.value) {
+      errorMessage.value = tCap('vault.decryptionError')
+    } else {
+      form.value.password = "";
+      form.value.confirmPassword = "";
+      errorMessage.value = "";
+    }
 }
 </script>
 

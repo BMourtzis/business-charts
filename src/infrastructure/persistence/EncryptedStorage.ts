@@ -6,9 +6,7 @@ export const EncryptedStorage: IStorage = {
         const encrypted = localStorage.getItem(key);
         if(!encrypted) return null;
 
-        const decryptedData = await VaultSession.decrypt(encrypted);
-        
-        return JSON.parse(decryptedData);
+        return await VaultSession.decrypt(encrypted);
     },
     async setItem(key: string, value: string): Promise<void> {
         const encrypted = await VaultSession.encrypt(value);
