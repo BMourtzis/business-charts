@@ -51,7 +51,12 @@
         "newPassword": "νέο συνθηματικό",
         "confirmNewPassword": "επαλήθευση νέου συνθηματικού",
         "wrongPassowrd": "Λάθος συνθηματικό",
-        "passwordChangedSuccess": "Το συνθηματικό άλλαξε επιτυχώς"
+        "passwordChangedSuccess": "Το συνθηματικό άλλαξε επιτυχώς",
+        "pwStrengthWeak": "Αδύναμο",
+        "pwStrengthFair": "Μέτριο",
+        "pwStrengthGood": "Καλό",
+        "pwStrengthStrong": "Ισχυρό",
+        "pwStrengthVeryStrong": "Πολύ ισχυρό"
     },
     "common": {
         "name": "όνομα",

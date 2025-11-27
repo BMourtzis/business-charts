@@ -36,6 +36,11 @@
           </v-row>
           <v-row dense>
             <v-col cols="12">
+              <PasswordStrength :password="form.newPassword" />
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col cols="12">
               <v-text-field
                 v-model="form.confirmNewPassword"
                 :label="tCap('vault.confirmNewPassword')"
@@ -71,7 +76,7 @@
       <v-btn
         variant="tonal"
         color="primary"
-        :text="tCap('vault.unlock')"
+        :text="tCap('vault.changePassword')"
         :loading="loading"
         :disabled="loading"
         @click="tryChangePassword"
@@ -87,6 +92,8 @@ import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 import { useVault } from '@/presentation/composables/useVault';
+
+import PasswordStrength from '@/presentation/components/PasswordStrength.vue';
 
 const { required, sameAs } = useValidationRules();
 

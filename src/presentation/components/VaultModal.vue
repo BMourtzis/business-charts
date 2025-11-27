@@ -31,7 +31,10 @@
             <v-row 
               v-if="isInitialSetup" 
               dense
-            >
+            >            
+              <v-col cols="12">
+                <PasswordStrength :password="form.password" />
+              </v-col>
               <v-col cols="12">
                 <v-text-field
                   v-model="form.confirmPassword"
@@ -76,6 +79,8 @@ import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 import { useVault } from '@/presentation/composables/useVault';
+
+import PasswordStrength from '@/presentation/components/PasswordStrength.vue';
 
 const { required, sameAs } = useValidationRules();
 
