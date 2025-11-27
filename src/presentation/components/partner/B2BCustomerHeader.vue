@@ -3,7 +3,12 @@
     <div class="left-block">
       <div class="d-flex align-center flex-wrap mb-1">
         <h1 class="text-h4 font-weight-bold mr-2">
-          {{ b2bCustomer.businessName }}
+          <template v-if="b2bCustomer.businessName">
+            {{ b2bCustomer.businessName }}
+          </template>
+          <template v-else>
+            {{ b2bCustomer.contactName }}
+          </template>
         </h1>
 
         <v-chip 
@@ -13,7 +18,10 @@
           {{ tCap('partner.b2bCustomer') }}
         </v-chip>
       </div>
-      <div class="text-subtitle-1 text-grey-darken-1">
+      <div
+        v-if="b2bCustomer.businessName"
+        class="text-subtitle-1 text-grey-darken-1"
+      >
         {{ b2bCustomer.contactName }}
       </div>
 
