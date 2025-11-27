@@ -31,22 +31,32 @@ export function useFormDialog<T extends object>(form: T, options?: { autoReset?:
   }
 
   async function validate(): Promise<boolean> {
-    let result = false;
+    let validationResult: boolean | null = null;
 
-    // If v-form has validate(), this triggers all field rules
+    // STEP 1 — Call Vuetify's v-form validate() if available
     if (formRef.value?.validate) {
-      result = await formRef.value.validate();
+      const result = await formRef.value.validate();
+
+      // result is: { valid: boolean }
+      validationResult = result.valid;
     }
 
-    // In case Vuetify only validates dirty fields, force individual field validation
+    // STEP 2 — Some Vuetify elements only validate once touched,
+    // so we also force validate each field manually
     if (formRef.value?.items) {
       for (const field of formRef.value.items) {
         field.validate?.();
       }
     }
 
-    validForm.value = formRef.value?.valid ?? !!result;
-    return validForm.value;
+    // STEP 3 — Prefer formRef.value.valid if Vuetify set it
+    const finalValid =
+      formRef.value?.valid ??
+      validationResult ??
+      false;
+
+    validForm.value = finalValid;
+    return finalValid;
   }
 
   function close() {

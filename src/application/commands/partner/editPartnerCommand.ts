@@ -1,6 +1,6 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { PartnerMapper } from "../../mapper/partnerMapper";
+import { PartnerMapperInstance } from "../../mapper/partnerMapper";
 
 export interface EditPartnerCommand {
     id: string;
@@ -18,7 +18,7 @@ export class EditPartnerCommandHandler {
         partner.updateData(cmd.contactName, cmd.businessName);
 
         await partnerRepository.update(partner);
-        this._partnersStore.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
         return partner;
     }
@@ -41,7 +41,7 @@ export class EditSupplierCommandHandler {
         supplier.updateData(cmd.contactName, cmd.businessName, cmd.activity);
 
         await partnerRepository.update(supplier);
-        this._partnersStore.update(PartnerMapper.toDTO(supplier));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(supplier));
 
         return supplier;
     }
@@ -65,7 +65,7 @@ export class EditB2BCustomerCommandHandler {
         b2bCustomer.deliveryCarrierId = cmd.deliveryCarrierId;
 
         await partnerRepository.update(b2bCustomer);
-        this._partnersStore.update(PartnerMapper.toDTO(b2bCustomer));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(b2bCustomer));
 
         return b2bCustomer;
     }

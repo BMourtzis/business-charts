@@ -1,7 +1,7 @@
 import { createAddress } from "@/domain/contact/models/address";
 import { useDeliveryCarrierStore } from "@/presentation/stores/deliveryCarrierStore";
 import { deliveryCarrierRepository } from "@/infrastructure/repositories/deliverCarrierRepository.local";
-import { DeliveryCarrierMapper } from "@/application/mapper/deliverCarrierMapper";
+import { DeliveryCarrierMapperInstance } from "@/application/mapper/deliverCarrierMapper";
 
 export interface AddCarrierAddressCommand {
     carrierId: string;
@@ -31,7 +31,7 @@ export class AddCarrierAddressCommandHandler {
         carrier.addAddress(address);
 
         await deliveryCarrierRepository.update(carrier);
-        this._carrierStore.update(DeliveryCarrierMapper.toDTO(carrier));
+        this._carrierStore.update(DeliveryCarrierMapperInstance.toDTO(carrier));
 
         return carrier;
     }
@@ -66,7 +66,7 @@ export class EditCarrierAddressCommandHandler {
         carrier.editAddress(cmd.addressId, newAddress);
 
         await deliveryCarrierRepository.update(carrier);
-        this._carrierStore.update(DeliveryCarrierMapper.toDTO(carrier));
+        this._carrierStore.update(DeliveryCarrierMapperInstance.toDTO(carrier));
 
         return carrier;
     }
@@ -87,7 +87,7 @@ export class RemoveCarrierAddressCommandHandler {
         carrier.removeAddress(cmd.addressId);
 
         await deliveryCarrierRepository.update(carrier);
-        this._carrierStore.update(DeliveryCarrierMapper.toDTO(carrier));
+        this._carrierStore.update(DeliveryCarrierMapperInstance.toDTO(carrier));
 
         return carrier;
     }

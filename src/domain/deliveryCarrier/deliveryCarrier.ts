@@ -1,8 +1,9 @@
 import { Address, createAddress } from "../contact/models/address";
 import { v4 as uuidv4 } from "uuid";
 import { Contact, createEmail, createPhone } from "../contact/models/contact";
+import { IEntity } from "../type";
 
-export class DeliveryCarrier {
+export class DeliveryCarrier implements IEntity {
     private _id: string;
     private _addresses: Address[];
     private _emails: Contact[];

@@ -1,9 +1,10 @@
 import { Partner } from "@/domain/partner/models/partner";
 import { PartnerDTO } from "../dto/partnerDTO";
-import { ContactMapper, AddressMapper } from "./contactMapper";
+import { AddressMapperInstance, ContactMapperInstance } from "./contactMapper";
 import { PartnerType } from "@/domain/partner/partnerTypes";
 import { Supplier } from "@/domain/partner/models/supplier";
 import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
+import { IMapper } from "./type";
 
 
 function getModelType(dto: PartnerDTO) {
@@ -27,25 +28,25 @@ function getModelType(dto: PartnerDTO) {
     }
 }
 
-export class PartnerMapper {
-    static toModel(dto: PartnerDTO): Partner {
+export class PartnerMapper implements IMapper<Partner, PartnerDTO> {
+    toModel(dto: PartnerDTO): Partner {
         const model = getModelType(dto);
-        model.setEmails(dto.emails.map(ContactMapper.toModel));
-        model.setPhones(dto.phones.map(ContactMapper.toModel));
-        model.setAddresses(dto.addresses.map(AddressMapper.toModel));
+        model.setEmails(dto.emails.map(ContactMapperInstance.toModel));
+        model.setPhones(dto.phones.map(ContactMapperInstance.toModel));
+        model.setAddresses(dto.addresses.map(AddressMapperInstance.toModel));
 
         return model;
     }
 
-    static toDTO(model: Partner): PartnerDTO {
+    toDTO(model: Partner): PartnerDTO {
         const base  = {
             id: model.id,
             businessName: model.businessName,
             contactName: model.contactName,
             type: model.type,
-            emails: model.emails.map(ContactMapper.toDto),
-            phones: model.phones.map(ContactMapper.toDto),
-            addresses: model.addresses.map(AddressMapper.toDto)
+            emails: model.emails.map(ContactMapperInstance.toDTO),
+            phones: model.phones.map(ContactMapperInstance.toDTO),
+            addresses: model.addresses.map(AddressMapperInstance.toDTO)
         };
 
         if(model instanceof Supplier) {
@@ -65,3 +66,5 @@ export class PartnerMapper {
         throw new Error(`Unsupported partner instance. Id: ${model.id}`);
     }
 }
+
+export const PartnerMapperInstance = new PartnerMapper();

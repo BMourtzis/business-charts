@@ -179,12 +179,12 @@ const {
   submit
 } = useFormDialog(form);
 
-function streetRule(value: string) {
+function streetRule() {
   if ((form.city || form.zip || form.country) && !form.street) return tCap('validation.streetRequired');
   return true;
 }
 
-function cityRule(value: string) {
+function cityRule() {
   if ((form.street || form.zip || form.country) && !form.city) return tCap('validation.cityRequired');
   return true;
 }

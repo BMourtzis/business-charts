@@ -3,6 +3,7 @@
     "pages": {
         "home": "Αρχική",
         "dataTransfer": "Μεταφορά Δεδομένων",
+        "changePassword": "Αλλαγή συνθηματικού",
         "partner": {
             "partners": "Συνεργάτες",
             "suppliers": "Προμηθευτές",
@@ -26,7 +27,10 @@
         "positiveNumber": "Αυτό το πεδίο πρέπει να είναι θετικός αριθμός.",
         "negativeNumber": "Αυτό το πεδίο πρέπει να είναι αρνητικός αριθμός.",
         "streetRequired": "η οδός είναι υποχρεωτική",
-        "cityRequired": "η περιοχή είναι υποχρεωτική"
+        "cityRequired": "η περιοχή είναι υποχρεωτική",
+        "sameAs": "Οι τιμές δεν ταιριάζουν",
+        "passwordsDoNotMatch": "Τα συνθηματικά δεν ταιριάζουν"
+        
     },
     "options": {
         "dataTransfer": "Μεταφορά Δεδομένων",
@@ -35,6 +39,26 @@
         "deleteData": "Διαγραφή δεγομένων",
         "importJson": "εισαγωγή JSON",
         "exportJson": "εξάγωγη JSON"
+    },
+    "vault": {
+        "enterPassword": "Εισάγετε το συνθηματικό για να ξεκλειδώσετε",
+        "decryptionError": "Λάθος συνθηματικό ή πρόβλημα στην αποκρυπτογράφηση δεδομένων",
+        "lock": "κλείδωσε",
+        "unlock": "ξεκλείδωσε",
+        "password": "συνθηματικό",
+        "confirmPassword": "επαλήθευση συνθηματικού",
+        "changePassword": "αλλαγή συνθηματικού",
+        "oldPassword": "παλιό συνθηματικό",
+        "newPassword": "νέο συνθηματικό",
+        "confirmNewPassword": "επαλήθευση νέου συνθηματικού",
+        "wrongPassowrd": "Λάθος συνθηματικό",
+        "passwordChangedSuccess": "Το συνθηματικό άλλαξε επιτυχώς",
+        "pwStrengthWeak": "Αδύναμο",
+        "pwStrengthFair": "Μέτριο",
+        "pwStrengthGood": "Καλό",
+        "pwStrengthStrong": "Ισχυρό",
+        "pwStrengthVeryStrong": "Πολύ ισχυρό",
+        "saveBeforeChangePw": "Παρακαλώ κατεβάστε τα δεδομένα σας πριν την αλλαγή κωδικού για ασφάλεια των δεδομένων σε περίπτωση λάθους"
     },
     "common": {
         "name": "όνομα",

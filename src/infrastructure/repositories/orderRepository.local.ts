@@ -1,5 +1,5 @@
 import { Order, OrderDTO } from "@/domain/order/models/order";
-import { Repository } from "./type";
+import { IRepository } from "./type";
 
 const STORAGE_KEY = 'orders';
 
@@ -14,7 +14,7 @@ async function saveDTOs(dtos: OrderDTO[]): Promise<void> {
 }
 
 //TODO: update this to save with DTO
-export const orderRepository: Repository<Order, OrderDTO> = {
+export const orderRepository: IRepository<Order, OrderDTO> = {
     async getAll() {
         return loadDTOs();
     },

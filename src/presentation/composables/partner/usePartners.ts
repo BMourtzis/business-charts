@@ -5,7 +5,7 @@ import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
 import { Supplier } from "@/domain/partner/models/supplier";
 
 import { PartnerType } from "@/domain/partner/partnerTypes";
-import { PartnerMapper } from "@/application/mapper/partnerMapper";
+import { PartnerMapperInstance } from "@/application/mapper/partnerMapper";
 
 import { CreateSupplierCommandHandler } from "@/application/commands/partner/createSupplierCommand";
 import { CreateB2BCustomerCommandHandler } from "@/application/commands/partner/createB2BCustomerCommand";
@@ -25,10 +25,10 @@ export function usePartners() {
     return {
         b2bCustomers: computed(() => all.value
             .filter(p => p.type === PartnerType.B2BCustomer)
-            .map(PartnerMapper.toModel) as B2BCustomer[]),
+            .map(PartnerMapperInstance.toModel) as B2BCustomer[]),
         suppliers: computed(() => all.value
             .filter(p => p.type === PartnerType.Supplier)
-            .map(PartnerMapper.toModel) as Supplier[]),
+            .map(PartnerMapperInstance.toModel) as Supplier[]),
         createSupplierCommandHandler: new CreateSupplierCommandHandler(store),
         createB2BCustomerCommandHandler: new CreateB2BCustomerCommandHandler(store),
         editSupplierCommandHandler: new EditSupplierCommandHandler(store),

@@ -1,6 +1,6 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { PartnerMapper } from "../../mapper/partnerMapper";
+import { PartnerMapperInstance } from "../../mapper/partnerMapper";
 import { createEmail } from "@/domain/contact/models/contact";
 
 export interface AddPartnerEmailCommand {
@@ -21,7 +21,7 @@ export class AddPartnerEmailCommandHandler {
         partner.addEmail(email);
 
         await partnerRepository.update(partner);
-        this._partnersStore.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
         return partner;
     }
@@ -47,7 +47,7 @@ export class EditPartnerEmailCommandHandler {
         partner.editEmail(cmd.emailId, newEmail);
 
         await partnerRepository.update(partner);
-        this._partnersStore.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
         return partner;
     }
@@ -68,7 +68,7 @@ export class RemovePartnerEmailCommandHandler {
         partner.removeEmail(cmd.emailId);
 
         await partnerRepository.update(partner);
-        this._partnersStore.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
         return partner;
     }

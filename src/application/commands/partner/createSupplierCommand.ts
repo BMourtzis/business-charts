@@ -4,7 +4,7 @@ import { AddressDTO } from "@/application/dto/contactDTO";
 import { createSupplier } from "@/domain/partner/models/supplier";
 import { createEmail, createPhone } from "@/domain/contact/models/contact";
 import { createAddress } from "@/domain/contact/models/address";
-import { PartnerMapper } from "@/application/mapper/partnerMapper";
+import { PartnerMapperInstance } from "@/application/mapper/partnerMapper";
 
 export interface CreateSupplierCommand {
     contactName: string, 
@@ -35,7 +35,7 @@ export class CreateSupplierCommandHandler {
             true));
         
         await partnerRepository.add(supplier);
-        this._partnersStore.add(PartnerMapper.toDTO(supplier));
+        this._partnersStore.add(PartnerMapperInstance.toDTO(supplier));
 
         return supplier;
     }
