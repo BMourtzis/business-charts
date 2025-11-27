@@ -1,46 +1,94 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { fromPartnerDTO, toPartnerDTO } from "../../mapper/partnerMapper";
+import { PartnerMapperInstance } from "../../mapper/partnerMapper";
+import { createAddress } from "@/domain/contact/models/address";
 
-export async function addAddressCommand(partnerId: string, address: string, name?: string, isPrimary = false) {
-    const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return;
-
-    const partner = fromPartnerDTO(dto);
-    partner.addAddress(address, isPrimary, name);
-
-    await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
-
-    return partner;
+export interface AddPartnerAddressCommand {
+    partnerId: string;
+    street: string;
+    city: string;
+    zip?: string;
+    country?: string;
+    name?: string;
+    isPrimary?: boolean
 }
 
-export async function editAddressCommand(partnerId: string, addressId: string, newAddress: string, isPrimary: boolean, newName?: string) {
-    const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return;
+export class AddPartnerAddressCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
 
-    const partner = fromPartnerDTO(dto);
-    partner.editAddress(addressId, newAddress, isPrimary, newName);
+    async handle(cmd: AddPartnerAddressCommand) {
+        const partner = await partnerRepository.getById(cmd.partnerId);
+        if (!partner) return;
 
-    await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
+        const address = createAddress(
+            cmd.street, 
+            cmd.city,
+            cmd.zip,
+            cmd.country,
+            cmd.isPrimary,
+            cmd.name
+        );
+        partner.addAddress(address);
 
-    return partner;
+        await partnerRepository.update(partner);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
+
+        return partner;
+    }
 }
 
+export interface EditPartnerAddressCommand {
+    partnerId: string;
+    addressId: string
+    street: string;
+    city: string;
+    zip?: string;
+    country?: string;
+    name?: string;
+    isPrimary?: boolean
+}
 
-export async function removeAddressCommand(partnerId: string, addressId: string) {
-    const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return; 
+export class EditPartnerAddressCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
 
-    const partner = fromPartnerDTO(dto);
-    partner.removeAddress(addressId);
+    async handle(cmd: EditPartnerAddressCommand) {
+        const partner = await partnerRepository.getById(cmd.partnerId);
+        if (!partner) return;
+        
+        const newAddress = createAddress(
+            cmd.street, 
+            cmd.city,
+            cmd.zip,
+            cmd.country,
+            cmd.isPrimary,
+            cmd.name
+        );
+        partner.editAddress(cmd.addressId, newAddress);
 
-    await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
+        await partnerRepository.update(partner);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
-    return partner;
+        return partner;
+    }
+}
+
+export interface RemovePartnerAddressCommand {
+    partnerId: string,
+    addressId: string
+}
+
+export class RemovePartnerAddressCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
+    async handle(cmd: RemovePartnerAddressCommand) {
+        const partner = await partnerRepository.getById(cmd.partnerId);
+        if (!partner) return;
+
+        partner.removeAddress(cmd.addressId);
+
+        await partnerRepository.update(partner);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
+
+        return partner;
+    }
 }

@@ -21,34 +21,56 @@
         density="compact"
       />
     </template>
-
     <v-card :title="`${tCap('common.edit')} ${form.businessName}`">
       <v-card-text>
         <v-form 
           ref="formRef" 
           v-model="validForm"
         >
-          <v-container>
-            <v-row>
-              <v-text-field
-                v-model="form.businessName"
-                :label="tCap('partner.businessName')"
-                :rules="[required, rangeLength(3, 50)]"
-              />
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-model="form.contactName"
-                :label="tCap('partner.contactName')"
-                :rules="[maxLength(50)]"
-              />
-            </v-row>
-            <v-row>
-              <v-text-field
-                v-model="form.vatNumber"
-                :label="tCap('partner.vatNumber')"
-                :rules="[numeric, rangeLength(8, 8)]"
-              />
+          <v-container
+            class="pa-0" 
+            fluid
+          >
+            <v-row dense>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.contactName"
+                  :label="tCap('partner.contactName')"
+                  :rules="[required, rangeLength(3, 50)]"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  v-model="form.businessName"
+                  :label="tCap('partner.businessName')"
+                  :rules="[maxLength(50)]"
+                />
+              </v-col>
+              <v-col 
+                v-if="supplier" 
+                cols="12"
+              >
+                <v-text-field
+                  v-model="form.activity"
+                  :label="tCap('partner.activity')"
+                  :rules="[required, maxLength(50)]"
+                />
+              </v-col>
+              <v-col 
+                v-if="b2bCustomer" 
+                cols="12"
+              >
+                <v-autocomplete
+                  v-model="form.deliveryCarrierId"
+                  :item-props="itemProps"
+                  label="Carrier"
+                  :items="carriers"
+                >
+                  <template #append-inner>
+                    <CarrierModal mini />
+                  </template>
+                </v-autocomplete>
+              </v-col>
             </v-row>
             <v-alert
               v-if="errorMessage"
@@ -62,7 +84,6 @@
           </v-container>
         </v-form>
       </v-card-text>
-
       <v-card-actions>
         <v-spacer />
         <v-btn
@@ -85,22 +106,30 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, defineProps } from 'vue';
+import { reactive, watch, defineProps, computed } from 'vue';
 
-import { PartnerDTO } from '@/application/dto/partnerDTO';
+import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
+import { isB2BCustomer, isSupplier } from '@/domain/partner/typeGuards';
+import { Partner } from '@/domain/partner/models/partner';
 
-import { usePartners } from '@/presentation/composables/usePartners';
+import { usePartners } from '@/presentation/composables/partner/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
+import { useValidationRules } from '@/presentation/composables/useValidationRules';
 
-import { maxLength, numeric, rangeLength, required } from '@/presentation/utils/validation';
+import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal.vue'
 
-const { editPartnerCommand } = usePartners();
+const { maxLength, required, rangeLength } = useValidationRules();
+
+const { editSupplierCommandHandler, editB2BCustomerCommandHandler } = usePartners();
+
+const { carriers } = useDeliveryCarriers()
 
 const { tCap, t } = useLocalizationHelpers();
 
 const props = defineProps<{
-  partner: PartnerDTO | null;
+  partner: Partner;
   mini: boolean;
 }>();
 
@@ -108,11 +137,17 @@ const props = defineProps<{
 const form = reactive({
   businessName: '',
   contactName: '',
-  vatNumber: '',
-  email: '',
-  phone: '',
-  address: ''
+  activity: '',
+  deliveryCarrierId: ''
 });
+
+function itemProps(item: DeliveryCarrier) {
+    return {
+        title: item.name,
+        value: item.id,
+        subtitle: item.primaryLocation?.value ?? ""
+    }
+}
 
 const {
   dialog, 
@@ -125,25 +160,48 @@ const {
 } = useFormDialog(form);
 
 watch(dialog, (open) => {
-    if(open && props.partner) {
-      form.businessName = props.partner.businessName ?? "";
-      form.contactName = props.partner.contactName;
-      form.vatNumber = props.partner.vatNumber ?? "";
-
-      const primaryEmail = props.partner.emails.find(e => e.isPrimary);
-      form.email = primaryEmail ? primaryEmail.value : '';
-
-      const primaryPhone = props.partner.phones.find(p => p.isPrimary);
-      form.phone = primaryPhone ? primaryPhone.value : '';
-
-      const primaryAddress = props.partner.addresses.find(a => a.isPrimary);
-      form.address = primaryAddress ? primaryAddress.value : '';
+  if(open && props.partner) {
+    form.businessName = props.partner.businessName ?? "";
+    form.contactName = props.partner.contactName;
+    if(supplier.value) {
+      form.activity = supplier.value.activity ?? "";
     }
+    if(b2bCustomer.value) {
+      form.deliveryCarrierId = b2bCustomer.value.deliveryCarrierId ?? "";
+    }
+  }
 });
+
+const supplier = computed(() =>
+  props.partner && isSupplier(props.partner)
+    ? props.partner
+    : undefined
+);
+
+const b2bCustomer = computed(() =>
+  props.partner && isB2BCustomer(props.partner)
+    ? props.partner
+    : undefined
+);
 
 async function saveSupplier() {
   await submit(async (form) => {
-    editPartnerCommand(props.partner?.id ?? '', form.contactName, form.businessName, form.vatNumber);
+    if(supplier.value) {
+      editSupplierCommandHandler.handle({
+        id: props.partner?.id ?? '', 
+        contactName: form.contactName, 
+        activity: form.activity, 
+        businessName: form.businessName
+      });
+    } else if(b2bCustomer.value) {
+      editB2BCustomerCommandHandler.handle({
+        id: props.partner?.id ?? '',
+        contactName: form.contactName,
+        businessName: form.businessName,
+        deliveryCarrierId: form.deliveryCarrierId
+      });
+    }
+
   });
 }
 </script>

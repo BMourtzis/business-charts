@@ -1,46 +1,74 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { fromPartnerDTO, toPartnerDTO } from "../../mapper/partnerMapper";
+import { PartnerMapperInstance } from "../../mapper/partnerMapper";
+import { createPhone } from "@/domain/contact/models/contact";
 
-export async function addPhoneCommand(partnerId: string, phone: string, name?: string, isPrimary = false) {
-    const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return;
-
-    const partner = fromPartnerDTO(dto);
-    partner.addPhone(phone, isPrimary, name);
-
-    await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
-
-    return partner;
+export interface AddPartnerPhoneCommand {
+    partnerId: string;
+    phone: string;
+    name?: string;
+    isPrimary?: boolean
 }
 
-export async function editPhoneCommand(partnerId: string, phoneId: string, newPhone: string, isPrimary: boolean, newName?: string) {
-    const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return;
+export class AddPartnerPhoneCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
 
-    const partner = fromPartnerDTO(dto);
-    partner.editPhone(phoneId, newPhone, isPrimary, newName);
+    async handle(cmd: AddPartnerPhoneCommand) {
+        const partner = await partnerRepository.getById(cmd.partnerId);
+        if (!partner) return;
 
-    await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
+        const phone = createPhone(cmd.phone, cmd.isPrimary, cmd.name);
+        partner.addPhone(phone);
 
-    return partner;
+        await partnerRepository.update(partner);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
+
+        return partner;
+    }
 }
 
+export interface EditPartnerPhoneCommand {
+    partnerId: string;
+    phoneId: string;
+    phone: string;
+    name?: string;
+    isPrimary?: boolean
+}
 
-export async function removePhoneCommand(partnerId: string, phoneId: string) {
-    const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return; 
+export class EditPartnerPhoneCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
 
-    const partner = fromPartnerDTO(dto);
-    partner.removePhone(phoneId);
+    async handle(cmd: EditPartnerPhoneCommand) {
+        const partner = await partnerRepository.getById(cmd.partnerId);
+        if (!partner) return;
 
-    await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
+        const newPhone = createPhone(cmd.phone, cmd.isPrimary, cmd.name);
+        partner.editPhone(cmd.phoneId, newPhone);
 
-    return partner;
+        await partnerRepository.update(partner);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
+
+        return partner;
+    }
+}
+
+export interface RemovePartnerPhoneCommand {
+    partnerId: string,
+    phoneId: string
+}
+
+export class RemovePartnerPhoneCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
+    async handle(cmd: RemovePartnerPhoneCommand) {
+        const partner = await partnerRepository.getById(cmd.partnerId);
+        if (!partner) return;
+
+        partner.removePhone(cmd.phoneId);
+
+        await partnerRepository.update(partner);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
+
+        return partner;
+    }
 }

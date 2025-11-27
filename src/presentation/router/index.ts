@@ -5,22 +5,22 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/',
         name: 'home',
-        component: () => import('@/presentation/views/Home.vue'),
+        component: () => import('@/presentation/views/HomeView.vue'),
     }, {
         path: '/chart',
-        name: 'about',
+        name: 'chart',
         component: () => import('@/presentation/views/TestChart.vue'),
     }, {
         path: '/suppliers',
         name: 'suppliers',
         component: () => import('@/presentation/views/partner/SuppliersView.vue'),
     }, {
-        path: '/customers',
-        name: 'customers',
-        component: () => import('@/presentation/views/partner/CustomersView.vue'),
+        path: '/b2b-customers',
+        name: 'b2bCustomers',
+        component: () => import('@/presentation/views/partner/B2BCustomersView.vue'),
     }, {
         path: '/partner/:id',
-        name: 'partner-details',
+        name: 'partnerDetails',
         component: () => import('@/presentation/views/partner/PartnerDetails.vue'),
         props: true,
     }, {
@@ -28,9 +28,22 @@ const routes: RouteRecordRaw[] = [
         name: 'orders',
         component: () => import('@/presentation/views/orders/OrdersView.vue'),
     }, {
+        path: '/carriers',
+        name: 'deliveryCarriers',
+        component: () => import('@/presentation/views/deliveryCarrier/DeliveryCarrierView.vue'),
+    }, {
+        path: '/carrier/:id',
+        name: 'deliveryCarrierDetails',
+        component: () => import('@/presentation/views/deliveryCarrier/DeliveryCarrierDetails.vue'),
+        props: true,
+    }, {
         path: '/data-transfer',
-        name: 'data-transfer',
+        name: 'dataTransfer',
         component: () => import('@/presentation/views/DataTransfer.vue'),
+    }, {
+        path: '/change-password',
+        name: 'changePassword',
+        component: () => import('@/presentation/views/ChangePassword.vue'),
     }
 ];
 

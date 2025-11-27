@@ -1,26 +1,42 @@
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { createSupplier } from "@/domain/models/partner";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
-import { toPartnerDTO } from "../../mapper/partnerMapper";
+import { AddressDTO } from "@/application/dto/contactDTO";
+import { createSupplier } from "@/domain/partner/models/supplier";
+import { createEmail, createPhone } from "@/domain/contact/models/contact";
+import { createAddress } from "@/domain/contact/models/address";
+import { PartnerMapperInstance } from "@/application/mapper/partnerMapper";
 
-export async function createSupplierCommand(
-    name: string, 
-    businessName: string, 
-    vatNumber?: string,
+export interface CreateSupplierCommand {
+    contactName: string, 
+    activity: string,
+    businessName?: string, 
     email?: string, 
     phone?: string, 
-    address?: string,) {
-    const supplier = createSupplier(name, businessName, vatNumber);
+    address?: AddressDTO
+}
 
-    if(email && email.trim() !== '') supplier.addEmail(email, true);
-    if(phone && phone.trim() !== '') supplier.addPhone(phone, true);
-    if(address && address.trim() !== '') supplier.addAddress(address, true);
+//TODO: to fully decouple the cmd from the store, createa an adapter.
+export class CreateSupplierCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
 
-    const dto = toPartnerDTO(supplier);
-    await partnerRepository.add(supplier);
+    async handle(cmd: CreateSupplierCommand) {
+        const supplier = createSupplier(
+            cmd.contactName, 
+            cmd.activity, 
+            cmd.businessName);
 
-    const store = usePartnersStore();
-    await store.add(dto);
+        if(cmd.email && cmd.email.trim() !== '') supplier.addEmail(createEmail(cmd.email, true));
+        if(cmd.phone && cmd.phone.trim() !== '') supplier.addPhone(createPhone(cmd.phone, true));
+        if(cmd.address) supplier.addAddress(createAddress(
+            cmd.address.street, 
+            cmd.address.city, 
+            cmd.address.zip, 
+            cmd.address.country, 
+            true));
+        
+        await partnerRepository.add(supplier);
+        this._partnersStore.add(PartnerMapperInstance.toDTO(supplier));
 
-    return supplier;
+        return supplier;
+    }
 }

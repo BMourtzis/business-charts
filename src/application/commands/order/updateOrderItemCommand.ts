@@ -1,4 +1,4 @@
-import { createOrderItem } from "@/domain/models/orderItem";
+import { createOrderItem } from "@/domain/order/models/orderItem";
 import { orderRepository } from "@/infrastructure/repositories/orderRepository.local";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
 

@@ -1,5 +1,6 @@
-import { Order } from '@/domain/models/order';
 import { defineStore } from 'pinia';
+
+import { Order } from '@/domain/order/models/order';
 
 export interface AmountsRecord {
     debited: number;

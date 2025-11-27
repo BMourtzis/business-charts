@@ -1,46 +1,75 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { fromPartnerDTO, toPartnerDTO } from "../../mapper/partnerMapper";
+import { PartnerMapperInstance } from "../../mapper/partnerMapper";
+import { createEmail } from "@/domain/contact/models/contact";
 
-export async function addEmailCommand(partnerId: string, email: string, name?: string, isPrimary = false) {
-    const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return;
-
-    const partner = fromPartnerDTO(dto);
-    partner.addEmail(email, isPrimary, name);
-
-    await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
-
-    return partner;
+export interface AddPartnerEmailCommand {
+    partnerId: string;
+    email: string;
+    name?: string;
+    isPrimary?: boolean
 }
 
-export async function editEmailCommand(partnerId: string, emailId: string, newEmail: string, isPrimary: boolean, newName?: string) {
-    const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return;
+export class AddPartnerEmailCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
 
-    const partner = fromPartnerDTO(dto);
-    partner.editEmail(emailId, newEmail, isPrimary, newName);
+    async handle(cmd: AddPartnerEmailCommand) {
+        const partner = await partnerRepository.getById(cmd.partnerId);
+        if (!partner) return;
 
-    await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
+        const email = createEmail(cmd.email, cmd.isPrimary, cmd.name);
+        partner.addEmail(email);
 
-    return partner;
+        await partnerRepository.update(partner);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
+
+        return partner;
+    }
 }
 
 
-export async function removeEmailCommand(partnerId: string, emailId: string) {
-    const store = usePartnersStore();
-    const dto = store.getById(partnerId);
-    if (!dto) return; 
+export interface EditPartnerEmailCommand {
+    partnerId: string;
+    emailId: string;
+    email: string;
+    name?: string;
+    isPrimary?: boolean
+}
 
-    const partner = fromPartnerDTO(dto);
-    partner.removeEmail(emailId);
+export class EditPartnerEmailCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
 
-    await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
+    async handle(cmd: EditPartnerEmailCommand) {
+        const partner = await partnerRepository.getById(cmd.partnerId);
+        if (!partner) return;
 
-    return partner;
+        const newEmail = createEmail(cmd.email, cmd.isPrimary, cmd.name);
+        partner.editEmail(cmd.emailId, newEmail);
+
+        await partnerRepository.update(partner);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
+
+        return partner;
+    }
+}
+
+export interface RemovePartnerEmailCommand {
+    partnerId: string,
+    emailId: string
+}
+
+export class RemovePartnerEmailCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
+    async handle(cmd: RemovePartnerEmailCommand) {
+        const partner = await partnerRepository.getById(cmd.partnerId);
+        if (!partner) return;
+
+        partner.removeEmail(cmd.emailId);
+
+        await partnerRepository.update(partner);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
+
+        return partner;
+    }
 }

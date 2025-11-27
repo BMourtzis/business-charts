@@ -1,5 +1,65 @@
 {
     "hello": "Γεία",
+    "pages": {
+        "home": "Αρχική",
+        "dataTransfer": "Μεταφορά Δεδομένων",
+        "changePassword": "Αλλαγή συνθηματικού",
+        "partner": {
+            "partners": "Συνεργάτες",
+            "suppliers": "Προμηθευτές",
+            "b2bCustomers": "Πελάτες Χονδρικής",
+            "details": "Στοιχεία Συνεργάτη"
+        },
+        "deliveryCarrier": {
+            "carriers": "Μεταφορικές",
+            "details": "Στοιχεία Μεταφορικής"
+        }
+    },
+    "validation": {
+        "required": "Υποχρεωτικό πεδίο.",
+        "invalidEmail": "Εισάγετε έγκυρη διεύθυνση email.",
+        "invalidPhone": "Εισάγετε έγκυρο αριθμό τηλεφώνου.",
+        "minLength": "Το ελάχιστο επιτρεπόμενο μήκος είναι {min} χαρακτήρες.",
+        "maxLength": "Το μέγιστο επιτρεπόμενο μήκος είναι {max} χαρακτήρες.",
+        "rangeLength": "Το μήκος πρέπει να είναι μεταξύ {min} και {max} χαρακτήρων.",
+        "numeric": "Το πεδίο πρέπει να είναι αριθμητική τιμή.",
+        "integer": "Το πεδίο πρέπει να είναι ακέραιος αριθμός.",
+        "positiveNumber": "Αυτό το πεδίο πρέπει να είναι θετικός αριθμός.",
+        "negativeNumber": "Αυτό το πεδίο πρέπει να είναι αρνητικός αριθμός.",
+        "streetRequired": "η οδός είναι υποχρεωτική",
+        "cityRequired": "η περιοχή είναι υποχρεωτική",
+        "sameAs": "Οι τιμές δεν ταιριάζουν",
+        "passwordsDoNotMatch": "Τα συνθηματικά δεν ταιριάζουν"
+        
+    },
+    "options": {
+        "dataTransfer": "Μεταφορά Δεδομένων",
+        "export": "εξάγωγη",
+        "import": "εισαγωγή",
+        "deleteData": "Διαγραφή δεγομένων",
+        "importJson": "εισαγωγή JSON",
+        "exportJson": "εξάγωγη JSON"
+    },
+    "vault": {
+        "enterPassword": "Εισάγετε το συνθηματικό για να ξεκλειδώσετε",
+        "decryptionError": "Λάθος συνθηματικό ή πρόβλημα στην αποκρυπτογράφηση δεδομένων",
+        "lock": "κλείδωσε",
+        "unlock": "ξεκλείδωσε",
+        "password": "συνθηματικό",
+        "confirmPassword": "επαλήθευση συνθηματικού",
+        "changePassword": "αλλαγή συνθηματικού",
+        "oldPassword": "παλιό συνθηματικό",
+        "newPassword": "νέο συνθηματικό",
+        "confirmNewPassword": "επαλήθευση νέου συνθηματικού",
+        "wrongPassowrd": "Λάθος συνθηματικό",
+        "passwordChangedSuccess": "Το συνθηματικό άλλαξε επιτυχώς",
+        "pwStrengthWeak": "Αδύναμο",
+        "pwStrengthFair": "Μέτριο",
+        "pwStrengthGood": "Καλό",
+        "pwStrengthStrong": "Ισχυρό",
+        "pwStrengthVeryStrong": "Πολύ ισχυρό",
+        "saveBeforeChangePw": "Παρακαλώ κατεβάστε τα δεδομένα σας πριν την αλλαγή κωδικού για ασφάλεια των δεδομένων σε περίπτωση λάθους"
+    },
     "common": {
         "name": "όνομα",
         "save": "αποθήκευση",
@@ -12,26 +72,46 @@
         "primary": "κύριο",
         "primary_gen": "κύρια"
     },
+    "contact": {
+        "email": "email",
+        "phone": "τηλέφωνο | τηλέφωνα",
+        "mainEmailField": "κύριο email",
+        "mainPhoneField": "κύριο phone",
+        "addEmail": "προσθήκη email",
+        "addPhone": "προσθήκη τηλεφώνου",
+        "editEmail": "επεξεργασία email",
+        "editPhone": "επεξεργασία τηλεφώνου",
+        "contactInfo": "επικοινωνία",
+        "noEmails": "Δεν υπάρχουν email",
+        "noPhones": "Δεν υπάρχουν τηλέφωνα",
+        "noAddresses": "Δεν υπάρχουν διευθύνσεις"
+    },
+    "address": {
+        "address": "διεύθυνση | διευθύνσεις",
+        "street": "οδός",
+        "city": "περιοχή",
+        "zip": "Τ.Κ.",
+        "country": "χώρα",
+        "mainAddressField": "κύρια διεύθυνση",
+        "addAddress": "προσθήκη διεύθυνσης",
+        "editAddress": "επεξεργασία διεύθυνσης"
+    },
+    "deliveryCarrier": {
+        "carrier": "μεταφορική | μεταφορικές",
+        "addCarrier": "προσθήκη μεταφορικής",
+        "editCarrier": "επεξεργασία μεταφορικής"
+    },
     "partner": {
-        "partner": "partner | partners",
+        "partner": "συνεργάτης | συνεργάτες",
         "supplier": "προμηθευτής | προμηθευτές",
         "customer": "πελάτης | πελάτες",
+        "b2bCustomer": "πελάτης χονδρικής | πελάτες χονδρικής",
         "businessName": "όνομα επιχείρησης",
         "contactName": "όνομα επαφής",
         "vatNumber": "ΑΦΜ",
-        "email": "email | emails",
-        "phone": "τηλέφωνο | τηλέφωνα",
-        "address": "διεύθυνση | διευθύνσεις",
+        "activity": "δραστηριότητα",
         "addSupplierTitle": "προσθήκη προμηθευτή",
-        "addCustomerTitle": "προσθήκη πελάτη",
-        "mainEmailField": "κύριο email",
-        "mainPhoneField": "κύριο phone",
-        "mainAddressField": "κύρια διεύθυνση",
-        "addEmail": "προσθήκη email",
-        "addPhone": "προσθήκη τηλεφώνου",
-        "addAddress": "προσθήκη διεύθυνσης",
-        "editEmail": "επεξεργασία email",
-        "editPhone": "επεξεργασία τηλεφώνου",
-        "editAddress": "επεξεργασία διεύθυνσης"
+        "addΒ2ΒCustomerTitle": "προσθήκη πελάτη χονδρικής",
+        "addCustomerTitle": "προσθήκη πελάτη"
     }
 }

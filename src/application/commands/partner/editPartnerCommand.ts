@@ -1,19 +1,72 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { fromPartnerDTO, toPartnerDTO } from "../../mapper/partnerMapper";
+import { PartnerMapperInstance } from "../../mapper/partnerMapper";
 
-export async function editPartnerCommand(id: string, contactName: string, businessName: string, vatNumber?: string) {
-    const store = usePartnersStore();
-    const dto = store.getById(id);
+export interface EditPartnerCommand {
+    id: string;
+    contactName: string;
+    businessName?: string;
+}
 
-    if (!dto) return;
+export class EditPartnerCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
 
-    const partner = fromPartnerDTO(dto);
-    
-    partner.updateBasicData(contactName, businessName, vatNumber);
+    async handle(cmd: EditPartnerCommand) {
+        const partner = await partnerRepository.getById(cmd.id);
+        if (!partner) return;
+        
+        partner.updateData(cmd.contactName, cmd.businessName);
 
-    await partnerRepository.update(partner);
-    await store.update(toPartnerDTO(partner));
+        await partnerRepository.update(partner);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
-    return partner;
+        return partner;
+    }
+}
+
+export interface EditSupplierCommand {
+    id: string;
+    contactName: string;
+    activity: string;
+    businessName?: string;
+}
+
+export class EditSupplierCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
+    async handle(cmd: EditSupplierCommand) {
+        const supplier = await partnerRepository.getSupplierById(cmd.id);
+        if (!supplier) return;
+        
+        supplier.updateData(cmd.contactName, cmd.businessName, cmd.activity);
+
+        await partnerRepository.update(supplier);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(supplier));
+
+        return supplier;
+    }
+}
+
+export interface EditB2BCustomerCommand {
+    id: string;
+    contactName: string;
+    deliveryCarrierId: string;
+    businessName?: string;
+}
+
+export class EditB2BCustomerCommandHandler {
+    constructor(private _partnersStore = usePartnersStore()) {}
+
+    async handle(cmd: EditB2BCustomerCommand) {
+        const b2bCustomer = await partnerRepository.getB2BCustomerById(cmd.id);
+        if (!b2bCustomer) return;
+        
+        b2bCustomer.updateData(cmd.contactName, cmd.businessName);
+        b2bCustomer.deliveryCarrierId = cmd.deliveryCarrierId;
+
+        await partnerRepository.update(b2bCustomer);
+        this._partnersStore.update(PartnerMapperInstance.toDTO(b2bCustomer));
+
+        return b2bCustomer;
+    }
 }

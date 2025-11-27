@@ -1,4 +1,6 @@
 import { computed } from "vue";
+import { storeToRefs } from "pinia";
+
 import { useOrdersStore } from "../stores/orderStore";
 import { getOrderById } from "@/application/queries/order/getOrderByIdQuery";
 import { getOrdersForPartner } from "@/application/queries/order/getOrdersForPartnerQuery";
@@ -11,10 +13,11 @@ import { usePartnersStore } from "../stores/partnerStore";
 export function useOrders() {
     const store = useOrdersStore();
     const partnerStore = usePartnersStore();
+    const partnerStoreRef = storeToRefs(partnerStore);
 
     return {
         allOrders: store.allOrders,
-        partnerNames: partnerStore.getPartnerNames,
+        partnerNames: computed(() => partnerStoreRef.all.value.map(p => p.businessName ?? p.contactName)),
         totalsPerPartner: computed(() => store.totalsPerPartner),
         globalTotals: computed(() => store.globalTotals),
         creditOrders: store.creditOrders,

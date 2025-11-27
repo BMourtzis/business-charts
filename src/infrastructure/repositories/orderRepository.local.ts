@@ -1,7 +1,7 @@
-import { Repository } from "./type";
+import { Order } from "@/domain/order/models/order";
+import { IRepository } from "./type";
 import { OrderDTO } from "@/application/dto/orderDTO";
 import { fromOrderDTO } from "@/application/mapper/orderMapper";
-import { Order } from "@/domain/models/order";
 
 const STORAGE_KEY = 'orders';
 
@@ -15,7 +15,8 @@ async function saveDTOs(dtos: OrderDTO[]): Promise<void> {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(dtos));
 }
 
-export const orderRepository: Repository<Order, OrderDTO> = {
+//TODO: update this to save with DTO
+export const orderRepository: IRepository<Order, OrderDTO> = {
     async getAll() {
         return loadDTOs();
     },
@@ -25,6 +26,10 @@ export const orderRepository: Repository<Order, OrderDTO> = {
     async load() {
         const dtos = await loadDTOs();
         return dtos.map(fromOrderDTO);
+    },
+    async getById(id: string) {
+        //TODO: create the OrderMapper to fix this.
+        return undefined;
     },
     async add(order) {
         const dtos = await loadDTOs();
@@ -44,4 +49,7 @@ export const orderRepository: Repository<Order, OrderDTO> = {
         const filtered = dtos.filter((o: OrderDTO) => o.id !== id);
         saveDTOs(filtered);
     },
+    async removeAll() {
+        await saveDTOs([]);
+    }
 };

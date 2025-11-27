@@ -1,4 +1,4 @@
-import { OrderDirection, OrderStatus } from "@/domain/types/orderTypes";
+import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
 
 export interface OrderDTO {
     id: string;

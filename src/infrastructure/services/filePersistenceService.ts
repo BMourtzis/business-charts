@@ -1,11 +1,29 @@
 import { partnerRepository } from '@/infrastructure/repositories/partnerRepository.local';
 import { orderRepository } from '@/infrastructure/repositories/orderRepository.local';
+import { deliveryCarrierRepository } from '@/infrastructure/repositories/deliverCarrierRepository.local';
+
+import { PartnerDTO } from '@/application/dto/partnerDTO';
+import { DeliveryCarrierDTO } from '@/application/dto/deliveryCarrierDTO';
+import { OrderDTO } from '@/application/dto/orderDTO';
 
 export class FilePersistenceService {
-    async exportAll() {
+    async exportAll(includePartners: boolean, includeCarriers: boolean, includeOrders: boolean) {
         const data = {
-            partners: await partnerRepository.getAll(),
-            orders: await orderRepository.getAll(),
+            partners: [] as PartnerDTO[],
+            orders: [] as OrderDTO[],
+            carriers: [] as DeliveryCarrierDTO[],
+        }
+
+        if(includePartners) {
+            data.partners = await partnerRepository.getAll();
+        }
+
+        if(includeCarriers) {
+            data.carriers = await deliveryCarrierRepository.getAll();
+        }
+
+        if(includeOrders) {
+            data.orders = await orderRepository.getAll();
         }
 
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
@@ -17,16 +35,20 @@ export class FilePersistenceService {
         URL.revokeObjectURL(url)
     }
 
-    async importAll(file: File) {
+    async importAll(file: File, includePartners: boolean, includeCarriers: boolean, includeOrders: boolean) {
         const text = await file.text();
         const data = JSON.parse(text);
 
-        if (data.partners) {
+        if (includePartners && data.partners) {
             await partnerRepository.saveAll(data.partners);
         }
 
-        if (data.orders) {
+        if (includeCarriers && data.orders) {
             await orderRepository.saveAll(data.orders);
+        }
+
+        if(includeOrders && data.carriers) {
+            await deliveryCarrierRepository.saveAll(data.carriers);
         }
     }
 }

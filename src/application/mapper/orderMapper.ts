@@ -1,6 +1,7 @@
-import { Order } from "@/domain/models/order";
+
+import { Order } from "@/domain/order/models/order";
 import { OrderDTO, OrderItemDTO } from "../dto/orderDTO";
-import { OrderItem } from "@/domain/models/orderItem";
+import { OrderItem } from "@/domain/order/models/orderItem";
 
 export function fromOrderDTO(dto: OrderDTO): Order {
     return new Order(

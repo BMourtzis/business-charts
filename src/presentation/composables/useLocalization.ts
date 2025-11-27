@@ -2,11 +2,13 @@ import { useI18n } from 'vue-i18n'
 
 export type LocaleType = "en" | "el";
 
+type TParams = Record<string, string | number | boolean> | undefined;
+
 export function useLocalizationHelpers() {
   const { t, locale  } = useI18n();
 
-  const tCap = (key: string, count = 1) => {
-    const str = t(key, count)
+  const tCap = (key: string, count = 1, params?: TParams) => {
+    const str = t(key, {...params, count});
     if (typeof str !== 'string') return str
     return str.charAt(0).toUpperCase() + str.slice(1)
   }

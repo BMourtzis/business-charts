@@ -1,5 +1,5 @@
 
-import { OrderStatus } from "@/domain/types/orderTypes";
+import { OrderStatus } from "@/domain/order/orderTypes";
 import { orderRepository } from "@/infrastructure/repositories/orderRepository.local";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
 

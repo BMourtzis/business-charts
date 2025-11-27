@@ -1,5 +1,64 @@
 {
     "hello": "Hello",
+    "pages": {
+        "home": "Home",
+        "dataTransfer": "Data Transfer",
+        "changePassword": "Change Password",
+        "partner": {
+            "partners": "Partners",
+            "suppliers": "Suppliers",
+            "b2bCustomers": "B2B Customers",
+            "details": "Patner Details"
+        },
+        "deliveryCarrier": {
+            "carriers": "Delivery Carriers",
+            "details": "Delivery Carrier Details"
+        }
+    },
+    "validation": {
+        "required": "This field is required.",
+        "invalidEmail": "Please enter a valid email address.",
+        "invalidPhone": "Please enter a valid phone number.",
+        "minLength": "Minimum length is {min} characters.",
+        "maxLength": "Maximum length is {max} characters.",
+        "rangeLength": "Length must be between {min} and {max} characters.",
+        "numeric": "This field must be a numeric value.",
+        "integer": "This field must be an integer value.",
+        "positiveNumber": "This field must be a positive number.",
+        "negativeNumber": "This field must be a negative number.",
+        "streetRequired": "street is required",
+        "cityRequired": "city is required",
+        "sameAs": "Values do not match",
+        "passwordsDoNotMatch": "Passwords do not match"
+    },
+    "options": {
+        "dataTransfer": "Data Transfer",
+        "export": "Export",
+        "import": "Import",
+        "deleteData": "Delete Data",
+        "importJson": "Import JSON",
+        "exportJson": "Export JSON"
+    },
+    "vault": {
+        "enterPassword": "enter password to unlock",
+        "decryptionError": "Invalid passowrd or unable to decrypt data.",
+        "lock": "lock",
+        "unlock": "unlock",
+        "password": "password",
+        "confirmPassword": "confirm password",
+        "changePassword": "change password",
+        "oldPassword": "old password",
+        "newPassword": "new password",
+        "confirmNewPassword": "confirm new password",
+        "wrongPassowrd": "wrong password",
+        "passwordChangedSuccess": "the password was changed successfully",
+        "pwStrengthWeak": "Weak",
+        "pwStrengthFair": "Fair",
+        "pwStrengthGood": "Good",
+        "pwStrengthStrong": "Strong",
+        "pwStrengthVeryStrong": "Very Strong",
+        "saveBeforeChangePw": "Please download your data, before changing the password for the safety of your data, in case of error"
+    },
     "common": {
         "name": "name",
         "save": "save",
@@ -12,26 +71,55 @@
         "primary": "primary",
         "primary_gen": "primary"
     },
+    "export": {
+        "dataTransfer": "Data Transfer",
+        "export": "export",
+        "import": "import",
+        "deleteData": "delete data",
+        "importJson": "import JSON",
+        "exportJson": "export JSON"
+    },
+    "contact": {
+        "email": "email | emails",
+        "phone": "phone | phones",
+        "mainEmailField": "primary email",
+        "mainPhoneField": "primary phone",
+        "addEmail": "add email",
+        "addPhone": "add phone",
+        "editEmail": "edit email",
+        "editPhone": "edit phone",
+        "contactInfo": "contactInfo",
+        "noEmails": "No emails",
+        "noPhones": "No phones",
+        "noAddresses": "No addresses"
+
+    },
+    "address": {
+        "address": "address | addresses",
+        "street": "street",
+        "city": "city",
+        "zip": "zip code",
+        "country": "country",
+        "mainAddressField": "primary address",
+        "addAddress": "add address",
+        "editAddress": "edit address"
+    },
+    "deliveryCarrier": {
+        "carrier": "delivery carrier | delivery carriers",
+        "addCarrier": "add delivery carrier",
+        "editCarrier": "edit delivery carrier"
+    },
     "partner": {
         "partner": "partner | partners",
         "supplier": "supplier | suppliers",
         "customer": "customer | customers",
+        "b2bCustomer": "B2B customer | B2B customers",
         "businessName": "business Name",
         "contactName": "contact Name",
         "vatNumber": "VAT Number",
-        "email": "email | emails",
-        "phone": "phone | phones",
-        "address": "address | addresses",
+        "activity": "Activity",
         "addSupplierTitle": "Add Supplier",
-        "addCustomerTitle": "Add Customer",
-        "mainEmailField": "primary email",
-        "mainPhoneField": "primary phone",
-        "mainAddressField": "primary address",
-        "addEmail": "add email",
-        "addPhone": "add phone",
-        "addAddress": "add address",
-        "editEmail": "edit email",
-        "editPhone": "edit phone",
-        "editAddress": "edit address"
+        "addΒ2ΒCustomerTitle": "Add B2B customer",
+        "addCustomerTitle": "Add Customer"
     }
 }
