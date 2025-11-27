@@ -1,6 +1,6 @@
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
-import { PartnerMapper } from "../../mapper/partnerMapper";
+import { PartnerMapperInstance } from "../../mapper/partnerMapper";
 import { createAddress } from "@/domain/contact/models/address";
 
 export interface AddPartnerAddressCommand {
@@ -31,7 +31,7 @@ export class AddPartnerAddressCommandHandler {
         partner.addAddress(address);
 
         await partnerRepository.update(partner);
-        this._partnersStore.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
         return partner;
     }
@@ -66,7 +66,7 @@ export class EditPartnerAddressCommandHandler {
         partner.editAddress(cmd.addressId, newAddress);
 
         await partnerRepository.update(partner);
-        this._partnersStore.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
         return partner;
     }
@@ -87,7 +87,7 @@ export class RemovePartnerAddressCommandHandler {
         partner.removeAddress(cmd.addressId);
 
         await partnerRepository.update(partner);
-        this._partnersStore.update(PartnerMapper.toDTO(partner));
+        this._partnersStore.update(PartnerMapperInstance.toDTO(partner));
 
         return partner;
     }

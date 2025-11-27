@@ -1,5 +1,5 @@
 import { AddressDTO } from "@/application/dto/contactDTO";
-import { DeliveryCarrierMapper } from "@/application/mapper/deliverCarrierMapper";
+import { DeliveryCarrierMapperInstance } from "@/application/mapper/deliverCarrierMapper";
 import { createAddress } from "@/domain/contact/models/address";
 import { createDeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";
 import { deliveryCarrierRepository } from "@/infrastructure/repositories/deliverCarrierRepository.local";
@@ -21,7 +21,7 @@ export class CreateDeliveryCarrierCommandHandler {
         );
 
         await deliveryCarrierRepository.add(deliveryCarrier);
-        this._deliveryCarrierStore.add(DeliveryCarrierMapper.toDTO(deliveryCarrier));
+        this._deliveryCarrierStore.add(DeliveryCarrierMapperInstance.toDTO(deliveryCarrier));
 
         return deliveryCarrier;
     }

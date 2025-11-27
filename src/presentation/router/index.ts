@@ -36,6 +36,10 @@ const routes: RouteRecordRaw[] = [
         path: '/data-transfer',
         name: 'dataTransfer',
         component: () => import('@/presentation/views/DataTransfer.vue'),
+    }, {
+        path: '/change-password',
+        name: 'changePassword',
+        component: () => import('@/presentation/views/ChangePassword.vue'),
     }
 ];
 

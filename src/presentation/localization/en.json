@@ -3,6 +3,7 @@
     "pages": {
         "home": "Home",
         "dataTransfer": "Data Transfer",
+        "changePassword": "Change Password",
         "partner": {
             "partners": "Partners",
             "suppliers": "Suppliers",
@@ -26,7 +27,37 @@
         "positiveNumber": "This field must be a positive number.",
         "negativeNumber": "This field must be a negative number.",
         "streetRequired": "street is required",
-        "cityRequired": "city is required"
+        "cityRequired": "city is required",
+        "sameAs": "Values do not match",
+        "passwordsDoNotMatch": "Passwords do not match"
+    },
+    "options": {
+        "dataTransfer": "Data Transfer",
+        "export": "Export",
+        "import": "Import",
+        "deleteData": "Delete Data",
+        "importJson": "Import JSON",
+        "exportJson": "Export JSON"
+    },
+    "vault": {
+        "enterPassword": "enter password to unlock",
+        "decryptionError": "Invalid passowrd or unable to decrypt data.",
+        "lock": "lock",
+        "unlock": "unlock",
+        "password": "password",
+        "confirmPassword": "confirm password",
+        "changePassword": "change password",
+        "oldPassword": "old password",
+        "newPassword": "new password",
+        "confirmNewPassword": "confirm new password",
+        "wrongPassowrd": "wrong password",
+        "passwordChangedSuccess": "the password was changed successfully",
+        "pwStrengthWeak": "Weak",
+        "pwStrengthFair": "Fair",
+        "pwStrengthGood": "Good",
+        "pwStrengthStrong": "Strong",
+        "pwStrengthVeryStrong": "Very Strong",
+        "saveBeforeChangePw": "Please download your data, before changing the password for the safety of your data, in case of error"
     },
     "common": {
         "name": "name",

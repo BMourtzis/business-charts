@@ -29,7 +29,7 @@ export class ImportDataCommandHandler {
             cmd.includeOrders
         );
 
-        if(cmd.includePartners) this._loadPartnersCommandHandler.handle();
-        if(cmd.includeCarriers) this._loadDeliveryCarriesCommandHandler.handle();
+        if(cmd.includePartners) await this._loadPartnersCommandHandler.handle();
+        if(cmd.includeCarriers) await this._loadDeliveryCarriesCommandHandler.handle();
     }
 }

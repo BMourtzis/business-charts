@@ -5,7 +5,7 @@ import { Partner } from '@/domain/partner/models/partner';
 import { Supplier } from '@/domain/partner/models/supplier';
 import { B2BCustomer } from '@/domain/partner/models/b2bCustomer';
 
-import { PartnerMapper } from '@/application/mapper/partnerMapper';
+import { PartnerMapperInstance } from '@/application/mapper/partnerMapper';
 
 import { usePartnersStore } from '@/presentation/stores/partnerStore';
 
@@ -18,7 +18,7 @@ export function usePartnerDetails(id: string) {
         const partner = dto.value;
         if (!partner) return undefined;
 
-        const mapped = PartnerMapper.toModel(partner);
+        const mapped = PartnerMapperInstance.toModel(partner);
 
         switch (partner.type) {
             case PartnerType.Supplier:

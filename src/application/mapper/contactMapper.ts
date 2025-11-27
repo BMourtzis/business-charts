@@ -1,13 +1,14 @@
 import { Contact } from "@/domain/contact/models/contact";
 import { AddressDTO, ContactDTO } from "../dto/contactDTO";
 import { Address } from "@/domain/contact/models/address";
+import { IMapper } from "./type";
 
-export class ContactMapper {
-    static toModel(dto: ContactDTO): Contact {
+export class ContactMapper implements IMapper<Contact, ContactDTO> {
+    toModel(dto: ContactDTO): Contact {
         return new Contact(dto.id, dto.isPrimary, dto.value, dto.type, dto.name);
     }
 
-    static toDto(model: Contact): ContactDTO {
+    toDTO(model: Contact): ContactDTO {
         return {
             id: model.id,
             type: model.type,
@@ -18,12 +19,12 @@ export class ContactMapper {
     }
 }
 
-export class AddressMapper {
-    static toModel(dto: AddressDTO): Address {
+export class AddressMapper implements IMapper<Address, AddressDTO> {
+    toModel(dto: AddressDTO): Address {
         return new Address(dto.id, dto.isPrimary, dto.street, dto.city, dto.zip, dto.country, dto.name);
     }
 
-    static toDto(model: Address): AddressDTO {
+    toDTO(model: Address): AddressDTO {
         return {
             id: model.id,
             name: model.name,
@@ -35,3 +36,6 @@ export class AddressMapper {
         };
     }
 }
+
+export const ContactMapperInstance = new ContactMapper();
+export const AddressMapperInstance = new AddressMapper();

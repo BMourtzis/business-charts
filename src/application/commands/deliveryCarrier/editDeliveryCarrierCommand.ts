@@ -1,4 +1,4 @@
-import { DeliveryCarrierMapper } from "@/application/mapper/deliverCarrierMapper";
+import { DeliveryCarrierMapperInstance } from "@/application/mapper/deliverCarrierMapper";
 import { deliveryCarrierRepository } from "@/infrastructure/repositories/deliverCarrierRepository.local";
 import { useDeliveryCarrierStore } from "@/presentation/stores/deliveryCarrierStore";
 
@@ -17,7 +17,7 @@ export class EditDeliveryCarrierCommandHandler {
         deliveryCarrier.name = cmd.name;
 
         await deliveryCarrierRepository.update(deliveryCarrier);
-        this._deliveryCarrierStore.update(DeliveryCarrierMapper.toDTO(deliveryCarrier));
+        this._deliveryCarrierStore.update(DeliveryCarrierMapperInstance.toDTO(deliveryCarrier));
 
         return deliveryCarrier
     }
