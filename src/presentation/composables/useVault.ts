@@ -13,13 +13,14 @@ import { ChangePasswordCommandHandler } from "@/application/commands/vault/chang
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 const unlocked = ref(VaultSession.isVaultUnlocked());
+const initialSetup = ref(VaultSession.isInitialSetup());
 
 export function useVault() {
     const { tCap } = useLocalizationHelpers();
 
     const isUnlocked = computed(() => unlocked.value);
     const isLocked = computed(() => !unlocked.value);
-    const isInitialSetup = computed(() => VaultSession.isInitialSetup());
+    const isInitialSetup = computed(() => initialSetup.value);
 
     async function unlock(password: string) {
         const allDataCmdHandler = new LoadAllDataCommandHandler(
@@ -31,6 +32,7 @@ export function useVault() {
         unlocked.value = await handler.handle({
             password
         });
+        initialSetup.value = false;
     }
 
     async function lock() {

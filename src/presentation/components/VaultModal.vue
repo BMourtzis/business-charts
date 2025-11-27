@@ -31,7 +31,7 @@
             <v-row 
               v-if="isInitialSetup" 
               dense
-            >            
+            >
               <v-col cols="12">
                 <PasswordStrength :password="form.password" />
               </v-col>
