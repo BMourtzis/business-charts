@@ -37,19 +37,21 @@
         "import": "Import",
         "deleteData": "Delete Data",
         "importJson": "Import JSON",
-        "exportJson": "Export JSON",
-        "password": "password",
-        "confirmPassword": "confirm password",
-        "changePassword": "change password",
-        "oldPassword": "old password",
-        "newPassword": "new password",
-        "confirmNewPassword": "confirm new password"
+        "exportJson": "Export JSON"
     },
     "vault": {
         "enterPassword": "enter password to unlock",
         "decryptionError": "Invalid passowrd or unable to decrypt data.",
         "lock": "lock",
-        "unlock": "unlock"
+        "unlock": "unlock",
+        "password": "password",
+        "confirmPassword": "confirm password",
+        "changePassword": "change password",
+        "oldPassword": "old password",
+        "newPassword": "new password",
+        "confirmNewPassword": "confirm new password",
+        "wrongPassowrd": "wrong password",
+        "passwordChangedSuccess": "the password was changed successfully"
     },
     "common": {
         "name": "name",

@@ -53,6 +53,15 @@
           >
             {{ errorMessage }}
           </v-alert>
+          <v-alert
+            v-if="successMessage"
+            type="success"
+            variant="tonal"
+            density="compact"
+            class="mt-2"
+          >
+            {{ successMessage }}
+          </v-alert>
         </v-container>
       </v-form>
     </v-card-text>
@@ -86,6 +95,7 @@ const { changePassword } = useVault();
 const { tCap } = useLocalizationHelpers();
 
 const errorMessage = ref("");
+const successMessage = ref("");
 
 const form = ref({
   oldPassword: "",
@@ -106,13 +116,14 @@ async function tryChangePassword() {
     errorMessage.value = "";
     try {
       await changePassword(form.value.oldPassword, form.value.newPassword);
+      successMessage.value = tCap('vault.passwordChangedSuccess');
       reset();
     }
     catch(e) {
       if(e instanceof DOMException) {
         errorMessage.value = tCap('vault.decryptionError');
       } else {
-        errorMessage.value = "Wrong password";
+        errorMessage.value = tCap('vault.wrongPassowrd');
       }
     }
   });

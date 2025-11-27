@@ -49,7 +49,9 @@
         "changePassword": "αλλαγή συνθηματικού",
         "oldPassword": "παλιό συνθηματικό",
         "newPassword": "νέο συνθηματικό",
-        "confirmNewPassword": "επαλήθευση νέου συνθηματικού"
+        "confirmNewPassword": "επαλήθευση νέου συνθηματικού",
+        "wrongPassowrd": "Λάθος συνθηματικό",
+        "passwordChangedSuccess": "Το συνθηματικό άλλαξε επιτυχώς"
     },
     "common": {
         "name": "όνομα",
