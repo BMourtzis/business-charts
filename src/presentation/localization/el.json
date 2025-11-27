@@ -30,6 +30,7 @@
         "cityRequired": "η περιοχή είναι υποχρεωτική",
         "sameAs": "Οι τιμές δεν ταιριάζουν",
         "passwordsDoNotMatch": "Τα συνθηματικά δεν ταιριάζουν"
+        
     },
     "options": {
         "dataTransfer": "Μεταφορά Δεδομένων",
@@ -56,7 +57,8 @@
         "pwStrengthFair": "Μέτριο",
         "pwStrengthGood": "Καλό",
         "pwStrengthStrong": "Ισχυρό",
-        "pwStrengthVeryStrong": "Πολύ ισχυρό"
+        "pwStrengthVeryStrong": "Πολύ ισχυρό",
+        "saveBeforeChangePw": "Παρακαλώ κατεβάστε τα δεδομένα σας πριν την αλλαγή κωδικού για ασφάλεια των δεδομένων σε περίπτωση λάθους"
     },
     "common": {
         "name": "όνομα",

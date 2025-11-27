@@ -3,6 +3,7 @@ import { partnerRepository } from "@/infrastructure/repositories/partnerReposito
 import { LoadPartnersCommandHandler } from "./partner/loadPartnersCommand";
 import { deliveryCarrierRepository } from "@/infrastructure/repositories/deliverCarrierRepository.local";
 import { LoadDeliveryCarriersCommandHandler } from "./deliveryCarrier/loadDeliveryCarriersCommand";
+import { ClearStoresCommandHandler } from "./clearStoresCommand";
 
 export interface DeleteDataCommand {
     removePartners: boolean;
@@ -13,10 +14,12 @@ export interface DeleteDataCommand {
 export class DeleteDataCommandHandler {
     private _loadPartnersCommandHandler: LoadPartnersCommandHandler;
     private _loadDeliveryCarriesCommandHandler: LoadDeliveryCarriersCommandHandler;
+    private _clearStoresCommandHandler: ClearStoresCommandHandler;
 
     constructor() {
         this._loadPartnersCommandHandler = new LoadPartnersCommandHandler();
         this._loadDeliveryCarriesCommandHandler = new LoadDeliveryCarriersCommandHandler();
+        this._clearStoresCommandHandler = new ClearStoresCommandHandler();
     }
 
     async handle(cmd: DeleteDataCommand) {
@@ -24,7 +27,9 @@ export class DeleteDataCommandHandler {
         if(cmd.removeCarriers) await deliveryCarrierRepository.removeAll();
         if(cmd.removeOrders) await orderRepository.removeAll();
         
-        if(cmd.removePartners) this._loadPartnersCommandHandler.handle();
-        if(cmd.removeCarriers) this._loadDeliveryCarriesCommandHandler.handle();
+        if(cmd.removePartners) await this._loadPartnersCommandHandler.handle();
+        if(cmd.removeCarriers) await this._loadDeliveryCarriesCommandHandler.handle();
+
+        await this._clearStoresCommandHandler.handle(cmd);
     }
 }

@@ -61,6 +61,6 @@ export abstract class LocalRepository<T extends IEntity, DTO extends IEntityDTO>
     }
 
     private async saveDTOs(dtos: DTO[]): Promise<void> {
-        this._storage.setItem(this._storageKey, JSON.stringify(dtos));
+        await this._storage.setItem(this._storageKey, JSON.stringify(dtos));
     }
 }

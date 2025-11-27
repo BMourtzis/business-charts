@@ -56,7 +56,8 @@
         "pwStrengthFair": "Fair",
         "pwStrengthGood": "Good",
         "pwStrengthStrong": "Strong",
-        "pwStrengthVeryStrong": "Very Strong"
+        "pwStrengthVeryStrong": "Very Strong",
+        "saveBeforeChangePw": "Please download your data, before changing the password for the safety of your data, in case of error"
     },
     "common": {
         "name": "name",

@@ -1,4 +1,12 @@
 <template>
+  <v-alert
+    type="warning"
+    variant="tonal"
+    density="compact"
+    class="mt-2 mb-3"
+  >
+    {{ tCap('vault.saveBeforeChangePw') }}
+  </v-alert>
   <v-card>
     <v-card-title>
       {{ tCap('vault.changePassword') }}
