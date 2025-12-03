@@ -11,6 +11,6 @@ export class B2BCustomer extends Partner {
     }
 }
 
-export function createB2BCustomer(name: string, deliveryCarrierId: string, businessName?: string): Partner {
+export function createB2BCustomer(name: string, deliveryCarrierId: string, businessName?: string): B2BCustomer {
     return new B2BCustomer(uuidv4(), name, deliveryCarrierId, businessName);
 }
