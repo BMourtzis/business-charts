@@ -48,7 +48,7 @@ const routes: RouteRecordRaw[] = [
 ];
 
 export const router = createRouter({
-    history: createWebHistory(process.env.VUE_APP_BASE_URL),
+    history: createWebHistory(import.meta.env.VITE_BASE_URL),
     routes,
     scrollBehavior() {
         return { left: 0, top: 0 };
