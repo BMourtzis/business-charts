@@ -28,17 +28,17 @@ export class DeliveryCarrier implements IEntity {
     //Address
     addAddress(address: Address) {
         if(address.isPrimary) {
-            const primaryAddress = this.addresses.find(a => a.isPrimary === true);
+            const primaryAddress = this._addresses.find(a => a.isPrimary === true);
             if(primaryAddress) {
                 primaryAddress.isPrimary = false;
             }
         }
 
-        this.addresses.push(createAddress(address.street, address.city, address.zip, address.country, address.isPrimary, address.name));
+        this._addresses.push(createAddress(address.street, address.city, address.zip, address.country, address.isPrimary, address.name));
     }
 
     editAddress(addressId: string, newAddress: Address) {
-        const address = this.addresses.find(e => e.id === addressId);
+        const address = this._addresses.find(e => e.id === addressId);
         if(!address) return;
 
         if(newAddress) {
@@ -53,7 +53,7 @@ export class DeliveryCarrier implements IEntity {
 
         if (newAddress.isPrimary !== undefined) {
             if(newAddress.isPrimary) {
-                const primaryAddress = this.addresses.find(e => e.isPrimary === true);
+                const primaryAddress = this._addresses.find(e => e.isPrimary === true);
                 if(primaryAddress && primaryAddress.id !== addressId) {
                     primaryAddress.isPrimary = false;
                 }
@@ -69,11 +69,11 @@ export class DeliveryCarrier implements IEntity {
     }
 
     removeAddress(id: string) {
-        const addressIndex = this.addresses.findIndex(a => a.id === id);
+        const addressIndex = this._addresses.findIndex(a => a.id === id);
 
         if(addressIndex == -1) return;
 
-        this.addresses.splice(addressIndex, 1);
+        this._addresses.splice(addressIndex, 1);
     }
 
     //Emails
