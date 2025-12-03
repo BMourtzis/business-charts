@@ -2,18 +2,22 @@
   "name": "business-charts",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build && node scripts/create-404.js",
+    "serve": "vite --host",
+    "build": "vite build && node scripts/create-404.js",
+    "preview": "vite preview",
     "lint": "vue-cli-service lint",
-    "type-check": "vue-tsc --noEmit"
+    "type-check": "vue-tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "chart.js": "^4.5.1",
     "core-js": "^3.8.3",
     "pinia": "^3.0.3",
-    "pinia-plugin-persistedstate": "^4.5.0",
     "uuid": "^13.0.0",
     "vue": "^3.2.13",
     "vue-chartjs": "^5.3.2",
@@ -24,8 +28,11 @@
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@testing-library/jest-dom": "^6.9.1",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "@vitejs/plugin-vue": "^6.0.2",
+    "@vitest/ui": "^4.0.15",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-typescript": "~5.0.0",
@@ -34,7 +41,11 @@
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "happy-dom": "^20.0.11",
     "typescript": "^5.9.3",
+    "vite": "^7.2.6",
+    "vitest": "^4.0.15",
+    "vue-test-utils": "^0.5.0",
     "vue-tsc": "^3.1.1"
   },
   "eslintConfig": {
