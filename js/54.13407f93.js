@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkbusiness_charts"]=self["webpackChunkbusiness_charts"]||[]).push([[54],{1054:function(n,s,u){u.r(s),u.d(s,{default:function(){return i}});var e=u(6768);function r(n,s){return(0,e.uX)(),(0,e.CE)("div",null,"Home")}var t=u(1241);const c={},a=(0,t.A)(c,[["render",r]]);var i=a}}]);
-//# sourceMappingURL=54.13407f93.js.map
