@@ -1,4 +1,5 @@
 import { PartnerDTO } from '@/application/dto/partnerDTO';
+import { PartnerType } from '@/domain/partner/partnerTypes';
 import { defineStore } from 'pinia';
 
 export const usePartnersStore = defineStore('partners', {
@@ -6,15 +7,11 @@ export const usePartnersStore = defineStore('partners', {
         partners: [] as PartnerDTO[]
     }),
     getters: {
-        getById: (state) => {
-            return (id: string) => state.partners.find(partner => partner.id === id);
-        },
-        customers: (state) => {
-            return state.partners.filter(partner => partner.type === 'customer');
-        },
-        suppliers: (state) => {
-            return state.partners.filter(partner => partner.type === 'supplier');
-        }
+        all: (state) => state.partners,
+        getById: (state) => (id: string) => 
+            state.partners.find(p => p.id === id),
+        getByType: (state) => (type: PartnerType) =>
+            state.partners.filter(p => p.type === type),
     },
     actions: {
         setPartners(partners: PartnerDTO[]) {

@@ -1,16 +1,20 @@
 <template> 
   <v-app>
+    <MainNavigation />
+    <VaultModal />
+    <!-- Main Content -->
     <v-main>
-      <RouterView />
+      <v-container class="py-6">
+        <router-view />
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
-<script>
+<script setup lang="ts">
+import MainNavigation from './presentation/components/MainNavigation.vue';
+import VaultModal from './presentation/components/VaultModal.vue';
 
-export default {
-  name: 'App'
-}
 </script>
 
 <style>

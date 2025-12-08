@@ -5,49 +5,46 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/',
         name: 'home',
-        component: () => import('@/presentation/views/Home.vue'),
+        component: () => import('@/presentation/views/HomeView.vue'),
     }, {
         path: '/chart',
-        name: 'about',
+        name: 'chart',
         component: () => import('@/presentation/views/TestChart.vue'),
     }, {
         path: '/suppliers',
         name: 'suppliers',
         component: () => import('@/presentation/views/partner/SuppliersView.vue'),
     }, {
-        path: '/customers',
-        name: 'customers',
-        component: () => import('@/presentation/views/partner/CustomersView.vue'),
+        path: '/b2b-customers',
+        name: 'b2bCustomers',
+        component: () => import('@/presentation/views/partner/B2BCustomersView.vue'),
     }, {
         path: '/partner/:id',
-        name: 'partner-details',
+        name: 'partnerDetails',
         component: () => import('@/presentation/views/partner/PartnerDetails.vue'),
         props: true,
     }, {
-        path: '/lessons/lesson1',
-        name: 'lessonOne',
-        component: () => import('@/presentation/views/lesson/LessonOne.vue'),
+        path: '/carriers',
+        name: 'deliveryCarriers',
+        component: () => import('@/presentation/views/deliveryCarrier/DeliveryCarrierView.vue'),
     }, {
-        path: '/lessons/lesson2',
-        name: 'lessonTwo',
-        component: () => import('@/presentation/views/lesson/LessonsTwo.vue'),
+        path: '/carrier/:id',
+        name: 'deliveryCarrierDetails',
+        component: () => import('@/presentation/views/deliveryCarrier/DeliveryCarrierDetails.vue'),
+        props: true,
     }, {
-        path: '/lessons/lesson3',
-        name: 'lessonThree',
-        component: () => import('@/presentation/views/lesson/LessonThree.vue'),
+        path: '/data-transfer',
+        name: 'dataTransfer',
+        component: () => import('@/presentation/views/DataTransfer.vue'),
     }, {
-        path: '/lessons/lesson4',
-        name: 'lessonFour',
-        component: () => import('@/presentation/views/lesson/LessonFour.vue'),
-    }, {
-        path: '/lessons/lesson5',
-        name: 'lessonFive',
-        component: () => import('@/presentation/views/lesson/LessonFive.vue'),
+        path: '/change-password',
+        name: 'changePassword',
+        component: () => import('@/presentation/views/ChangePassword.vue'),
     }
 ];
 
 export const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(import.meta.env.VITE_BASE_URL),
     routes,
     scrollBehavior() {
         return { left: 0, top: 0 };

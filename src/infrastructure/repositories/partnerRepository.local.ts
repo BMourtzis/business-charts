@@ -1,40 +1,35 @@
 
 import { PartnerDTO } from "@/application/dto/partnerDTO";
-import { PartnerRepository } from "./type";
-import { fromPartnerDTO, toPartnerDTO } from "@/application/mapper/partnerMapper";
+import { IPartnerRepository } from "./type";
+import { PartnerMapperInstance } from "@/application/mapper/partnerMapper";
+import { Supplier } from "@/domain/partner/models/supplier";
+import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
+import { LocalRepository } from "./localRepository";
+import { Partner } from "@/domain/partner/models/partner";
+import { EncryptedStorage } from "../persistence/EncryptedStorage";
+
+export class PartnerRepository extends LocalRepository<Partner, PartnerDTO> implements IPartnerRepository { 
+    async getSupplierById(id: string) {
+        const partner = await this.getById(id);
+        if(!partner) return undefined;
+
+        if(partner instanceof Supplier)
+            return partner as Supplier;
+
+        return undefined;
+    }
+
+    async getB2BCustomerById(id: string) {
+        const partner = await this.getById(id);
+        if(!partner) return undefined;
+
+        if(partner instanceof B2BCustomer)
+            return partner as B2BCustomer;
+
+        return undefined;
+    }
+}
 
 const STORAGE_KEY = 'partners';
 
-async function loadDTOs(): Promise<PartnerDTO[]> {
-    const json = localStorage.getItem(STORAGE_KEY);
-    if (!json) return [];
-    return JSON.parse(json);
-}
-
-async function saveDTOs(dtos: PartnerDTO[]): Promise<void> {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(dtos));
-}
-
-export const partnerRepository: PartnerRepository = {
-    async load() {
-        const dtos = await loadDTOs();
-        return dtos.map(fromPartnerDTO);
-    },
-    async add(partner) {
-        const dtos = await loadDTOs();
-        dtos.push(toPartnerDTO(partner));
-        saveDTOs(dtos);
-    },
-    async update(partner) {
-        const dtos = await loadDTOs();
-        const i = dtos.findIndex((o: PartnerDTO) => o.id === partner.id);
-        if (i !== -1) dtos[i] = toPartnerDTO(partner);
-        saveDTOs(dtos);
-    },
-
-    async remove(id) {
-        const dtos = await loadDTOs();
-        const filtered = dtos.filter((o: PartnerDTO) => o.id !== id);
-        saveDTOs(filtered);
-    }
-};
+export const partnerRepository = new PartnerRepository(EncryptedStorage, PartnerMapperInstance, STORAGE_KEY);

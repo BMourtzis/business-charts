@@ -1,25 +1,70 @@
-import { Partner } from "@/domain/models/partner";
+import { Partner } from "@/domain/partner/models/partner";
 import { PartnerDTO } from "../dto/partnerDTO";
-import { Contact } from "@/domain/models/contact";
-import { toContactDTO } from "./contactMapper";
+import { AddressMapperInstance, ContactMapperInstance } from "./contactMapper";
+import { PartnerType } from "@/domain/partner/partnerTypes";
+import { Supplier } from "@/domain/partner/models/supplier";
+import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
+import { IMapper } from "./type";
 
-export function fromPartnerDTO(data: PartnerDTO): Partner {
-    const partner = new Partner(data.id, data.contactName, data.type, data.businessName, data.vatNumber);
-    partner.setEmails(data.emails.map(e => new Contact(e.id, e.isPrimary, e.value, "email", e.name)));
-    partner.setPhones(data.phones.map(p => new Contact(p.id, p.isPrimary, p.value, "phone", p.name)));
-    partner.setAddresses(data.addresses.map(a => new Contact(a.id, a.isPrimary, a.value, "address", a.name)));
-    return partner;
-}
 
-export function toPartnerDTO(partner: Partner): PartnerDTO {
-    return {
-        id: partner.id,
-        businessName: partner.businessName,
-        vatNumber: partner.vatNumber,
-        contactName: partner.contactName,
-        type: partner.type,
-        emails: partner.emails.map(toContactDTO),
-        phones: partner.phones.map(toContactDTO),
-        addresses: partner.addresses.map(toContactDTO)
+function getModelType(dto: PartnerDTO) {
+    switch(dto.type) {
+        case PartnerType.Supplier:
+            return new Supplier(
+                dto.id,
+                dto.contactName,
+                dto.activity ?? '',
+                dto.businessName
+            );
+        case PartnerType.B2BCustomer:
+            return new B2BCustomer(
+                dto.id,
+                dto.contactName,
+                dto.deliveryCarrierId ?? '',
+                dto.businessName
+            );
+        default:
+            throw new Error(`Unsupported partner type: ${dto}`);
     }
 }
+
+export class PartnerMapper implements IMapper<Partner, PartnerDTO> {
+    toModel(dto: PartnerDTO): Partner {
+        const model = getModelType(dto);
+        model.setEmails(dto.emails.map(ContactMapperInstance.toModel));
+        model.setPhones(dto.phones.map(ContactMapperInstance.toModel));
+        model.setAddresses(dto.addresses.map(AddressMapperInstance.toModel));
+
+        return model;
+    }
+
+    toDTO(model: Partner): PartnerDTO {
+        const base  = {
+            id: model.id,
+            businessName: model.businessName,
+            contactName: model.contactName,
+            type: model.type,
+            emails: model.emails.map(ContactMapperInstance.toDTO),
+            phones: model.phones.map(ContactMapperInstance.toDTO),
+            addresses: model.addresses.map(AddressMapperInstance.toDTO)
+        };
+
+        if(model instanceof Supplier) {
+            return {
+                ...base,
+                activity: model.activity
+            };
+        }
+
+        if(model instanceof B2BCustomer) {
+            return {
+                ...base,
+                deliveryCarrierId: model.deliveryCarrierId
+            };
+        }
+
+        throw new Error(`Unsupported partner instance. Id: ${model.id}`);
+    }
+}
+
+export const PartnerMapperInstance = new PartnerMapper();
