@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from "vue";
+import { computed } from "vue";
 import { useRouter } from 'vue-router';
 
 import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";

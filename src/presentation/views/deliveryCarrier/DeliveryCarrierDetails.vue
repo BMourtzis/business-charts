@@ -70,7 +70,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
 import { getCarrierDetails, useCarrierCustomers } from "@/presentation/composables/deliveryCarrier/useDeliveryCarrierDetails";
