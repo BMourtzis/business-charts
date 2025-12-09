@@ -1,10 +1,22 @@
+import { EventEmitter } from "../EventEmitter";
 import { CryptoCore } from "./crypto-core";
 
 export class VaultSession {
     private static sessionKey: CryptoKey | null = null;
 
+    private static lockEmitter: EventEmitter = new EventEmitter();
+    private static unlockEmitter: EventEmitter = new EventEmitter();
+
     private static readonly TEST_TAG = "crypto_test_value";
     private static readonly TEST_KEY = "crypto_test_ciphertext";
+
+    static onUnlocked(cb: () => void) {
+        this.unlockEmitter.subscribe(cb);
+    }
+
+    static onLocked(cb: () => void) {
+        this.lockEmitter.subscribe(cb);
+    }
 
     static async unlockVault(password: string): Promise<boolean> {
         const derivedKey = await CryptoCore.deriveKeyFromPassword(password);
@@ -12,11 +24,13 @@ export class VaultSession {
         const isValid = await this.validatePasswordInternal(derivedKey);
         if (isValid) this.sessionKey = derivedKey;
 
+        this.unlockEmitter.emit();
         return isValid;
     }
 
     static lockVault(): void {
         this.sessionKey = null;
+        this.lockEmitter.emit();
     }
 
     static isVaultUnlocked(): boolean {
@@ -96,5 +110,6 @@ export class VaultSession {
         
         const key = await CryptoCore.importKey(exportedKey);
         this.sessionKey = key;
+        this.unlockEmitter.emit();
     }
 }

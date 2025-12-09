@@ -24,6 +24,7 @@ class KeySyncService {
             if(!this.key_request) return;
 
             await VaultSession.importKey(data.key);
+            this.key_request = false;
         });
     }
 

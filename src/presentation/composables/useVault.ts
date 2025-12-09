@@ -1,4 +1,4 @@
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 
 import { VaultSession } from "@/infrastructure/security/crypto-session";
 
@@ -9,8 +9,8 @@ import { LoadPartnersCommandHandler } from "@/application/commands/partner/loadP
 import { LockVaultCommandHandler } from "@/application/commands/vault/lockVaultCommand";
 import { UnlockVaultCommandHandler } from "@/application/commands/vault/unlockVaultCommand";
 import { ChangePasswordCommandHandler } from "@/application/commands/vault/changePasswordCommand";
-
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { RequestKeyCommandHandler } from "@/application/commands/vault/requestKeyCommand";
 
 const unlocked = ref(VaultSession.isVaultUnlocked());
 const initialSetup = ref(VaultSession.isInitialSetup());
@@ -22,18 +22,30 @@ export function useVault() {
     const isLocked = computed(() => !unlocked.value);
     const isInitialSetup = computed(() => initialSetup.value);
 
-    const allDataCmdHandler = new LoadAllDataCommandHandler(
-        new LoadPartnersCommandHandler(),
-        new LoadDeliveryCarriersCommandHandler()
-    );
-    const handler = new UnlockVaultCommandHandler(allDataCmdHandler);
+    VaultSession.onUnlocked(() => {
+        unlocked.value = true;
+    });
 
-    if(isUnlocked.value) {
-        allDataCmdHandler.handle();
-    }
+    VaultSession.onLocked(() => {
+        unlocked.value = false;
+    });
+
+    onMounted(() => {
+        if(initialSetup.value) return;
+        const handler = new RequestKeyCommandHandler();
+
+        handler.handle();
+    });
 
     async function unlock(password: string) {
-        unlocked.value = await handler.handle({
+        const allDataCmdHandler = new LoadAllDataCommandHandler(
+            new LoadPartnersCommandHandler(),
+            new LoadDeliveryCarriersCommandHandler()
+        );
+
+        const handler = new UnlockVaultCommandHandler(allDataCmdHandler);
+        
+        await handler.handle({
             password
         });
         initialSetup.value = false;
@@ -41,7 +53,7 @@ export function useVault() {
 
     async function lock() {
         const handler = new LockVaultCommandHandler(new ClearStoresCommandHandler());
-        unlocked.value = await handler.handle();
+        await handler.handle();
     }
 
     async function changePassword(oldPassword: string, newPassword: string) {
