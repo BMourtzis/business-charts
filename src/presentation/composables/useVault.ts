@@ -22,13 +22,17 @@ export function useVault() {
     const isLocked = computed(() => !unlocked.value);
     const isInitialSetup = computed(() => initialSetup.value);
 
-    async function unlock(password: string) {
-        const allDataCmdHandler = new LoadAllDataCommandHandler(
-            new LoadPartnersCommandHandler(),
-            new LoadDeliveryCarriersCommandHandler()
-        );
-        const handler = new UnlockVaultCommandHandler(allDataCmdHandler);
+    const allDataCmdHandler = new LoadAllDataCommandHandler(
+        new LoadPartnersCommandHandler(),
+        new LoadDeliveryCarriersCommandHandler()
+    );
+    const handler = new UnlockVaultCommandHandler(allDataCmdHandler);
 
+    if(isUnlocked.value) {
+        allDataCmdHandler.handle();
+    }
+
+    async function unlock(password: string) {
         unlocked.value = await handler.handle({
             password
         });

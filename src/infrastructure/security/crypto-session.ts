@@ -84,4 +84,17 @@ export class VaultSession {
         const key = this.getSessionKeyOrThrow();
         return await CryptoCore.encryptData(key, data);
     }
+
+    static async exportKeyInternal(callback: (exportedKey: string) => void): Promise<void> {
+        const key = this.getSessionKeyOrThrow();
+        const exportedKey = await CryptoCore.exportKey(key);
+        callback(exportedKey);
+    }
+
+    static async importKey(exportedKey: string): Promise<void> {
+        if(this.sessionKey) throw new Error("Vault is already unlocked.");
+        
+        const key = await CryptoCore.importKey(exportedKey);
+        this.sessionKey = key;
+    }
 }
