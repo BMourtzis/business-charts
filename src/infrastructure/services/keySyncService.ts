@@ -3,6 +3,7 @@ import { broadcastChannelService } from "./broadcastChannelService";
 
 const REQUEST_KEY_MESSAGE_TYPE = "REQUEST_KEY";
 const SEND_KEY_MESSAGE_TYPE = "SEND_KEY";
+const HAS_KEY_MESSAGE_TYPE = "HAS_KEY";
 
 class KeySyncService {
     private registered = false;
@@ -26,11 +27,21 @@ class KeySyncService {
             await VaultSession.importKey(data.key);
             this.key_request = false;
         });
+
+        broadcastChannelService.subscribe(HAS_KEY_MESSAGE_TYPE,
+            async() => {
+                VaultSession.requestKey(this.requestKey);
+            }
+        )
     }
 
     requestKey() {
-        broadcastChannelService.publish(REQUEST_KEY_MESSAGE_TYPE, {});
+        broadcastChannelService.publish(REQUEST_KEY_MESSAGE_TYPE);
         this.key_request = true;
+    }
+
+    hasKey() {
+        broadcastChannelService.publish(HAS_KEY_MESSAGE_TYPE);
     }
 }
 

@@ -46,6 +46,11 @@ export class VaultSession {
         return !CryptoCore.hasSalt() || !localStorage.getItem(this.TEST_KEY);
     }
 
+    static requestKey(cb: () =>  void) {
+        if(this.sessionKey) return;
+        cb();
+    }
+
     private static async validatePasswordInternal(key: CryptoKey): Promise<boolean> {
         const existing = localStorage.getItem(this.TEST_KEY);
 

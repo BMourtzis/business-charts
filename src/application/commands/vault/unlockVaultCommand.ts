@@ -1,6 +1,7 @@
 import { VaultSession } from "@/infrastructure/security/crypto-session";
 
 import { LoadAllDataCommandHandler } from "@/application/commands/loadAllDataCommand";
+import { keySyncService } from "@/infrastructure/services/keySyncService";
 
 export interface UnlockVaultCommand {
     password: string;
@@ -15,6 +16,8 @@ export class UnlockVaultCommandHandler {
         if(unlocked) {
             await this._loadAllDataCommandHandler.handle();
         }
+
+        keySyncService.hasKey();
 
         return VaultSession.isVaultUnlocked();
     }
