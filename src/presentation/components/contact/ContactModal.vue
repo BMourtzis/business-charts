@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, watch, PropType } from 'vue';
+import { computed, watch, PropType } from 'vue';
 
 import { Contact } from '@/domain/contact/models/contact';
 import { ContactType } from '@/domain/contact/contactTypes';

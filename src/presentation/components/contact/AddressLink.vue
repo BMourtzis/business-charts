@@ -20,7 +20,6 @@
 
 <script setup lang="ts">
 import { Address } from '@/domain/contact/models/address';
-import { defineProps } from 'vue';
 
 defineProps<{
   address: Address | undefined;

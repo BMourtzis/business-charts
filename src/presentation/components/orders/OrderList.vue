@@ -17,9 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
-
-import { Order } from '@/domain/models/order';
+import { Order } from '@/domain/order/models/order';
 
 // import { useOrders } from '@/presentation/composables/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';

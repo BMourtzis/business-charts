@@ -150,7 +150,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps } from "vue";
+import { computed } from "vue";
 
 import { Partner } from "@/domain/partner/models/partner";
 import { ContactType } from "@/domain/contact/contactTypes";

@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, toRef } from 'vue';
+import { toRef } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
