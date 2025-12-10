@@ -1,3 +1,4 @@
+import { DeliveryCarrierMapperInstance } from "@/application/mapper/deliverCarrierMapper";1
 import { deliveryCarrierRepository } from "@/infrastructure/repositories/deliverCarrierRepository.local";
 import { useDeliveryCarrierStore } from "@/presentation/stores/deliveryCarrierStore";
 
@@ -6,6 +7,6 @@ export class LoadDeliveryCarriersCommandHandler {
 
     async handle() {
         const deliveryCarriers = await deliveryCarrierRepository.load();
-        this._deliveryCarrierStore.setCarriers(deliveryCarriers);
+        this._deliveryCarrierStore.setCarriers(deliveryCarriers.map(DeliveryCarrierMapperInstance.toDTO));
     }
 }
