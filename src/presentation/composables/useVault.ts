@@ -22,12 +22,8 @@ export function useVault() {
     const isLocked = computed(() => !unlocked.value);
     const isInitialSetup = computed(() => initialSetup.value);
 
-    VaultSession.onUnlocked(() => {
-        unlocked.value = true;
-    });
-
-    VaultSession.onLocked(() => {
-        unlocked.value = false;
+    VaultSession.onStateChanged((state) => {
+        unlocked.value = state === "unlocked";
     });
 
     onMounted(() => {

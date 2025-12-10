@@ -28,11 +28,11 @@ class KeySyncService {
             this.key_request = false;
         });
 
-        broadcastChannelService.subscribe(HAS_KEY_MESSAGE_TYPE,
-            async() => {
-                VaultSession.requestKey(this.requestKey);
-            }
-        )
+        broadcastChannelService.subscribe(HAS_KEY_MESSAGE_TYPE, async() => {
+            VaultSession.requestKey(() => {
+                this.requestKey();
+            });
+        });
     }
 
     requestKey() {

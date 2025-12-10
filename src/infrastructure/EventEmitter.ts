@@ -1,4 +1,4 @@
-export class EventEmitter<T = void> {
+export class EventEmitter<T> {
     private listeners = new Set<(payload: T) => void>();
 
     subscribe(cb: (payload: T) => void) {
