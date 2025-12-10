@@ -1,42 +1,33 @@
 
 import { Order } from "@/domain/order/models/order";
-import { OrderDTO, OrderItemDTO } from "../dto/orderDTO";
-import { OrderItem } from "@/domain/order/models/orderItem";
+import { OrderDTO } from "@/application/dto/orderDTO";
+import { IMapper } from "./type";
+import { OrderItemMapperInstance } from "./orderItemMapper";
 
-export function fromOrderDTO(dto: OrderDTO): Order {
-    return new Order(
-        dto.id,
-        dto.partnerId,
-        dto.status,
-        dto.direction,
-        dto.items.map(fromOrderItemDTO),
-        dto.createdDate,
-        dto.sentDate
-    );
-}
+export class OrderMapper implements IMapper<Order, OrderDTO> {
+    toModel(dto: OrderDTO): Order {
+        return new Order(
+            dto.id,
+            dto.partnerId,
+            dto.status,
+            dto.direction,
+            dto.items.map(OrderItemMapperInstance.toModel),
+            dto.createdDate,
+            dto.sentDate
+        );
+    }
 
-export function toOrderDTO(order: Order): OrderDTO {
-    return {
-        id: order.id,
-        partnerId: order.partnerId,
-        createdDate: order.createdDate,
-        sentDate: order.sentDate,
-        status: order.status,
-        direction: order.direction,
-        items: order.items.map(toOrderItemDTO)
+    toDTO(model : Order): OrderDTO {
+        return {
+            id: model.id,
+            partnerId: model.partnerId,
+            createdDate: model.createdDate,
+            sentDate: model.sentDate,
+            status: model.status,
+            direction: model.direction,
+            items: model.items.map(OrderItemMapperInstance.toDTO)
+        };
     }
 }
 
-export function fromOrderItemDTO(dto: OrderItemDTO): OrderItem {
-    return new OrderItem(dto.id, dto.name, dto.quantity, dto.basePrice, dto.vatRate);
-}
-
-export function toOrderItemDTO(item: OrderItem): OrderItemDTO {
-    return {
-        id: item.id,
-        name: item.name,
-        quantity: item.quantity,
-        basePrice: item.basePrice,
-        vatRate: item.vatRate
-    };
-}
+export const OrderMapperInstance = new OrderMapper();

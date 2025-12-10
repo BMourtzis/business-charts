@@ -1,6 +1,7 @@
+import { IEntity } from "@/domain/type";
 import { v4 as uuidv4 } from "uuid";
 
-export class OrderItem {
+export class OrderItem implements IEntity {
     private _id: string;
     // private _productId: string;
     private _quantity: number;

@@ -1,6 +1,7 @@
 import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
+import { IEntityDTO } from "./type";
 
-export interface OrderDTO {
+export interface OrderDTO extends IEntityDTO {
     id: string;
     partnerId: string;
     createdDate: Date;
@@ -10,7 +11,7 @@ export interface OrderDTO {
     items: OrderItemDTO[];
 }
 
-export interface OrderItemDTO {
+export interface OrderItemDTO extends IEntityDTO {
     id: string;
     name: string;
     quantity: number;

@@ -1,8 +1,9 @@
+import { IEntity } from "@/domain/type";
 import { OrderDirection, OrderStatus } from "../orderTypes";
 import { OrderItem } from "./orderItem";
 import { v4 as uuidv4 } from "uuid";
 
-export class Order {
+export class Order implements IEntity {
     private _id: string;
     private _partnerId: string;
     private _createdDate: Date;

@@ -1,55 +1,11 @@
 import { Order } from "@/domain/order/models/order";
-import { IRepository } from "./type";
 import { OrderDTO } from "@/application/dto/orderDTO";
-import { fromOrderDTO } from "@/application/mapper/orderMapper";
+import { LocalRepository } from "./localRepository";
+import { EncryptedStorage } from "../persistence/EncryptedStorage";
+import { OrderMapperInstance } from "@/application/mapper/orderMapper";
+
+export class OrderRepository extends LocalRepository<Order, OrderDTO> {}
 
 const STORAGE_KEY = 'orders';
 
-async function loadDTOs(): Promise<OrderDTO[]> {
-    const json = localStorage.getItem(STORAGE_KEY);
-    if (!json) return [];
-    return JSON.parse(json);
-}
-
-async function saveDTOs(dtos: OrderDTO[]): Promise<void> {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(dtos));
-}
-
-//TODO: update this to save with DTO
-export const orderRepository: IRepository<Order, OrderDTO> = {
-    async getAll() {
-        return loadDTOs();
-    },
-    async saveAll(orderDtos) {
-        saveDTOs(orderDtos)
-    },
-    async load() {
-        const dtos = await loadDTOs();
-        return dtos.map(fromOrderDTO);
-    },
-    async getById(id: string) {
-        //TODO: create the OrderMapper to fix this.
-        return undefined;
-    },
-    async add(order) {
-        const dtos = await loadDTOs();
-        dtos.push(order);
-        saveDTOs(dtos);
-    },
-
-    async update(order) {
-        const dtos = await loadDTOs();
-        const i = dtos.findIndex((o: OrderDTO) => o.id === order.id);
-        if (i !== -1) dtos[i] = order;
-        saveDTOs(dtos);
-    },
-
-    async remove(id) {
-        const dtos = await loadDTOs();
-        const filtered = dtos.filter((o: OrderDTO) => o.id !== id);
-        saveDTOs(filtered);
-    },
-    async removeAll() {
-        await saveDTOs([]);
-    }
-};
+export const orderRepository = new OrderRepository(EncryptedStorage, OrderMapperInstance, STORAGE_KEY);

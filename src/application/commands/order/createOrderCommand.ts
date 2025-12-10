@@ -1,11 +1,11 @@
 import { OrderItemDTO } from "@/application/dto/orderDTO";
-import { fromOrderItemDTO } from "@/application/mapper/orderMapper";
+import { OrderItemMapperInstance } from "@/application/mapper/orderItemMapper";
 import { createCreditOrder, createDebitOrder, Order } from "@/domain/order/models/order";
 import { orderRepository } from "@/infrastructure/repositories/orderRepository.local";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
 
 function getItems(items?: OrderItemDTO[]) {
-    if(items) return items.map(fromOrderItemDTO);
+    if(items) return items.map(OrderItemMapperInstance.toModel);
     return [];
 }
 
