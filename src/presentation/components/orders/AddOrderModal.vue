@@ -20,11 +20,11 @@
         >
           <v-container>
             <v-row>
-              <v-select
+              <v-autocomplete
                 v-model="form.partnerId"
                 :item-props="itemProps"
                 label="Partner"
-                :items="partnerNames"
+                :items="partners"
               />
             </v-row>
             <v-row>
@@ -108,8 +108,9 @@ import { OrderItemDTO } from "@/application/dto/orderDTO";
 import { useOrders } from '@/presentation/composables/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
+import { PartnerDTO } from '@/application/dto/partnerDTO';
 
-const { createDebitOrderCommand, createCreditOrderCommand, partnerNames } = useOrders();
+const { createDebitOrderCommand, createCreditOrderCommand, partners } = useOrders();
 
 const { tCap } = useLocalizationHelpers();
 
@@ -121,9 +122,9 @@ const form = reactive({
     items: [] as OrderItemDTO[]
 });
 
-function itemProps(item: { id: string; name: string, type: string }) {
+function itemProps(item: PartnerDTO) {
     return {
-        title: item.name,
+        title: item.businessName || item.contactName,
         value: item.id,
         subtitle: item.type
     }
@@ -131,7 +132,6 @@ function itemProps(item: { id: string; name: string, type: string }) {
 
 const {
   dialog, 
-  formRef, 
   validForm,
   loading,
   errorMessage,

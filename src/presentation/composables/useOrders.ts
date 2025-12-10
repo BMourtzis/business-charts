@@ -17,7 +17,7 @@ export function useOrders() {
 
     return {
         allOrders: store.allOrders,
-        partnerNames: computed(() => partnerStoreRef.all.value.map(p => p.businessName ?? p.contactName)),
+        partners: computed(() => partnerStoreRef.all.value),
         totalsPerPartner: computed(() => store.totalsPerPartner),
         globalTotals: computed(() => store.globalTotals),
         creditOrders: store.creditOrders,
