@@ -1,5 +1,6 @@
 import { PartnerDTO } from '@/application/dto/partnerDTO';
 import { PartnerType } from '@/domain/partner/partnerTypes';
+import { StoreSyncAdapter } from '@/plugins/storeSyncPlugin/storeSyncAdapter';
 import { defineStore } from 'pinia';
 
 export const usePartnersStore = defineStore('partners', {
@@ -31,3 +32,49 @@ export const usePartnersStore = defineStore('partners', {
         }
     }
 });
+
+export function createPartnerStoreSyncAdapter(): StoreSyncAdapter {
+    const store = usePartnersStore();
+    type State = typeof store.$state;
+
+    let lastState: State = clone(store.$state);
+
+    const adapter: StoreSyncAdapter<State> = {
+        storeId: "partners",
+        ready: false,
+
+        getState: () => clone(store.$state),
+
+        onChange(callback: (patch: Partial<State>) => void) {
+            store.$subscribe((_mutation, state) => {
+                const patch: Partial<State> = {};
+                const keys = Object.keys(state) as (keyof State)[];
+
+                for (const key of keys) {
+                    const newVal = state[key];
+                    const oldVal = lastState[key];
+
+                    if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+                        patch[key] = clone(newVal);
+                    }
+                }
+
+                if (Object.keys(patch).length > 0) {
+                    callback(patch);
+                    lastState = clone(state);
+                }
+            });
+        },
+
+        applyPatch(patch: Partial<State>) {
+            store.$patch(patch);
+            lastState = clone(store.$state);
+        }
+    };
+
+    return adapter;
+}
+
+function clone<T>(obj: T): T {
+    return JSON.parse(JSON.stringify(obj));
+}

@@ -4,6 +4,7 @@ import { CryptoCore } from "./crypto-core";
 export type VaultState = "locked" | "unlocked";
 export class VaultSession {
     private static sessionKey: CryptoKey | null = null;
+    private static lastState: VaultState = "locked";
 
     private static stateChangedEmitter: EventEmitter<VaultState> = new EventEmitter();
 
@@ -18,15 +19,16 @@ export class VaultSession {
         const derivedKey = await CryptoCore.deriveKeyFromPassword(password);
 
         const isValid = await this.validatePasswordInternal(derivedKey);
-        if (isValid) this.sessionKey = derivedKey;
-
-        this.stateChangedEmitter.emit("unlocked");
+        if (isValid) {
+            this.sessionKey = derivedKey;
+            this.changeState("unlocked");
+        }
         return isValid;
     }
 
     static lockVault(): void {
         this.sessionKey = null;
-        this.stateChangedEmitter.emit("locked");
+        this.changeState("locked");
     }
 
     static isVaultUnlocked(): boolean {
@@ -106,11 +108,18 @@ export class VaultSession {
         callback(exportedKey);
     }
 
+    private static changeState(state: VaultState) {
+        if(this.lastState === state) return;
+
+        this.lastState = state;
+        this.stateChangedEmitter.emit(state);
+    }
+
     static async importKey(exportedKey: string): Promise<void> {
         if(this.sessionKey) throw new Error("Vault is already unlocked.");
         
         const key = await CryptoCore.importKey(exportedKey);
         this.sessionKey = key;
-        this.stateChangedEmitter.emit("unlocked");
+        this.changeState("unlocked");
     }
 }

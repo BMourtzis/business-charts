@@ -15,6 +15,8 @@ import { RequestKeyCommandHandler } from "@/application/commands/vault/requestKe
 const unlocked = ref(VaultSession.isVaultUnlocked());
 const initialSetup = ref(VaultSession.isInitialSetup());
 
+let allDataCmdHandler: LoadAllDataCommandHandler | null = null;
+
 export function useVault() {
     const { tCap } = useLocalizationHelpers();
 
@@ -22,9 +24,23 @@ export function useVault() {
     const isLocked = computed(() => !unlocked.value);
     const isInitialSetup = computed(() => initialSetup.value);
 
-    VaultSession.onStateChanged((state) => {
-        unlocked.value = state === "unlocked";
-    });
+
+    //This makes sure that the cmd is only run once;
+    if(!allDataCmdHandler) {
+        allDataCmdHandler = new LoadAllDataCommandHandler(
+            new LoadPartnersCommandHandler(),
+            new LoadDeliveryCarriersCommandHandler()
+        );
+
+        VaultSession.onStateChanged((state) => {
+            unlocked.value = state === "unlocked";
+
+            if(unlocked.value) {
+                allDataCmdHandler!.handle();
+            }
+        });
+    }
+
 
     onMounted(() => {
         if(initialSetup.value) return;
@@ -34,12 +50,7 @@ export function useVault() {
     });
 
     async function unlock(password: string) {
-        const allDataCmdHandler = new LoadAllDataCommandHandler(
-            new LoadPartnersCommandHandler(),
-            new LoadDeliveryCarriersCommandHandler()
-        );
-
-        const handler = new UnlockVaultCommandHandler(allDataCmdHandler);
+        const handler = new UnlockVaultCommandHandler();
         
         await handler.handle({
             password

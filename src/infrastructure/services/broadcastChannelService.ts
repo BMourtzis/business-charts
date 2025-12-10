@@ -1,4 +1,4 @@
-type MessageBase = { type: string; payload?: any };
+type MessageBase = { type: string; payload?: any; };
 
 export class BroadcastChannelService {
     private channel: BroadcastChannel;
@@ -17,8 +17,8 @@ export class BroadcastChannelService {
         };
     }
 
-    publish(type: string, payload?: any) {
-        this.channel.postMessage({ type, payload });
+    publish(type: string, payload?: any, id?: string) {
+        this.channel.postMessage({ type, payload, id });
     }
 
     subscribe(type: string, callback: (payload: any) => void) {
