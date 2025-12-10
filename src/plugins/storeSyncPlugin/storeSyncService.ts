@@ -1,5 +1,7 @@
 import { BroadcastChannelService } from "@/infrastructure/services/broadcastChannelService";
-import { StoreSyncAdapter } from "./storeSyncAdapter";
+import { createStoreSyncAdapter, StoreSyncAdapter } from "./storeSyncAdapter";
+import { Store } from "pinia";
+import { VaultSession } from "@/infrastructure/security/crypto-session";
 
 const STORE_PATCH_MESSAGE_TYPE = "STORE_PATCH";
 
@@ -24,13 +26,25 @@ export class StoreSyncService {
         this.bcService.subscribe(STORE_PATCH_MESSAGE_TYPE, this.handleIncoming.bind(this));
     }
 
-    registerStore(adapter: StoreSyncAdapter) {
+    registerAdapter(adapter: StoreSyncAdapter) {
         if (this.adapters.has(adapter.storeId)) return;
         this.adapters.set(adapter.storeId, adapter);
 
         adapter.onChange((patch: any) => {
             if (this.isApplyingRemote) return;
             this.queuePatch(adapter.storeId, patch);
+        });
+    }
+
+    registerStore<S extends object>(store: Store<string, S>) {
+        const adapter = createStoreSyncAdapter(store);
+        this.registerAdapter(adapter);
+
+        //TODO: couples the store sync to the vault state, consider decoupling
+        VaultSession.onStateChanged((state) => {
+            if (state === "unlocked") {
+                adapter.ready = true;
+            }
         });
     }
 

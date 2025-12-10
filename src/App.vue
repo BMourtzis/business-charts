@@ -12,28 +12,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch } from 'vue';
+import { onMounted } from 'vue';
 import MainNavigation from './presentation/components/MainNavigation.vue';
 import VaultModal from './presentation/components/VaultModal.vue';
 
 import { useStoreSync } from './presentation/composables/useStoreSync';
-import { createPartnerStoreSyncAdapter } from './presentation/stores/partnerStore';
-import { useVault } from './presentation/composables/useVault';
+import { usePartnersStore } from './presentation/stores/partnerStore';
+import { useDeliveryCarrierStore } from './presentation/stores/deliveryCarrierStore';
 
-const { isUnlocked } = useVault();
-
+//TODO: move to a better area
 onMounted(() => {
-  var adapter = createPartnerStoreSyncAdapter();
-
   const storeSync = useStoreSync();
-  storeSync.registerStore(adapter);
 
-  watch(isUnlocked, (newVal: boolean) => {
-    if (newVal) {
-      adapter.ready = true;
-    }
-  }, { immediate: true });
-
+  storeSync.registerStore(usePartnersStore());
+  storeSync.registerStore(useDeliveryCarrierStore());
 });
 
 
