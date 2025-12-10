@@ -53,6 +53,22 @@ export class CryptoCore {
             },
             baseKey,
             { name: "AES-GCM", length: 256 },
+            true,
+            ["encrypt", "decrypt"]
+        );
+    }
+
+    static async exportKey(key: CryptoKey): Promise<string> {
+        const rawKey = await crypto.subtle.exportKey("raw", key);
+        return this.toBase64(new Uint8Array(rawKey));
+    }
+
+    static async importKey(b64Key: string): Promise<CryptoKey> {
+        const bytes = this.fromBase64(b64Key);
+        return crypto.subtle.importKey(
+            "raw",
+            bytes.buffer as ArrayBuffer,
+            { name: "AES-GCM" },
             false,
             ["encrypt", "decrypt"]
         );

@@ -15,6 +15,10 @@ import { createPinia } from 'pinia';
 
 import i18n from './presentation/localization/index';
 
+import { keySyncService } from './infrastructure/services/keySyncService'
+
+import storeSyncPlugin from './plugins/storeSyncPlugin/storeSyncPluginApi';
+
 const vuetify = createVuetify({
     components,
     directives,
@@ -25,10 +29,12 @@ const vuetify = createVuetify({
     }
 });
 
+keySyncService.register();
+
 createApp(App)
     .use(router)
     .use(createPinia())
     .use(i18n)
     .use(vuetify)
-    // .use(initStartup)
+    .use(storeSyncPlugin)
     .mount('#app');

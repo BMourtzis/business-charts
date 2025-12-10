@@ -12,8 +12,22 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import MainNavigation from './presentation/components/MainNavigation.vue';
 import VaultModal from './presentation/components/VaultModal.vue';
+
+import { useStoreSync } from './presentation/composables/useStoreSync';
+import { usePartnersStore } from './presentation/stores/partnerStore';
+import { useDeliveryCarrierStore } from './presentation/stores/deliveryCarrierStore';
+
+//TODO: move to a better area
+onMounted(() => {
+  const storeSync = useStoreSync();
+
+  storeSync.registerStore(usePartnersStore());
+  storeSync.registerStore(useDeliveryCarrierStore());
+});
+
 
 </script>
 

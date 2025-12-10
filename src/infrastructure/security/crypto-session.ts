@@ -1,22 +1,34 @@
+import { EventEmitter } from "../EventEmitter";
 import { CryptoCore } from "./crypto-core";
 
+export type VaultState = "locked" | "unlocked";
 export class VaultSession {
     private static sessionKey: CryptoKey | null = null;
+    private static lastState: VaultState = "locked";
+
+    private static stateChangedEmitter: EventEmitter<VaultState> = new EventEmitter();
 
     private static readonly TEST_TAG = "crypto_test_value";
     private static readonly TEST_KEY = "crypto_test_ciphertext";
+
+    static onStateChanged(cb: (state: VaultState) => void) {
+        this.stateChangedEmitter.subscribe(cb);
+    }
 
     static async unlockVault(password: string): Promise<boolean> {
         const derivedKey = await CryptoCore.deriveKeyFromPassword(password);
 
         const isValid = await this.validatePasswordInternal(derivedKey);
-        if (isValid) this.sessionKey = derivedKey;
-
+        if (isValid) {
+            this.sessionKey = derivedKey;
+            this.changeState("unlocked");
+        }
         return isValid;
     }
 
     static lockVault(): void {
         this.sessionKey = null;
+        this.changeState("locked");
     }
 
     static isVaultUnlocked(): boolean {
@@ -30,6 +42,11 @@ export class VaultSession {
 
     static isInitialSetup(): boolean {
         return !CryptoCore.hasSalt() || !localStorage.getItem(this.TEST_KEY);
+    }
+
+    static requestKey(cb: () =>  void) {
+        if(this.sessionKey) return;
+        cb();
     }
 
     private static async validatePasswordInternal(key: CryptoKey): Promise<boolean> {
@@ -83,5 +100,26 @@ export class VaultSession {
     static async encrypt(data: string): Promise<string> {
         const key = this.getSessionKeyOrThrow();
         return await CryptoCore.encryptData(key, data);
+    }
+
+    static async exportKeyInternal(callback: (exportedKey: string) => void): Promise<void> {
+        const key = this.getSessionKeyOrThrow();
+        const exportedKey = await CryptoCore.exportKey(key);
+        callback(exportedKey);
+    }
+
+    private static changeState(state: VaultState) {
+        if(this.lastState === state) return;
+
+        this.lastState = state;
+        this.stateChangedEmitter.emit(state);
+    }
+
+    static async importKey(exportedKey: string): Promise<void> {
+        if(this.sessionKey) throw new Error("Vault is already unlocked.");
+        
+        const key = await CryptoCore.importKey(exportedKey);
+        this.sessionKey = key;
+        this.changeState("unlocked");
     }
 }
