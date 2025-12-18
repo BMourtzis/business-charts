@@ -6,6 +6,7 @@ export interface OrderDTO extends IEntityDTO {
     partnerId: string;
     createdDate: Date;
     sentDate?: Date;
+    dueDate?: Date;
     status: OrderStatus;
     direction: OrderDirection;
     items: OrderItemDTO[];
@@ -14,7 +15,14 @@ export interface OrderDTO extends IEntityDTO {
 export interface OrderItemDTO extends IEntityDTO {
     id: string;
     name: string;
-    quantity: number;
     basePrice: number;
     vatRate: number;
+    variations: OrderItemVariationDTO[]
+}
+
+type AttributesRecord = Record<string, string | number>;
+
+export interface OrderItemVariationDTO {
+    attributes: AttributesRecord,
+    quantity: number;
 }

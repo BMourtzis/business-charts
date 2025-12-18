@@ -1,13 +1,14 @@
 import { createOrderItem } from "@/domain/order/models/orderItem";
+import { OrderItemVariation } from "@/domain/order/models/orderItemVariation";
 import { orderRepository } from "@/infrastructure/repositories/orderRepository.local";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
 
-export async function addOrderItemCommand(orderId: string, name: string, quantity: number, unitPrice: number, vatRate = 0) {
+export async function addOrderItemCommand(orderId: string, name: string, unitPrice: number, vatRate: number, variations: OrderItemVariation[]) {
     const store = useOrdersStore();
     const order = store.getOrderById(orderId);
     if(!order) return;
 
-    const orderItem = createOrderItem(name, quantity, unitPrice, vatRate);
+    const orderItem = createOrderItem(name, unitPrice, vatRate, variations);
     order.addItem(orderItem);
 
     await orderRepository.update(order);
@@ -33,7 +34,6 @@ export async function updateOrderItemCommand(
     orderId: string, 
     itemId: string, 
     name?: string, 
-    quantity?: number, 
     basePrice?: number, 
     vatRate?: number) {
     const store = useOrdersStore();
@@ -41,7 +41,7 @@ export async function updateOrderItemCommand(
     if(!order) return;
 
     order.updateItem(itemId, {
-        name, quantity, basePrice, vatRate
+        name, basePrice, vatRate
     });
 
     await orderRepository.update(order);

@@ -194,9 +194,9 @@ function addItem() {
 
 function lineAmount(item: OrderItemDTO) {
   const amount = (item.basePrice * item.quantity * (1 + item.vatRate)).toFixed(2);
-  console.log(amount);
   return (item.basePrice * item.quantity * (1 + item.vatRate)).toFixed(2);
 }
+
 function removeItem(id: string) {
   const itemIndex = form.items.findIndex(e => e.id === id);
 

@@ -12,6 +12,7 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
             dto.status,
             dto.direction,
             dto.items.map(OrderItemMapperInstance.toModel),
+            dto.dueDate,
             dto.createdDate,
             dto.sentDate
         );
@@ -22,6 +23,7 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
             id: model.id,
             partnerId: model.partnerId,
             createdDate: model.createdDate,
+            dueDate: model.dueDate,
             sentDate: model.sentDate,
             status: model.status,
             direction: model.direction,
