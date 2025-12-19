@@ -22,6 +22,8 @@
             @request-close="stopEditingCell()"
             @request-move-cell="(moveAmount) => {moveEditingCellByCell(moveAmount)}"
             @request-move-row="(moveAmount) => {moveEditingCellByRow(moveAmount)}"
+            type="text"
+            canEdit
           />
         </template>
         <!-- Row total -->
@@ -117,17 +119,27 @@ function stopEditingCell() {
 }
 
 function moveEditingCellByCell(moveAmount: number) {
-  if(editingCellId.value) {
-    editingCellId.value += moveAmount;
+  if(editingCellId.value !== null) {
+    moveCell(editingCellId.value + moveAmount);
   }
 }
 
 function moveEditingCellByRow(moveAmount: number) {
-  if(editingCellId.value) {
-    editingCellId.value += getRowId(moveAmount);
+  if(editingCellId.value !== null) {
+    moveCell(editingCellId.value + getRowId(moveAmount));
   }
-  
 }
+
+function moveCell(newPosition: number) {
+  if(isCellMoveValid(newPosition)) editingCellId.value = newPosition;
+}
+
+function isCellMoveValid(newPosition: number) {
+  console.log(newPosition);
+  if(newPosition < 0) return false;
+  if(newPosition >= rows.length * editableRowCount) return false;
+  return true;
+};
 
 function getRowId(rIndex: number) {
   return rIndex * editableRowCount;

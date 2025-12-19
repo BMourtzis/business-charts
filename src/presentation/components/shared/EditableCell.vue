@@ -9,8 +9,8 @@
       autofocus
       @blur="requestClose"
       @keydown.esc="requestClose"
-      @keydown.tab="requestMoveCell(1)"
-      @keydown.enter="requestMoveRow(1)"
+      @keydown.tab.prevent="requestMoveCell"
+      @keydown.enter.prevent="requestMoveRow"
       style="width: 50px"
     />
     <span style="width: 100px" v-if="!editing">{{ value }}</span>
@@ -22,7 +22,9 @@ import { computed, ref } from 'vue';
 
 const props = defineProps<{
   modelValue: string | number;
-  editing: boolean
+  editing: boolean,
+  type: 'text' | 'select'
+  canEdit: boolean
 }>();
 
 const emit = defineEmits<{
@@ -46,12 +48,20 @@ function requestClose() {
   emit('request-close');
 }
 
-function requestMoveCell(moveAmount: number) {
-  emit('request-move-cell', moveAmount);
+function requestMoveCell(e: KeyboardEvent) {
+  emit('request-move-cell', getMoveAmount(e));
 }
 
-function requestMoveRow(moveAmount: number) {
-  emit('request-move-row', moveAmount);
+function requestMoveRow(e: KeyboardEvent) {
+  emit('request-move-row', getMoveAmount(e));
+}
+
+function getMoveAmount(e: KeyboardEvent) {
+   if(e.shiftKey) {
+    return -1
+  } else {
+    return 1;
+  }
 }
 
 </script>
