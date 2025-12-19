@@ -84,82 +84,20 @@
           />
         </v-col>
       </v-row>
-
-      <!-- TODO: Make into an editable table -->
-      <v-table density="compact">
-  <thead>
-    <tr>
-      <th>Colour</th>
-      <th>Sole</th>
-      <th v-for="size in sizes" :key="size">
-        {{ size }}
-      </th>
-      <th>Total pairs</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr v-for="(variation, vIndex) in item.variations" :key="vIndex">
-      <!-- Attributes -->
-      <td style="width: 100px">
-        <v-text-field
-          v-model="variation.attributes.colour"
-          density="compact"
-          variant="underlined"
-          hide-details
-        />
-      </td>
-      <td>
-        <v-text-field
-          v-model="variation.attributes.sole"
-          density="compact"
-          variant="underlined"
-          hide-details
-          style="width: 100px"
-        />
-      </td>
-
-      <!-- Sizes -->
-      <td v-for="size in sizes" :key="size">
-        <v-text-field
-          min="0"
-          density="compact"
-          variant="underlined"
-          hide-details
-          style="width: 30px"
-        />
-      </td>
-
-      <!-- Row total -->
-      <td>
-        <!-- {{
-          Object.values(variation.sizing).reduce((a, b) => a + b, 0)
-        }} -->
-      </td>
-
-      <!-- Delete -->
-      <td>
-        <v-btn
-          icon="mdi-close"
-          variant="text"
-          color="error"
-          @click="removeVariation(vIndex)"
-        />
-      </td>
-    </tr>
-  </tbody>
-</v-table>
+      <editable-table :variations="item.variations" />
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { OrderItemDTO } from "@/application/dto/orderDTO";
 
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import { computed, ref } from "vue";
+
+import EditableTable from "../shared/EditableTable.vue";
+
 
 const { tCap } = useLocalizationHelpers();
 
@@ -168,8 +106,6 @@ const {
   required, 
   numeric
 } = useValidationRules();
-
-const sizes = Array.from({ length: 47 - 35 + 1 }, (_, i) => i + 35);
 
 const props = defineProps<{
   item: OrderItemDTO
