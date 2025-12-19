@@ -17,17 +17,13 @@
               <!-- <v-col class="d-flex justify-start" cols="6">
                 Start date: {{ trip.start || 'Not set' }}
               </v-col> -->
-              <v-col 
-                cols="3"
-              >
-                Sum: {{ lineAmount }}€
-              </v-col>
-              <v-col 
-                cols="3"
-              >
+              <v-spacer/>
+              <v-col cols="3">
                 Total Quantity: {{ totalQuantity }}
               </v-col>
-              <v-spacer/>
+              <v-col cols="3">
+                Sum: {{ lineAmount }}€
+              </v-col>
               <v-col cols="1" >
                 <v-btn
                   size="medium"
@@ -89,48 +85,71 @@
         </v-col>
       </v-row>
 
-      <v-row 
-        v-for="(variation, index) in item.variations"
-        dense
-      >
-      <v-row dense>
-        <v-col cols="1" >
-          <v-btn
-            size="medium"
-            icon="mdi-trash-can"
-            color="error"
-            variant="text"
-            @click.stop="removeVariation(index)"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            v-model="variation.attributes[0]"
-            label="Colour"
-            :rules="[required, maxLength(50)]"
-          />
-        </v-col>
-        <v-col cols="2">
-          <v-text-field
-            v-model="variation.attributes[1]"
-            label="Sole"
-            :rules="[required, maxLength(50)]"
-          />
-        </v-col>
-      </v-row>
-      <v-row dense>
-          <!-- <v-col cols="1"> -->
-            <v-text-field
-              v-for="size in sizes" :key="size"
-              :label="size.toString()"
-              type="number"
-              :rules="[numeric]"
-              min="0"
-              step="1"
-            />
-          <!-- </v-col> -->
-        </v-row>
-      </v-row>
+      <!-- TODO: Make into an editable table -->
+      <v-table density="compact">
+  <thead>
+    <tr>
+      <th>Colour</th>
+      <th>Sole</th>
+      <th v-for="size in sizes" :key="size">
+        {{ size }}
+      </th>
+      <th>Total pairs</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr v-for="(variation, vIndex) in item.variations" :key="vIndex">
+      <!-- Attributes -->
+      <td style="width: 100px">
+        <v-text-field
+          v-model="variation.attributes.colour"
+          density="compact"
+          variant="underlined"
+          hide-details
+        />
+      </td>
+      <td>
+        <v-text-field
+          v-model="variation.attributes.sole"
+          density="compact"
+          variant="underlined"
+          hide-details
+          style="width: 100px"
+        />
+      </td>
+
+      <!-- Sizes -->
+      <td v-for="size in sizes" :key="size">
+        <v-text-field
+          min="0"
+          density="compact"
+          variant="underlined"
+          hide-details
+          style="width: 30px"
+        />
+      </td>
+
+      <!-- Row total -->
+      <td>
+        <!-- {{
+          Object.values(variation.sizing).reduce((a, b) => a + b, 0)
+        }} -->
+      </td>
+
+      <!-- Delete -->
+      <td>
+        <v-btn
+          icon="mdi-close"
+          variant="text"
+          color="error"
+          @click="removeVariation(vIndex)"
+        />
+      </td>
+    </tr>
+  </tbody>
+</v-table>
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>

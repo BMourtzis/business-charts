@@ -11,7 +11,7 @@ export class OrderItem implements IEntity {
     private _variations: OrderItemVariation[];
 
     name: string;
-    vatRate: number;
+    vatRate: number; //TODO: move to order
 
     constructor(
         id: string, 
