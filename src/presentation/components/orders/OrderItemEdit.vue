@@ -14,9 +14,6 @@
               style="width: 100%"
               no-gutters
             >
-              <!-- <v-col class="d-flex justify-start" cols="6">
-                Start date: {{ trip.start || 'Not set' }}
-              </v-col> -->
               <v-spacer/>
               <v-col cols="3">
                 Total Quantity: {{ totalQuantity }}

@@ -2,7 +2,7 @@
   <v-table density="compact" v-if="variations.length > 0">
     <thead>
       <tr>
-        <th v-for="(cell, cIndex) in rowLayout" :key="cIndex">{{ cell.title }}</th>
+        <th v-for="(cell, cIndex) in rowsLayout" :key="cIndex">{{ cell.title }}</th>
         <th></th>
       </tr>
     </thead>
@@ -51,7 +51,7 @@
             icon="mdi-close"
             variant="text"
             color="error"
-            @click="removeVariation(rIndex)"
+            @click="removeRow(rIndex)"
           />
         </td>
       </tr>
@@ -101,36 +101,34 @@ const soleList = [
 
 const sizes = Array.from({ length: 47 - 35 + 1 }, (_, i) => i + 35);
 
-const rowLayout = [
+const rowsLayout = [
   {
-    order: 1,
+    order: 0,
     title: "Colour",
     type: "autocomplete",
     list: colourList,
     editableRow: true
   },
   {
-    order: 2,
+    order: 1,
     title: "Sole",
     type: "autocomplete",
     list: soleList,
     editableRow: true
   },
-  ...sizes.map(s => ({
-    order: s,
+  ...sizes.map((s, sIndex) => ({
+    order: sIndex + 2,
     title: s.toString(),
     type: "text" as const,
     editableRow: true
   })),
   {
-    order: 48,
+    order: sizes.length + 2,
     title: "Total",
     type: "text",
     editableRow: false,
   }
 ];
-
-const editableRowCount = rowLayout.filter(r => r.editableRow === true).length;
 
 type Row = {
   cells: (TextCell | DropdownCell)[]
@@ -159,13 +157,13 @@ function addRow() {
   console.log(rows);
 }
 
-function removeRow() {
-  rows.splice(rows.length, 0);
+function removeRow(index = rows.length - 1 ) {
+  rows.splice(index, 1);
 }
 
 function createRow(): Row {
   return {
-    cells: rowLayout
+    cells: rowsLayout
       .sort((a, b) => a.order - b.order)
       .map(r => {
         if(r.type === "autocomplete") {
@@ -186,10 +184,6 @@ function createRow(): Row {
         };
       })
   };
-}
-
-function removeVariation(index: number) {
-  //TODO
 }
 
 function startEditingCell(rIndex: number, cIndex: number) {
@@ -213,17 +207,31 @@ function moveEditingCellByRow(moveAmount: number) {
 }
 
 function moveCell(newPosition: number) {
-  if(isCellMoveValid(newPosition)) editingCellId.value = newPosition;
+  if(isCellMoveValid(newPosition)) {
+    if(isCellEditable(newPosition)) {
+      editingCellId.value = newPosition;
+    } else {
+      moveCell(newPosition + 1);
+    }
+    
+  }
+}
+
+function isCellEditable(newPosition: number) {
+  const rowIndex = newPosition % rowsLayout.length;
+  const rowLayout = rowsLayout.find(r => r.order === rowIndex);
+
+  return rowLayout?.editableRow ?? false;
 }
 
 function isCellMoveValid(newPosition: number) {
   if(newPosition < 0) return false;
-  if(newPosition >= rows.length * editableRowCount) return false;
+  if(newPosition >= rows.length * rowsLayout.length) return false;
   return true;
 };
 
 function getRowId(rIndex: number) {
-  return rIndex * editableRowCount;
+  return rIndex * rowsLayout.length;
 }
 
 function isEditCell(rIndex: number, cIndex: number) {
