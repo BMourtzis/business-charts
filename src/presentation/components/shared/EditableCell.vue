@@ -21,7 +21,7 @@
         />
       </slot>
     </template>
-    <span style="width: 100px" v-if="!(editing && canEdit)">{{ value }}</span>
+    <span style="width: 50px" v-if="!(editing && canEdit)">{{ value }}</span>
   </td>
 </template>
 
@@ -52,7 +52,9 @@ function updateValue(value: string) {
 }
 
 function requestEdit() {
-  emit('request-edit');
+  if(props.canEdit) {
+    emit('request-edit');
+  }
 }
 
 function onKeydown(e: KeyboardEvent) {

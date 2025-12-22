@@ -2,12 +2,7 @@
   <v-table density="compact" v-if="variations.length > 0">
     <thead>
       <tr>
-        <th>Colour</th>
-        <th>Sole</th>
-        <th v-for="size in sizes" :key="size">
-          {{ size }}
-        </th>
-        <th>Total pairs</th>
+        <th v-for="(cell, cIndex) in rowLayout" :key="cIndex">{{ cell.title }}</th>
         <th></th>
       </tr>
     </thead>
@@ -15,16 +10,18 @@
     <tbody>
       <tr v-for="(row, rIndex) in rows" :key="rIndex">
         <template v-for="(cell, cIndex) in row.cells" :key="cIndex">
-          <!-- <editable-cell 
+          <editable-cell 
+            v-if="cell.type === 'text'"
             v-model="cell.value" 
             :editing="isEditCell(rIndex, cIndex)" 
             @request-edit="startEditingCell(rIndex, cIndex)"
             @request-close="stopEditingCell()"
             @request-move-cell="(moveAmount) => {moveEditingCellByCell(moveAmount)}"
             @request-move-row="(moveAmount) => {moveEditingCellByRow(moveAmount)}"
-            canEdit
-          /> -->
+            :canEdit="cell.editableRow"
+          />
           <editable-cell 
+            v-if="cell.type === 'autocomplete'"
             v-model="cell.value" 
             :editing="isEditCell(rIndex, cIndex)" 
             @request-edit="startEditingCell(rIndex, cIndex)"
@@ -37,7 +34,7 @@
               <v-autocomplete
                 :model-value="value"
                 @update:model-value="onUpdate"
-                :items="valueList"
+                :items="cell.list"
                 hide-details
                 autofocus
                 @blur="onBlur"
@@ -47,13 +44,6 @@
             </template>
           </editable-cell>
         </template>
-        <!-- Row total -->
-        <!-- <editable-cell :item="Object.values(variation.sizing).reduce((a, b) => a + b, 0)" /> -->
-        <td>
-          <!-- {{
-            Object.values(variation.sizing).reduce((a, b) => a + b, 0)
-          }} -->
-        </td>
 
         <!-- Delete -->
         <td>
@@ -96,29 +86,77 @@ watch(props.variations, () => {
   }
 });
 
-const valueList = [
+const colourList = [
   "BLK",
   "BLU",
   "RED"
-]
+];
+
+const soleList = [
+  "ANATOMIC",
+  "SOFT",
+  "soft"
+];
 
 
 const sizes = Array.from({ length: 47 - 35 + 1 }, (_, i) => i + 35);
 
-const editableRowCount = 2 + sizes.length;
+const rowLayout = [
+  {
+    order: 1,
+    title: "Colour",
+    type: "autocomplete",
+    list: colourList,
+    editableRow: true
+  },
+  {
+    order: 2,
+    title: "Sole",
+    type: "autocomplete",
+    list: soleList,
+    editableRow: true
+  },
+  ...sizes.map(s => ({
+    order: s,
+    title: s.toString(),
+    type: "text" as const,
+    editableRow: true
+  })),
+  {
+    order: 48,
+    title: "Total",
+    type: "text",
+    editableRow: false,
+  }
+];
+
+const editableRowCount = rowLayout.filter(r => r.editableRow === true).length;
 
 type Row = {
-  cells: Cell[]
+  cells: (TextCell | DropdownCell)[]
 };
 
-type Cell = {
-  value: string
-}
+type BaseCell = {
+  title: string;
+  value: string;
+  editableRow: boolean;
+};
+
+type TextCell = BaseCell & {
+  type: "text",
+};
+
+type DropdownCell = BaseCell & {
+  type: "autocomplete",
+  list: string[],
+  editableRow: false
+};
 
 const rows = reactive([] as Row[]);
 
 function addRow() {
   rows.push(createRow());
+  console.log(rows);
 }
 
 function removeRow() {
@@ -127,7 +165,26 @@ function removeRow() {
 
 function createRow(): Row {
   return {
-    cells: [...Array(editableRowCount)].map(() => ({ value: "" }))
+    cells: rowLayout
+      .sort((a, b) => a.order - b.order)
+      .map(r => {
+        if(r.type === "autocomplete") {
+          return {
+            title: r.title,
+            value: "",
+            type: "autocomplete",
+            list: r.list ? r.list : [],
+            editableRow: false
+          };
+        }
+        
+        return {
+          title: r.title,
+          value: "",
+          editableRow: r.editableRow ?? true,
+          type: "text"
+        };
+      })
   };
 }
 
