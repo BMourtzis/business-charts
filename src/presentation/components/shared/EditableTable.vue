@@ -15,6 +15,15 @@
     <tbody>
       <tr v-for="(row, rIndex) in rows" :key="rIndex">
         <template v-for="(cell, cIndex) in row.cells" :key="cIndex">
+          <!-- <editable-cell 
+            v-model="cell.value" 
+            :editing="isEditCell(rIndex, cIndex)" 
+            @request-edit="startEditingCell(rIndex, cIndex)"
+            @request-close="stopEditingCell()"
+            @request-move-cell="(moveAmount) => {moveEditingCellByCell(moveAmount)}"
+            @request-move-row="(moveAmount) => {moveEditingCellByRow(moveAmount)}"
+            canEdit
+          /> -->
           <editable-cell 
             v-model="cell.value" 
             :editing="isEditCell(rIndex, cIndex)" 
@@ -22,9 +31,21 @@
             @request-close="stopEditingCell()"
             @request-move-cell="(moveAmount) => {moveEditingCellByCell(moveAmount)}"
             @request-move-row="(moveAmount) => {moveEditingCellByRow(moveAmount)}"
-            type="text"
             canEdit
-          />
+          >
+            <template #editor="{value, onBlur, onKeydown, onUpdate}">
+              <v-autocomplete
+                :model-value="value"
+                @update:model-value="onUpdate"
+                :items="valueList"
+                hide-details
+                autofocus
+                @blur="onBlur"
+                @keydown="onKeydown"
+                style="width: 100px"
+              />
+            </template>
+          </editable-cell>
         </template>
         <!-- Row total -->
         <!-- <editable-cell :item="Object.values(variation.sizing).reduce((a, b) => a + b, 0)" /> -->
@@ -62,7 +83,7 @@ const editingCellId = ref<number | null>(null);
 
 watch(props.variations, () => {
   const diff = props.variations.length - rows.length;
-  console.log(diff);
+
   if(diff > 0) {
     for(let i  = 0; i < diff; i++) {
       addRow();
@@ -73,9 +94,13 @@ watch(props.variations, () => {
       removeRow();
     }
   }
-
-  console.log(rows);
 });
+
+const valueList = [
+  "BLK",
+  "BLU",
+  "RED"
+]
 
 
 const sizes = Array.from({ length: 47 - 35 + 1 }, (_, i) => i + 35);
@@ -135,7 +160,6 @@ function moveCell(newPosition: number) {
 }
 
 function isCellMoveValid(newPosition: number) {
-  console.log(newPosition);
   if(newPosition < 0) return false;
   if(newPosition >= rows.length * editableRowCount) return false;
   return true;

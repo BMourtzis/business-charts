@@ -1,34 +1,41 @@
 <template>
   <td @click="requestEdit">
-    <v-text-field
-      v-if="editing"
-      v-model="value"
-      density="compact"
-      variant="underlined"
-      hide-details
-      autofocus
-      @blur="requestClose"
-      @keydown.esc="requestClose"
-      @keydown.tab.prevent="requestMoveCell"
-      @keydown.enter.prevent="requestMoveRow"
-      style="width: 50px"
-    />
-    <span style="width: 100px" v-if="!editing">{{ value }}</span>
+    <template v-if="editing && canEdit">
+      <slot
+        name="editor"
+        :value="value"
+        :onUpdate="updateValue"
+        :onBlur="requestClose"
+        :onKeydown="onKeydown"
+      >
+        <!-- Default editor -->
+        <v-text-field
+          v-model="value"
+          density="compact"
+          variant="underlined"
+          hide-details
+          autofocus
+          @blur="requestClose"
+          @keydown="onKeydown"
+          style="width: 50px"
+        />
+      </slot>
+    </template>
+    <span style="width: 100px" v-if="!(editing && canEdit)">{{ value }}</span>
   </td>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
-  modelValue: string | number;
+  modelValue: string;
   editing: boolean,
-  type: 'text' | 'select'
   canEdit: boolean
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: string | number): void,
+  (e: 'update:modelValue', value: string): void,
   (e: 'request-edit'): void,
   (e: 'request-close'): void,
   (e: 'request-move-cell', moveAmount: number): void,
@@ -37,22 +44,43 @@ const emit = defineEmits<{
 
 const value = computed({
   get: () => props.modelValue,
-  set: v => emit('update:modelValue', v)
+  set: v => updateValue(v)
 });
+
+function updateValue(value: string) {
+  emit("update:modelValue", value);
+}
 
 function requestEdit() {
   emit('request-edit');
 }
 
-function requestClose() {
+function onKeydown(e: KeyboardEvent) {
+  switch(e.key) {
+    case 'Escape':
+      requestClose(e);
+      break;
+    case 'Tab':
+      requestMoveCell(e);
+      break;
+    case "Enter":
+      requestMoveRow(e);
+      break;
+  }
+}
+
+function requestClose(e: KeyboardEvent) {
+  e.preventDefault();
   emit('request-close');
 }
 
 function requestMoveCell(e: KeyboardEvent) {
+  e.preventDefault();
   emit('request-move-cell', getMoveAmount(e));
 }
 
 function requestMoveRow(e: KeyboardEvent) {
+  e.preventDefault();
   emit('request-move-row', getMoveAmount(e));
 }
 
