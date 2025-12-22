@@ -61,19 +61,6 @@
             suffix="€"
           />
         </v-col>
-        <v-col cols="1">
-          <v-text-field
-            :model-value="item.vatRate * 100"
-            @update:model-value="val => item.vatRate = Number(val) / 100"
-            type="number"
-            :label="tCap('order.vatRate')"
-            :rules="[required, numeric]"
-            min="0"
-            max="100"
-            step="1"
-            suffix="%"
-          />
-        </v-col>
         <v-col cols="2">
           <v-btn
             color="success"
@@ -116,7 +103,7 @@ function removeItem(id: string) {
 }
 
 const lineAmount = computed(() => {
-  return (props.item.basePrice * (1 + props.item.vatRate)).toFixed(2);
+  return props.item.basePrice.toFixed(2);
 })
 
 const totalQuantity = computed(() => {

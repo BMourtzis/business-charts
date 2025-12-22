@@ -9,6 +9,7 @@ export interface OrderDTO extends IEntityDTO {
     dueDate?: Date;
     status: OrderStatus;
     direction: OrderDirection;
+    vatRate: number;
     items: OrderItemDTO[];
 }
 
@@ -16,7 +17,6 @@ export interface OrderItemDTO extends IEntityDTO {
     id: string;
     name: string;
     basePrice: number;
-    vatRate: number;
     variations: OrderItemVariationDTO[]
 }
 

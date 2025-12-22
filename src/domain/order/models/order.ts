@@ -13,11 +13,14 @@ export class Order implements IEntity {
     private _direction: OrderDirection;
     private _items: OrderItem[];
 
-    constructor(id: string, partnerId: string, status: OrderStatus, direction: OrderDirection, items: OrderItem[], dueDate?: Date, createdDate?: Date, sentDate?: Date) {
+    vatRate: number;
+
+    constructor(id: string, partnerId: string, status: OrderStatus, direction: OrderDirection, vatRate: number, items: OrderItem[], dueDate?: Date, createdDate?: Date, sentDate?: Date) {
         this._id = id;
         this._partnerId = partnerId;
         this._createdDate = createdDate ?? new Date();
         this._dueDate = dueDate;
+        this.vatRate = vatRate;
         this._status = status;
         this._direction = direction;
         this._items = items.slice();
@@ -63,7 +66,6 @@ export class Order implements IEntity {
 
         if (updates.name) item.name = updates.name;
         if (updates.basePrice !== undefined) item.updateBasePrice(updates.basePrice);
-        if (updates.vatRate !== undefined) item.updateVatRate(updates.vatRate);
     }
 
     setItems(items: OrderItem[]) {
@@ -116,11 +118,11 @@ const OrderStateTransitions: Record<OrderStatus, OrderStatus[]> = {
 };
 
 //You pay supplier
-export function createDebitOrder(partnerId: string, items: OrderItem[], dueDate?: Date): Order {
-    return new Order(uuidv4(), partnerId, OrderStatus.Draft, OrderDirection.Debit, items, dueDate);
+export function createDebitOrder(partnerId: string, items: OrderItem[], vatRate: number, dueDate?: Date): Order {
+    return new Order(uuidv4(), partnerId, OrderStatus.Draft, OrderDirection.Debit, vatRate, items, dueDate);
 }
 
 //customer pays you
-export function createCreditOrder(partnerId: string, items: OrderItem[], dueDate?: Date): Order {
-    return new Order(uuidv4(), partnerId, OrderStatus.Draft, OrderDirection.Credit, items, dueDate);
+export function createCreditOrder(partnerId: string, items: OrderItem[], varRate: number, dueDate?: Date): Order {
+    return new Order(uuidv4(), partnerId, OrderStatus.Draft, OrderDirection.Credit, varRate, items, dueDate);
 }

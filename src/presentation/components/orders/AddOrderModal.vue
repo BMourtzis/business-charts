@@ -20,7 +20,7 @@
         >
           <v-container fluid>
             <v-row dense>
-              <v-col cols="12">
+              <v-col cols="6">
                 <v-autocomplete
                   v-model="form.partnerId"
                   :item-props="partnersToItemProps"
@@ -29,12 +29,25 @@
                   :rules="[required]"
                 />
               </v-col>
-              <v-col cols="12">
+              <v-col cols="6">
                 <v-select
                   v-model="form.direction"
                   :label="tCap('order.direction')"
                   :items="directions"
                   :rules="[required]"
+                />
+              </v-col>
+              <v-col cols="2">
+                <v-text-field
+                  :model-value="form.vatRate * 100"
+                  @update:model-value="val => form.vatRate = Number(val) / 100"
+                  type="number"
+                  :label="tCap('order.vatRate')"
+                  :rules="[required, numeric]"
+                  min="0"
+                  max="100"
+                  step="1"
+                  suffix="%"
                 />
               </v-col>
               <v-col cols="12" class="d-flex justify-space-between align-center mb-4">
@@ -119,6 +132,7 @@ const directions = ["Credit", "Debit"];
 const form = reactive({
     direction: '',
     partnerId: '',
+    vatRate: .24,
     items: [] as OrderItemDTO[]
 });
 
@@ -137,14 +151,12 @@ function addItem() {
     name: "",
     // quantity: 1,
     basePrice: 0.00,
-    vatRate: .24,
     variations: []
   });
 }
 
 function lineAmount(item: OrderItemDTO) {
-  const amount = (item.basePrice  * (1 + item.vatRate)).toFixed(2);
-  return (item.basePrice * (1 + item.vatRate)).toFixed(2);
+  return item.basePrice.toFixed(2);
 }
 
 function removeItem(id: string) {
