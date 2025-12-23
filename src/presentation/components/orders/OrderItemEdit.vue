@@ -68,19 +68,20 @@
           />
         </v-col>
       </v-row>
-      <editable-table :variations="item.variations" />
+      <editable-table :modelValue="rows" :tableColumns="rowsLayout" />
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { OrderItemDTO } from "@/application/dto/orderDTO";
 
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 import EditableTable from "../shared/EditableTable.vue";
+import { TableColumn, TableRow } from "@/presentation/composables/shared/useEditableTable";
 
 
 const { tCap } = useLocalizationHelpers();
@@ -95,6 +96,8 @@ const props = defineProps<{
   item: OrderItemDTO
 }>();
 
+const rows = ref<TableRow[]>([]);
+
 function removeItem(id: string) {
   //TODO: emit to parent component
 }
@@ -108,11 +111,14 @@ const totalQuantity = computed(() => {
 })
 
 function addVariation() {
-  props.item.variations.push({
-    attributes: {},
-    quantity: 0
+  rows.value.push({
+    id: rows.value.length.toString(),
+    cells: [
+      "", "", ...sizes.map(() => ""), ""
+    ]
   });
 }
+
 
 function removeVariation(index: number) {
   //TODO
@@ -123,6 +129,49 @@ type VariationViewModel = {
   sizing: Record<string, number>
 }
 
+const colourList = [
+  "BLK",
+  "BLU",
+  "RED"
+];
+
+const soleList = [
+  "ANATOMIC",
+  "SOFT",
+  "soft"
+];
+
+
+const sizes = Array.from({ length: 47 - 35 + 1 }, (_, i) => i + 35);
+
+const rowsLayout = [
+  {
+    order: 0,
+    title: "Colour",
+    type: "autocomplete",
+    list: colourList,
+    editableRow: true
+  },
+  {
+    order: 1,
+    title: "Sole",
+    type: "autocomplete",
+    list: soleList,
+    editableRow: true
+  },
+  ...sizes.map((s, sIndex) => ({
+    order: sIndex + 2,
+    title: s.toString(),
+    type: "text" as const,
+    editableRow: true
+  })),
+  {
+    order: sizes.length + 2,
+    title: "Total",
+    type: "text",
+    editableRow: false,
+  }
+] as TableColumn[];
 
 </script>
 
