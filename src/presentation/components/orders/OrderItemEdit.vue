@@ -68,7 +68,11 @@
           />
         </v-col>
       </v-row>
-      <editable-table :modelValue="rows" :tableColumns="rowsLayout" />
+      <editable-table 
+        :modelValue="rows" 
+        :tableColumns="shoesVariationLayout"
+        @update:model-value="updateModelValue"
+      />
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
@@ -81,8 +85,8 @@ import { useValidationRules } from '@/presentation/composables/useValidationRule
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 import EditableTable from "../shared/EditableTable.vue";
-import { TableColumn, TableRow } from "@/presentation/composables/shared/useEditableTable";
-
+import { TableRow } from "@/presentation/composables/shared/useEditableTable";
+import { shoesVariationLayout } from "@/presentation/composables/order/useProductVariation";
 
 const { tCap } = useLocalizationHelpers();
 
@@ -97,9 +101,15 @@ const props = defineProps<{
 }>();
 
 const rows = ref<TableRow[]>([]);
+const variations = ref<VariationViewModel[]>([]);
 
+//Removes orderItem
 function removeItem(id: string) {
   //TODO: emit to parent component
+}
+
+function updateModelValue(newRows: TableRow[]) {
+  // rows.value = newRows;
 }
 
 const lineAmount = computed(() => {
@@ -113,9 +123,7 @@ const totalQuantity = computed(() => {
 function addVariation() {
   rows.value.push({
     id: rows.value.length.toString(),
-    cells: [
-      "", "", ...sizes.map(() => ""), ""
-    ]
+    cells: shoesVariationLayout.map(() => "")
   });
 }
 
@@ -128,51 +136,6 @@ type VariationViewModel = {
   attributes: Record<string, string>,
   sizing: Record<string, number>
 }
-
-const colourList = [
-  "BLK",
-  "BLU",
-  "RED"
-];
-
-const soleList = [
-  "ANATOMIC",
-  "SOFT",
-  "soft"
-];
-
-
-const sizes = Array.from({ length: 47 - 35 + 1 }, (_, i) => i + 35);
-
-const rowsLayout = [
-  {
-    order: 0,
-    title: "Colour",
-    type: "autocomplete",
-    list: colourList,
-    editableRow: true
-  },
-  {
-    order: 1,
-    title: "Sole",
-    type: "autocomplete",
-    list: soleList,
-    editableRow: true
-  },
-  ...sizes.map((s, sIndex) => ({
-    order: sIndex + 2,
-    title: s.toString(),
-    type: "text" as const,
-    editableRow: true
-  })),
-  {
-    order: sizes.length + 2,
-    title: "Total",
-    type: "text",
-    editableRow: false,
-  }
-] as TableColumn[];
-
 </script>
 
 <style scoped>

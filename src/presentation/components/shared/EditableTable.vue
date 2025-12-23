@@ -1,8 +1,8 @@
 <template>
-  <v-table density="compact" v-if="rows.length > 0">
+  <v-table density="compact" v-if="tableColumns.length > 0">
     <thead>
       <tr>
-        <th v-for="(cell, cIndex) in tableColumns" :key="cIndex">{{ cell.title }}</th>
+        <th v-for="(columnLayout, cIndex) in tableColumns" :key="cIndex">{{ columnLayout.title }}</th>
         <th></th>
       </tr>
     </thead>
@@ -31,10 +31,11 @@
             canEdit
           >
             <template #editor="{value, onBlur, onKeydown, onUpdate}">
+              <!-- TODO: make items into itemProps so that I can add the name and the code -->
               <v-autocomplete
                 :model-value="value"
                 @update:model-value="onUpdate"
-                :items="tableColumns[cIndex].list"
+                :items="tableColumns[cIndex].list" 
                 hide-details
                 autofocus
                 @blur="onBlur"
