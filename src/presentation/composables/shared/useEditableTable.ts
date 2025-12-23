@@ -1,19 +1,21 @@
 
 export type TableColumn = {
   order: number,
+  name: string,
   title: string,
-  type: "autocomplete" | "text",
+  type: "autocomplete" | "text" | "calculated",
   list: string[],
-  editableRow: boolean
+  editableRow: boolean,
+  calculate?: (row: InternalRow) => string
 };
 
 export type TableRow = {
-  id: string,
+  id?: string,
   cells: string[]
 };
 
 export type InternalRow = {
-    id: string,
+    id?: string,
     cells: {
         value: string
     }[]

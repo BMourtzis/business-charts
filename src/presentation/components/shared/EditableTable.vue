@@ -44,6 +44,9 @@
               />
             </template>
           </editable-cell>
+          <td v-if="tableColumns[cIndex].type === 'calculated' && tableColumns[cIndex].calculate">
+            <span>{{ tableColumns[cIndex].calculate(row) }}</span>
+          </td>
         </template>
 
         <!-- Delete -->
@@ -81,18 +84,13 @@ const editingCellId = ref<number | null>(null);
 
 watch(
   () => props.modelValue,
-  v => rows.value = toInternal(v),
-  {immediate: true, deep: true}
-);
-
-watch(
-  rows,
-  v => emit("update:modelValue", toPublic(v)),
-  { deep: true }
+  v => {rows.value = toInternal(v); console.log(v)},
+  { immediate: true }
 );
 
 function removeRow(index: number) {
   rows.value.splice(index, 1);
+  emit("update:modelValue", toPublic(rows.value));
 }
 
 //Edit cell functionality, move to composable
@@ -129,7 +127,7 @@ function moveCell(newPosition: number) {
 }
 
 function isCellEditable(newPosition: number) {
-  const rowIndex = newPosition % props.tableColumns.length;
+  const rowIndex = newPosition % props.tableColumns.filter(c => c.editableRow).length;
   const rowLayout = props.tableColumns.find(r => r.order === rowIndex);
 
   return rowLayout?.editableRow ?? false;
@@ -137,12 +135,12 @@ function isCellEditable(newPosition: number) {
 
 function isCellMoveValid(newPosition: number) {
   if(newPosition < 0) return false;
-  if(newPosition >= rows.value.length * props.tableColumns.length) return false;
+  if(newPosition >= rows.value.length * props.tableColumns.filter(c => c.editableRow).length) return false;
   return true;
 };
 
 function getRowId(rIndex: number) {
-  return rIndex * props.tableColumns.length;
+  return rIndex * props.tableColumns.filter(c => c.editableRow).length;
 }
 
 function isEditCell(rIndex: number, cIndex: number) {

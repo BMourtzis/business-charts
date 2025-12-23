@@ -69,16 +69,16 @@
         </v-col>
       </v-row>
       <editable-table 
-        :modelValue="rows" 
+        :key="tableRows.length"
+        v-model="tableRows" 
         :tableColumns="shoesVariationLayout"
-        @update:model-value="updateModelValue"
       />
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { OrderItemDTO } from "@/application/dto/orderDTO";
 
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
@@ -100,31 +100,102 @@ const props = defineProps<{
   item: OrderItemDTO
 }>();
 
-const rows = ref<TableRow[]>([]);
-const variations = ref<VariationViewModel[]>([]);
+const variations = computed(() => rowsToVm(tableRows.value))
+const tableRows = ref<TableRow[]>([]);
 
 //Removes orderItem
 function removeItem(id: string) {
   //TODO: emit to parent component
 }
 
-function updateModelValue(newRows: TableRow[]) {
-  // rows.value = newRows;
-}
-
 const lineAmount = computed(() => {
   return props.item.basePrice.toFixed(2);
 })
 
-const totalQuantity = computed(() => {
-  return props.item.variations.reduce((sum, item) => sum + item.quantity, 0);
-})
+const totalQuantity = computed(() => 
+  variations.value.reduce((sum, vm) => sum + sumSizing(vm), 0)
+);
 
 function addVariation() {
-  rows.value.push({
-    id: rows.value.length.toString(),
-    cells: shoesVariationLayout.map(() => "")
-  });
+  const vm: VariationViewModel = {
+    attributes: {
+      [shoesVariationLayout[0].name]: "",
+      [shoesVariationLayout[1].name]: "",
+    },
+    sizing: Object.fromEntries(
+      shoesVariationLayout
+        .slice(2)
+        .map(c => [c.name, 0])
+    )
+  }
+
+  tableRows.value = [...tableRows.value, ...vmToRows([vm])];
+  console.log(tableRows.value);
+}
+
+function vmToRows(vms: VariationViewModel[]): TableRow[] {
+  return vms.map(vm => ({
+    cells: shoesVariationLayout.map(layout => {
+      if(layout.name.includes('shoe')) {
+        return sizeQtyToString(vm.sizing[layout.name]);
+      }
+
+      return vm.attributes[layout.name];
+    })
+  }));
+}
+
+function rowsToVm(rows: TableRow[]): VariationViewModel[] {
+  return rows.map(row => ({
+    attributes: {
+      [shoesVariationLayout[0].name]: row.cells[0],
+      [shoesVariationLayout[1].name]: row.cells[1],
+    },
+    sizing: {
+      [shoesVariationLayout[2].name]: getNumber(row.cells[2]),
+      [shoesVariationLayout[3].name]: getNumber(row.cells[3]),
+      [shoesVariationLayout[4].name]: getNumber(row.cells[4]),
+      [shoesVariationLayout[5].name]: getNumber(row.cells[5]),
+      [shoesVariationLayout[6].name]: getNumber(row.cells[6]),
+      [shoesVariationLayout[7].name]: getNumber(row.cells[7]),
+      [shoesVariationLayout[8].name]: getNumber(row.cells[8]),
+      [shoesVariationLayout[9].name]: getNumber(row.cells[9]),
+      [shoesVariationLayout[10].name]: getNumber(row.cells[10]),
+      [shoesVariationLayout[11].name]: getNumber(row.cells[11]),
+      [shoesVariationLayout[12].name]: getNumber(row.cells[12]),
+      [shoesVariationLayout[13].name]: getNumber(row.cells[13]),
+      [shoesVariationLayout[14].name]: getNumber(row.cells[14])
+    }
+  }));
+}
+
+function getNumber(value: string) {
+  if(value && value !== "") {
+    return Number(value);
+  }
+
+  return 0;
+}
+
+function sizeQtyToString(value: number): string {
+  if(value < 1) return "";
+  return value.toString();
+}
+
+function sumSizing(vm: VariationViewModel): number {
+  return vm.sizing[shoesVariationLayout[2].name]
+  + vm.sizing[shoesVariationLayout[3].name]
+  + vm.sizing[shoesVariationLayout[4].name]
+  + vm.sizing[shoesVariationLayout[5].name]
+  + vm.sizing[shoesVariationLayout[6].name]
+  + vm.sizing[shoesVariationLayout[7].name]
+  + vm.sizing[shoesVariationLayout[8].name]
+  + vm.sizing[shoesVariationLayout[9].name]
+  + vm.sizing[shoesVariationLayout[10].name]
+  + vm.sizing[shoesVariationLayout[11].name]
+  + vm.sizing[shoesVariationLayout[12].name]
+  + vm.sizing[shoesVariationLayout[13].name]
+  + vm.sizing[shoesVariationLayout[14].name];
 }
 
 

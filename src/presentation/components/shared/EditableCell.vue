@@ -1,10 +1,10 @@
 <template>
-  <td @click="requestEdit">
+  <td @click.stop="requestEdit">
     <template v-if="editing && canEdit">
       <slot
         name="editor"
         :value="value"
-        :onUpdate="updateValue"
+        :onUpdate="onCellUpdate"
         :onBlur="requestClose"
         :onKeydown="onKeydown"
       >
@@ -44,10 +44,10 @@ const emit = defineEmits<{
 
 const value = computed({
   get: () => props.modelValue,
-  set: v => updateValue(v)
+  set: v => onCellUpdate(v)
 });
 
-function updateValue(value: string) {
+function onCellUpdate(value: string) {
   emit("update:modelValue", value);
 }
 

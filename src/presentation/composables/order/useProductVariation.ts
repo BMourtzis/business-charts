@@ -1,4 +1,4 @@
-import { TableColumn } from "../shared/useEditableTable";
+import { InternalRow, TableColumn } from "../shared/useEditableTable";
 
 export const colourVariation = {
     name: "colour",
@@ -101,7 +101,16 @@ export const shoesVariationLayout = [
     {
         order: shoeSizeVariations.length + 2,
         title: "Total",
-        type: "text",
-        editableRow: false
+        name: "calculated:total",
+        type: "calculated",
+        editableRow: false,
+        calculate: (row: InternalRow) => {
+            console.log(row);
+            return row.cells
+                .slice(2)
+                .reduce((sum, v) => sum + (Number(v.value) || 0), 0)
+                .toString()
+        }
+            
     }
-] as TableColumn[];
+].sort((a, b) => a.order - b.order) as TableColumn[];
