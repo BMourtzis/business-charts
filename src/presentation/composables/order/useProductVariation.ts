@@ -105,7 +105,6 @@ export const shoesVariationLayout = [
         type: "calculated",
         editableRow: false,
         calculate: (row: InternalRow) => {
-            console.log(row);
             return row.cells
                 .slice(2)
                 .reduce((sum, v) => sum + (Number(v.value) || 0), 0)

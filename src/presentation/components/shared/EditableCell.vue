@@ -15,6 +15,9 @@
           variant="underlined"
           hide-details
           autofocus
+          type="number"
+          min="0"
+          step="1"
           @blur="requestClose"
           @keydown="onKeydown"
           style="width: 50px"

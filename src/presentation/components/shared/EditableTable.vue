@@ -84,13 +84,17 @@ const editingCellId = ref<number | null>(null);
 
 watch(
   () => props.modelValue,
-  v => {rows.value = toInternal(v); console.log(v)},
+  v => {rows.value = toInternal(v);},
   { immediate: true }
 );
 
+function commitChanges() {
+  emit("update:modelValue", toPublic(rows.value));
+}
+
 function removeRow(index: number) {
   rows.value.splice(index, 1);
-  emit("update:modelValue", toPublic(rows.value));
+  commitChanges();
 }
 
 //Edit cell functionality, move to composable
@@ -101,6 +105,7 @@ function startEditingCell(rIndex: number, cIndex: number) {
 
 function stopEditingCell() {
   editingCellId.value = null;
+  commitChanges();
 }
 
 function moveEditingCellByCell(moveAmount: number) {
@@ -119,6 +124,7 @@ function moveCell(newPosition: number) {
   if(isCellMoveValid(newPosition)) {
     if(isCellEditable(newPosition)) {
       editingCellId.value = newPosition;
+      commitChanges();
     } else {
       moveCell(newPosition + 1);
     }

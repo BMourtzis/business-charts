@@ -100,7 +100,7 @@ const props = defineProps<{
   item: OrderItemDTO
 }>();
 
-const variations = computed(() => rowsToVm(tableRows.value))
+const variations = computed(() => rowsToVm(tableRows.value));
 const tableRows = ref<TableRow[]>([]);
 
 //Removes orderItem
@@ -108,9 +108,10 @@ function removeItem(id: string) {
   //TODO: emit to parent component
 }
 
-const lineAmount = computed(() => {
-  return props.item.basePrice.toFixed(2);
-})
+const lineAmount = computed(() => 
+  // return props.item.basePrice.toFixed(2);
+  (totalQuantity.value * props.item.basePrice).toFixed(2)
+);
 
 const totalQuantity = computed(() => 
   variations.value.reduce((sum, vm) => sum + sumSizing(vm), 0)
@@ -130,7 +131,6 @@ function addVariation() {
   }
 
   tableRows.value = [...tableRows.value, ...vmToRows([vm])];
-  console.log(tableRows.value);
 }
 
 function vmToRows(vms: VariationViewModel[]): TableRow[] {
