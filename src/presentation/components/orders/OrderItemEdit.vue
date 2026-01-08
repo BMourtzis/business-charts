@@ -3,7 +3,7 @@
     <v-expansion-panel-title hide-actions v-slot="{ expanded }">
       <v-row no-gutters>
         <v-col class="d-flex justify-start" cols="4">
-          {{ item.name || "no name" }}
+          {{ localItem.name || "no name" }}
         </v-col>
         <v-col
           class="text--secondary"
@@ -16,6 +16,9 @@
             >
               <v-spacer/>
               <v-col cols="3">
+                Variations: {{ variationNumber }}
+              </v-col>
+              <v-col cols="3">
                 Total Quantity: {{ totalQuantity }}
               </v-col>
               <v-col cols="3">
@@ -27,7 +30,7 @@
                   icon="mdi-trash-can"
                   color="error"
                   variant="text"
-                  @click.stop="removeItem(item.id)"
+                  @click.stop="removeItem(localItem.id)"
                 />
               </v-col>
             </v-row>
@@ -42,14 +45,16 @@
       >
         <v-col cols="6">
           <v-text-field
-            v-model="item.name"
+            v-model="localItem.name"
+            @blur="commitChanges"
             :label="tCap('order.product')"
             :rules="[required, maxLength(50)]"
           />
         </v-col>
         <v-col cols="2">
           <v-text-field
-            v-model="item.basePrice"
+            v-model="localItem.basePrice"
+            @blur="commitChanges"
             :label="tCap('order.basePrice')"
             :rules="[required, numeric]"
             type="number"
@@ -69,7 +74,6 @@
         </v-col>
       </v-row>
       <editable-table 
-        :key="tableRows.length"
         v-model="tableRows" 
         :tableColumns="shoesVariationLayout"
         :context="calculateContext"
@@ -79,15 +83,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { OrderItemDTO } from "@/application/dto/orderDTO";
+import { computed, ref, toRaw, watch } from "vue";
 
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 import EditableTable from "../shared/EditableTable.vue";
-import { TableRow } from "@/presentation/composables/shared/useEditableTable";
 import { shoesVariationLayout } from "@/presentation/composables/order/useProductVariation";
+import { OrderItemEditVM } from "@/presentation/viewModels/orderItemEditVM";
+import { userVariationTableMapper } from "@/presentation/composables/shared/useVariationTableMapper";
 
 const { tCap } = useLocalizationHelpers();
 
@@ -98,119 +102,68 @@ const {
 } = useValidationRules();
 
 const props = defineProps<{
-  item: OrderItemDTO
+  modelValue: OrderItemEditVM
 }>();
 
-const variations = computed(() => rowsToVm(tableRows.value));
-const tableRows = ref<TableRow[]>([]);
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: OrderItemEditVM): void;
+  (e: 'remove-item', id: string): void;
+}>();
 
-//Removes orderItem
-function removeItem(id: string) {
-  //TODO: emit to parent component
+const localItem = ref<OrderItemEditVM>(
+  structuredClone(toRaw(props.modelValue))
+);
+
+watch(
+  () => props.modelValue,
+  v => localItem.value = structuredClone(toRaw(v)),
+  { deep: true }
+);
+
+function commitChanges() {
+  emit("update:modelValue", structuredClone(toRaw(localItem.value)));
 }
 
-const calculateContext = computed(() => ({
-  itemPrice: props.item.basePrice
-}));
+const {vmToRows, rowsToVm, sumSizing } = userVariationTableMapper(shoesVariationLayout);
 
-const totalAmount = computed(() => 
-  // return props.item.basePrice.toFixed(2);
-  (totalQuantity.value * props.item.basePrice).toFixed(2)
-);
+const tableRows = computed({
+  get: () => vmToRows(localItem.value.variations),
+  set: rows => {
+    localItem.value.variations = rowsToVm(rows);
+    commitChanges();
+  }
+});
+
+const variationNumber = computed(() => localItem.value.variations.length);
 
 const totalQuantity = computed(() => 
-  variations.value.reduce((sum, vm) => sum + sumSizing(vm), 0)
+  localItem.value.variations.reduce((sum, v) => sum + sumSizing(v), 0)
 );
 
+const totalAmount = computed(() => 
+  (totalQuantity.value * localItem.value.basePrice).toFixed(2)
+);
+
+const calculateContext = computed(() => ({
+  itemPrice: localItem.value.basePrice
+}));
+
+
 function addVariation() {
-  const vm: VariationViewModel = {
-    attributes: {
-      [shoesVariationLayout[0].name]: "",
-      [shoesVariationLayout[1].name]: "",
-    },
+  localItem.value.variations.push({
+    attributes: Object.fromEntries(
+      shoesVariationLayout.slice(0, 2).map(c => [c.name, ''])
+    ),
     sizing: Object.fromEntries(
-      shoesVariationLayout
-        .slice(2)
-        .map(c => [c.name, 0])
+      shoesVariationLayout.slice(2).map(c => [c.name, 0])
     )
-  }
+  });
 
-  tableRows.value = [...tableRows.value, ...vmToRows([vm])];
+  commitChanges();
 }
 
-function vmToRows(vms: VariationViewModel[]): TableRow[] {
-  return vms.map(vm => ({
-    cells: shoesVariationLayout.map(layout => {
-      if(layout.name.includes('shoe')) {
-        return sizeQtyToString(vm.sizing[layout.name]);
-      }
-
-      return vm.attributes[layout.name];
-    })
-  }));
-}
-
-function rowsToVm(rows: TableRow[]): VariationViewModel[] {
-  return rows.map(row => ({
-    attributes: {
-      [shoesVariationLayout[0].name]: row.cells[0],
-      [shoesVariationLayout[1].name]: row.cells[1],
-    },
-    sizing: {
-      [shoesVariationLayout[2].name]: getNumber(row.cells[2]),
-      [shoesVariationLayout[3].name]: getNumber(row.cells[3]),
-      [shoesVariationLayout[4].name]: getNumber(row.cells[4]),
-      [shoesVariationLayout[5].name]: getNumber(row.cells[5]),
-      [shoesVariationLayout[6].name]: getNumber(row.cells[6]),
-      [shoesVariationLayout[7].name]: getNumber(row.cells[7]),
-      [shoesVariationLayout[8].name]: getNumber(row.cells[8]),
-      [shoesVariationLayout[9].name]: getNumber(row.cells[9]),
-      [shoesVariationLayout[10].name]: getNumber(row.cells[10]),
-      [shoesVariationLayout[11].name]: getNumber(row.cells[11]),
-      [shoesVariationLayout[12].name]: getNumber(row.cells[12]),
-      [shoesVariationLayout[13].name]: getNumber(row.cells[13]),
-      [shoesVariationLayout[14].name]: getNumber(row.cells[14])
-    }
-  }));
-}
-
-function getNumber(value: string) {
-  if(value && value !== "") {
-    return Number(value);
-  }
-
-  return 0;
-}
-
-function sizeQtyToString(value: number): string {
-  if(value < 1) return "";
-  return value.toString();
-}
-
-function sumSizing(vm: VariationViewModel): number {
-  return vm.sizing[shoesVariationLayout[2].name]
-  + vm.sizing[shoesVariationLayout[3].name]
-  + vm.sizing[shoesVariationLayout[4].name]
-  + vm.sizing[shoesVariationLayout[5].name]
-  + vm.sizing[shoesVariationLayout[6].name]
-  + vm.sizing[shoesVariationLayout[7].name]
-  + vm.sizing[shoesVariationLayout[8].name]
-  + vm.sizing[shoesVariationLayout[9].name]
-  + vm.sizing[shoesVariationLayout[10].name]
-  + vm.sizing[shoesVariationLayout[11].name]
-  + vm.sizing[shoesVariationLayout[12].name]
-  + vm.sizing[shoesVariationLayout[13].name]
-  + vm.sizing[shoesVariationLayout[14].name];
-}
-
-
-function removeVariation(index: number) {
-  //TODO
-}
-
-type VariationViewModel = {
-  attributes: Record<string, string>,
-  sizing: Record<string, number>
+function removeItem(id: string) {
+  emit('remove-item', localItem.value.id);
 }
 </script>
 

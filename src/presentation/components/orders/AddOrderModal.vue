@@ -66,9 +66,24 @@
                 <order-item-edit 
                   v-for="(orderItem, index) in form.items"
                   :key="orderItem.id"
-                  :item="orderItem"
+                  v-model="form.items[index]"
+                  @removeItem="removeItem(orderItem.id)"
                 />
               </v-expansion-panels>
+            </v-row>
+            <v-row class="mb-4" justify="end" align="center">
+              <v-col cols="auto">
+                <strong>{{ tCap('order.totalQuantity') }}:</strong> {{ totalQuantityAllItems }}
+              </v-col>
+              <v-col cols="auto">
+                <strong>{{ tCap('order.totalAmount') }}:</strong> {{ totalAmountAllItems.toFixed(2) }} €
+              </v-col>
+            </v-row>
+            <v-row class="mb-4" justify="end" align="center">
+              <strong>{{ tCap('order.taxRate') }}:</strong> {{ taxAmount.toFixed(2) }} €
+            </v-row>
+            <v-row class="mb-4" justify="end" align="center">
+              <strong>{{ tCap('order.totalAmount') }}:</strong> {{ totalAmount.toFixed(2) }} €
             </v-row>
             <v-alert
               v-if="errorMessage"
@@ -105,10 +120,8 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import { v4 as uuidv4 } from "uuid";
-
-import { OrderItemDTO } from "@/application/dto/orderDTO";
 
 import { useOrders } from '@/presentation/composables/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
@@ -116,6 +129,8 @@ import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 
 import OrderItemEdit from './OrderItemEdit.vue';
+import { OrderItemEditVM } from '@/presentation/viewModels/orderItemEditVM';
+import { dtoToVM } from '@/presentation/mappers/orderItemMapper';
 
 const { 
   maxLength, 
@@ -133,7 +148,7 @@ const form = reactive({
     direction: '',
     partnerId: '',
     vatRate: .24,
-    items: [] as OrderItemDTO[]
+    items: [] as OrderItemEditVM[]
 });
 
 const {
@@ -146,18 +161,45 @@ const {
 } = useFormDialog(form);
 
 function addItem() {
-  form.items.push({
-    id: uuidv4(),
-    name: "",
-    // quantity: 1,
-    basePrice: 0.00,
-    variations: []
-  });
+  form.items.push(
+    dtoToVM({
+      id: uuidv4(),
+      name: "",
+      basePrice: 0.00,
+      variations: []
+    })
+  );
 }
 
-function lineAmount(item: OrderItemDTO) {
-  return item.basePrice.toFixed(2);
-}
+const totalQuantityAllItems = computed(() =>
+  form.items.reduce((sum, item) => {
+    const itemQty = item.variations?.reduce(
+      (s, v) => s + Object.values(v.sizing).reduce((a, b) => a + b, 0),
+      0
+    ) ?? 0;
+    return sum + itemQty;
+  }, 0)
+);
+
+// total amount across all items
+const totalAmountAllItems = computed(() =>
+  form.items.reduce((sum, item) => {
+    const itemQty = item.variations?.reduce(
+      (s, v) => s + Object.values(v.sizing).reduce((a, b) => a + b, 0),
+      0
+    ) ?? 0;
+    return sum + item.basePrice * itemQty;
+  }, 0)
+);
+
+const taxAmount = computed(() => {
+  const totalWithoutTax = totalAmountAllItems.value;
+  return totalWithoutTax * form.vatRate;
+});
+
+const totalAmount = computed(() => {
+  return totalAmountAllItems.value + taxAmount.value;
+});
 
 function removeItem(id: string) {
   const itemIndex = form.items.findIndex(e => e.id === id);
