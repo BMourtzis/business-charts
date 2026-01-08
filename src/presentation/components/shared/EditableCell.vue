@@ -55,27 +55,24 @@ function onCellUpdate(value: string) {
 }
 
 function requestEdit() {
-  if(props.canEdit) {
+  if(!props.editing && props.canEdit) {
     emit('request-edit');
   }
 }
+const keyHandlers: Record<string, (e: KeyboardEvent) => void> = {
+  Escape: requestClose,
+  Tab: requestMoveCell,
+  Enter: requestMoveRow
+};
 
 function onKeydown(e: KeyboardEvent) {
-  switch(e.key) {
-    case 'Escape':
-      requestClose(e);
-      break;
-    case 'Tab':
-      requestMoveCell(e);
-      break;
-    case "Enter":
-      requestMoveRow(e);
-      break;
-  }
+  if(e.isComposing) return;
+
+  keyHandlers[e.key]?.(e);
 }
 
-function requestClose(e: KeyboardEvent) {
-  e.preventDefault();
+function requestClose(e?: KeyboardEvent) {
+  e?.preventDefault();
   emit('request-close');
 }
 

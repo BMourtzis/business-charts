@@ -10,36 +10,28 @@
     <tbody>
       <tr v-for="(row, rIndex) in rows" :key="rIndex">
         <template v-for="(cell, cIndex) in row.cells" :key="cIndex">
-          <editable-cell 
-            v-if="tableColumns[cIndex].type === 'text'"
-            v-model="cell.value" 
-            :editing="isEditCell(rIndex, cIndex)" 
-            @request-edit="startEditingCell(rIndex, cIndex)"
-            @request-close="stopEditingCell()"
-            @request-move-cell="(moveAmount) => {moveEditingCellByCell(moveAmount)}"
-            @request-move-row="(moveAmount) => {moveEditingCellByRow(moveAmount)}"
+          <editable-cell
+            v-if="isEditableType(tableColumns[cIndex].type)"
+            v-model="cell.value"
+            :editing="isEditCell(rIndex, cIndex)"
             :canEdit="tableColumns[cIndex].editableRow"
-          />
-          <editable-cell 
-            v-if="tableColumns[cIndex].type === 'autocomplete'"
-            v-model="cell.value" 
-            :editing="isEditCell(rIndex, cIndex)" 
             @request-edit="startEditingCell(rIndex, cIndex)"
-            @request-close="stopEditingCell()"
-            @request-move-cell="(moveAmount) => {moveEditingCellByCell(moveAmount)}"
-            @request-move-row="(moveAmount) => {moveEditingCellByRow(moveAmount)}"
-            canEdit
+            @request-close="stopEditingCell"
+            @request-move-cell="moveEditingCellByCell"
+            @request-move-row="moveEditingCellByRow"
           >
-            <template #editor="{value, onBlur, onKeydown, onUpdate}">
-              <!-- TODO: make items into itemProps so that I can add the name and the code -->
+            <template
+              v-if="tableColumns[cIndex].type === 'autocomplete'"
+              #editor="slot"
+            >
               <v-autocomplete
-                :model-value="value"
-                @update:model-value="onUpdate"
-                :items="tableColumns[cIndex].list" 
+                :model-value="slot.value"
+                @update:model-value="slot.onUpdate"
+                :items="tableColumns[cIndex].list"
                 hide-details
                 autofocus
-                @blur="onBlur"
-                @keydown="onKeydown"
+                @blur="slot.onBlur"
+                @keydown="slot.onKeydown"
                 style="width: 100px"
               />
             </template>
@@ -68,6 +60,7 @@ import { ref, watch } from "vue";
 import EditableCell from "./EditableCell.vue";
 
 import { TableColumn, InternalRow, TableRow, toInternal, toPublic, CalculateContext } from "@/presentation/composables/shared/useEditableTable";
+import { useTableCellEditing } from "@/presentation/composables/shared/useTableCellEditing";
 
 const props = defineProps<{
   modelValue: TableRow[],
@@ -81,81 +74,35 @@ const emit = defineEmits<{
 
 const rows = ref<InternalRow[]>([]);
 
-const editingCellId = ref<number | null>(null);
+const { 
+  startEditingCell,
+  isEditCell,
+  stopEditingCell,
+  moveEditingCellByCell,
+  moveEditingCellByRow
+} = useTableCellEditing(rows, props.tableColumns, commitChanges);
 
 watch(
   () => props.modelValue,
-  v => {rows.value = toInternal(v);},
-  { immediate: true }
+  v => {
+      rows.value = toInternal(v);
+  },
+  { immediate: true, deep: true }
 );
 
 function commitChanges() {
   emit("update:modelValue", toPublic(rows.value));
 }
 
+function isEditableType(type: TableColumn['type']) {
+  return type === 'text' || type === 'autocomplete';
+}
+
 function removeRow(index: number) {
+  stopEditingCell();
   rows.value.splice(index, 1);
   commitChanges();
 }
-
-//Edit cell functionality, move to composable
-
-function startEditingCell(rIndex: number, cIndex: number) {
-  editingCellId.value = getRowId(rIndex) + cIndex
-}
-
-function stopEditingCell() {
-  editingCellId.value = null;
-  commitChanges();
-}
-
-function moveEditingCellByCell(moveAmount: number) {
-  if(editingCellId.value !== null) {
-    moveCell(editingCellId.value + moveAmount);
-  }
-}
-
-function moveEditingCellByRow(moveAmount: number) {
-  if(editingCellId.value !== null) {
-    moveCell(editingCellId.value + getRowId(moveAmount));
-  }
-}
-
-function moveCell(newPosition: number) {
-  if(isCellMoveValid(newPosition)) {
-    if(isCellEditable(newPosition)) {
-      editingCellId.value = newPosition;
-      commitChanges();
-    } else {
-      moveCell(newPosition + 1);
-    }
-    
-  }
-}
-
-function isCellEditable(newPosition: number) {
-  const rowIndex = newPosition % props.tableColumns.filter(c => c.editableRow).length;
-  const rowLayout = props.tableColumns.find(r => r.order === rowIndex);
-
-  return rowLayout?.editableRow ?? false;
-}
-
-function isCellMoveValid(newPosition: number) {
-  if(newPosition < 0) return false;
-  if(newPosition >= rows.value.length * props.tableColumns.filter(c => c.editableRow).length) return false;
-  return true;
-};
-
-function getRowId(rIndex: number) {
-  return rIndex * props.tableColumns.filter(c => c.editableRow).length;
-}
-
-function isEditCell(rIndex: number, cIndex: number) {
-  return getRowId(rIndex) + cIndex === editingCellId.value;
-}
-
-
-
 </script>
 
 <style lang="css" scoped></style>
