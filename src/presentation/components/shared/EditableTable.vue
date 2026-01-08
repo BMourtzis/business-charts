@@ -45,7 +45,7 @@
             </template>
           </editable-cell>
           <td v-if="tableColumns[cIndex].type === 'calculated' && tableColumns[cIndex].calculate">
-            <span>{{ tableColumns[cIndex].calculate(row) }}</span>
+            <span>{{ tableColumns[cIndex].calculate(row, context) }}</span>
           </td>
         </template>
 
@@ -67,11 +67,12 @@
 import { ref, watch } from "vue";
 import EditableCell from "./EditableCell.vue";
 
-import { TableColumn, InternalRow, TableRow, toInternal, toPublic } from "@/presentation/composables/shared/useEditableTable";
+import { TableColumn, InternalRow, TableRow, toInternal, toPublic, CalculateContext } from "@/presentation/composables/shared/useEditableTable";
 
 const props = defineProps<{
   modelValue: TableRow[],
-  tableColumns: TableColumn[]
+  tableColumns: TableColumn[],
+  context?: CalculateContext,
 }>();
 
 const emit = defineEmits<{
@@ -152,6 +153,8 @@ function getRowId(rIndex: number) {
 function isEditCell(rIndex: number, cIndex: number) {
   return getRowId(rIndex) + cIndex === editingCellId.value;
 }
+
+
 
 </script>
 

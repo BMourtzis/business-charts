@@ -6,7 +6,7 @@ export type TableColumn = {
   type: "autocomplete" | "text" | "calculated",
   list: string[],
   editableRow: boolean,
-  calculate?: (row: InternalRow) => string
+  calculate?: (row: InternalRow, ctx?: CalculateContext) => string
 };
 
 export type TableRow = {
@@ -20,6 +20,10 @@ export type InternalRow = {
         value: string
     }[]
 };
+
+export type CalculateContext = {
+  itemPrice: number
+}
 
 export function toInternal(rows: TableRow[]): InternalRow[] {
     return rows.map(r => ({

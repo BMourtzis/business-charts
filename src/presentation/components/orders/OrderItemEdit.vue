@@ -19,7 +19,7 @@
                 Total Quantity: {{ totalQuantity }}
               </v-col>
               <v-col cols="3">
-                Sum: {{ lineAmount }}€
+                Sum: {{ totalAmount }}€
               </v-col>
               <v-col cols="1" >
                 <v-btn
@@ -72,6 +72,7 @@
         :key="tableRows.length"
         v-model="tableRows" 
         :tableColumns="shoesVariationLayout"
+        :context="calculateContext"
       />
     </v-expansion-panel-text>
   </v-expansion-panel>
@@ -108,7 +109,11 @@ function removeItem(id: string) {
   //TODO: emit to parent component
 }
 
-const lineAmount = computed(() => 
+const calculateContext = computed(() => ({
+  itemPrice: props.item.basePrice
+}));
+
+const totalAmount = computed(() => 
   // return props.item.basePrice.toFixed(2);
   (totalQuantity.value * props.item.basePrice).toFixed(2)
 );

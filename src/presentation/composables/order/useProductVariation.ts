@@ -100,8 +100,8 @@ export const shoesVariationLayout = [
     })),
     {
         order: shoeSizeVariations.length + 2,
-        title: "Total",
-        name: "calculated:total",
+        title: "Total Qty",
+        name: "calculated:totalQty",
         type: "calculated",
         editableRow: false,
         calculate: (row: InternalRow) => {
@@ -110,6 +110,20 @@ export const shoesVariationLayout = [
                 .reduce((sum, v) => sum + (Number(v.value) || 0), 0)
                 .toString()
         }
+    },
+    {
+        order: shoeSizeVariations.length + 3,
+        title: "Total Price",
+        name: "calculated:totalPrice",
+        type: "calculated",
+        editableRow: false,
+        calculate: (row: InternalRow, ctx: {itemPrice: number}) => {
+            const qty = row.cells
+                .slice(2)
+                .reduce((sum, v) => sum + (Number(v.value) || 0), 0);
+
+            return (qty * ctx.itemPrice).toFixed(2) + " €";
             
+        }
     }
 ].sort((a, b) => a.order - b.order) as TableColumn[];
