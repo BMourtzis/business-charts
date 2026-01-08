@@ -95,7 +95,7 @@ function commitChanges() {
 }
 
 function isEditableType(type: TableColumn['type']) {
-  return type === 'text' || type === 'autocomplete';
+  return type === 'qty' || type === 'autocomplete' || type === 'amount';
 }
 
 function removeRow(index: number) {

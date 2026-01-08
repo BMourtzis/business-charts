@@ -1,7 +1,7 @@
 import { VariationEditVM } from "@/presentation/viewModels/variationEditVM";
 import { TableColumn, TableRow } from "./useEditableTable";
 
-export function userVariationTableMapper(layout: TableColumn[]) {
+export function useVariationTableMapper(layout: TableColumn[]) {
     const attributeColumns = layout.slice(0,2 );
     const sizingColumns = layout.slice(2);
 

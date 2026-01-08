@@ -91,7 +91,7 @@ import { useLocalizationHelpers } from '@/presentation/composables/useLocalizati
 import EditableTable from "../shared/EditableTable.vue";
 import { shoesVariationLayout } from "@/presentation/composables/order/useProductVariation";
 import { OrderItemEditVM } from "@/presentation/viewModels/orderItemEditVM";
-import { userVariationTableMapper } from "@/presentation/composables/shared/useVariationTableMapper";
+import { useVariationTableMapper } from "@/presentation/composables/shared/useVariationTableMapper";
 
 const { tCap } = useLocalizationHelpers();
 
@@ -124,7 +124,7 @@ function commitChanges() {
   emit("update:modelValue", structuredClone(toRaw(localItem.value)));
 }
 
-const {vmToRows, rowsToVm, sumSizing } = userVariationTableMapper(shoesVariationLayout);
+const {vmToRows, rowsToVm, sumSizing } = useVariationTableMapper(shoesVariationLayout);
 
 const tableRows = computed({
   get: () => vmToRows(localItem.value.variations),
