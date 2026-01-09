@@ -75,6 +75,7 @@
         </v-col>
       </v-row>
       <editable-table 
+        v-if="tableRows.length > 0"
         v-model="tableRows" 
         :tableColumns="shoesVariationLayout"
         :context="calculateContext"
