@@ -130,7 +130,6 @@ export const shoesVariationLayout = [
                 .reduce((sum, v) => sum + (Number(v.value) || 0), 0);
             
             const price = Number(row.cells[shoeSizeVariations.length + 3].value) || 0;
-            console.log("Calculating total price with qty", qty, "and price", price);
 
             return (qty * price).toFixed(2) + " €";
             

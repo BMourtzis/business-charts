@@ -2,6 +2,7 @@
   <v-table density="compact" v-if="tableColumns.length > 0">
     <thead>
       <tr>
+        <th v-if="hideRowIndex !== true">#</th>
         <th v-for="(columnLayout, cIndex) in tableColumns" :key="cIndex">{{ columnLayout.title }}</th>
         <th></th>
       </tr>
@@ -9,6 +10,7 @@
 
     <tbody>
       <tr v-for="(row, rIndex) in rows" :key="rIndex">
+        <td v-if="hideRowIndex !== true">{{ rIndex + 1 }}</td>
         <template v-for="(cell, cIndex) in row.cells" :key="cIndex">
           <editable-cell
             v-if="isEditableType(tableColumns[cIndex].type)"
@@ -66,6 +68,7 @@ const props = defineProps<{
   modelValue: TableRow[],
   tableColumns: TableColumn[],
   context?: CalculateContext,
+  hideRowIndex?: boolean
 }>();
 
 const emit = defineEmits<{
