@@ -17,7 +17,6 @@
 
 <script setup lang="ts">
 import { Contact } from '@/domain/contact/models/contact';
-import { defineProps } from 'vue';
 
 const props = defineProps<{
   phone: Contact

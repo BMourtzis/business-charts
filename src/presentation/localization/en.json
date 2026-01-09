@@ -121,5 +121,17 @@
         "addSupplierTitle": "Add Supplier",
         "addΒ2ΒCustomerTitle": "Add B2B customer",
         "addCustomerTitle": "Add Customer"
+    },
+    "order": {
+        "order": "order | orders",
+        "direction": "direction",
+        "items": "order item | order items",
+        "product": "product | products",
+        "basePrice": "base price",
+        "quantity": "quantity",
+        "total": "total",
+        "vatRate": "tax rate",
+        "addOrderTitle": "add order",
+        "addOrderItemTitle": "add order item"
     }
 }

@@ -6,13 +6,13 @@ import { Supplier } from "@/domain/partner/models/supplier";
 import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
 import { LocalRepository } from "./localRepository";
 import { Partner } from "@/domain/partner/models/partner";
-import { EncryptedStorage } from "../persistence/EncryptedStorage";
+import { encryptedStorageInstance } from "../persistence/EncryptedStorage";
 
 export class PartnerRepository extends LocalRepository<Partner, PartnerDTO> implements IPartnerRepository { 
     async getSupplierById(id: string) {
         const partner = await this.getById(id);
         if(!partner) return undefined;
-
+        
         if(partner instanceof Supplier)
             return partner as Supplier;
 
@@ -32,4 +32,4 @@ export class PartnerRepository extends LocalRepository<Partner, PartnerDTO> impl
 
 const STORAGE_KEY = 'partners';
 
-export const partnerRepository = new PartnerRepository(EncryptedStorage, PartnerMapperInstance, STORAGE_KEY);
+export const partnerRepository = new PartnerRepository(encryptedStorageInstance, PartnerMapperInstance, STORAGE_KEY);

@@ -12,10 +12,21 @@ export function useFormDialog<T extends object>(form: T, options?: { autoReset?:
   function reset() {
     for (const key in form) {
       if (Object.prototype.hasOwnProperty.call(form, key)) {
-        const k = key as keyof T;
-        (form as T)[k] = '' as unknown as T[keyof T];
+        const k = key as keyof typeof form;
+        const value = form[k];
+
+        if (Array.isArray(value)) {
+          form[k] = [] as typeof value;
+        } else if (typeof value === 'object' && value !== null) {
+          Object.keys(value).forEach(objKey => {
+            (value as any)[objKey] = ''
+          });
+        } else {
+          form[k] = '' as any;
+        }
       }
     }
+
     validForm.value = false;
     formRef.value?.resetValidation?.();
     errorMessage.value = null;

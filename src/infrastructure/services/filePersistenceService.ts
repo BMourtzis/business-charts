@@ -1,9 +1,10 @@
 import { partnerRepository } from '@/infrastructure/repositories/partnerRepository.local';
 import { orderRepository } from '@/infrastructure/repositories/orderRepository.local';
+import { deliveryCarrierRepository } from '@/infrastructure/repositories/deliverCarrierRepository.local';
+
 import { PartnerDTO } from '@/application/dto/partnerDTO';
-import { OrderDTO } from '@/domain/order/models/order';
 import { DeliveryCarrierDTO } from '@/application/dto/deliveryCarrierDTO';
-import { deliveryCarrierRepository } from '../repositories/deliverCarrierRepository.local';
+import { OrderDTO } from '@/application/dto/orderDTO';
 
 export class FilePersistenceService {
     async exportAll(includePartners: boolean, includeCarriers: boolean, includeOrders: boolean) {
