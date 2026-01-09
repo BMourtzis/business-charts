@@ -109,7 +109,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, watch, PropType } from 'vue';
+import { computed, watch, PropType } from 'vue';
 
 import { Address } from '@/domain/contact/models/address';
 

@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, nextTick } from 'vue';
+import { ref, nextTick } from 'vue';
 
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';

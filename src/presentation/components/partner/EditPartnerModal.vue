@@ -106,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch, defineProps, computed } from 'vue';
+import { reactive, watch, computed } from 'vue';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
 import { isB2BCustomer, isSupplier } from '@/domain/partner/typeGuards';

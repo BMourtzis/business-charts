@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, toRef } from 'vue';
+import { toRef } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { Partner } from '@/domain/partner/models/partner';
