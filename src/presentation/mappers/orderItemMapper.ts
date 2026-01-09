@@ -44,7 +44,8 @@ function dtoVarToVM(dto: OrderItemVariationDTO): VariationEditVM {
 
   return {
     attributes,
-    sizing
+    sizing,
+    price: 0
   };
 }
 

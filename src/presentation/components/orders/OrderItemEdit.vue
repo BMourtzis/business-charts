@@ -4,6 +4,7 @@
       <v-row no-gutters>
         <v-col class="d-flex justify-start" cols="4">
           {{ localItem.name || "no name" }}
+          {{ variationsNames }}
         </v-col>
         <v-col
           class="text--secondary"
@@ -22,7 +23,7 @@
                 Total Quantity: {{ totalQuantity }}
               </v-col>
               <v-col cols="3">
-                Sum: {{ totalAmount }}€
+                Sum: {{ totalLineAmount }}€
               </v-col>
               <v-col cols="1" >
                 <v-btn
@@ -116,7 +117,9 @@ const localItem = ref<OrderItemEditVM>(
 
 watch(
   () => props.modelValue,
-  v => localItem.value = structuredClone(toRaw(v)),
+  v =>  {
+    localItem.value = structuredClone(toRaw(v))
+  },
   { deep: true }
 );
 
@@ -134,14 +137,23 @@ const tableRows = computed({
   }
 });
 
+const variationsNames = computed(() => {
+  const names = localItem.value.variations.reduce((acc, v) => {
+    const attrs = Object.values(v.attributes).filter(val => val).join(" ");
+    return acc ? acc + ", " + attrs : attrs;
+  }, "");
+
+  return names ? `(${names})` : "";
+});
+
 const variationNumber = computed(() => localItem.value.variations.length);
 
 const totalQuantity = computed(() => 
   localItem.value.variations.reduce((sum, v) => sum + sumSizing(v), 0)
 );
 
-const totalAmount = computed(() => 
-  (totalQuantity.value * localItem.value.basePrice).toFixed(2)
+const totalLineAmount = computed(() => 
+  localItem.value.variations.reduce((sum, v) => sum + (sumSizing(v) * v.price), 0)
 );
 
 const calculateContext = computed(() => ({
@@ -155,8 +167,9 @@ function addVariation() {
       shoesVariationLayout.slice(0, 2).map(c => [c.name, ''])
     ),
     sizing: Object.fromEntries(
-      shoesVariationLayout.slice(2).map(c => [c.name, 0])
-    )
+      shoesVariationLayout.filter(c => c.name.includes('shoe:')).map(c => [c.name, 0])
+    ),
+    price: localItem.value.basePrice
   });
 
   commitChanges();

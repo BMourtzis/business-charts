@@ -120,7 +120,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import { v4 as uuidv4 } from "uuid";
 
 import { useOrders } from '@/presentation/composables/useOrders';
@@ -160,6 +160,14 @@ const {
   submit
 } = useFormDialog(form);
 
+watch(
+  () => form.items,
+  () => {
+    console.log("Order items updated", form.items);
+  },
+  { deep: true }
+)
+
 function addItem() {
   form.items.push(
     dtoToVM({
@@ -171,26 +179,32 @@ function addItem() {
   );
 }
 
-const totalQuantityAllItems = computed(() =>
-  form.items.reduce((sum, item) => {
+const totalQuantityAllItems = computed(() => {
+  return form.items.reduce((sum, item) => {
     const itemQty = item.variations?.reduce(
       (s, v) => s + Object.values(v.sizing).reduce((a, b) => a + b, 0),
       0
     ) ?? 0;
     return sum + itemQty;
   }, 0)
+}
 );
 
 // total amount across all items
 const totalAmountAllItems = computed(() =>
-  form.items.reduce((sum, item) => {
-    const itemQty = item.variations?.reduce(
-      (s, v) => s + Object.values(v.sizing).reduce((a, b) => a + b, 0),
+  form.items.reduce((total, item) => {
+    const itemTotal = item.variations?.reduce(
+      (sum, variation) => {
+        const variationQuantity = Object.values(variation.sizing).reduce((a, b) => a + b, 0);
+        return sum + variationQuantity * variation.price;  // variation now has price
+      },
       0
     ) ?? 0;
-    return sum + item.basePrice * itemQty;
+
+    return total + itemTotal;
   }, 0)
 );
+
 
 const taxAmount = computed(() => {
   const totalWithoutTax = totalAmountAllItems.value;

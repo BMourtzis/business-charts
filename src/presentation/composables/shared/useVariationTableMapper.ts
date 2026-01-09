@@ -3,13 +3,17 @@ import { TableColumn, TableRow } from "./useEditableTable";
 
 export function useVariationTableMapper(layout: TableColumn[]) {
     const attributeColumns = layout.slice(0,2 );
-    const sizingColumns = layout.slice(2);
+    const sizingColumns = layout.filter(c => c.name.includes('shoe:'));
+    const priceColumn = layout.find(c => c.name === "variationPrice")!;
 
     function vmToRows(vms: VariationEditVM[]): TableRow[] {
         return vms.map(vm => ({
             cells: layout.map(col => {
                 if(sizingColumns.includes(col)) {
                     return numberToCell(vm.sizing[col.name]);
+                }
+                if(col === priceColumn) {
+                    return numberToCell(vm.price);
                 }
                 return vm.attributes[col.name] || "";
             })
@@ -26,7 +30,8 @@ export function useVariationTableMapper(layout: TableColumn[]) {
                     c.name,
                     cellToNumber(row.cells[i + attributeColumns.length])
                 ])
-            )
+            ),
+            price: row.cells[layout.indexOf(priceColumn)] ? cellToNumber(row.cells[layout.indexOf(priceColumn)]) : 0
         }));
     }
 
