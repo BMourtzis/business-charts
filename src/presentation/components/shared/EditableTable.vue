@@ -13,7 +13,7 @@
         <td v-if="hideRowIndex !== true">{{ rIndex + 1 }}</td>
         <template v-for="(cell, cIndex) in row.cells" :key="cIndex">
           <editable-cell
-            v-if="isEditableType(tableColumns[cIndex].type)"
+            v-if="isEditableType(tableColumns[cIndex].editorType)"
             v-model="cell.value"
             :editing="isEditCell(rIndex, cIndex)"
             :canEdit="tableColumns[cIndex].editableRow"
@@ -24,7 +24,7 @@
           >
             <template #editor="slot">
               <component
-                :is="editorMap[tableColumns[cIndex].type]"
+                :is="editorMap[tableColumns[cIndex].editorType]"
                 :model-value="slot.value"
                 @update:model-value="slot.onUpdate"
                 :items="tableColumns[cIndex].list"
@@ -33,7 +33,7 @@
               />
             </template>
           </editable-cell>
-          <td v-if="tableColumns[cIndex].type === 'calculated' && tableColumns[cIndex].calculate">
+          <td v-if="tableColumns[cIndex].editorType === 'calculated' && tableColumns[cIndex].calculate">
             <span>{{ tableColumns[cIndex].calculate(row, context) }}</span>
           </td>
         </template>
@@ -93,7 +93,7 @@ function commitChanges() {
   emit("update:modelValue", toPublic(rows.value));
 }
 
-function isEditableType(type: TableColumn['type']) {
+function isEditableType(type: TableColumn['editorType']) {
   return editorMap[type] !== undefined;
 }
 

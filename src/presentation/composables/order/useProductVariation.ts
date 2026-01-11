@@ -3,14 +3,14 @@ import { InternalRow, TableColumn } from "../shared/useEditableTable";
 export const colourVariation = {
     name: "colour",
     title: "Colour",
-    type: "autocomplete",
+    editorType: "autocomplete",
     list: [ "BLK", "WILD", "F", "KIT.TZIN", "GLOW", "BL", "ΚΦ", "ΒΕΡ. ΝΑΠΑ", "ΣΑ.ΤΖΙΝ", "ΣΑ", "ΚΝΛ", "ΨΗΦ", "OL", "X", "XK", "ΤΑΜΠΑ.Ψ", "ΓΚΡΙ", "ΜΝΤ", "ΚΙΤ.ΤΖΙΝ", "ΚΦ.ΝΑΙΡ", "ΨΗΦ"]
 };
 
 export const soleVariation = {
     name: "sole",
     title: "Sole",
-    type: "autocomplete",
+    editorType: "autocomplete",
     list: ["ANATOMIC", "anatomic", "SOFT", "soft", "vamos", "FIESTA", "fiesta", "SAND"]
 }
 
@@ -18,67 +18,67 @@ export const shoeSizeVariations = [
     {
         name: "shoe:35",
         title: "35",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:36",
         title: "36",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:37",
         title: "37",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:38",
         title: "38",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:39",
         title: "39",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:40",
         title: "40",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:41",
         title: "41",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:42",
         title: "42",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:43",
         title: "43",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:44",
         title: "44",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:45",
         title: "45",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:46",
         title: "46",
-        type: "number" as const
+        editorType: "number" as const
     },
     {
         name: "shoe:47",
         title: "47",
-        type: "number" as const
+        editorType: "number" as const
     },
 ];
 
