@@ -13,10 +13,9 @@
         <td v-if="hideRowIndex !== true">{{ rIndex + 1 }}</td>
         <template v-for="(cell, cIndex) in row.cells" :key="cIndex">
           <editable-cell
-            v-if="isEditableType(tableColumns[cIndex].editorType)"
             v-model="cell.value"
             :editing="isEditCell(rIndex, cIndex)"
-            :canEdit="tableColumns[cIndex].editableRow"
+            :canEdit="tableColumns[cIndex].editorType !== undefined"
             @request-edit="startEditingCell(rIndex, cIndex)"
             @request-close="stopEditingCell"
             @request-move-cell="moveEditingCellByCell"
@@ -38,16 +37,11 @@
             >
               <component
                 :is="rendererMap[tableColumns[cIndex].rendererType]"
-                :value="slot.value"
+                :value="getDisplayValue(row, tableColumns[cIndex], slot.value)"
               />
             </template>
           </editable-cell>
-          <td v-if="tableColumns[cIndex].editorType === 'calculated' && tableColumns[cIndex].calculate">
-            <span>{{ tableColumns[cIndex].calculate(row, context) }}</span>
-          </td>
         </template>
-
-        <!-- Delete -->
         <td>
           <v-btn
             icon="mdi-close"
@@ -65,7 +59,7 @@
 import { ref, watch } from "vue";
 import EditableCell from "./EditableCell.vue";
 
-import { TableColumn, InternalRow, TableRow, toInternal, toPublic, CalculateContext } from "@/presentation/composables/shared/useEditableTable";
+import { TableColumn, InternalRow, TableRow, toInternal, toPublic } from "@/presentation/composables/shared/useEditableTable";
 import { useTableCellEditing } from "@/presentation/composables/shared/useTableCellEditing";
 import { editorMap } from "./editors/editorMap";
 import { rendererMap } from "./renderers/rendererMap";
@@ -73,7 +67,6 @@ import { rendererMap } from "./renderers/rendererMap";
 const props = defineProps<{
   modelValue: TableRow[],
   tableColumns: TableColumn[],
-  context?: CalculateContext,
   hideRowIndex?: boolean
 }>();
 
@@ -99,12 +92,15 @@ watch(
   { immediate: true, deep: true }
 );
 
-function commitChanges() {
-  emit("update:modelValue", toPublic(rows.value));
+function getDisplayValue(row: InternalRow, column: TableColumn, celValue: string) {
+  if(column.calculate) {
+    return column.calculate(row);
+  }
+  return celValue;
 }
 
-function isEditableType(type: TableColumn['editorType']) {
-  return editorMap[type] !== undefined;
+function commitChanges() {
+  emit("update:modelValue", toPublic(rows.value));
 }
 
 function removeRow(index: number) {

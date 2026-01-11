@@ -3,11 +3,11 @@ export type TableColumn = {
   order: number,
   name: string,
   title: string,
-  editorType?: "autocomplete" | "number" | "price" | "calculated",
+  type: "size" | "variation" | "price" | "calculated",
+  editorType?: "autocomplete" | "number" | "price",
   rendererType?: "text" | "price",
   list: string[],
-  editableRow: boolean,
-  calculate?: (row: InternalRow, ctx?: CalculateContext) => string
+  calculate?: (row: InternalRow) => string
 };
 
 export type TableRow = {
@@ -21,10 +21,6 @@ export type InternalRow = {
         value: string
     }[]
 };
-
-export type CalculateContext = {
-  itemPrice: number
-}
 
 export function toInternal(rows: TableRow[]): InternalRow[] {
     return rows.map(r => ({

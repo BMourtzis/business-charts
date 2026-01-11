@@ -240,7 +240,6 @@ const totalAmountAllItems = computed(() =>
 
 
 const taxAmount = computed(() => {
-  console.log('Calculating taxAmount', form.vatRate);
   return totalAmountAllItems.value * form.vatRate;
 });
 

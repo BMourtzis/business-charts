@@ -78,7 +78,6 @@
         v-if="tableRows.length > 0"
         v-model="tableRows" 
         :tableColumns="shoesVariationLayout"
-        :context="calculateContext"
       />
     </v-expansion-panel-text>
   </v-expansion-panel>
@@ -156,10 +155,6 @@ const totalQuantity = computed(() =>
 const totalLineAmount = computed(() => 
   localItem.value.variations.reduce((sum, v) => sum + (sumSizing(v) * v.price), 0)
 );
-
-const calculateContext = computed(() => ({
-  itemPrice: localItem.value.basePrice
-}));
 
 
 function addVariation() {

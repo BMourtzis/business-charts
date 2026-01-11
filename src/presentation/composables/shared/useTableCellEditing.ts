@@ -29,7 +29,6 @@ export function useTableCellEditing(
     }
 
     function stopEditingCell() {
-        console.log("Stopping edit on cell", editingCellId.value);
         editingCellId.value = null;
         commitChanges();
     }
@@ -60,7 +59,7 @@ export function useTableCellEditing(
     }
 
     function isCellEditable(newCellId: number) {
-        return getRowLayoutByCellId(newCellId)?.editableRow ?? false;
+        return getRowLayoutByCellId(newCellId)?.editorType !== undefined;
     }
 
     function getRowLayoutByCellId(cellId: number) {
