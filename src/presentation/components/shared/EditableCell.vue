@@ -18,12 +18,22 @@
         
       </slot>
     </template>
-    <span style="width: 50px" v-if="!(editing && canEdit)">{{ value }}</span>
+    <template v-if="!(editing && canEdit)">
+      <slot 
+        name="display"
+        :value="value"
+      >
+        <text-renderer :value="value" />
+      </slot>
+    </template>
   </td>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+
+import TextRenderer from './renderers/TextRenderer.vue';
+import TextEditor from './editors/TextEditor.vue';
 
 const props = defineProps<{
   modelValue: string;

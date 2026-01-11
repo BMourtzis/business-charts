@@ -3,7 +3,8 @@ export type TableColumn = {
   order: number,
   name: string,
   title: string,
-  editorType: "autocomplete" | "number" | "price" | "calculated",
+  editorType?: "autocomplete" | "number" | "price" | "calculated",
+  rendererType?: "text" | "price",
   list: string[],
   editableRow: boolean,
   calculate?: (row: InternalRow, ctx?: CalculateContext) => string

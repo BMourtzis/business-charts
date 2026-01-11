@@ -22,7 +22,7 @@
             @request-move-cell="moveEditingCellByCell"
             @request-move-row="moveEditingCellByRow"
           >
-            <template #editor="slot">
+            <template #editor="slot" v-if="tableColumns[cIndex].editorType">
               <component
                 :is="editorMap[tableColumns[cIndex].editorType]"
                 :model-value="slot.value"
@@ -30,6 +30,15 @@
                 :items="tableColumns[cIndex].list"
                 @blur="slot.onBlur"
                 @keydown="slot.onKeydown"
+              />
+            </template>
+            <template 
+              #display="slot" 
+              v-if="tableColumns[cIndex].rendererType"
+            >
+              <component
+                :is="rendererMap[tableColumns[cIndex].rendererType]"
+                :value="slot.value"
               />
             </template>
           </editable-cell>
@@ -59,6 +68,7 @@ import EditableCell from "./EditableCell.vue";
 import { TableColumn, InternalRow, TableRow, toInternal, toPublic, CalculateContext } from "@/presentation/composables/shared/useEditableTable";
 import { useTableCellEditing } from "@/presentation/composables/shared/useTableCellEditing";
 import { editorMap } from "./editors/editorMap";
+import { rendererMap } from "./renderers/rendererMap";
 
 const props = defineProps<{
   modelValue: TableRow[],

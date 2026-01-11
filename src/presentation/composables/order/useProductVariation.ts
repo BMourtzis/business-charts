@@ -4,6 +4,7 @@ export const colourVariation = {
     name: "colour",
     title: "Colour",
     editorType: "autocomplete",
+    rendererType: "text",
     list: [ "BLK", "WILD", "F", "KIT.TZIN", "GLOW", "BL", "ΚΦ", "ΒΕΡ. ΝΑΠΑ", "ΣΑ.ΤΖΙΝ", "ΣΑ", "ΚΝΛ", "ΨΗΦ", "OL", "X", "XK", "ΤΑΜΠΑ.Ψ", "ΓΚΡΙ", "ΜΝΤ", "ΚΙΤ.ΤΖΙΝ", "ΚΦ.ΝΑΙΡ", "ΨΗΦ"]
 };
 
@@ -11,6 +12,7 @@ export const soleVariation = {
     name: "sole",
     title: "Sole",
     editorType: "autocomplete",
+    rendererType: "text",
     list: ["ANATOMIC", "anatomic", "SOFT", "soft", "vamos", "FIESTA", "fiesta", "SAND"]
 }
 
@@ -18,67 +20,80 @@ export const shoeSizeVariations = [
     {
         name: "shoe:35",
         title: "35",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text",
     },
     {
         name: "shoe:36",
         title: "36",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text",
     },
     {
         name: "shoe:37",
         title: "37",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text",
     },
     {
         name: "shoe:38",
         title: "38",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text",
     },
     {
         name: "shoe:39",
         title: "39",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text",
     },
     {
         name: "shoe:40",
         title: "40",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text"
     },
     {
         name: "shoe:41",
         title: "41",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text"
     },
     {
         name: "shoe:42",
         title: "42",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text"
     },
     {
         name: "shoe:43",
         title: "43",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text"
     },
     {
         name: "shoe:44",
         title: "44",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text"
     },
     {
         name: "shoe:45",
         title: "45",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text"
     },
     {
         name: "shoe:46",
         title: "46",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text"
     },
     {
         name: "shoe:47",
         title: "47",
-        editorType: "number" as const
+        editorType: "number",
+        rendererType: "text"
     },
 ];
 
@@ -102,7 +117,8 @@ export const shoesVariationLayout = [
         order: shoeSizeVariations.length + 2,
         title: "Total Qty",
         name: "calculated:totalQty",
-        type: "calculated",
+        editorType: "calculated",
+        rendererType: "text",
         editableRow: false,
         calculate: (row: InternalRow) => {
             return row.cells
@@ -115,14 +131,16 @@ export const shoesVariationLayout = [
         order: shoeSizeVariations.length + 3,
         title: "Price",
         name: "variationPrice",
-        type: "price",
+        editorType: "price",
+        rendererType: "price",
         editableRow: true
     },
     {
         order: shoeSizeVariations.length + 4,
         title: "Total Price",
         name: "calculated:totalPrice",
-        type: "calculated",
+        editorType: "calculated",
+        rendererType: "text",
         editableRow: false,
         calculate: (row: InternalRow, ctx: {itemPrice: number}) => {
             const qty = row.cells
