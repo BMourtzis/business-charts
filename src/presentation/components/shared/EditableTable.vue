@@ -26,15 +26,13 @@
               v-if="tableColumns[cIndex].type === 'autocomplete'"
               #editor="slot"
             >
-              <v-autocomplete
+              <component
+                :is="editorMap[tableColumns[cIndex].type]"
                 :model-value="slot.value"
                 @update:model-value="slot.onUpdate"
                 :items="tableColumns[cIndex].list"
-                hide-details
-                autofocus
                 @blur="slot.onBlur"
                 @keydown="slot.onKeydown"
-                style="width: 100px"
               />
             </template>
           </editable-cell>
@@ -63,6 +61,7 @@ import EditableCell from "./EditableCell.vue";
 
 import { TableColumn, InternalRow, TableRow, toInternal, toPublic, CalculateContext } from "@/presentation/composables/shared/useEditableTable";
 import { useTableCellEditing } from "@/presentation/composables/shared/useTableCellEditing";
+import { editorMap } from "./editors/editorMap";
 
 const props = defineProps<{
   modelValue: TableRow[],
