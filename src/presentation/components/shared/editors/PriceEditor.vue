@@ -1,25 +1,28 @@
 <template>
-  <v-autocomplete
+  <v-text-field
     :model-value="modelValue"
     @update:model-value="$emit('update:modelValue', $event)"
-    :items="items"
     density="compact"
+    variant="underlined"
     hide-details
     autofocus
+    type="number"
+    min="0"
+    step="0.01"
     @blur="$emit('blur')"
     @keydown="$emit('keydown', $event)"
+    suffix="€"
   />
 </template>
 
 <script setup lang="ts">
 defineProps<{
   modelValue: string;
-  items: string[];
 }>();
+
 const emit = defineEmits([
   'update:modelValue',
   'blur',
   "keydown"
 ]);
 </script>
-<style scoped></style>

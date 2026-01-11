@@ -22,10 +22,7 @@
             @request-move-cell="moveEditingCellByCell"
             @request-move-row="moveEditingCellByRow"
           >
-            <template
-              v-if="tableColumns[cIndex].type === 'autocomplete'"
-              #editor="slot"
-            >
+            <template #editor="slot">
               <component
                 :is="editorMap[tableColumns[cIndex].type]"
                 :model-value="slot.value"
@@ -97,7 +94,7 @@ function commitChanges() {
 }
 
 function isEditableType(type: TableColumn['type']) {
-  return type === 'qty' || type === 'autocomplete' || type === 'amount';
+  return editorMap[type] !== undefined;
 }
 
 function removeRow(index: number) {

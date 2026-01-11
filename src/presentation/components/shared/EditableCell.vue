@@ -9,19 +9,13 @@
         :onKeydown="onKeydown"
       >
         <!-- Default editor -->
-        <v-text-field
-          v-model="value"
-          density="compact"
-          variant="underlined"
-          hide-details
-          autofocus
-          type="number"
-          min="0"
-          step="1"
+        <text-editor
+          :model-value="value"
+          @update:model-value="onCellUpdate"
           @blur="requestClose"
           @keydown="onKeydown"
-          style="width: 50px"
         />
+        
       </slot>
     </template>
     <span style="width: 50px" v-if="!(editing && canEdit)">{{ value }}</span>
