@@ -18,6 +18,14 @@ export const soleVariation = {
     list: ["ANATOMIC", "anatomic", "SOFT", "soft", "vamos", "FIESTA", "fiesta", "SAND"]
 }
 
+export const menVariation = {
+    name: "men",
+    title: "Men",
+    type: "variation",
+    editorType: "checkbox",
+    rendererType: "text"
+}
+
 export const shoeSizeVariations = [
     {
         name: "shoe:35",
@@ -120,12 +128,16 @@ export const shoesVariationLayout = [
         order: 1,
         ...soleVariation
     },
+    {
+        order: 2,
+        ...menVariation
+    },
     ...shoeSizeVariations.map((s, sIndex) => ({
-        order: sIndex + 2,
+        order: sIndex + 3,
         ...s
     })),
     {
-        order: shoeSizeVariations.length + 2,
+        order: shoeSizeVariations.length + 3,
         title: "Total Qty",
         name: "calculated:totalQty",
         type: "calculated",
@@ -133,7 +145,7 @@ export const shoesVariationLayout = [
         calculate: calculateTotalQty
     },
     {
-        order: shoeSizeVariations.length + 3,
+        order: shoeSizeVariations.length + 4,
         title: "Price",
         name: "variationPrice",
         type: "price",
@@ -142,7 +154,7 @@ export const shoesVariationLayout = [
         editableRow: true
     },
     {
-        order: shoeSizeVariations.length + 4,
+        order: shoeSizeVariations.length + 5,
         title: "Total Price",
         name: "calculated:totalPrice",
         type: "calculated",
