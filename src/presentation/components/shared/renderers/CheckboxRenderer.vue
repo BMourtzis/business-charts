@@ -4,7 +4,6 @@
     @update:model-value="$emit('update:modelValue', $event)"
     density="compact"
     hide-details
-    autofocus
     @blur="$emit('blur')"
     @keydown="$emit('keydown', $event)"
   />

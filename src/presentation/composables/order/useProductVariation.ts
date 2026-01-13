@@ -24,8 +24,7 @@ export const menVariation = {
     name: "men",
     title: "Men",
     type: "variation",
-    editorType: "checkbox",
-    rendererType: "text",
+    rendererType: "checkbox",
     navigable: true,
 }
 

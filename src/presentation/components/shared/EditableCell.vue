@@ -22,8 +22,11 @@
       <slot 
         name="display"
         :value="value"
+        :onUpdate="onCellUpdate"
+        :onBlur="requestClose"
+        :onKeydown="onKeydown"
       >
-        <text-renderer :value="value" />
+        <text-renderer :modelValue="value" />
       </slot>
     </template>
   </td>

@@ -5,11 +5,11 @@
 import { computed } from 'vue';
 
 const props = defineProps<{
-    value: string;
+    modelValue: string;
 }>();
 
 const formattedPrice = computed(() => {
-    const price = parseFloat(props.value);
+    const price = parseFloat(props.modelValue);
     if(isNaN(price)) {
         return "0.00 €";
     }

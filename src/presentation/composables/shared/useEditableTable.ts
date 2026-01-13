@@ -5,8 +5,8 @@ export type TableColumn = {
   title: string,
   navigable: boolean,
   type: "size" | "variation" | "price" | "calculated",
-  editorType?: "autocomplete" | "number" | "price" | "text" | "checkbox",
-  rendererType?: "text" | "price",
+  editorType?: "autocomplete" | "number" | "price" | "text",
+  rendererType?: "text" | "price" | "checkbox",
   list: string[],
   calculate?: (row: InternalRow) => string
 };

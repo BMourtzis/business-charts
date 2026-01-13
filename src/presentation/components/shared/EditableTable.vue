@@ -37,7 +37,10 @@
             >
               <component
                 :is="rendererMap[tableColumns[cIndex].rendererType]"
-                :value="getDisplayValue(row, tableColumns[cIndex], slot.value)"
+                :model-value="getDisplayValue(row, tableColumns[cIndex], slot.value)"
+                @update:model-value="slot.onUpdate"
+                @blur="slot.onBlur"
+                @keydown="slot.onKeydown"
               />
             </template>
           </editable-cell>
