@@ -49,7 +49,7 @@ export function useTableCellEditing(
         let pos = target;
 
         while(isCellMoveValid(pos)) {
-            if(isCellEditable(pos)) {
+            if(isCellNavigable(pos)) {
                 editingCellId.value = pos;
                 commitChanges();
                 return;
@@ -58,8 +58,8 @@ export function useTableCellEditing(
         }
     }
 
-    function isCellEditable(newCellId: number) {
-        return getRowLayoutByCellId(newCellId)?.editorType !== undefined;
+    function isCellNavigable(newCellId: number) {
+        return getRowLayoutByCellId(newCellId)?.navigable;
     }
 
     function getRowLayoutByCellId(cellId: number) {

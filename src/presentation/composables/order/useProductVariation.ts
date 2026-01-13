@@ -6,6 +6,7 @@ export const colourVariation = {
     type: "variation",
     editorType: "autocomplete",
     rendererType: "text",
+    navigable: true,
     list: [ "BLK", "WILD", "F", "KIT.TZIN", "GLOW", "BL", "ΚΦ", "ΒΕΡ. ΝΑΠΑ", "ΣΑ.ΤΖΙΝ", "ΣΑ", "ΚΝΛ", "ΨΗΦ", "OL", "X", "XK", "ΤΑΜΠΑ.Ψ", "ΓΚΡΙ", "ΜΝΤ", "ΚΙΤ.ΤΖΙΝ", "ΚΦ.ΝΑΙΡ", "ΨΗΦ"]
 };
 
@@ -15,6 +16,7 @@ export const soleVariation = {
     type: "variation",
     editorType: "autocomplete",
     rendererType: "text",
+    navigable: true,
     list: ["ANATOMIC", "anatomic", "SOFT", "soft", "vamos", "FIESTA", "fiesta", "SAND"]
 }
 
@@ -23,7 +25,8 @@ export const menVariation = {
     title: "Men",
     type: "variation",
     editorType: "checkbox",
-    rendererType: "text"
+    rendererType: "text",
+    navigable: true,
 }
 
 export const shoeSizeVariations = [
@@ -33,6 +36,7 @@ export const shoeSizeVariations = [
         type: "size",
         editorType: "number",
         rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:36",
@@ -40,12 +44,14 @@ export const shoeSizeVariations = [
         type: "size",
         editorType: "number",
         rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:37",
         title: "37",
         editorType: "number",
         rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:38",
@@ -53,6 +59,7 @@ export const shoeSizeVariations = [
         type: "size",
         editorType: "number",
         rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:39",
@@ -60,62 +67,71 @@ export const shoeSizeVariations = [
         type: "size",
         editorType: "number",
         rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:40",
         title: "40",
         type: "size",
         editorType: "number",
-        rendererType: "text"
+        rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:41",
         title: "41",
         type: "size",
         editorType: "number",
-        rendererType: "text"
+        rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:42",
         title: "42",
         type: "size",
         editorType: "number",
-        rendererType: "text"
+        rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:43",
         title: "43",
         type: "size",
         editorType: "number",
-        rendererType: "text"
+        rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:44",
         title: "44",
         type: "size",
         editorType: "number",
-        rendererType: "text"
+        rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:45",
         title: "45",
         type: "size",
         editorType: "number",
-        rendererType: "text"
+        rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:46",
         title: "46",
         type: "size",
         editorType: "number",
-        rendererType: "text"
+        rendererType: "text",
+        navigable: true,
     },
     {
         name: "shoe:47",
         title: "47",
         type: "size",
         editorType: "number",
-        rendererType: "text"
+        rendererType: "text",
+        navigable: true,
     },
 ];
 
@@ -151,7 +167,7 @@ export const shoesVariationLayout = [
         type: "price",
         editorType: "price",
         rendererType: "price",
-        editableRow: true
+        navigable: true,
     },
     {
         order: shoeSizeVariations.length + 5,

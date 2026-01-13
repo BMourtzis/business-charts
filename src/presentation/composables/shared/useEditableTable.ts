@@ -3,6 +3,7 @@ export type TableColumn = {
   order: number,
   name: string,
   title: string,
+  navigable: boolean,
   type: "size" | "variation" | "price" | "calculated",
   editorType?: "autocomplete" | "number" | "price" | "text" | "checkbox",
   rendererType?: "text" | "price",
