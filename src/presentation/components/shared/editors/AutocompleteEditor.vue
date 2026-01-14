@@ -7,11 +7,13 @@
     hide-details
     autofocus
     @blur="$emit('blur')"
-    @keydown="$emit('keydown', $event)"
+    @keydown="onKeydown"
   />
 </template>
 
 <script setup lang="ts">
+import { useCellNavigation } from '@/presentation/composables/shared/onCellNavigation';
+
 defineProps<{
   modelValue: string;
   items: string[];
@@ -19,7 +21,9 @@ defineProps<{
 const emit = defineEmits([
   'update:modelValue',
   'blur',
-  "keydown"
+  "navigate"
 ]);
+
+const { onKeydown} = useCellNavigation(emit);
 </script>
 <style scoped></style>

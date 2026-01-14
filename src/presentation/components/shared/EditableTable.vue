@@ -28,7 +28,7 @@
                 @update:model-value="slot.onUpdate"
                 :items="tableColumns[cIndex].list"
                 @blur="slot.onBlur"
-                @keydown="slot.onKeydown"
+                @navigate="slot.onNavigate"
               />
             </template>
             <template 
@@ -40,7 +40,7 @@
                 :model-value="getDisplayValue(row, tableColumns[cIndex], slot.value)"
                 @update:model-value="slot.onUpdate"
                 @blur="slot.onBlur"
-                @keydown="slot.onKeydown"
+                @navigate="slot.onNavigate"
               />
             </template>
           </editable-cell>

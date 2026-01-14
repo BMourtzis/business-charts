@@ -6,14 +6,15 @@
         :value="value"
         :onUpdate="onCellUpdate"
         :onBlur="requestClose"
-        :onKeydown="onKeydown"
+        :onNavigate="handleNavigate"
+        @keydown.stop
       >
         <!-- Default editor -->
         <text-editor
           :model-value="value"
           @update:model-value="onCellUpdate"
           @blur="requestClose"
-          @keydown="onKeydown"
+          @navigate="handleNavigate"
         />
         
       </slot>
@@ -24,7 +25,8 @@
         :value="value"
         :onUpdate="onCellUpdate"
         :onBlur="requestClose"
-        :onKeydown="onKeydown"
+        :onNavigate="handleNavigate"
+        @keydown.stop
       >
         <text-renderer :modelValue="value" />
       </slot>
@@ -37,6 +39,7 @@ import { computed } from 'vue';
 
 import TextRenderer from './renderers/TextRenderer.vue';
 import TextEditor from './editors/TextEditor.vue';
+import { NavigationDirection } from '@/presentation/viewModels/navigation';
 
 const props = defineProps<{
   modelValue: string;
@@ -66,39 +69,35 @@ function requestEdit() {
     emit('request-edit');
   }
 }
-const keyHandlers: Record<string, (e: KeyboardEvent) => void> = {
-  Escape: requestClose,
-  Tab: requestMoveCell,
-  Enter: requestMoveRow
-};
 
-function onKeydown(e: KeyboardEvent) {
-  if(e.isComposing) return;
+function handleNavigate(direction: NavigationDirection) {
+  switch(direction) {
+    case NavigationDirection.Up:
+      moveEditingCellByRow(-1);
+      break;
+    case NavigationDirection.Down:
+      moveEditingCellByRow(1);
+      break;
+    case NavigationDirection.Left:
+      moveEditingCellByCell(-1);
+      break;
+    case NavigationDirection.Right:
+      moveEditingCellByCell(1);
+      break;
+  }
+}
 
-  keyHandlers[e.key]?.(e);
+function moveEditingCellByCell(moveAmount: number) {
+  emit('request-move-cell', moveAmount);
+}
+
+function moveEditingCellByRow(moveAmount: number) {
+  emit('request-move-row', moveAmount);
 }
 
 function requestClose(e?: KeyboardEvent) {
   e?.preventDefault();
   emit('request-close');
-}
-
-function requestMoveCell(e: KeyboardEvent) {
-  e.preventDefault();
-  emit('request-move-cell', getMoveAmount(e));
-}
-
-function requestMoveRow(e: KeyboardEvent) {
-  e.preventDefault();
-  emit('request-move-row', getMoveAmount(e));
-}
-
-function getMoveAmount(e: KeyboardEvent) {
-   if(e.shiftKey) {
-    return -1
-  } else {
-    return 1;
-  }
 }
 
 </script>

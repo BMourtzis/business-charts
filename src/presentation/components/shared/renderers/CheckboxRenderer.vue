@@ -4,19 +4,41 @@
     @update:model-value="$emit('update:modelValue', $event)"
     density="compact"
     hide-details
-    @blur="$emit('blur')"
-    @keydown="$emit('keydown', $event)"
+    tabindex="0"
+    @keydown="onCheckboxKeydown"
   />
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { useCellNavigation } from '@/presentation/composables/shared/onCellNavigation';
+import { NavigationDirection } from '@/presentation/viewModels/navigation';
+
+const props = defineProps<{
   modelValue: string;
 }>();
 
 const emit = defineEmits([
   'update:modelValue',
   'blur',
-  "keydown"
+  "navigate"
 ]);
+
+const { onKeydown} = useCellNavigation(emit);
+
+function onCheckboxKeydown(e: KeyboardEvent) {
+  switch (e.key) {
+    case ' ':
+      e.preventDefault()
+      emit('update:modelValue', !props.modelValue)
+      return
+
+    case 'Enter':
+      e.preventDefault()
+      emit('update:modelValue', !props.modelValue)
+      emit('navigate', NavigationDirection.Down)
+      return
+  }
+
+  onKeydown(e);
+}
 </script>

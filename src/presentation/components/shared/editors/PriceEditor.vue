@@ -10,12 +10,14 @@
     min="0"
     step="0.01"
     @blur="$emit('blur')"
-    @keydown="$emit('keydown', $event)"
+    @keydown="onKeydown"
     suffix="€"
   />
 </template>
 
 <script setup lang="ts">
+import { useCellNavigation } from '@/presentation/composables/shared/onCellNavigation';
+
 defineProps<{
   modelValue: string;
 }>();
@@ -23,6 +25,8 @@ defineProps<{
 const emit = defineEmits([
   'update:modelValue',
   'blur',
-  "keydown"
+  "navigate"
 ]);
+
+const { onKeydown} = useCellNavigation(emit);
 </script>
