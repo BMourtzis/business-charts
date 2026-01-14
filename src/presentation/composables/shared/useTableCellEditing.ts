@@ -77,13 +77,13 @@ export function useTableCellEditing(
         return rIndex * tableColumns.length;
     }
 
-    function isEditCell(rIndex: number, cIndex: number) {
+    function isCellFocused(rIndex: number, cIndex: number) {
         return getRowBaseIndex(rIndex) + cIndex === editingCellId.value;
     }
 
     return {
         startEditingCell,
-        isEditCell,
+        isCellFocused,
         stopEditingCell,
         moveEditingCellByCell,
         moveEditingCellByRow

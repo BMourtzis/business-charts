@@ -1,6 +1,6 @@
 <template>
   <td @click.stop="requestEdit">
-    <template v-if="editing && canEdit">
+    <template v-if="showEditor(focused, hasEditor)">
       <slot
         name="editor"
         :value="value"
@@ -19,10 +19,11 @@
         
       </slot>
     </template>
-    <template v-if="!(editing && canEdit)">
+    <template v-if="!showEditor(focused, hasEditor)">
       <slot 
         name="display"
         :value="value"
+        :focused="focused"
         :onUpdate="onCellUpdate"
         :onBlur="requestClose"
         :onNavigate="handleNavigate"
@@ -43,8 +44,8 @@ import { NavigationDirection } from '@/presentation/viewModels/navigation';
 
 const props = defineProps<{
   modelValue: string;
-  editing: boolean,
-  canEdit: boolean
+  focused: boolean,
+  hasEditor: boolean
 }>();
 
 const emit = defineEmits<{
@@ -65,9 +66,15 @@ function onCellUpdate(value: string) {
 }
 
 function requestEdit() {
-  if(!props.editing && props.canEdit) {
+  if(!props.focused && props.hasEditor) {
     emit('request-edit');
   }
+}
+
+function showEditor(focused: boolean, hasEditor: boolean) {
+  if(!hasEditor) return false;
+
+  return focused;
 }
 
 function handleNavigate(direction: NavigationDirection) {

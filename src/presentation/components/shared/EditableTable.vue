@@ -14,8 +14,8 @@
         <template v-for="(cell, cIndex) in row.cells" :key="cIndex">
           <editable-cell
             v-model="cell.value"
-            :editing="isEditCell(rIndex, cIndex)"
-            :canEdit="tableColumns[cIndex].editorType !== undefined"
+            :focused="isCellFocused(rIndex, cIndex)"
+            :hasEditor="hasEditor(cIndex)"
             @request-edit="startEditingCell(rIndex, cIndex)"
             @request-close="stopEditingCell"
             @request-move-cell="moveEditingCellByCell"
@@ -38,6 +38,7 @@
               <component
                 :is="rendererMap[tableColumns[cIndex].rendererType]"
                 :model-value="getDisplayValue(row, tableColumns[cIndex], slot.value)"
+                :focused="slot.focused"
                 @update:model-value="slot.onUpdate"
                 @blur="slot.onBlur"
                 @navigate="slot.onNavigate"
@@ -81,7 +82,7 @@ const rows = ref<InternalRow[]>([]);
 
 const { 
   startEditingCell,
-  isEditCell,
+  isCellFocused,
   stopEditingCell,
   moveEditingCellByCell,
   moveEditingCellByRow
@@ -104,6 +105,10 @@ function getDisplayValue(row: InternalRow, column: TableColumn, celValue: string
 
 function commitChanges() {
   emit("update:modelValue", toPublic(rows.value));
+}
+
+function hasEditor(columnIndex: number) {
+  return props.tableColumns[columnIndex].editorType !== undefined;
 }
 
 function removeRow(index: number) {

@@ -1,5 +1,6 @@
 <template>
   <v-checkbox
+    ref="checkboxRef"
     :model-value="modelValue"
     @update:model-value="$emit('update:modelValue', $event)"
     density="compact"
@@ -12,9 +13,11 @@
 <script setup lang="ts">
 import { useCellNavigation } from '@/presentation/composables/shared/onCellNavigation';
 import { NavigationDirection } from '@/presentation/viewModels/navigation';
+import { nextTick, ref, watch } from 'vue';
 
 const props = defineProps<{
   modelValue: string;
+  focused: boolean
 }>();
 
 const emit = defineEmits([
@@ -41,4 +44,21 @@ function onCheckboxKeydown(e: KeyboardEvent) {
 
   onKeydown(e);
 }
+
+const checkboxRef = ref<HTMLElement | any>(null);
+
+watch(() => props.focused, async (focused) => {
+  console.log("checkbox focused", focused);
+  if(focused) {
+    await nextTick()
+    const input: HTMLInputElement | null =
+      checkboxRef.value?.$el?.querySelector('input[type="checkbox"]')
+
+    console.log(input);
+
+    input?.focus()
+  }
+})
+
+
 </script>
