@@ -1,16 +1,18 @@
 <template>
   <v-text-field
+    class="number-editor"
     :model-value="modelValue"
     @update:model-value="$emit('update:modelValue', $event)"
     density="compact"
     variant="underlined"
     hide-details
     autofocus
-    type="number"
-    min="0"
-    step="1"
+    type="text"
+    inputmode="numeric"
+    pattern="[0-9]*"
     @blur="$emit('blur')"
     @keydown="onKeydown"
+    :style="{ width: width || '1vw'}"
   />
 </template>
 
@@ -19,6 +21,7 @@ import { useCellNavigation } from '@/presentation/composables/editableTable/onCe
 
 defineProps<{
   modelValue: string;
+  width?: string;
 }>();
 
 const emit = defineEmits([

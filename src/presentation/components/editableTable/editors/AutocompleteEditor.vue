@@ -1,5 +1,6 @@
 <template>
   <v-autocomplete
+    class="autocomplete-editor"
     :model-value="modelValue"
     @update:model-value="$emit('update:modelValue', $event)"
     :items="items"
@@ -8,6 +9,7 @@
     autofocus
     @blur="$emit('blur')"
     @keydown="onKeydown"
+    :style="{width: width || '5vw'}"
   />
 </template>
 
@@ -17,7 +19,9 @@ import { useCellNavigation } from '@/presentation/composables/editableTable/onCe
 defineProps<{
   modelValue: string;
   items: string[];
+  width?: string;
 }>();
+
 const emit = defineEmits([
   'update:modelValue',
   'blur',
@@ -26,4 +30,8 @@ const emit = defineEmits([
 
 const { onKeydown} = useCellNavigation(emit);
 </script>
-<style scoped></style>
+<style scoped>
+  .autocomplete-editor {
+    width: 5vw;
+  }
+</style>

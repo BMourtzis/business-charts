@@ -8,6 +8,7 @@ export type TableColumn = {
   editorType?: "autocomplete" | "number" | "price" | "text",
   rendererType?: "text" | "price" | "checkbox",
   list: string[],
+  width?: string,
   calculate?: (row: InternalRow) => string
 };
 

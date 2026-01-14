@@ -4,6 +4,7 @@
       <slot
         name="editor"
         :value="value"
+        :width="width"
         :onUpdate="onCellUpdate"
         :onBlur="requestClose"
         :onNavigate="handleNavigate"
@@ -12,6 +13,7 @@
         <!-- Default editor -->
         <text-editor
           :model-value="value"
+          :width="width"
           @update:model-value="onCellUpdate"
           @blur="requestClose"
           @navigate="handleNavigate"
@@ -23,13 +25,14 @@
       <slot 
         name="display"
         :value="value"
+        :width="width"
         :focused="focused"
         :onUpdate="onCellUpdate"
         :onBlur="requestClose"
         :onNavigate="handleNavigate"
         @keydown.stop
       >
-        <text-renderer :modelValue="value" />
+        <text-renderer :modelValue="value" :width="width"/>
       </slot>
     </template>
   </td>
@@ -44,8 +47,9 @@ import { NavigationDirection } from '@/presentation/viewModels/navigation';
 
 const props = defineProps<{
   modelValue: string;
-  focused: boolean,
-  hasEditor: boolean
+  focused: boolean;
+  hasEditor: boolean;
+  width?: string;
 }>();
 
 const emit = defineEmits<{

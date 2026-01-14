@@ -7,6 +7,7 @@
     hide-details
     tabindex="0"
     @keydown="onCheckboxKeydown"
+    :style="{ width: width || '1vw'}"
   />
 </template>
 
@@ -17,7 +18,8 @@ import { nextTick, ref, watch } from 'vue';
 
 const props = defineProps<{
   modelValue: string;
-  focused: boolean
+  focused: boolean;
+  width?: string;
 }>();
 
 const emit = defineEmits([
@@ -58,7 +60,5 @@ watch(() => props.focused, async (focused) => {
 
     input?.focus()
   }
-})
-
-
+});
 </script>

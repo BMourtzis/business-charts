@@ -1,11 +1,17 @@
 <template>
-    <span>{{ formattedPrice }}</span>
+    <span
+        class="price-renderer"
+        :style="{ width: width || '2vw'}"
+    >
+        {{ formattedPrice }}
+    </span>
 </template>
 <script setup lang="ts">
 import { computed } from 'vue';
 
 const props = defineProps<{
     modelValue: string;
+    width?: string;
 }>();
 
 const formattedPrice = computed(() => {
@@ -16,3 +22,9 @@ const formattedPrice = computed(() => {
     return `${price.toFixed(2)} €`;
 });
 </script>
+
+<style scoped>
+  .price-renderer {
+    display: inline-block;
+  }
+</style>

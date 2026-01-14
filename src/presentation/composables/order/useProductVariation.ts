@@ -7,7 +7,8 @@ export const colourVariation = {
     editorType: "autocomplete",
     rendererType: "text",
     navigable: true,
-    list: [ "BLK", "WILD", "F", "KIT.TZIN", "GLOW", "BL", "ΚΦ", "ΒΕΡ. ΝΑΠΑ", "ΣΑ.ΤΖΙΝ", "ΣΑ", "ΚΝΛ", "ΨΗΦ", "OL", "X", "XK", "ΤΑΜΠΑ.Ψ", "ΓΚΡΙ", "ΜΝΤ", "ΚΙΤ.ΤΖΙΝ", "ΚΦ.ΝΑΙΡ", "ΨΗΦ"]
+    width: "4vw",
+    list: [ "BLK", "WILD", "F", "KIT.TZIN", "GLOW", "BL", "ΚΦ", "ΒΕΡ. ΝΑΠΑ", "ΣΑ.ΤΖΙΝ", "ΣΑ", "ΚΝΛ", "ΨΗΦ", "OL", "X", "XK", "ΤΑΜΠΑ.Ψ", "ΓΚΡΙ", "ΜΝΤ", "ΚΙΤ.ΤΖΙΝ", "ΚΦ.ΝΑΙΡ"]
 };
 
 export const soleVariation = {
@@ -17,7 +18,8 @@ export const soleVariation = {
     editorType: "autocomplete",
     rendererType: "text",
     navigable: true,
-    list: ["ANATOMIC", "anatomic", "SOFT", "soft", "vamos", "FIESTA", "fiesta", "SAND"]
+    width: "4vw",
+    list: ["anatomic", "SOFT", "soft", "vamos", "VAMOS", "FIESTA", "fiesta", "SAND", "sand"]
 }
 
 export const menVariation = {
@@ -26,6 +28,7 @@ export const menVariation = {
     type: "variation",
     rendererType: "checkbox",
     navigable: true,
+    width: "1vw",
 }
 
 export const shoeSizeVariations = [
@@ -36,6 +39,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:36",
@@ -44,13 +48,16 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:37",
         title: "37",
+        type: "size",
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:38",
@@ -59,6 +66,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:39",
@@ -67,6 +75,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:40",
@@ -75,6 +84,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:41",
@@ -83,6 +93,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:42",
@@ -91,6 +102,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:43",
@@ -99,6 +111,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:44",
@@ -107,6 +120,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:45",
@@ -115,6 +129,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:46",
@@ -123,6 +138,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
     {
         name: "shoe:47",
@@ -131,6 +147,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
+        width: "1.2vw",
     },
 ];
 
@@ -157,6 +174,7 @@ export const shoesVariationLayout = [
         name: "calculated:totalQty",
         type: "calculated",
         rendererType: "text",
+        width: "2vw",
         calculate: calculateTotalQty
     },
     {
@@ -167,6 +185,7 @@ export const shoesVariationLayout = [
         editorType: "price",
         rendererType: "price",
         navigable: true,
+        width: "2.5vw",
     },
     {
         order: shoeSizeVariations.length + 5,
@@ -174,6 +193,7 @@ export const shoesVariationLayout = [
         name: "calculated:totalPrice",
         type: "calculated",
         rendererType: "price",
+        width: "3vw",
         calculate: calculateTotalPrice
     }
 ].sort((a, b) => a.order - b.order) as TableColumn[];

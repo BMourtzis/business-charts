@@ -1,5 +1,10 @@
 <template>
-  <v-table density="compact" v-if="tableColumns.length > 0">
+  <v-table 
+    class="editable-table"
+    v-if="tableColumns.length > 0"
+    density="compact"
+    striped="even"
+  >
     <thead>
       <tr>
         <th v-if="hideRowIndex !== true">#</th>
@@ -16,6 +21,7 @@
             v-model="cell.value"
             :focused="isCellFocused(rIndex, cIndex)"
             :hasEditor="hasEditor(cIndex)"
+            :width="tableColumns[cIndex].width"
             @request-edit="startEditingCell(rIndex, cIndex)"
             @request-close="stopEditingCell"
             @request-move-cell="moveEditingCellByCell"
@@ -26,6 +32,7 @@
                 :is="editorMap[tableColumns[cIndex].editorType]"
                 :model-value="slot.value"
                 @update:model-value="slot.onUpdate"
+                :width="slot.width"
                 :items="tableColumns[cIndex].list"
                 @blur="slot.onBlur"
                 @navigate="slot.onNavigate"
@@ -38,6 +45,7 @@
               <component
                 :is="rendererMap[tableColumns[cIndex].rendererType]"
                 :model-value="getDisplayValue(row, tableColumns[cIndex], slot.value)"
+                :width="slot.width"
                 :focused="slot.focused"
                 @update:model-value="slot.onUpdate"
                 @blur="slot.onBlur"
@@ -111,6 +119,12 @@ function hasEditor(columnIndex: number) {
   return props.tableColumns[columnIndex].editorType !== undefined;
 }
 
+function hasRenderer(columnIndex: number) {
+  return props.tableColumns[columnIndex].rendererType !== undefined;
+}
+
+
+
 function removeRow(index: number) {
   stopEditingCell();
   rows.value.splice(index, 1);
@@ -118,4 +132,8 @@ function removeRow(index: number) {
 }
 </script>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+  .editable-table td {
+    padding: 0px 11px !important;
+  }
+</style>

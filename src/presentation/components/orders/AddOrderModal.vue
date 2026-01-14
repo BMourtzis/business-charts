@@ -166,8 +166,7 @@ import VatCalculatorField from '../shared/vatCalculatorField.vue';
 
 const { 
   maxLength, 
-  required, 
-  numeric
+  required
 } = useValidationRules();
 
 const { createDebitOrderCommand, createCreditOrderCommand, partners, partnersToItemProps } = useOrders();

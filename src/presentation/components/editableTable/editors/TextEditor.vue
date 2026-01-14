@@ -8,6 +8,7 @@
     autofocus
     @blur="$emit('blur')"
     @keydown="onKeydown"
+    :style="{ width: width || '1vw'}"
   />
 </template>
 
@@ -16,6 +17,7 @@ import { useCellNavigation } from '@/presentation/composables/editableTable/onCe
 
 defineProps<{
   modelValue: string;
+  width?: string;
 }>();
 
 const emit = defineEmits([
