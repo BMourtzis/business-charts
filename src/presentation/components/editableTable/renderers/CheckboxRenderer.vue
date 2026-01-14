@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCellNavigation } from '@/presentation/composables/shared/onCellNavigation';
+import { useCellNavigation } from '@/presentation/composables/editableTable/onCellNavigation';
 import { NavigationDirection } from '@/presentation/viewModels/navigation';
 import { nextTick, ref, watch } from 'vue';
 

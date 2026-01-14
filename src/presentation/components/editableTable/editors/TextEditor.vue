@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCellNavigation } from '@/presentation/composables/shared/onCellNavigation';
+import { useCellNavigation } from '@/presentation/composables/editableTable/onCellNavigation';
 
 defineProps<{
   modelValue: string;
