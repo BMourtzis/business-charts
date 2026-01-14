@@ -8,22 +8,24 @@ export function normalizeAttribute(attributes: AttributesRecord): string {
 }
 
 export class OrderItemVariation  {
-    private readonly _attributes: AttributesRecord;
-    readonly quantity: number;
+    readonly attributes: AttributesRecord;
     readonly normalizedAttributes: string;
+    readonly quantity: number;
+    readonly price: number;
 
-    constructor(quantity: number, attributes: AttributesRecord) {
+    constructor(quantity: number, price: number, attributes: AttributesRecord) {
         if (quantity <= 0) throw new Error("Quantity must be > 0");
-        this._attributes = Object.freeze({...attributes});
-        this.quantity = quantity;
+        this.attributes = Object.freeze({...attributes});
         this.normalizedAttributes = normalizeAttribute(attributes);
+        this.quantity = quantity;
+        this.price = price
     }
 
-    get attributes() {
-        return this._attributes;
+    get sum() {
+        return this.price * this.quantity;
     }
 }
 
-export function createEmptyOrderItemVariation(quantity: number) {
-    return new OrderItemVariation(quantity, {});
+export function createEmptyOrderItemVariation(quantity: number, price: number) {
+    return new OrderItemVariation(quantity, price, {});
 }

@@ -6,21 +6,16 @@ import { AttributesRecord, normalizeAttribute, OrderItemVariation } from "./orde
 export class OrderItem implements IEntity {
     private _id: string;
     private _productId?: string;
-    ///Price without vat
-    private _basePrice: number;
     private _variations: OrderItemVariation[];
 
     name: string;
 
-
     constructor(
         id: string, 
         name: string,
-        basePrice: number, 
         variations: OrderItemVariation[]) {
         this._id = id;
         this.name = name;
-        this._basePrice = basePrice;
 
         if(variations.length === 0) {
             throw new Error("OrderItem must have at least one variations");
@@ -31,16 +26,10 @@ export class OrderItem implements IEntity {
 
     get id() { return this._id; }
     get quantity() { return this._variations.reduce((sum, item) => sum + item.quantity, 0); }
-    get basePrice() { return this._basePrice; }
-    get totalAmount() { return this.basePrice * this.quantity; }
+    get sumAmount() { return this._variations.reduce((sum, item) => sum + item.sum, 0); }
     get variations(): readonly OrderItemVariation[] {
         return this._variations;
     }
-
-    updateBasePrice(newPrice: number) {
-        this._basePrice = newPrice;
-    }
-    
 
     addVariation(newVariation: OrderItemVariation) {
         this.assertEmptyAttributeVariations(newVariation);
@@ -114,6 +103,9 @@ function hasNonEmptyAttributes(newVariations: OrderItemVariation[]) {
     return newVariations.some(isNonEmptyAttributeVariation);
 }
 
-export function createOrderItem(name: string, basePrice: number, vatRate: number, variations: OrderItemVariation[]): OrderItem {
-    return new OrderItem(uuidv4(), name, basePrice, variations);
+export function createOrderItem(
+    name: string, 
+    basePrice: number, 
+    variations: OrderItemVariation[]): OrderItem {
+    return new OrderItem(uuidv4(), name, variations);
 }

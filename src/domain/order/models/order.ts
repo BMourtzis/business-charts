@@ -12,15 +12,34 @@ export class Order implements IEntity {
     private _status: OrderStatus;
     private _direction: OrderDirection;
     private _items: OrderItem[];
+    private _vatRate: number;
+    private _discountAmount: number;
+    private _depositAmount: number;
 
-    vatRate: number;
+    notes: string;
 
-    constructor(id: string, partnerId: string, status: OrderStatus, direction: OrderDirection, vatRate: number, items: OrderItem[], dueDate?: Date, createdDate?: Date, sentDate?: Date) {
+    constructor(
+        id: string, 
+        partnerId: string, 
+        status: OrderStatus, 
+        direction: OrderDirection, 
+        vatRate: number, 
+        items: OrderItem[],
+        dueDate?: Date, 
+        createdDate?: Date, 
+        sentDate?: Date,
+        notes = "",
+        discountAmount = 0,
+        depositAmount = 0
+    ) {
         this._id = id;
         this._partnerId = partnerId;
         this._createdDate = createdDate ?? new Date();
         this._dueDate = dueDate;
-        this.vatRate = vatRate;
+        this._vatRate = vatRate;
+        this.notes = notes;
+        this._discountAmount = discountAmount;
+        this._depositAmount = depositAmount;
         this._status = status;
         this._direction = direction;
         this._items = items.slice();
@@ -42,11 +61,11 @@ export class Order implements IEntity {
     get dueDate() { return this._dueDate; }
 
     get totalAmount() { 
-        return this._items.reduce((sum, item) => sum + item.totalAmount, 0); 
+        return this._items.reduce((sum, item) => sum + item.sumAmount, 0); 
     }
 
     addItem(item: OrderItem) {
-        if(this.isDraft()) {
+        if(this.canEditOrder()) {
             throw new Error("Cannot add items to an order that is not in draft status.");
         }
 
@@ -55,28 +74,25 @@ export class Order implements IEntity {
 
     updateItem(itemId: string, updates: {
         name?: string;
-        basePrice?: number;
-        vatRate?: number;
     }) {
-        if (this.isDraft())
+        if (this.canEditOrder())
             throw new Error('Only draft orders can be edited');
 
         const item = this._items.find(i => i.id === itemId);
         if (!item) throw new Error('Item not found');
 
         if (updates.name) item.name = updates.name;
-        if (updates.basePrice !== undefined) item.updateBasePrice(updates.basePrice);
     }
 
     setItems(items: OrderItem[]) {
-        if(this.isDraft())
+        if(this.canEditOrder())
             throw new Error("Cannot set items to an order that is not in draft status.");
 
         this._items = items.slice();
     }
 
     removeItem(itemId: string) {
-        if(this.isDraft())
+        if(this.canEditOrder())
             throw new Error("Cannot remove items to an order that is not in draft status.");
 
         const index = this._items.findIndex(i => i.id === itemId);
@@ -105,8 +121,8 @@ export class Order implements IEntity {
         return OrderStateTransitions[this._status].includes(newStatus);
     }
 
-    private isDraft() {
-        return this._status === OrderStatus.Draft;
+    private canEditOrder() {
+        return this._status !== OrderStatus.Draft;
     }
 }
 
