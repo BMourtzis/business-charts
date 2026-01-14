@@ -60,10 +60,10 @@
             </v-row>
             <v-row class="mb-4" justify="end" align="center">
               <v-col cols="auto">
-                <strong>{{ tCap('order.totalQuantity') }}:</strong> {{ totalQuantityAllItems }}
+                <strong>{{ tCap('order.orderQuantity') }}:</strong> {{ totalQuantityAllItems }}
               </v-col>
               <v-col cols="auto">
-                <strong>{{ tCap('order.subTotalAmount') }}:</strong> {{ totalAmountAllItems.toFixed(2) }} €
+                <strong>{{ tCap('order.orderSum') }}:</strong> {{ totalAmountAllItems.toFixed(2) }} €
               </v-col>
             </v-row>
             <v-row>
@@ -84,8 +84,8 @@
                       :base-amount="totalAmountAllItems"
                     />
                   </v-col>
-                  <v-col cols="6">
-                    <strong>{{ tCap('order.amountWithTax') }}:</strong> {{ totalAmountAllItemsWithTax.toFixed(2) }}€
+                  <v-col cols="4">
+                    <strong>{{ tCap('order.amountAfterTax') }}:</strong> {{ totalAmountAllItemsWithTax.toFixed(2) }}€
                   </v-col>
                 </v-row>
                 <v-row class="mb-4" justify="end" align="center">
@@ -93,11 +93,11 @@
                     <amount-adjustment-field
                       v-model="form.discountAmount"
                       :base-amount="totalAmountAllItemsWithTax"
-                      :label="tCap('order.discountAmount')"
+                      :label="tCap('order.discount')"
                     />
                   </v-col>
-                  <v-col cols="6">
-                    <strong>{{ tCap('order.totalAmount') }}:</strong> {{ totalAmount.toFixed(2) }}€
+                  <v-col cols="4">
+                    <strong>{{ tCap('order.total') }}:</strong> {{ totalAmount.toFixed(2) }}€
                   </v-col>
                 </v-row>
                 <v-row class="mb-4" justify="end" align="center">
@@ -105,11 +105,11 @@
                     <amount-adjustment-field
                       v-model="form.depositAmount"
                       :base-amount="totalAmount"
-                      :label="tCap('order.depositAmount')"
+                      :label="tCap('order.deposit')"
                     />
                   </v-col>
-                  <v-col cols="6">
-                    <strong>{{ tCap('order.amountLeft') }}:</strong> {{ totalAmountAfterDeposit.toFixed(2) }}€
+                  <v-col cols="4">
+                    <strong>{{ tCap('order.remainingAmount') }}:</strong> {{ totalAmountAfterDeposit.toFixed(2) }}€
                   </v-col>
                 </v-row>
               </v-col>

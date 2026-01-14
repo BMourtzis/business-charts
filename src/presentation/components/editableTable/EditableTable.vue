@@ -134,6 +134,6 @@ function removeRow(index: number) {
 
 <style lang="css" scoped>
   .editable-table td {
-    padding: 0px 11px !important;
+    padding: 0px 7px !important;
   }
 </style>

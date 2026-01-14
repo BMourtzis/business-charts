@@ -2,7 +2,7 @@ import { InternalRow, TableColumn } from "../editableTable/useEditableTable";
 
 export const colourVariation = {
     name: "colour",
-    title: "Colour",
+    title: "Χρώμα",
     type: "variation",
     editorType: "autocomplete",
     rendererType: "text",
@@ -13,7 +13,7 @@ export const colourVariation = {
 
 export const soleVariation = {
     name: "sole",
-    title: "Sole",
+    title: "Σόλα",
     type: "variation",
     editorType: "autocomplete",
     rendererType: "text",
@@ -170,7 +170,7 @@ export const shoesVariationLayout = [
     })),
     {
         order: shoeSizeVariations.length + 3,
-        title: "Total Qty",
+        title: "Τεμάχια Παραλλαγής",
         name: "calculated:totalQty",
         type: "calculated",
         rendererType: "text",
@@ -179,7 +179,7 @@ export const shoesVariationLayout = [
     },
     {
         order: shoeSizeVariations.length + 4,
-        title: "Price",
+        title: "Τιμή Παραλλαγής",
         name: "variationPrice",
         type: "price",
         editorType: "price",
@@ -189,7 +189,7 @@ export const shoesVariationLayout = [
     },
     {
         order: shoeSizeVariations.length + 5,
-        title: "Total Price",
+        title: "Σύνολο Παραλλαγής",
         name: "calculated:totalPrice",
         type: "calculated",
         rendererType: "price",

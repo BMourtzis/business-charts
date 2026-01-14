@@ -131,7 +131,19 @@
         "quantity": "quantity",
         "total": "total",
         "vatRate": "tax rate",
+        "notes": "notes",
+        "discount": "discount",
+        "deposit": "deposit",
         "addOrderTitle": "add order",
-        "addOrderItemTitle": "add order item"
+        "addOrderItemTitle": "add order item",
+        "addVariationTitle": "add variation",
+        "variation": "variation | variations",
+        "productQuantity": "product quantity",
+        "productSum": "product sum",
+        "orderQuantity": "order quantiy",
+        "orderSum": "order sum",
+        "amountAfterTax": "amount after tax",
+        "totalAmount": "total amount",
+        "remainingAmount": "remaining amount"
     }
 }

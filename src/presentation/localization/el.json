@@ -119,11 +119,22 @@
         "direction": "κίνηση",
         "items": "στοιχείο παραγγελίας | στοχεία παραγγελίας",
         "product": "προϊόν | προϊόντα",
-        "basePrice": "τιμή (χωρίς ΦΠΑ)",
+        "basePrice": "τιμή",
         "quantity": "ποσότητα",
         "total": "σύνολο",
         "vatRate": "ΦΠΑ",
+        "notes": "σημειώσεις",
+        "discount": "έκπτωση",
+        "deposit": "προκαταβολή",
         "addOrderTitle": "προσθήκη παραγγελίας",
-        "addOrderItemTitle": "προσθήκη στοιχείου παραγγελίας"
+        "addOrderItemTitle": "προσθήκη στοιχείου παραγγελίας",
+        "addVariationTitle": "προσθήκη παραλλαγής",
+        "variation": "παραλλαγή | παραλλαγές",
+        "productQuantity": "τεμάχια προϊόντος",
+        "productSum": "σύνολο προϊόντος",
+        "orderQuantity": "τεμάχια παραγγελίας",
+        "orderSum": "σύνολο παραγγελίας",
+        "amountAfterTax": "ποσό με ΦΠΑ",
+        "remainingAmount": "υπόλοιπο"
     }
 }

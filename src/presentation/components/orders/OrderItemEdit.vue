@@ -17,13 +17,13 @@
             >
               <v-spacer/>
               <v-col cols="3">
-                Variations: {{ variationNumber }}
+                {{ tCap("order.variation", 2) }}: {{ variationNumber }}
               </v-col>
               <v-col cols="3">
-                Total Quantity: {{ totalQuantity }}
+                {{ tCap("order.productQuantity") }}: {{ totalQuantity }}
               </v-col>
               <v-col cols="3">
-                Sum: {{ totalLineAmount }}€
+                {{ tCap("order.productSum") }}: {{ totalLineAmount }}€
               </v-col>
               <v-col cols="1" >
                 <v-btn
@@ -67,7 +67,7 @@
         <v-col cols="2">
           <v-btn
             color="success"
-            text="Add Variation"
+            :text="tCap('order.addVariationTitle')"
             prepend-icon="mdi-plus"
             variant="text"
             @click="addVariation"
