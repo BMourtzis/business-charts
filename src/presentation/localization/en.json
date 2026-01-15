@@ -69,7 +69,8 @@
         "confirmDeleteMessage": "are sure you want to delete",
         "action": "action | actions",
         "primary": "primary",
-        "primary_gen": "primary"
+        "primary_gen": "primary",
+        "noDateSelected": " - "
     },
     "export": {
         "dataTransfer": "Data Transfer",
@@ -144,6 +145,7 @@
         "orderSum": "order sum",
         "amountAfterTax": "amount after tax",
         "totalAmount": "total amount",
-        "remainingAmount": "remaining amount"
+        "remainingAmount": "remaining amount",
+        "dueDate": "due date"
     }
 }

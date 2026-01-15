@@ -70,7 +70,8 @@
         "confirmDeleteMessage": "είστε σίγουρος/η ότι θέλετε να διαγράψετε το",
         "action": "ενέργεια | ενέργειες",
         "primary": "κύριο",
-        "primary_gen": "κύρια"
+        "primary_gen": "κύρια",
+        "noDateSelected": " - "
     },
     "contact": {
         "email": "email",
@@ -135,6 +136,7 @@
         "orderQuantity": "τεμάχια παραγγελίας",
         "orderSum": "σύνολο παραγγελίας",
         "amountAfterTax": "ποσό με ΦΠΑ",
-        "remainingAmount": "υπόλοιπο"
+        "remainingAmount": "υπόλοιπο",
+        "dueDate": "ημερομηνία παράδοσης"
     }
 }

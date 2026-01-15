@@ -37,6 +37,12 @@
                   :rules="[required]"
                 />
               </v-col>
+              <v-col cols="6">
+                <date-picker
+                  v-model="form.dueDate"
+                  :title="tCap('order.dueDate')"
+                />
+              </v-col>
               <v-col cols="12" class="d-flex justify-space-between align-center mb-4">
                 <h3>{{ tCap('order.items') }}</h3>
                 <v-btn
@@ -163,6 +169,7 @@ import { dtoToVM } from '@/presentation/mappers/orderItemMapper';
 
 import AmountAdjustmentField from '../shared/AmountAdjustmentField.vue';
 import VatCalculatorField from '../shared/vatCalculatorField.vue';
+import DatePicker from '../shared/DatePicker.vue';
 
 const { 
   maxLength, 
@@ -179,6 +186,7 @@ const form = reactive({
     direction: '',
     partnerId: '',
     vatRate: .24,
+    dueDate: new Date(),
     notes: '',
     depositAmount: 0,
     discountAmount: 0,
@@ -201,7 +209,6 @@ function addItem() {
     dtoToVM({
       id: uuidv4(),
       name: "",
-      basePrice: 0.00,
       variations: []
     })
   );
@@ -279,4 +286,19 @@ async function saveOrder() {
   .button-alignement {
     margin-bottom: 15px;
   }
+
+  .date-picker-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.v-label {
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 4px;
+}
+.date-btn {
+  justify-content: flex-start; /* aligns text to left like v-text-field */
+  padding: 0;
+}
 </style>
