@@ -15,7 +15,12 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
             dto.items.map(OrderItemMapperInstance.toModel),
             dto.dueDate,
             dto.createdDate,
-            dto.sentDate
+            dto.approvedDate,
+            dto.cancelledDate,
+            dto.completedDate,
+            dto.notes,
+            dto.discountAmount,
+            dto.depositAmount
         );
     }
 
@@ -23,13 +28,21 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
         return {
             id: model.id,
             partnerId: model.partnerId,
-            createdDate: model.createdDate,
-            dueDate: model.dueDate,
-            vatRate: model.vatRate,
-            sentDate: model.sentDate,
             status: model.status,
             direction: model.direction,
-            items: model.items.map(OrderItemMapperInstance.toDTO)
+            items: model.items.map(OrderItemMapperInstance.toDTO),
+            notes: model.notes,
+
+            vatRate: model.vatRate,
+            discountAmount: model.discountAmount,
+            depositAmount: model.depositAmount,
+
+            createdDate: model.createdDate,
+            dueDate: model.dueDate,
+            approvedDate: model.approvedDate,
+            cancelledDate: model.cancelledDate,
+            shippedDate: model.shippedDate,
+            completedDate: model.completedDate
         };
     }
 }

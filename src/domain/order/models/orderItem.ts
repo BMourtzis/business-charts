@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { IEntity } from "@/domain/type";
 import { AttributesRecord, normalizeAttribute, OrderItemVariation } from "./orderItemVariation";
+import { assertNoDuplicateKeys, VariationChange } from "./variationChange";
 
 export class OrderItem implements IEntity {
     private _id: string;
@@ -31,16 +32,22 @@ export class OrderItem implements IEntity {
         return this._variations;
     }
 
+    rename(newName: string) {
+        if(newName === undefined || newName === "") return;
+        this.name = newName;
+    }
+
+    //Variations
     addVariation(newVariation: OrderItemVariation) {
-        this.assertEmptyAttributeVariations(newVariation);
+        this.assertMixedAttributeVariations(newVariation);
         this.assertDuplicateAttribute(newVariation);
 
         this._variations.push(newVariation);
     }
 
-    removeVariationByKey(normalizedAttributes: string) {
+    removeVariationByKey(key: string) {
         const remainingVariations = this._variations
-            .filter(v => v.normalizedAttributes !== normalizedAttributes)
+            .filter(v => v.normalizedAttributes !== key);
 
         if(remainingVariations.length === 0) {
             throw new Error("OrderItem must have at least one variation");
@@ -53,7 +60,50 @@ export class OrderItem implements IEntity {
         this.removeVariationByKey(normalizeAttribute(attribute));
     }
 
-    private assertEmptyAttributeVariations(newVariation: OrderItemVariation) {
+    changeVariationQuantity(key: string, newQuantity: number) {
+        const variation = this.getVariation(key);
+        this.replaceVariation(key, new OrderItemVariation(newQuantity, variation.price, variation.attributes));
+    }
+
+    changeVariationPrice(key: string, newPrice: number) {
+        const variation = this.getVariation(key);
+        this.replaceVariation(key, new OrderItemVariation(variation.quantity, newPrice, variation.attributes));
+    }
+
+    applyVariationChanges(changes: VariationChange[]) {
+        assertNoDuplicateKeys(changes);
+
+        for(const change of changes) {
+            const current = this.getVariation(change.variationKey);
+
+            const quantity = change.quantity ?? current.quantity;
+            const price = change.price ?? current.price;
+
+            if(quantity == current.quantity && price == current.price) continue;
+
+            this.replaceVariation(
+                change.variationKey, 
+                new OrderItemVariation(quantity, price, current.attributes)
+            );
+        }
+    }
+
+    private replaceVariation(key: string, replacement: OrderItemVariation) {
+        const index = this._variations.findIndex( v => v.normalizedAttributes === key);
+
+        if(index === -1) throw new Error(`Variation ${key} not found`);
+        this.assertDuplicateAttribute(replacement, key);
+
+        this._variations[index] = replacement;
+    }
+
+    private getVariation(key: string) {
+        const variation = this._variations.find(v => v.normalizedAttributes === key);
+        if (!variation) throw new Error(`Variation ${key} not found`);
+        return variation;
+    }
+
+    private assertMixedAttributeVariations(newVariation: OrderItemVariation) {
         const hasEmpty = this._variations.some(isEmptyAttributeVariation);
         const hasNonEmpty = this._variations.some(isNonEmptyAttributeVariation);
 
@@ -67,10 +117,20 @@ export class OrderItem implements IEntity {
         }
     }
 
-    private assertDuplicateAttribute(newVariation: OrderItemVariation) {
-        if(this._variations
-            .some(v => v.normalizedAttributes === newVariation.normalizedAttributes)) {
-            throw new Error(`Duplicate variation attributes: ${newVariation.normalizedAttributes}`);
+    private assertDuplicateAttribute(
+        variation: OrderItemVariation,
+        replacingKey?: string
+    ) {
+        if (
+            this._variations.some(
+                v =>
+                    v.normalizedAttributes === variation.normalizedAttributes &&
+                    v.normalizedAttributes !== replacingKey
+            )
+        ) {
+            throw new Error(
+                `Duplicate variation attributes: ${variation.normalizedAttributes}`
+            );
         }
     }
 }
