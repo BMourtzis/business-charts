@@ -57,7 +57,7 @@
             v-model="localItem.basePrice"
             @blur="commitChanges"
             :label="tCap('order.basePrice')"
-            :rules="[required, numeric]"
+            :rules="[numeric]"
             type="number"
             min="0"
             step="0.01"

@@ -18,7 +18,6 @@
           @blur="requestClose"
           @navigate="handleNavigate"
         />
-        
       </slot>
     </template>
     <template v-if="!showEditor(focused, hasEditor)">

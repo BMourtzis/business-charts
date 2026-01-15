@@ -183,7 +183,7 @@ const { tCap } = useLocalizationHelpers();
 const directions = ["Credit", "Debit"];
 
 const form = reactive({
-    direction: '',
+    direction: 'Credit',
     partnerId: '',
     vatRate: .24,
     dueDate: new Date(),
@@ -195,6 +195,7 @@ const form = reactive({
 
 const {
   dialog, 
+  formRef,
   validForm,
   loading,
   errorMessage,
@@ -271,9 +272,9 @@ function removeItem(id: string) {
 
 async function saveOrder() {
   await submit(async (form) => {
-    if(form.direction === 'credit') {
+    if(form.direction === 'Credit') {
         createCreditOrderCommand(form.partnerId);
-    } else if (form.direction === 'debit') {
+    } else if (form.direction === 'Debit') {
         createDebitOrderCommand(form.partnerId);
     }
 
