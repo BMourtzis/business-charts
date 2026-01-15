@@ -50,14 +50,10 @@ function onCheckboxKeydown(e: KeyboardEvent) {
 const checkboxRef = ref<HTMLElement | any>(null);
 
 watch(() => props.focused, async (focused) => {
-  console.log("checkbox focused", focused);
   if(focused) {
     await nextTick()
     const input: HTMLInputElement | null =
-      checkboxRef.value?.$el?.querySelector('input[type="checkbox"]')
-
-    console.log(input);
-
+      checkboxRef.value?.$el?.querySelector('input[type="checkbox"]');
     input?.focus()
   }
 });
