@@ -36,7 +36,7 @@
         size="large"
         variant="text"
         :disabled="!date"
-        @click="date = ''"
+        @click="date = null"
         title="Clear date"
       />
     </div>
@@ -60,21 +60,12 @@ const emit = defineEmits<{
 }>();
 
 const menu = ref(false)
-const date = ref(getDateFormat(props.modelValue));
+const date = ref(props.modelValue);
 
 function onUpdate() {
-  if(date.value === "") return;
+  if(!date.value) return;
 
-  const [year, month, day] = date.value.split("-").map(Number);
-  const dateObj = new Date(year, month - 1, day);
-
-  emit("update:modelValue", dateObj);
-}
-
-function getDateFormat(date: Date | null) {
-  if(!date) return "";
-
-  return date.toISOString().substring(0, 10);
+  emit("update:modelValue", date.value);
 }
 
 const formattedDate = computed(() => {
