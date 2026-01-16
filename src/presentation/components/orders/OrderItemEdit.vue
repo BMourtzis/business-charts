@@ -17,13 +17,13 @@
             >
               <v-spacer/>
               <v-col cols="3">
-                {{ tCap("order.variation", 2) }}: {{ variationNumber }}
+                {{ tCap("order.variation", 2) }}: <strong>{{ variationNumber }}</strong>
               </v-col>
               <v-col cols="3">
-                {{ tCap("order.productQuantity") }}: {{ totalQuantity }}
+                {{ tCap("order.productQuantity") }}: <strong>{{ totalQuantity }}</strong>
               </v-col>
               <v-col cols="3">
-                {{ tCap("order.productSum") }}: {{ totalLineAmount }}€
+                {{ tCap("order.productSum") }}: <strong>{{ totalLineAmount.toFixed(2) }}€</strong>
               </v-col>
               <v-col cols="1" >
                 <v-btn

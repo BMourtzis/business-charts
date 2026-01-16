@@ -66,10 +66,10 @@
             </v-row>
             <v-row class="mb-4" justify="end" align="center">
               <v-col cols="auto">
-                <strong>{{ tCap('order.orderQuantity') }}:</strong> {{ totalQuantityAllItems }}
+                {{ tCap('order.orderQuantity') }}: <strong>{{ totalQuantityAllItems }}</strong>
               </v-col>
               <v-col cols="auto">
-                <strong>{{ tCap('order.orderSum') }}:</strong> {{ totalAmountAllItems.toFixed(2) }} €
+                {{ tCap('order.orderSum') }} <strong>{{ totalAmountAllItems.toFixed(2) }}€</strong>
               </v-col>
             </v-row>
             <v-row>
@@ -91,7 +91,7 @@
                     />
                   </v-col>
                   <v-col cols="4">
-                    <strong>{{ tCap('order.amountAfterTax') }}:</strong> {{ totalAmountAllItemsWithTax.toFixed(2) }}€
+                    {{ tCap('order.amountAfterTax') }} <strong>{{ totalAmountAllItemsWithTax.toFixed(2) }}€</strong>
                   </v-col>
                 </v-row>
                 <v-row class="mb-4" justify="end" align="center">
@@ -103,7 +103,7 @@
                     />
                   </v-col>
                   <v-col cols="4">
-                    <strong>{{ tCap('order.total') }}:</strong> {{ totalAmount.toFixed(2) }}€
+                    {{ tCap('order.total') }}: <strong>{{ totalAmount.toFixed(2) }}€</strong>
                   </v-col>
                 </v-row>
                 <v-row class="mb-4" justify="end" align="center">
@@ -115,7 +115,7 @@
                     />
                   </v-col>
                   <v-col cols="4">
-                    <strong>{{ tCap('order.remainingAmount') }}:</strong> {{ totalAmountAfterDeposit.toFixed(2) }}€
+                    {{ tCap('order.remainingAmount') }}: <strong>{{ totalAmountAfterDeposit.toFixed(2) }}€</strong>
                   </v-col>
                 </v-row>
               </v-col>
@@ -271,13 +271,9 @@ function removeItem(id: string) {
 }
 
 async function saveOrder() {
+  console.log(form);
   await submit(async (form) => {
-    if(form.direction === 'Credit') {
-        createCreditOrderCommand(form.partnerId);
-    } else if (form.direction === 'Debit') {
-        createDebitOrderCommand(form.partnerId);
-    }
-
+    console.log(form);
   });
 }
 
