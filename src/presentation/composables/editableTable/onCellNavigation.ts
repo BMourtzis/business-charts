@@ -22,18 +22,6 @@ export function useCellNavigation(
             case "Tab":
                 direction = e.shiftKey ? NavigationDirection.Left : NavigationDirection.Right;
                 break;
-            case "ArrowUp":
-                if(allowArrowNavigation) direction = NavigationDirection.Up;
-                break;
-            case "ArrowDown":
-                if(allowArrowNavigation) direction = NavigationDirection.Down;
-                break;
-            case "ArrowLeft":
-                if(allowArrowNavigation) direction = NavigationDirection.Left;
-                break;
-            case "ArrowRight":
-                if(allowArrowNavigation) direction = NavigationDirection.Right;
-                break;
         }
 
         if(direction === null) return;
