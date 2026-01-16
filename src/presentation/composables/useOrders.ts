@@ -5,15 +5,12 @@ import { getPartnerTypeStringResource } from "@/domain/partner/partnerTypes";
 
 import { getOrderById } from "@/application/queries/order/getOrderByIdQuery";
 import { getOrdersForPartner } from "@/application/queries/order/getOrdersForPartnerQuery";
-import { createCreditOrderCommand, createDebitOrderCommand } from "@/application/commands/order/createOrderCommand";
-import { updateOrderStatusCommand } from "@/application/commands/order/updateOrderCommand";
-import { addOrderItemCommand, removeOrderItemCommand, updateOrderItemCommand } from "@/application/commands/order/updateOrderItemCommand";
-import { deleteOrderComand } from "@/application/commands/order/deleteOrderCommand";
 import { PartnerDTO } from "@/application/dto/partnerDTO";
 
 import { usePartnersStore } from "../stores/partnerStore";
 import { useOrdersStore } from "../stores/orderStore";
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { CreateCreditOrderCommmandHandler } from "@/application/commands/order/createCreditOrderCommand";
 
 export function useOrders() {
     const store = useOrdersStore();
@@ -35,13 +32,7 @@ export function useOrders() {
         partnersToItemProps: getPartnersToItemProps(tCap),
         getOrderById,
         getOrdersForPartner,
-        createDebitOrderCommand,
-        createCreditOrderCommand,
-        updateOrderStatusCommand,
-        addOrderItemCommand,
-        removeOrderItemCommand,
-        updateOrderItemCommand,
-        deleteOrderComand
+        createCreditOrderCommmandHandler: new CreateCreditOrderCommmandHandler(store)
     }
 }
 

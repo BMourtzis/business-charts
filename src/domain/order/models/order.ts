@@ -202,6 +202,6 @@ export function createDebitOrder(partnerId: string, items: OrderItem[], vatRate:
 }
 
 //customer pays you
-export function createCreditOrder(partnerId: string, items: OrderItem[], varRate: number, dueDate?: Date): Order {
-    return new Order(uuidv4(), partnerId, OrderStatus.Draft, OrderDirection.Credit, varRate, items, dueDate);
+export function createCreditOrder(partnerId: string, items: OrderItem[], vatRate: number, dueDate?: Date, notes?: string, discountAmount?: number, depositAmount?: number): Order {
+    return new Order(uuidv4(), partnerId, OrderStatus.Draft, OrderDirection.Credit, vatRate, items, dueDate, undefined, undefined, undefined, undefined, notes, discountAmount, depositAmount );
 }

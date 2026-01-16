@@ -32,7 +32,6 @@ export function useFormDialog<T extends object>(form: T, options?: { autoReset?:
     }
 
     async function validate(): Promise<boolean> {
-        console.log(form);
         let validationResult: boolean | null = null;
 
         // STEP 1 — Call Vuetify's v-form validate() if available

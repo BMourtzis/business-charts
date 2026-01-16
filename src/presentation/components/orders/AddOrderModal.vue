@@ -164,8 +164,8 @@ import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 
 import OrderItemEdit from './OrderItemEdit.vue';
-import { OrderItemEditVM } from '@/presentation/viewModels/orderItemEditVM';
-import { dtoToVM } from '@/presentation/mappers/orderItemMapper';
+import { OrderEditVM } from '@/presentation/viewModels/orderItemEditVM';
+import { dtoToVM, orderVmToCmd } from '@/presentation/mappers/orderItemMapper';
 
 import AmountAdjustmentField from '../shared/AmountAdjustmentField.vue';
 import VatCalculatorField from '../shared/vatCalculatorField.vue';
@@ -176,7 +176,7 @@ const {
   required
 } = useValidationRules();
 
-const { createDebitOrderCommand, createCreditOrderCommand, partners, partnersToItemProps } = useOrders();
+const { createCreditOrderCommmandHandler, partners, partnersToItemProps } = useOrders();
 
 const { tCap } = useLocalizationHelpers();
 
@@ -186,12 +186,12 @@ const form = reactive({
     direction: 'Credit',
     partnerId: '',
     vatRate: .24,
-    dueDate: new Date(),
+    dueDate: null,
     notes: '',
     depositAmount: 0,
     discountAmount: 0,
-    items: [] as OrderItemEditVM[]
-});
+    items: []
+} as OrderEditVM);
 
 const {
   dialog, 
@@ -271,9 +271,12 @@ function removeItem(id: string) {
 }
 
 async function saveOrder() {
-  console.log(form.partnerId);
   await submit(async (form) => {
-    console.log(form.partnerId);
+    if(form.direction === 'Credit') {
+      const cmd = orderVmToCmd(form)
+      console.log(cmd);
+      // createCreditOrderCommmandHandler.handle(orderVmToCmd(form));
+    }
   });
 }
 

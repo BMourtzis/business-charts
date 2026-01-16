@@ -165,7 +165,6 @@ function hasNonEmptyAttributes(newVariations: OrderItemVariation[]) {
 
 export function createOrderItem(
     name: string, 
-    basePrice: number, 
     variations: OrderItemVariation[]): OrderItem {
     return new OrderItem(uuidv4(), name, variations);
 }
