@@ -271,9 +271,9 @@ function removeItem(id: string) {
 }
 
 async function saveOrder() {
-  console.log(form);
+  console.log(form.partnerId);
   await submit(async (form) => {
-    console.log(form);
+    console.log(form.partnerId);
   });
 }
 
