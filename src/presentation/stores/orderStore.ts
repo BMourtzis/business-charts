@@ -16,9 +16,7 @@ export const useOrdersStore = defineStore('orders', {
         orders: [] as OrderDTO[]
     }),
     getters: {
-        allOrders: (state) => {
-            return state.orders.map(OrderMapperInstance.toModel);
-        },
+        allOrders: (state) => state.orders,
         getOrderById: (state) => {
             return (id: string): Order | undefined => state.orders.find(o => o.id === id) as Order | undefined;
         },
@@ -30,7 +28,9 @@ export const useOrdersStore = defineStore('orders', {
         //Calculates total for all partners and caches it
         totalsPerPartner(): Record<string, AmountsRecord>{
             const result: Record<string, AmountsRecord> = {}
-            for(const o of this.allOrders) {
+            const allOrders = this.allOrders.map(OrderMapperInstance.toModel) as Order[]
+
+            for(const o of allOrders) {
                 if(!result[o.partnerId]) {
                     result[o.partnerId] = { credited: 0, debited: 0, balance: 0};
                 }
@@ -49,7 +49,9 @@ export const useOrdersStore = defineStore('orders', {
         //Calculates global totals and caches it
         globalTotals(): AmountsRecord {
             let credited = 0, debited = 0;
-            for(const o of this.allOrders) {
+            const allOrders = this.allOrders.map(OrderMapperInstance.toModel) as Order[];
+
+            for(const o of allOrders) {
                 if(o.direction === OrderDirection.Credit) credited += o.totalAmount;
                 else debited += o.totalAmount;
             }

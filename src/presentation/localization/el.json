@@ -71,7 +71,9 @@
         "action": "ενέργεια | ενέργειες",
         "primary": "κύριο",
         "primary_gen": "κύρια",
-        "noDateSelected": " - "
+        "noDateSelected": " - ",
+        "credit": "Χρέωση",
+        "debit": "Πίστωση"
     },
     "contact": {
         "email": "email",
@@ -139,6 +141,13 @@
         "remainingAmount": "υπόλοιπο",
         "dueDate": "ημερομηνία παράδοσης",
         "createdDate": "ημερομηνία δημιουργίας",
-        "status": "κατάσταση"
+        "status": "κατάσταση",
+        "draft": "πρόχειρο",
+        "cancelled": "ακυρώθηκε",
+        "approved": "εγκρίθηκε",
+        "processing": "ύπο επεξεργασία",
+        "readyForShipment": "έτοιμο για αποστολή",
+        "shipped": "απεστάλη",
+        "completed": "ολοκληρώθηκε"
     }
 }

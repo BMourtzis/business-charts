@@ -5,7 +5,7 @@
     >
       <div class="d-flex justify-space-between align-center mb-4">
         <h2 class="text-h6">
-          {{ tCap('partner.supplier', 2) }}
+          {{ tCap('order.order', 2) }}
         </h2>
         <AddOrderModal />
         <!-- Filters (optional) -->

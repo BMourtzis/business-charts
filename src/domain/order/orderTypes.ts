@@ -19,6 +19,6 @@ export const OrderStateTransitions: Record<OrderStatus, OrderStatus[]> = {
 };
 
 export enum OrderDirection {
-    Credit,
-    Debit
+    Credit = "Credit",
+    Debit = "Debit"
 }

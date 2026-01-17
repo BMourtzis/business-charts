@@ -11,17 +11,21 @@ import { usePartnersStore } from "../stores/partnerStore";
 import { useOrdersStore } from "../stores/orderStore";
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { CreateCreditOrderCommmandHandler } from "@/application/commands/order/createCreditOrderCommand";
+import { OrderMapperInstance } from "@/application/mapper/orderMapper";
+import { Order } from "@/domain/order/models/order";
 
 export function useOrders() {
     const store = useOrdersStore();
+    const { allOrders } = storeToRefs(store)
+
     const partnerStore = usePartnersStore();
-    const partnerStoreRef = storeToRefs(partnerStore);
+    const { all } = storeToRefs(partnerStore);
 
     const { tCap } = useLocalizationHelpers();
 
     return {
-        allOrders: store.allOrders,
-        partners: computed(() => partnerStoreRef.all.value),
+        allOrders: computed(() => allOrders.value.map(OrderMapperInstance.toModel) as Order[]),
+        partners: computed(() => all.value),
         totalsPerPartner: computed(() => store.totalsPerPartner),
         globalTotals: computed(() => store.globalTotals),
         creditOrders: store.creditOrders,

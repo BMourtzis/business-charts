@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="props.orders"
+    :items="data"
   >
     <!-- Custom column slot -->
     <template #[`item.actions`]="{ item }">
@@ -13,29 +13,41 @@
         :to="`/partner/${item.id}`"
       />
     </template>
+    <template #[`item.partner`]="{ item }">
+      <v-btn 
+        v-if="item.partner !== undefined"
+        variant="text" 
+        @click.stop="() => router.push(`/partner/${item.partner?.id}`)"
+      >
+        {{ getPartnerName(item.partner) }}
+      </v-btn>
+    </template>
   </v-data-table>
 </template>
 
 <script setup lang="ts">
+import { toRef } from 'vue';
+import { useRouter } from 'vue-router';
+
 import { Order } from '@/domain/order/models/order';
+import { Partner } from '@/domain/partner/models/partner';
 
-import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 
-const { tCap } = useLocalizationHelpers();
+
+const router = useRouter();
 
 const props = defineProps < {
-  orders: Order[];
+  orders: Order[] | undefined;
 } > ();
 
-const headers = [
-  { title: tCap('partner.businessName'), key: "partnerId" },
-  { title: tCap('order.createdDate'), key: "createdDate" },
-  { title: tCap('order.dueDate'), key: "dueDate" },
-  { title: tCap('order.status'), key: "status" },
-  { title: tCap('order.direction'), key: "direction" },
-  { title: tCap('order.total'), key: "totalAmount" },  
-  { title: tCap('common.action', 2), key: "actions"}
-]
+const { data, headers } = useOrderTable(toRef(props, "orders"));
+
+function getPartnerName(partner: Partner) {
+  return partner.businessName
+            ? `${partner.businessName} (${partner.contactName})`
+            : partner.contactName;
+}
 </script>
 
 <style scoped></style>

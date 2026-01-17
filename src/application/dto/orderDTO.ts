@@ -13,12 +13,12 @@ export interface OrderDTO extends IEntityDTO {
     discountAmount: number;
     depositAmount: number
 
-    createdDate: Date;
-    dueDate?: Date;
-    approvedDate?: Date;
-    cancelledDate?: Date;
-    shippedDate?: Date;
-    completedDate?: Date;
+    createdDate: string;
+    dueDate?: string;
+    approvedDate?: string;
+    cancelledDate?: string;
+    shippedDate?: string;
+    completedDate?: string;
 }
 
 export interface OrderItemDTO extends IEntityDTO {

@@ -13,11 +13,11 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
             dto.direction,
             dto.vatRate,
             dto.items.map(OrderItemMapperInstance.toModel),
-            dto.dueDate,
-            dto.createdDate,
-            dto.approvedDate,
-            dto.cancelledDate,
-            dto.completedDate,
+            getDateOrUndefined(dto.dueDate),
+            getDate(dto.createdDate),
+            getDateOrUndefined(dto.approvedDate),
+            getDateOrUndefined(dto.cancelledDate),
+            getDateOrUndefined(dto.completedDate),
             dto.notes,
             dto.discountAmount,
             dto.depositAmount
@@ -37,14 +37,26 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
             discountAmount: model.discountAmount,
             depositAmount: model.depositAmount,
 
-            createdDate: model.createdDate,
-            dueDate: model.dueDate,
-            approvedDate: model.approvedDate,
-            cancelledDate: model.cancelledDate,
-            shippedDate: model.shippedDate,
-            completedDate: model.completedDate
+            createdDate: model.createdDate.toISOString(),
+            dueDate: model.dueDate?.toISOString(),
+            approvedDate: model.approvedDate?.toISOString(),
+            cancelledDate: model.cancelledDate?.toISOString(),
+            shippedDate: model.shippedDate?.toISOString(),
+            completedDate: model.completedDate?.toISOString()
         };
     }
+}
+
+
+
+function getDateOrUndefined(isoString?: string): Date | undefined {
+    if(!isoString) return undefined;
+
+    return getDate(isoString);
+}
+
+function getDate(isoString: string): Date {
+    return new Date(isoString);
 }
 
 export const OrderMapperInstance = new OrderMapper();

@@ -70,7 +70,9 @@
         "action": "action | actions",
         "primary": "primary",
         "primary_gen": "primary",
-        "noDateSelected": " - "
+        "noDateSelected": " - ",
+        "credit": "credit",
+        "debit": "debit"
     },
     "export": {
         "dataTransfer": "Data Transfer",
@@ -148,6 +150,13 @@
         "remainingAmount": "remaining amount",
         "dueDate": "due date",
         "createdDate": "created date",
-        "status": "status"
+        "status": "status",
+        "draft": "draft",
+        "cancelled": "cancelled",
+        "approved": "approved",
+        "processing": "processing",
+        "readyForShipment": "ready for shipment",
+        "shipped": "shipped",
+        "completed": "completed"
     }
 }
