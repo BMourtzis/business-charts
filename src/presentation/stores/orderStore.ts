@@ -95,16 +95,16 @@ export const useOrdersStore = defineStore('orders', {
         }
     },
     actions: {
-        setOrders(orders: Order[]) {
-            this.orders = orders.map(OrderMapperInstance.toDTO);
+        setOrders(orders: OrderDTO[]) {
+            this.orders = orders;
         },
-        add(order: Order) {
-            this.orders.push(OrderMapperInstance.toDTO(order));
+        add(order: OrderDTO) {
+            this.orders.push(order);
         },
-        update(updatedOrder: Order) {
+        update(updatedOrder: OrderDTO) {
             const index = this.orders.findIndex(p => p.id === updatedOrder.id);
             if (index !== -1) {
-                this.orders[index] = OrderMapperInstance.toDTO(updatedOrder);
+                this.orders[index] = updatedOrder;
             }
         },
         remove(id: string) {

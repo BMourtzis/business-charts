@@ -11,6 +11,7 @@ import { UnlockVaultCommandHandler } from "@/application/commands/vault/unlockVa
 import { ChangePasswordCommandHandler } from "@/application/commands/vault/changePasswordCommand";
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { RequestKeyCommandHandler } from "@/application/commands/vault/requestKeyCommand";
+import { LoadOrdersCommandHandler } from "@/application/commands/order/loadOrdersCommand";
 
 const unlocked = ref(VaultSession.isVaultUnlocked());
 const initialSetup = ref(VaultSession.isInitialSetup());
@@ -29,7 +30,8 @@ export function useVault() {
     if(!allDataCmdHandler) {
         allDataCmdHandler = new LoadAllDataCommandHandler(
             new LoadPartnersCommandHandler(),
-            new LoadDeliveryCarriersCommandHandler()
+            new LoadDeliveryCarriersCommandHandler(),
+            new LoadOrdersCommandHandler()
         );
 
         VaultSession.onStateChanged((state) => {
