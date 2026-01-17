@@ -19,7 +19,6 @@
 <script setup lang="ts">
 import { Order } from '@/domain/order/models/order';
 
-// import { useOrders } from '@/presentation/composables/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 const { tCap } = useLocalizationHelpers();
@@ -30,11 +29,11 @@ const props = defineProps < {
 
 const headers = [
   { title: tCap('partner.businessName'), key: "partnerId" },
-  { title: tCap('partner.contactName'), key: "createdDate" },
-  { title: tCap('partner.vatNumber'), key: "sentDate" },
-  { title: tCap('partner.vatNumber'), key: "status" },
-  { title: tCap('partner.vatNumber'), key: "direction" },
-  { title: tCap('partner.vatNumber'), key: "totalAmount" },  
+  { title: tCap('order.createdDate'), key: "createdDate" },
+  { title: tCap('order.dueDate'), key: "dueDate" },
+  { title: tCap('order.status'), key: "status" },
+  { title: tCap('order.direction'), key: "direction" },
+  { title: tCap('order.total'), key: "totalAmount" },  
   { title: tCap('common.action', 2), key: "actions"}
 ]
 </script>

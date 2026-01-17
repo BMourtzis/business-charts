@@ -1,4 +1,5 @@
 import { OrderItemVariationDTO } from "@/application/dto/orderDTO";
+import { OrderMapperInstance } from "@/application/mapper/orderMapper";
 import { createCreditOrder } from "@/domain/order/models/order";
 import { createOrderItem } from "@/domain/order/models/orderItem";
 import { OrderItemVariation } from "@/domain/order/models/orderItemVariation";
@@ -45,6 +46,6 @@ export class CreateCreditOrderCommmandHandler {
         console.log(order);
 
         await orderRepository.add(order);
-        this._orderStore.add(order);
+        this._orderStore.add(OrderMapperInstance.toDTO(order));
     }
 }

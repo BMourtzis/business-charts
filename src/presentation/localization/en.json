@@ -146,6 +146,8 @@
         "amountAfterTax": "amount after tax",
         "totalAmount": "total amount",
         "remainingAmount": "remaining amount",
-        "dueDate": "due date"
+        "dueDate": "due date",
+        "createdDate": "created date",
+        "status": "status"
     }
 }
