@@ -11,7 +11,7 @@ import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
 function toOrderTable(order: Order, tCap: (key: string, count?: number) => string): OrderTableRow {
     return {
         id: order.id,
-        orderNumber: order.orderNumber,
+        orderNumber: getOrderNumber(order.orderNumber),
         partner: getPartnerDetails(order.partnerId),
         createdDate: getDate(order.createdDate),
         dueDate: getDate(order.dueDate),
@@ -19,6 +19,10 @@ function toOrderTable(order: Order, tCap: (key: string, count?: number) => strin
         direction: getDirectionString(order.direction, tCap),
         total: toAmountString(order.totalAmount)
     }
+}
+
+function getOrderNumber(orderNumber: string): string {
+    return `#${orderNumber}`;
 }
 
 function getDirectionString(direction: OrderDirection, tCap: (key: string, count?: number) => string): string {
