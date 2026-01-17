@@ -13,6 +13,7 @@ import { useLocalizationHelpers } from '@/presentation/composables/useLocalizati
 import { CreateCreditOrderCommmandHandler } from "@/application/commands/order/createCreditOrderCommand";
 import { OrderMapperInstance } from "@/application/mapper/orderMapper";
 import { Order } from "@/domain/order/models/order";
+import { DeleteOrderCommandHandler } from "@/application/commands/order/deleteOrderCommand";
 
 export function useOrders() {
     const store = useOrdersStore();
@@ -36,7 +37,8 @@ export function useOrders() {
         partnersToItemProps: getPartnersToItemProps(tCap),
         getOrderById,
         getOrdersForPartner,
-        createCreditOrderCommmandHandler: new CreateCreditOrderCommmandHandler(store)
+        createCreditOrderCommmandHandler: new CreateCreditOrderCommmandHandler(store),
+        deleteOrderCommmandHandler: new DeleteOrderCommandHandler(store),
     }
 }
 
