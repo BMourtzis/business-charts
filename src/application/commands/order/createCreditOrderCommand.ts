@@ -24,6 +24,7 @@ export class CreateCreditOrderCommmandHandler {
     constructor(private _orderStore = useOrdersStore()) {}
 
     async handle(cmd: CreateCreditOrderCommand) {
+        console.log(cmd);
         const items = cmd.items.map(itemDto =>
             createOrderItem(
                 itemDto.name,
@@ -35,8 +36,13 @@ export class CreateCreditOrderCommmandHandler {
             cmd.partnerId,
             items,
             cmd.vatRate,
-            cmd.dueDate
+            cmd.dueDate,
+            cmd.notes,
+            cmd.discountAmount,
+            cmd.depositAmount
         );
+
+        console.log(order);
 
         await orderRepository.add(order);
         this._orderStore.add(order);

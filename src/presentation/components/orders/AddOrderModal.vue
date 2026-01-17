@@ -274,8 +274,8 @@ async function saveOrder() {
   await submit(async (form) => {
     if(form.direction === 'Credit') {
       const cmd = orderVmToCmd(form)
-      console.log(cmd);
-      // createCreditOrderCommmandHandler.handle(orderVmToCmd(form));
+      // console.log(cmd);
+      createCreditOrderCommmandHandler.handle(orderVmToCmd(form));
     }
   });
 }
