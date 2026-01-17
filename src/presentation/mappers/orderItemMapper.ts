@@ -2,7 +2,7 @@ import { OrderItemDTO, OrderItemVariationDTO } from "@/application/dto/orderDTO"
 import { VariationEditVM } from "../viewModels/variationEditVM";
 import { OrderEditVM, OrderItemEditVM } from "../viewModels/orderItemEditVM";
 import { AttributesRecord, normalizeAttribute } from "@/domain/order/models/orderItemVariation";
-import { CreateCreditOrderCommand } from "@/application/commands/order/createCreditOrderCommand";
+import { CreateCreditOrderCommand, CreateOrderDTO } from "@/application/commands/order/createCreditOrderCommand";
 
 const SIZE_KEYS = [
     'shoe:38',
@@ -72,12 +72,41 @@ export function orderVmToCmd(vm: OrderEditVM): CreateCreditOrderCommand {
         notes: vm.notes,
         depositAmount: vm.depositAmount,
         discountAmount: vm.discountAmount,
-        items: vm.items.map(itemVm => ({
-            name: itemVm.name,
-            variations: itemVm.variations.flatMap(v => vmVarToDto(v))
-        }))
+        items: orderItemVmListToCmdList(vm.items),
     };
-    //TODO: move items mapping to a separate functiona and add a merge for similar items
+}
+
+function orderItemVmListToCmdList(items: OrderItemEditVM[]): CreateOrderDTO[] {
+    return items.map(itemVm => ({
+        name: itemVm.name,
+        variations: variationsVmToDTO(itemVm.variations)
+    }));
+}
+
+function variationsVmToDTO(variations: VariationEditVM[]): OrderItemVariationDTO[] {
+    const variationDtoList = variations.flatMap(v => vmVarToDto(v));
+    return mergeVariations(variationDtoList)
+        .sort((a, b) =>
+            a.normalizedAttributes.localeCompare(b.normalizedAttributes)
+        );
+}
+
+function mergeVariations(items: OrderItemVariationDTO[]): OrderItemVariationDTO[] {
+    const map = new Map<string, OrderItemVariationDTO>();
+
+    for( const item of items) {
+        const key = item.normalizedAttributes;
+
+        const existing = map.get(key);
+
+        if(existing) {
+            existing.quantity += item.quantity;
+        } else {
+            map.set(key, {...item});
+        }
+    }
+
+    return [...map.values()];
 }
 
 function vmVarToDto(
@@ -115,12 +144,19 @@ function getSizingList(sizing: Record<string, number>) {
 function getCommonAttributes(
     attributes: Record<string, string>, 
     original?: AttributesRecord) {
-    //TODO: clear any attributes that are empty
-
+    
+    const cleanedAttrs = cleanAttributes(attributes);
     return {
         ...(original ?? {}),
-        ...attributes
+        ...cleanedAttrs
     };
+}
+
+function cleanAttributes(attributes: Record<string, string>): Record<string, string> {
+    return Object.fromEntries(
+        Object.entries(attributes).filter(([_, value]) =>
+        value !== "" && value !== null && value !== undefined)
+    );
 }
 
 
