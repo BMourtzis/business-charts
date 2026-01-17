@@ -127,6 +127,7 @@
     },
     "order": {
         "order": "order | orders",
+        "number": "order number",
         "direction": "direction",
         "items": "order item | order items",
         "product": "product | products",

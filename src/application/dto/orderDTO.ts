@@ -3,6 +3,7 @@ import { IEntityDTO } from "./type";
 
 export interface OrderDTO extends IEntityDTO {
     id: string;
+    orderNumber: string;
     partnerId: string;
     status: OrderStatus;
     direction: OrderDirection;

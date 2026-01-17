@@ -4,6 +4,7 @@ import { createCreditOrder } from "@/domain/order/models/order";
 import { createOrderItem } from "@/domain/order/models/orderItem";
 import { OrderItemVariation } from "@/domain/order/models/orderItemVariation";
 import { orderRepository } from "@/infrastructure/repositories/orderRepository.local";
+import { OrderNumberService } from "@/infrastructure/services/orderNumberService";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
 
 export interface CreateCreditOrderCommand {
@@ -25,7 +26,6 @@ export class CreateCreditOrderCommmandHandler {
     constructor(private _orderStore = useOrdersStore()) {}
 
     async handle(cmd: CreateCreditOrderCommand) {
-        console.log(cmd);
         const items = cmd.items.map(itemDto =>
             createOrderItem(
                 itemDto.name,
@@ -33,8 +33,11 @@ export class CreateCreditOrderCommmandHandler {
             )
         );
 
+        const sequence = await OrderNumberService.getNext();
+
         const order = createCreditOrder(
             cmd.partnerId,
+            sequence,
             items,
             cmd.vatRate,
             cmd.dueDate,
@@ -42,8 +45,6 @@ export class CreateCreditOrderCommmandHandler {
             cmd.discountAmount,
             cmd.depositAmount
         );
-
-        console.log(order);
 
         await orderRepository.add(order);
         this._orderStore.add(OrderMapperInstance.toDTO(order));

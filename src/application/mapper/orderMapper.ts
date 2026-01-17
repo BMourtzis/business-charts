@@ -3,11 +3,13 @@ import { Order } from "@/domain/order/models/order";
 import { OrderDTO } from "@/application/dto/orderDTO";
 import { IMapper } from "./type";
 import { OrderItemMapperInstance } from "./orderItemMapper";
+import { YearlySequence } from "@/domain/yearlySequence";
 
 export class OrderMapper implements IMapper<Order, OrderDTO> {
     toModel(dto: OrderDTO): Order {
         return new Order(
             dto.id,
+            YearlySequence.fromFormatted(dto.orderNumber),
             dto.partnerId,
             dto.status,
             dto.direction,
@@ -27,6 +29,7 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
     toDTO(model : Order): OrderDTO {
         return {
             id: model.id,
+            orderNumber: model.orderNumber,
             partnerId: model.partnerId,
             status: model.status,
             direction: model.direction,
@@ -46,8 +49,6 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
         };
     }
 }
-
-
 
 function getDateOrUndefined(isoString?: string): Date | undefined {
     if(!isoString) return undefined;

@@ -11,6 +11,7 @@ import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
 function toOrderTable(order: Order, tCap: (key: string, count?: number) => string): OrderTableRow {
     return {
         id: order.id,
+        orderNumber: order.orderNumber,
         partner: getPartnerDetails(order.partnerId),
         createdDate: getDate(order.createdDate),
         dueDate: getDate(order.dueDate),
@@ -60,6 +61,7 @@ function toAmountString(amount: number): string {
 
 function getOrderHeaders(tCap: (key: string, count?: number) => string) {
     return [
+        { title: tCap('order.number'), key: "orderNumber", align: 'start' },
         { title: tCap('partner.businessName'), key: "partner", align: 'start' },
         { title: tCap('order.createdDate'), key: "createdDate", align: 'start' },
         { title: tCap('order.dueDate'), key: "dueDate", align: 'start' },
@@ -86,6 +88,7 @@ export function useOrderTable(orderRef: Ref<Order[] | undefined>) {
 
 export interface OrderTableRow {
     id: string,
+    orderNumber: string,
     partner?: Partner,
     createdDate: string,
     dueDate: string,
