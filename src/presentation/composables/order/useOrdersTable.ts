@@ -7,6 +7,7 @@ import { DataTableHeader } from "vuetify";
 import { Partner } from "@/domain/partner/models/partner";
 import { getPartnerDetails } from "../partner/usePartnerDetails";
 import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
+import { getDirectionString, getStatusString } from "./useOrderDetails";
 
 function toOrderTable(order: Order, tCap: (key: string, count?: number) => string): OrderTableRow {
     return {
@@ -23,34 +24,6 @@ function toOrderTable(order: Order, tCap: (key: string, count?: number) => strin
 
 function getOrderNumber(orderNumber: string): string {
     return `#${orderNumber}`;
-}
-
-function getDirectionString(direction: OrderDirection, tCap: (key: string, count?: number) => string): string {
-    switch(direction) {
-        case OrderDirection.Credit:
-            return tCap("common.credit");
-        case OrderDirection.Debit:
-            return tCap("common.debit");
-    }
-}
-
-function getStatusString(status: OrderStatus, tCap: (key: string, count?: number) => string): string {
-    switch(status) {
-        case OrderStatus.Draft:
-            return tCap("order.draft");
-        case OrderStatus.Cancelled:
-            return tCap("order.cancelled");
-        case OrderStatus.Approved:
-            return tCap("order.approved");
-        case OrderStatus.Processing:
-            return tCap("order.processing");
-        case OrderStatus.ReadyForShipment:
-            return tCap("order.readyForShipment");
-        case OrderStatus.Shipped:
-            return tCap("order.shipped");
-        case OrderStatus.Completed:
-            return tCap("order.completed");
-    }
 }
 
 function getDate(date?: Date): string {

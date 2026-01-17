@@ -3,7 +3,7 @@
     <MainNavigation />
     <VaultModal />
     <!-- Main Content -->
-    <v-main>
+    <v-main id="main">
       <v-container class="py-6">
         <router-view />
       </v-container>
@@ -40,4 +40,9 @@ onMounted(() => {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+#main {
+  background-color: #eee;
+}
+
 </style>
