@@ -66,6 +66,7 @@
         "add": "add",
         "edit": "edit",
         "delete": "delete",
+        "clear": "clear",
         "confirmDeleteMessage": "are sure you want to delete",
         "action": "action | actions",
         "primary": "primary",

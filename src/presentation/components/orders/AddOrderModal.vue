@@ -134,6 +134,12 @@
       </v-card-text>
 
       <v-card-actions>
+        <v-btn
+          variant="tonal"
+          color="warning"
+          :text="tCap('common.clear')"
+          @click="reset"
+        />
         <v-spacer />
         <v-btn
           variant="tonal"
@@ -200,8 +206,9 @@ const {
   loading,
   errorMessage,
   close,
+  reset,
   submit
-} = useFormDialog(form);
+} = useFormDialog(form, {autoReset: false});
 
 const openPanels = ref<number[]>([]);
 
@@ -277,6 +284,8 @@ async function saveOrder() {
       // console.log(cmd);
       createCreditOrderCommmandHandler.handle(orderVmToCmd(form));
     }
+
+    reset();
   });
 }
 
