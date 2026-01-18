@@ -34,10 +34,7 @@ export function mapOrderItemToVM(item: OrderItem): OrderItemVM {
 
 function mapVariationsToVm(variations: OrderItemVariation[]): OrderItemVariationVM[] {
     const unmergedVariations = variations.map(mapVariationToVM);
-    const variationsVM = mergeVariations(unmergedVariations);
-
-    console.log(variationsVM);
-    return variationsVM;
+    return mergeVariations(unmergedVariations);
 }
 
 function mergeVariations(variations: OrderItemVariationVM[]): OrderItemVariationVM[] {

@@ -32,7 +32,7 @@
     </v-expansion-panel-title>
     <v-expansion-panel-text>
       <base-table 
-        :model-value="rows"
+        :tableRows="rows"
         :table-columns="shoesVariationLayout"
       />
     </v-expansion-panel-text>

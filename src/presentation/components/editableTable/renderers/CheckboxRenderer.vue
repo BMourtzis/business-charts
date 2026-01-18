@@ -19,7 +19,7 @@ import { nextTick, ref, watch } from 'vue';
 
 const props = defineProps<{
   modelValue: string;
-  focused: boolean;
+  focused?: boolean;
   width?: string;
   readonly?: boolean
 }>();
