@@ -1,4 +1,4 @@
-import { InternalRow, TableColumn } from "../editableTable/useEditableTable";
+import type { InternalRow, TableColumn } from "../editableTable/useEditableTable";
 
 export const colourVariation = {
     name: "colour",

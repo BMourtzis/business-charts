@@ -8,6 +8,7 @@
     tabindex="0"
     @keydown="onCheckboxKeydown"
     :style="{ width: width || '1vw'}"
+    :readonly="readonly"
   />
 </template>
 
@@ -18,8 +19,9 @@ import { nextTick, ref, watch } from 'vue';
 
 const props = defineProps<{
   modelValue: string;
-  focused: boolean;
+  focused?: boolean;
   width?: string;
+  readonly?: boolean
 }>();
 
 const emit = defineEmits([

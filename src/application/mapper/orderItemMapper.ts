@@ -1,6 +1,6 @@
 import { OrderItem } from "@/domain/order/models/orderItem";
-import { IMapper } from "./type";
-import { OrderItemDTO } from "../dto/orderDTO";
+import type { IMapper } from "./type";
+import type { OrderItemDTO } from "../dto/orderDTO";
 import { OrderItemVariationMapperInstance } from "./orderItemVariationMapper";
 
 export class OrderItemMapper implements IMapper<OrderItem, OrderItemDTO> {

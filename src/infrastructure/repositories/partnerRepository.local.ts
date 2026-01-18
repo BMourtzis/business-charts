@@ -1,6 +1,6 @@
 
-import { PartnerDTO } from "@/application/dto/partnerDTO";
-import { IPartnerRepository } from "./type";
+import { type PartnerDTO } from "@/application/dto/partnerDTO";
+import { type IPartnerRepository } from "./type";
 import { PartnerMapperInstance } from "@/application/mapper/partnerMapper";
 import { Supplier } from "@/domain/partner/models/supplier";
 import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";

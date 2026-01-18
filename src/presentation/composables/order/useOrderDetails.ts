@@ -1,5 +1,4 @@
 import { OrderMapperInstance } from "@/application/mapper/orderMapper";
-import { Order } from "@/domain/order/models/order";
 import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
 import { computed } from "vue";

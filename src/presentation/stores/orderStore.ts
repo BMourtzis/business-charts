@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 
 import { Order } from '@/domain/order/models/order';
-import { OrderDTO } from '@/application/dto/orderDTO';
+import { type OrderDTO } from '@/application/dto/orderDTO';
 import { OrderMapperInstance } from '@/application/mapper/orderMapper';
 import { OrderDirection } from '@/domain/order/orderTypes';
 

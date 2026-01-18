@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { IEntity } from "@/domain/type";
-import { AttributesRecord, normalizeAttribute, OrderItemVariation } from "./orderItemVariation";
-import { assertNoDuplicateKeys, VariationChange } from "./variationChange";
+import { type IEntity } from "@/domain/type";
+import { type AttributesRecord, normalizeAttribute, OrderItemVariation } from "./orderItemVariation";
+import { assertNoDuplicateKeys, type VariationChange } from "./variationChange";
 
 export class OrderItem implements IEntity {
     private _id: string;

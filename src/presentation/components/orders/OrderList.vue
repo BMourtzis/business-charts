@@ -17,6 +17,12 @@
         {{ getPartnerName(row.partner) }}
       </v-btn>
     </template>
+    <template #[`item.status`]="{ item: row }">
+      <status-chip :status="row.status" />
+    </template>
+    <template #[`item.direction`]="{ item: row }">
+      <direction-chip :direction="row.direction" />
+    </template>
     <template #[`item.actions`]="{ item: row }">
       <ConfirmDeleteModal
         :name="getOrderName(row)"
@@ -37,8 +43,11 @@ import { Order } from '@/domain/order/models/order';
 import { Partner } from '@/domain/partner/models/partner';
 
 import { useOrders } from '@/presentation/composables/useOrders';
-import { OrderTableRow, useOrderTable } from '@/presentation/composables/order/useOrdersTable';
-import { VDataTableRow } from '@/presentation/types/types';
+import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
+import type { OrderTableRow, } from '@/presentation/composables/order/useOrdersTable';
+import type { VDataTableRow } from '@/presentation/types/types';
+import StatusChip from "./StatusChip.vue";
+import DirectionChip from "./DirectionChip.vue";
 
 const router = useRouter();
 

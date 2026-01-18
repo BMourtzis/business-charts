@@ -1,4 +1,4 @@
-import { IEntity } from "@/domain/type";
+import { type IEntity } from "@/domain/type";
 import { OrderDirection, OrderStateTransitions, OrderStatus } from "../orderTypes";
 import { OrderItem } from "./orderItem";
 import { v4 as uuidv4 } from "uuid";

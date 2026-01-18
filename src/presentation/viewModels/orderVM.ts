@@ -28,6 +28,7 @@ export interface OrderItemVM {
 export interface OrderItemVariationVM {
     attributes: Record<string, string>,
     sizing: Record<string, number>,
-    price: number
+    price: number,
+    normalizedAttributes: string;
 }
 

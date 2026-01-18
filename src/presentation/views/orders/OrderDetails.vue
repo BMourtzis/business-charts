@@ -30,9 +30,9 @@
 </template>
 
 <script setup lang="ts">
-import OrderDetailsHeader from './OrderDetailsHeader.vue';
-import OrderDetailsLineItems from './OrderDetailsLineItems.vue';
-import OrderDetailsTimeline from './OrderDetailsTimeline.vue';
+import OrderDetailsHeader from '@/presentation/components/orders/OrderDetailsHeader.vue';
+import OrderDetailsLineItems from '@/presentation/components/orders/OrderDetailsLineItems.vue';
+import OrderDetailsTimeline from '@/presentation/components/orders/OrderDetailsTimeline.vue';
 
 import { useOrderDetails } from '@/presentation/composables/order/useOrderDetails';
 

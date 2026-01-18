@@ -7,8 +7,8 @@ import { createAddress } from '@/domain/contact/models/address.js'
 
 // Concrete subclass for testing
 class TestPartner extends Partner {
-  constructor(id: string, contactName: string, businessName?: string) {
-    super(id, PartnerType.Supplier, contactName, businessName)
+  constructor(id: string, clientNumber: number,  contactName: string, businessName?: string) {
+    super(id, PartnerType.Supplier, clientNumber, contactName, businessName)
   }
 }
 
@@ -16,7 +16,7 @@ describe('Partner', () => {
   let partner: TestPartner
 
   beforeEach(() => {
-    partner = new TestPartner(uuidv4(), 'Alice', 'Alice Co.')
+    partner = new TestPartner(uuidv4(), 1, 'Alice', 'Alice Co.')
   })
 
   it('initializes correctly', () => {

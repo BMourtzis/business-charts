@@ -1,4 +1,4 @@
-import { computed, Ref } from "vue";
+import { computed, type Ref } from "vue";
 import type { DataTableHeader } from 'vuetify';
 
 import { Address } from "@/domain/contact/models/address";

@@ -1,4 +1,4 @@
-import { OrderItemVariationDTO } from "@/application/dto/orderDTO";
+import type { OrderItemVariationDTO } from "@/application/dto/orderDTO";
 import { OrderMapperInstance } from "@/application/mapper/orderMapper";
 import { createCreditOrder } from "@/domain/order/models/order";
 import { createOrderItem } from "@/domain/order/models/orderItem";
