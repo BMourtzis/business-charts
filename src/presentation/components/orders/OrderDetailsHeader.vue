@@ -4,19 +4,8 @@
       <h1 class="text-h4 font-weight-bold mr-2">
         {{ getOrderNumberName() }}
       </h1>
-      <v-chip 
-        :color="statusColor(order.status)" 
-        size="small"
-      >
-        {{ getStatusString(order.status, tCap) }}
-      </v-chip>
-
-      <v-chip 
-        variant="outlined" 
-        size="small"
-      >
-        {{ getDirectionString(order.direction, tCap) }}
-      </v-chip>
+      <status-chip :status="order.status" />
+      <direction-chip :direction="order.direction" />
     </v-col>
     <v-col cols="4" class="d-flex flex-row justify-end">
       <div class="d-flex button-with-dropdown">
@@ -135,17 +124,20 @@
 
 <script setup lang="ts">
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
+import StatusChip from "./StatusChip.vue";
+import DirectionChip from "./DirectionChip.vue";
 
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { Order } from '@/domain/order/models/order';
 
-import { statusColor, getDate, getAmount, getStatusString, getDirectionString } from '@/presentation/composables/order/useOrderDetails';
+import { getDate, getAmount } from '@/presentation/composables/order/useOrderDetails';
 import { getPartnerDetails } from '@/presentation/composables/partner/usePartnerDetails';
 import { useOrders } from '@/presentation/composables/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { OrderDirection } from "@/domain/order/orderTypes";
+
 
 const { tCap } = useLocalizationHelpers();
 const router = useRouter();
