@@ -90,7 +90,7 @@ import { computed, ref, toRaw, watch } from "vue";
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { shoesVariationLayout } from "@/presentation/composables/order/useProductVariation";
-import { useVariationTableMapper } from "@/presentation/composables/editableTable/useVariationTableMapper";
+import { useVariationTableMapper, sumSizing } from "@/presentation/composables/editableTable/useVariationTableMapper";
 
 import { type OrderItemEditVM } from "@/presentation/viewModels/orderItemEditVM";
 
@@ -127,7 +127,7 @@ function commitChanges() {
   emit("update:modelValue", structuredClone(toRaw(localItem.value)));
 }
 
-const {vmToRows, rowsToVm, sumSizing } = useVariationTableMapper(shoesVariationLayout);
+const {vmToRows, rowsToVm } = useVariationTableMapper(shoesVariationLayout);
 
 const tableRows = computed({
   get: () => vmToRows(localItem.value.variations),

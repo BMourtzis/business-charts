@@ -8,6 +8,7 @@
     tabindex="0"
     @keydown="onCheckboxKeydown"
     :style="{ width: width || '1vw'}"
+    :readonly="readonly"
   />
 </template>
 
@@ -20,6 +21,7 @@ const props = defineProps<{
   modelValue: string;
   focused: boolean;
   width?: string;
+  readonly?: boolean
 }>();
 
 const emit = defineEmits([

@@ -3,7 +3,7 @@
     <v-card-title>
       <v-list-item>
         <template #title>
-          <h3>{{ tCap('order.items') }}</h3>
+          <h3>{{ tCap('order.items', 2) }}</h3>
         </template>
         <template #append>
           <v-chip size="small">{{ order.items.length }}</v-chip>
