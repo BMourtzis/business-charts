@@ -35,18 +35,20 @@ export function useTableCellEditing(
 
     function moveEditingCellByCell(moveByPositions: number) {
         if(editingCellId.value !== null) {
-            moveCell(editingCellId.value + moveByPositions);
+            moveCell(editingCellId.value, moveByPositions);
         }
     }
 
-    function moveEditingCellByRow(moveAmount: number) {
+    function moveEditingCellByRow(moveByPositions: number) {
         if(editingCellId.value !== null) {
-            moveCell(editingCellId.value + getRowBaseIndex(moveAmount));
+            moveCell(editingCellId.value, getRowBaseIndex(moveByPositions));
         }
     }
 
-    function moveCell(target: number) {
-        let pos = target;
+    function moveCell(currentPosition: number, moveByPositions: number) {
+        let pos = currentPosition + moveByPositions;
+
+        const movement = getMovement(moveByPositions);
 
         while(isCellMoveValid(pos)) {
             if(isCellNavigable(pos)) {
@@ -54,8 +56,13 @@ export function useTableCellEditing(
                 commitChanges();
                 return;
             }
-            pos++;
+            pos += movement;
         }
+    }
+
+    function getMovement(moveByPositions: number) {
+        if(moveByPositions < 0) return -1;
+        return 1;
     }
 
     function isCellNavigable(newCellId: number) {
