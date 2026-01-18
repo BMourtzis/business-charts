@@ -3,13 +3,13 @@ import { Order } from "@/domain/order/models/order";
 import { OrderDTO } from "@/application/dto/orderDTO";
 import { IMapper } from "./type";
 import { OrderItemMapperInstance } from "./orderItemMapper";
-import { YearlySequence } from "@/domain/yearlySequence";
+import { YearlyClientSequence } from "@/domain/yearlySequence";
 
 export class OrderMapper implements IMapper<Order, OrderDTO> {
     toModel(dto: OrderDTO): Order {
         return new Order(
             dto.id,
-            YearlySequence.fromFormatted(dto.orderNumber),
+            YearlyClientSequence.fromFormatted(dto.orderNumber),
             dto.partnerId,
             dto.status,
             dto.direction,

@@ -3,11 +3,11 @@ import { OrderDirection, OrderStateTransitions, OrderStatus } from "../orderType
 import { OrderItem } from "./orderItem";
 import { v4 as uuidv4 } from "uuid";
 import { OrderItemVariation } from "./orderItemVariation";
-import { YearlySequence } from "@/domain/yearlySequence";
+import { YearlyClientSequence } from "@/domain/yearlySequence";
 
 export class Order implements IEntity {
     private _id: string;
-    sequence: YearlySequence;
+    sequence: YearlyClientSequence;
     private _partnerId: string;
     private _status: OrderStatus;
     private _direction: OrderDirection;
@@ -28,7 +28,7 @@ export class Order implements IEntity {
 
     constructor(
         id: string, 
-        sequence: YearlySequence,
+        sequence: YearlyClientSequence,
         partnerId: string, 
         status: OrderStatus, 
         direction: OrderDirection, 
@@ -201,11 +201,11 @@ export type OrderItemVariationUpdate = {
 }
 
 //You pay supplier
-export function createDebitOrder(partnerId: string, sequence: YearlySequence,  items: OrderItem[], vatRate: number, dueDate?: Date): Order {
+export function createDebitOrder(partnerId: string, sequence: YearlyClientSequence,  items: OrderItem[], vatRate: number, dueDate?: Date): Order {
     return new Order(uuidv4(), sequence, partnerId, OrderStatus.Draft, OrderDirection.Debit, vatRate, items, dueDate);
 }
 
 //customer pays you
-export function createCreditOrder(partnerId: string, sequence: YearlySequence, items: OrderItem[], vatRate: number, dueDate?: Date, notes?: string, discountAmount?: number, depositAmount?: number): Order {
+export function createCreditOrder(partnerId: string, sequence: YearlyClientSequence, items: OrderItem[], vatRate: number, dueDate?: Date, notes?: string, discountAmount?: number, depositAmount?: number): Order {
     return new Order(uuidv4(), sequence, partnerId, OrderStatus.Draft, OrderDirection.Credit, vatRate, items, dueDate, undefined, undefined, undefined, undefined, notes, discountAmount, depositAmount );
 }

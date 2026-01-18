@@ -33,7 +33,7 @@ export class CreateCreditOrderCommmandHandler {
             )
         );
 
-        const sequence = await OrderNumberService.getNext();
+        const sequence = await OrderNumberService.getNext(cmd.partnerId);
 
         const order = createCreditOrder(
             cmd.partnerId,
