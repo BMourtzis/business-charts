@@ -9,6 +9,15 @@ import { PartnerMapperInstance } from '@/application/mapper/partnerMapper';
 
 import { usePartnersStore } from '@/presentation/stores/partnerStore';
 
+export function getPartnerDetails(partnerId: string) {
+    const store = usePartnersStore();
+
+    const partner = store.getById(partnerId);
+    if(!partner) return undefined;
+
+    return PartnerMapperInstance.toModel(partner);
+}
+
 export function usePartnerDetails(id: string) {
     const store = usePartnersStore();
 

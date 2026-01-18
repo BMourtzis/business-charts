@@ -30,6 +30,7 @@ function toPartnerTable(partner: Partner): PartnerTableRow {
 
     return {
         id: partner.id,
+        clientNumber: partner.clientNumber,
         type: partner.type,
         name: partner.businessName
             ? `${partner.businessName} (${partner.contactName})`
@@ -61,6 +62,7 @@ function toB2BCustomerTable(b2bCustomer: B2BCustomer): B2BCustomerTableRow {
 function getPartnerHeaders(tCap: (key: string, count?: number) => string) {
     return [
         { title: tCap('common.name'), key: "name", align: 'start' },
+        { title: tCap('partner.clientNumber'), key: "clientNumber", align: 'start' },
         { title: tCap('address.city'), key: "city", align: 'start' },  
         { title: tCap('address.street'), key: "address", align: 'start' },  
         { title: tCap('contact.phone', 2), key: "phones", align: 'start' },  
@@ -71,6 +73,7 @@ function getPartnerHeaders(tCap: (key: string, count?: number) => string) {
 function getSupplierHeaders(tCap: (key: string, count?: number) => string) {
     return [
         { title: tCap('common.name'), key: "name", align: 'start' },
+        { title: tCap('partner.clientNumber'), key: "clientNumber", align: 'start' },
         { title: tCap('partner.activity'), key: "activity", align: 'start' },
         { title: tCap('address.city'), key: "city", align: 'start' },  
         { title: tCap('address.street'), key: "address", align: 'start' },  
@@ -82,6 +85,7 @@ function getSupplierHeaders(tCap: (key: string, count?: number) => string) {
 function getB2BCustomerHeader(tCap: (key: string, count?: number) => string) {
     return [
         { title: tCap('common.name'), key: "name", align: 'start' },
+        { title: tCap('partner.clientNumber'), key: "clientNumber", align: 'start' },
         { title: tCap('address.city'), key: "city", align: 'start' },  
         { title: tCap('address.street'), key: "address", align: 'start' },  
         { title: tCap('contact.phone', 2), key: "phones", align: 'start' },
@@ -125,6 +129,7 @@ export type PartnerRowType = "partner" | "supplier" | "b2b";
 interface BasePartnerRow {
     rowType: PartnerRowType,
     id: string;
+    clientNumber: number,
     type: PartnerType,
     name: string;
     city?: string;

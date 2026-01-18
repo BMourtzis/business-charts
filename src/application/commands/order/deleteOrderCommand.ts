@@ -1,9 +1,14 @@
 import { orderRepository } from "@/infrastructure/repositories/orderRepository.local";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
+export interface DeleteOrderCommand {
+    id: string
+}
 
-export async function deleteOrderComand(id: string) {
-    const store = useOrdersStore();
+export class DeleteOrderCommandHandler {
+    constructor(private _orderStore = useOrdersStore()) {}
 
-    await orderRepository.remove(id);
-    await store.remove(id);
+    async handle(cmd: DeleteOrderCommand) {
+        await orderRepository.remove(cmd.id);
+        this._orderStore.remove(cmd.id);
+    }
 }

@@ -5,26 +5,28 @@ import { Contact, createEmail, createPhone } from "@/domain/contact/models/conta
 import { IEntity } from "@/domain/type";
 
 export abstract class Partner implements IEntity {
-    private _id: string;
+    readonly id: string;
+    readonly clientNumber: number;
+    readonly type: PartnerType;
+
     private _emails: Contact[];
     private _phones: Contact[];
     private _addresses: Address[];
-    private _type: PartnerType;
+    
     private _businessName?: string;
     private _contactName: string;
 
-    constructor(id: string, type: PartnerType, contactName: string, businessName?: string) {
-        this._id = id;
+    constructor(id: string, type: PartnerType, clientNumber: number, contactName: string, businessName?: string) {
+        this.id = id;
+        this.clientNumber = clientNumber;
+        this.type = type;
         this._contactName = contactName;
         this._businessName = businessName;
-        this._type = type;
         this._emails = [];
         this._phones = [];
         this._addresses = [];
     }
 
-    get id() { return this._id; }
-    get type() { return this._type; }
     get emails() { return this._emails.slice(); }
     get phones() { return this._phones.slice(); }
     get addresses() { return this._addresses.slice(); }

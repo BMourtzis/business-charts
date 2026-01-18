@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import { Order } from '@/domain/order/models/order';
 import { OrderDTO } from '@/application/dto/orderDTO';
 import { OrderMapperInstance } from '@/application/mapper/orderMapper';
+import { OrderDirection } from '@/domain/order/orderTypes';
 
 export interface AmountsRecord {
     debited: number;
@@ -15,24 +16,26 @@ export const useOrdersStore = defineStore('orders', {
         orders: [] as OrderDTO[]
     }),
     getters: {
-        allOrders: (state) => {
-            return state.orders.map(OrderMapperInstance.toModel);
-        },
+        allOrders: (state) => state.orders,
         getOrderById: (state) => {
-            return (id: string): Order | undefined => state.orders.find(o => o.id === id) as Order | undefined;
+            return (id: string): OrderDTO | undefined => state.orders.find(o => o.id === id);
         },
         getOrdersByPartnerId: (state) => {
-            return (partnerId: string) => state.orders.filter(o => o.partnerId === partnerId) as Order[];
+            return (partnerId: string) => state.orders
+                .filter(o => o.partnerId === partnerId)
+                .map(OrderMapperInstance.toModel) as Order[];
         },
         //Calculates total for all partners and caches it
         totalsPerPartner(): Record<string, AmountsRecord>{
             const result: Record<string, AmountsRecord> = {}
-            for(const o of this.allOrders) {
+            const allOrders = this.allOrders.map(OrderMapperInstance.toModel) as Order[]
+
+            for(const o of allOrders) {
                 if(!result[o.partnerId]) {
                     result[o.partnerId] = { credited: 0, debited: 0, balance: 0};
                 }
 
-                if(o.direction === 'credit') {
+                if(o.direction === OrderDirection.Credit) {
                     result[o.partnerId].credited += o.totalAmount;
                     result[o.partnerId].balance += o.totalAmount;
                 } else {
@@ -46,8 +49,10 @@ export const useOrdersStore = defineStore('orders', {
         //Calculates global totals and caches it
         globalTotals(): AmountsRecord {
             let credited = 0, debited = 0;
-            for(const o of this.allOrders) {
-                if(o.direction === "credit") credited += o.totalAmount;
+            const allOrders = this.allOrders.map(OrderMapperInstance.toModel) as Order[];
+
+            for(const o of allOrders) {
+                if(o.direction === OrderDirection.Credit) credited += o.totalAmount;
                 else debited += o.totalAmount;
             }
 
@@ -61,14 +66,14 @@ export const useOrdersStore = defineStore('orders', {
         creditOrders: (state) => {
             return (partnerId?: string) => 
                 state.orders.filter(order => 
-                    order.direction === 'credit' && 
+                    order.direction === OrderDirection.Credit && 
                     (!partnerId || order.partnerId === partnerId)
                 );
         },
         debitOrders: (state) => {
             return (partnerId?: string) => 
                 state.orders.filter(order => 
-                    order.direction === 'debit' &&
+                    order.direction === OrderDirection.Debit &&
                     (!partnerId || order.partnerId === partnerId)
                 );
         },
@@ -92,13 +97,13 @@ export const useOrdersStore = defineStore('orders', {
         }
     },
     actions: {
-        setOrders(orders: Order[]) {
+        setOrders(orders: OrderDTO[]) {
             this.orders = orders;
         },
-        add(order: Order) {
+        add(order: OrderDTO) {
             this.orders.push(order);
         },
-        update(updatedOrder: Order) {
+        update(updatedOrder: OrderDTO) {
             const index = this.orders.findIndex(p => p.id === updatedOrder.id);
             if (index !== -1) {
                 this.orders[index] = updatedOrder;

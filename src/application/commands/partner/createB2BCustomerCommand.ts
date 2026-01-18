@@ -5,6 +5,7 @@ import { AddressDTO } from "@/application/dto/contactDTO";
 import { createEmail, createPhone } from "@/domain/contact/models/contact";
 import { createAddress } from "@/domain/contact/models/address";
 import { PartnerMapperInstance } from "@/application/mapper/partnerMapper";
+import { ClientNumberService } from "@/infrastructure/services/clientNumberService";
 
 export interface CreateB2BCustomerCommand {
     contactName: string;
@@ -19,7 +20,9 @@ export class CreateB2BCustomerCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
     async handle(cmd: CreateB2BCustomerCommand) {
-        const customer = createB2BCustomer(cmd.contactName, cmd.deliveryCarrierId, cmd.businessName);
+        const clientNumber = await ClientNumberService.getNext();
+
+        const customer = createB2BCustomer(cmd.contactName, clientNumber, cmd.deliveryCarrierId, cmd.businessName);
         
         if(cmd.email && cmd.email.trim() != '') customer.addEmail(createEmail(cmd.email, true));
         if(cmd.phone && cmd.phone.trim() != '') customer.addPhone(createPhone(cmd.phone, true));

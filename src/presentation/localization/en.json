@@ -66,10 +66,14 @@
         "add": "add",
         "edit": "edit",
         "delete": "delete",
+        "clear": "clear",
         "confirmDeleteMessage": "are sure you want to delete",
         "action": "action | actions",
         "primary": "primary",
-        "primary_gen": "primary"
+        "primary_gen": "primary",
+        "noDateSelected": " - ",
+        "credit": "credit",
+        "debit": "debit"
     },
     "export": {
         "dataTransfer": "Data Transfer",
@@ -120,10 +124,12 @@
         "activity": "Activity",
         "addSupplierTitle": "Add Supplier",
         "addΒ2ΒCustomerTitle": "Add B2B customer",
-        "addCustomerTitle": "Add Customer"
+        "addCustomerTitle": "Add Customer",
+        "clientNumber": "client number"
     },
     "order": {
         "order": "order | orders",
+        "number": "order number",
         "direction": "direction",
         "items": "order item | order items",
         "product": "product | products",
@@ -131,7 +137,29 @@
         "quantity": "quantity",
         "total": "total",
         "vatRate": "tax rate",
+        "notes": "notes",
+        "discount": "discount",
+        "deposit": "deposit",
         "addOrderTitle": "add order",
-        "addOrderItemTitle": "add order item"
+        "addOrderItemTitle": "add order item",
+        "addVariationTitle": "add variation",
+        "variation": "variation | variations",
+        "productQuantity": "product quantity",
+        "productSum": "product sum",
+        "orderQuantity": "order quantiy",
+        "orderSum": "order sum",
+        "amountAfterTax": "amount after tax",
+        "totalAmount": "total amount",
+        "remainingAmount": "remaining amount",
+        "dueDate": "due date",
+        "createdDate": "created date",
+        "status": "status",
+        "draft": "draft",
+        "cancelled": "cancelled",
+        "approved": "approved",
+        "processing": "processing",
+        "readyForShipment": "ready for shipment",
+        "shipped": "shipped",
+        "completed": "completed"
     }
 }

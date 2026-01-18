@@ -67,10 +67,14 @@
         "add": "προσθήκη",
         "edit": "επεξεργασία",
         "delete": "διαγραφή",
+        "clear": "εκκαθάριση",
         "confirmDeleteMessage": "είστε σίγουρος/η ότι θέλετε να διαγράψετε το",
         "action": "ενέργεια | ενέργειες",
         "primary": "κύριο",
-        "primary_gen": "κύρια"
+        "primary_gen": "κύρια",
+        "noDateSelected": " - ",
+        "credit": "Χρέωση",
+        "debit": "Πίστωση"
     },
     "contact": {
         "email": "email",
@@ -112,18 +116,41 @@
         "activity": "δραστηριότητα",
         "addSupplierTitle": "προσθήκη προμηθευτή",
         "addΒ2ΒCustomerTitle": "προσθήκη πελάτη χονδρικής",
-        "addCustomerTitle": "προσθήκη πελάτη"
+        "addCustomerTitle": "προσθήκη πελάτη",
+        "clientNumber": "αριθμός πελάτη"
     },
     "order": {
         "order": "παραγγελία | παραγγελίες",
+        "number": "αριθμός παραγγελίας",
         "direction": "κίνηση",
         "items": "στοιχείο παραγγελίας | στοχεία παραγγελίας",
         "product": "προϊόν | προϊόντα",
-        "basePrice": "τιμή (χωρίς ΦΠΑ)",
+        "basePrice": "τιμή",
         "quantity": "ποσότητα",
         "total": "σύνολο",
         "vatRate": "ΦΠΑ",
+        "notes": "σημειώσεις",
+        "discount": "έκπτωση",
+        "deposit": "προκαταβολή",
         "addOrderTitle": "προσθήκη παραγγελίας",
-        "addOrderItemTitle": "προσθήκη στοιχείου παραγγελίας"
+        "addOrderItemTitle": "προσθήκη στοιχείου παραγγελίας",
+        "addVariationTitle": "προσθήκη παραλλαγής",
+        "variation": "παραλλαγή | παραλλαγές",
+        "productQuantity": "τεμάχια προϊόντος",
+        "productSum": "σύνολο προϊόντος",
+        "orderQuantity": "τεμάχια παραγγελίας",
+        "orderSum": "σύνολο παραγγελίας",
+        "amountAfterTax": "ποσό με ΦΠΑ",
+        "remainingAmount": "υπόλοιπο",
+        "dueDate": "ημερομηνία παράδοσης",
+        "createdDate": "ημερομηνία δημιουργίας",
+        "status": "κατάσταση",
+        "draft": "πρόχειρο",
+        "cancelled": "ακυρώθηκε",
+        "approved": "εγκρίθηκε",
+        "processing": "ύπο επεξεργασία",
+        "readyForShipment": "έτοιμο για αποστολή",
+        "shipped": "απεστάλη",
+        "completed": "ολοκληρώθηκε"
     }
 }

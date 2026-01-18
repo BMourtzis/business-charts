@@ -1,42 +1,73 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="props.orders"
+    :items="data"
+    class="text-start"
+    hide-default-footer
+    density="comfortable"
+    hover
+    @click:row="rowClick"
   >
-    <!-- Custom column slot -->
-    <template #[`item.actions`]="{ item }">
-      <v-btn
-        color="primary"
-        variant="text"
-        density="compact"
-        icon="mdi-account-details"
-        :to="`/partner/${item.id}`"
+    <template #[`item.partner`]="{ item: row }">
+      <v-btn 
+        v-if="row.partner !== undefined"
+        variant="text" 
+        @click.stop="() => router.push(`/partner/${row.partner?.id}`)"
+      >
+        {{ getPartnerName(row.partner) }}
+      </v-btn>
+    </template>
+    <template #[`item.actions`]="{ item: row }">
+      <ConfirmDeleteModal
+        :name="getOrderName(row)"
+        :action-fn="() => deleteOrderCommmandHandler.handle({id: row.id})"
+        :mini="true"
       />
     </template>
   </v-data-table>
 </template>
 
 <script setup lang="ts">
+import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
+
+import { toRef } from 'vue';
+import { useRouter } from 'vue-router';
+
 import { Order } from '@/domain/order/models/order';
+import { Partner } from '@/domain/partner/models/partner';
 
-// import { useOrders } from '@/presentation/composables/useOrders';
-import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { useOrders } from '@/presentation/composables/useOrders';
+import { OrderTableRow, useOrderTable } from '@/presentation/composables/order/useOrdersTable';
+import { VDataTableRow } from '@/presentation/types/types';
 
-const { tCap } = useLocalizationHelpers();
+const router = useRouter();
 
 const props = defineProps < {
-  orders: Order[];
+  orders: Order[] | undefined;
 } > ();
 
-const headers = [
-  { title: tCap('partner.businessName'), key: "partnerId" },
-  { title: tCap('partner.contactName'), key: "createdDate" },
-  { title: tCap('partner.vatNumber'), key: "sentDate" },
-  { title: tCap('partner.vatNumber'), key: "status" },
-  { title: tCap('partner.vatNumber'), key: "direction" },
-  { title: tCap('partner.vatNumber'), key: "totalAmount" },  
-  { title: tCap('common.action', 2), key: "actions"}
-]
+const { deleteOrderCommmandHandler } = useOrders();
+
+const { data, headers } = useOrderTable(toRef(props, "orders"));
+
+function getOrderName(row: OrderTableRow): string {
+  if(row.partner) {
+    return `παραγγελία για ${getPartnerName(row.partner)}`;
+  }
+  
+  return row.id;
+}
+
+function getPartnerName(partner: Partner) {
+  return partner.businessName
+            ? `${partner.businessName} (${partner.contactName})`
+            : partner.contactName;
+}
+
+function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
+  router.push(`/order/${row.item.id}`);
+}
+
 </script>
 
 <style scoped></style>

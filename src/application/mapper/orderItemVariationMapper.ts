@@ -5,6 +5,7 @@ export class OrderItemVariationMapper {
     toModel(dto: OrderItemVariationDTO): OrderItemVariation {
         return new OrderItemVariation(
             dto.quantity,
+            dto.price,
             dto.attributes
         );
     }
@@ -12,7 +13,9 @@ export class OrderItemVariationMapper {
     toDTO(model: OrderItemVariation): OrderItemVariationDTO {
         return {
             quantity: model.quantity,
-            attributes: model.attributes
+            attributes: model.attributes,
+            price: model.price,
+            normalizedAttributes: model.normalizedAttributes
         };
     }
 }

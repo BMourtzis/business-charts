@@ -29,38 +29,44 @@ export function useTableCellEditing(
     }
 
     function stopEditingCell() {
-        console.log("Stopping edit on cell", editingCellId.value);
         editingCellId.value = null;
         commitChanges();
     }
 
     function moveEditingCellByCell(moveByPositions: number) {
         if(editingCellId.value !== null) {
-            moveCell(editingCellId.value + moveByPositions);
+            moveCell(editingCellId.value, moveByPositions);
         }
     }
 
-    function moveEditingCellByRow(moveAmount: number) {
+    function moveEditingCellByRow(moveByPositions: number) {
         if(editingCellId.value !== null) {
-            moveCell(editingCellId.value + getRowBaseIndex(moveAmount));
+            moveCell(editingCellId.value, getRowBaseIndex(moveByPositions));
         }
     }
 
-    function moveCell(target: number) {
-        let pos = target;
+    function moveCell(currentPosition: number, moveByPositions: number) {
+        let pos = currentPosition + moveByPositions;
+
+        const movement = getMovement(moveByPositions);
 
         while(isCellMoveValid(pos)) {
-            if(isCellEditable(pos)) {
+            if(isCellNavigable(pos)) {
                 editingCellId.value = pos;
                 commitChanges();
                 return;
             }
-            pos++;
+            pos += movement;
         }
     }
 
-    function isCellEditable(newCellId: number) {
-        return getRowLayoutByCellId(newCellId)?.editableRow ?? false;
+    function getMovement(moveByPositions: number) {
+        if(moveByPositions < 0) return -1;
+        return 1;
+    }
+
+    function isCellNavigable(newCellId: number) {
+        return getRowLayoutByCellId(newCellId)?.navigable;
     }
 
     function getRowLayoutByCellId(cellId: number) {
@@ -78,13 +84,13 @@ export function useTableCellEditing(
         return rIndex * tableColumns.length;
     }
 
-    function isEditCell(rIndex: number, cIndex: number) {
+    function isCellFocused(rIndex: number, cIndex: number) {
         return getRowBaseIndex(rIndex) + cIndex === editingCellId.value;
     }
 
     return {
         startEditingCell,
-        isEditCell,
+        isCellFocused,
         stopEditingCell,
         moveEditingCellByCell,
         moveEditingCellByRow
