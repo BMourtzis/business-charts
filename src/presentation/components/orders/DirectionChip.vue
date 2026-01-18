@@ -1,7 +1,6 @@
 <template>
   <v-chip 
     variant="outlined" 
-    size="small"
   >
     {{ getDirectionString(direction, tCap) }}
   </v-chip>

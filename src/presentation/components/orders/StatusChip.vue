@@ -1,7 +1,6 @@
 <template>
   <v-chip 
     :color="statusColor(status)" 
-    size="small"
   >
     {{ getStatusString(status, tCap) }}
   </v-chip>

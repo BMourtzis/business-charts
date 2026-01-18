@@ -1,15 +1,15 @@
 <template>
   <v-row align="start" justify="space-between" dense>
-    <v-col cols="4" class="d-flex" justify="start">
+    <v-col cols="5" class="d-flex" justify="start">
       <h1 class="text-h4 font-weight-bold mr-2">
         {{ getOrderNumberName() }}
       </h1>
-      <status-chip :status="order.status" />
-      <direction-chip :direction="order.direction" />
+      <status-chip :status="order.status" class="ml-2" />
+      <direction-chip :direction="order.direction" class="ml-2"/>
     </v-col>
     <v-col cols="4" class="d-flex flex-row justify-end">
-      <div class="d-flex button-with-dropdown">
-        <!-- Main button -->
+      <!-- TODO: move to separate component -->
+      <!-- <div class="d-flex button-with-dropdown">
         <v-btn 
           color="primary" 
           class="left-btn"
@@ -19,7 +19,6 @@
           Main Action
         </v-btn>
 
-        <!-- Dropdown arrow -->
         <v-menu offset-y>
           <template #activator="{ props }">
             <v-btn 
@@ -47,8 +46,8 @@
         </v-menu>
       </div>
       <v-btn color="grey" variant="flat" size="small">Complete</v-btn>
-      <v-btn color="red" variant="flat" size="small">Cancel</v-btn>
-      <!-- TODO: the status change btns -->
+      <v-btn color="red" variant="flat" size="small">Cancel</v-btn> -->
+      
     </v-col>
 
     <v-col cols="1" class="d-flex flex-row justify-end">
@@ -58,7 +57,8 @@
         :action-fn="() => deleteOrder()"
         mini
       />
-      <v-menu>
+      <!-- TODO: move to separate componet -->
+      <!-- <v-menu>
         <template v-slot:activator="{ props }">
           <v-btn icon="mdi-dots-vertical" variant="text" v-bind="props"></v-btn>
         </template>
@@ -77,7 +77,8 @@
             <v-list-item-title>Option 3</v-list-item-title>
           </v-list-item>
         </v-list>
-      </v-menu>
+      </v-menu> -->
+
     </v-col>
   </v-row>
   <v-row align="start" justify="space-between" dense>
