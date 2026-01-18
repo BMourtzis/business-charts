@@ -45,7 +45,7 @@ export class YearlyClientSequence {
     }
 
     format(): string {
-        return `${this.year}-${getNumberWithPadding(this.clientNumber, clientNumberPadding)}${getNumberWithPadding(this.value, clientNumberPadding)}`;
+        return `${this.year}-${getNumberWithPadding(this.clientNumber, clientNumberPadding)}${getNumberWithPadding(this.value, valuePadding)}`;
     }
 }
 
