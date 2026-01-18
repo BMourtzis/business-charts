@@ -8,9 +8,11 @@
           dot-color="indigo"
           size="small"
         >
+          <template #opposite>
+            <div> {{ tCap('order.createdDate') }}</div>
+          </template>
           <div class="d-flex">
             <strong class="me-4">{{ getDate(order.createdDate) }}</strong>
-            <div> {{ tCap('order.createdDate') }}</div>
           </div>
         </v-timeline-item>
         <v-timeline-item
@@ -18,9 +20,11 @@
           size="small"
            v-if="order.approvedDate"
         >
+          <template #opposite>
+            <div> {{ tCap('order.approvedDate') }}</div>
+          </template>
           <div class="d-flex">
             <strong class="me-4">{{ getDate(order.approvedDate) }}</strong>
-            <div> {{ tCap('order.approvedDate') }}</div>
           </div>
         </v-timeline-item>
         <v-timeline-item
@@ -28,9 +32,11 @@
           size="small"
            v-if="order.shippedDate"
         >
+          <template #opposite>
+            <div> {{ tCap('order.shippedDate') }}</div>
+          </template>
           <div class="d-flex">
             <strong class="me-4">{{ getDate(order.shippedDate) }}</strong>
-            <div> {{ tCap('order.shippedDate') }}</div>
           </div>
         </v-timeline-item>
         <v-timeline-item
@@ -38,19 +44,23 @@
           size="small"
            v-if="order.completedDate"
         >
+          <template #opposite>
+            <div> {{ tCap('order.completedDate') }}</div>
+          </template>
           <div class="d-flex">
             <strong class="me-4">{{ getDate(order.completedDate) }}</strong>
-            <div> {{ tCap('order.completedDate') }}</div>
           </div>
         </v-timeline-item>
-                <v-timeline-item
+        <v-timeline-item
           dot-color="red"
           size="small"
            v-if="order.cancelledDate"
         >
+          <template #opposite>
+            <div> {{ tCap('order.cancelledDate') }}</div>
+          </template>
           <div class="d-flex">
             <strong class="me-4">{{ getDate(order.cancelledDate) }}</strong>
-            <div> {{ tCap('order.cancelledDate') }}</div>
           </div>
         </v-timeline-item>
       </v-timeline>
