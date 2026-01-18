@@ -115,7 +115,8 @@
         "activity": "δραστηριότητα",
         "addSupplierTitle": "προσθήκη προμηθευτή",
         "addΒ2ΒCustomerTitle": "προσθήκη πελάτη χονδρικής",
-        "addCustomerTitle": "προσθήκη πελάτη"
+        "addCustomerTitle": "προσθήκη πελάτη",
+        "clientNumber": "αριθμός πελάτη"
     },
     "order": {
         "order": "παραγγελία | παραγγελίες",

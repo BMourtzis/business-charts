@@ -5,6 +5,7 @@ import { createSupplier } from "@/domain/partner/models/supplier";
 import { createEmail, createPhone } from "@/domain/contact/models/contact";
 import { createAddress } from "@/domain/contact/models/address";
 import { PartnerMapperInstance } from "@/application/mapper/partnerMapper";
+import { ClientNumberService } from "@/infrastructure/services/clientNumberService";
 
 export interface CreateSupplierCommand {
     contactName: string, 
@@ -20,8 +21,11 @@ export class CreateSupplierCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
 
     async handle(cmd: CreateSupplierCommand) {
+        const clientNumber = await ClientNumberService.getNext();
+
         const supplier = createSupplier(
             cmd.contactName, 
+            clientNumber,
             cmd.activity, 
             cmd.businessName);
 

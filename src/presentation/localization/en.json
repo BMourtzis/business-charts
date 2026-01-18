@@ -123,7 +123,8 @@
         "activity": "Activity",
         "addSupplierTitle": "Add Supplier",
         "addΒ2ΒCustomerTitle": "Add B2B customer",
-        "addCustomerTitle": "Add Customer"
+        "addCustomerTitle": "Add Customer",
+        "clientNumber": "client number"
     },
     "order": {
         "order": "order | orders",
