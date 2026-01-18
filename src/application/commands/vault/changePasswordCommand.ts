@@ -2,8 +2,8 @@ import { VaultSession } from "@/infrastructure/security/crypto-session";
 
 import { deliveryCarrierRepository } from "@/infrastructure/repositories/deliverCarrierRepository.local";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
-import { PartnerDTO } from "@/application/dto/partnerDTO";
-import { DeliveryCarrierDTO } from "@/application/dto/deliveryCarrierDTO";
+import type { PartnerDTO } from "@/application/dto/partnerDTO";
+import type { DeliveryCarrierDTO } from "@/application/dto/deliveryCarrierDTO";
 
 export interface ChangePasswordCommand {
     oldPassword: string;

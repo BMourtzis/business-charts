@@ -109,14 +109,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch, PropType } from 'vue';
+import { computed, watch, type PropType } from 'vue';
 
 import { Address } from '@/domain/contact/models/address';
 
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useAdressForm } from '@/presentation/composables/contact/useContactForm';
-import { useAddressHandlers, AddressOwnerType } from '@/presentation/composables/contact/useAddressHandlers';
+import { useAddressHandlers, type AddressOwnerType } from '@/presentation/composables/contact/useAddressHandlers';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 
 const { maxLength, required } = useValidationRules();

@@ -1,4 +1,4 @@
-import { IStorage } from "./type";
+import { type IStorage } from "./type";
 
 export const LocalStorage = class implements IStorage {
     async getItem(key: string): Promise<string | null> {

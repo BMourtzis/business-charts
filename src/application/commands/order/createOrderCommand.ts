@@ -1,4 +1,4 @@
-import { OrderItemDTO } from "@/application/dto/orderDTO";
+import type { OrderItemDTO } from "@/application/dto/orderDTO";
 import { OrderItemMapperInstance } from "@/application/mapper/orderItemMapper";
 import { createCreditOrder, createDebitOrder, Order } from "@/domain/order/models/order";
 import { orderRepository } from "@/infrastructure/repositories/orderRepository.local";

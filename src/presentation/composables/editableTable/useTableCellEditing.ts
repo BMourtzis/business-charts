@@ -1,5 +1,5 @@
-import { ref, Ref } from "vue";
-import { InternalRow, TableColumn } from "./useEditableTable";
+import { ref, type Ref } from "vue";
+import type { InternalRow, TableColumn } from "./useEditableTable";
 
 export function useTableCellEditing(
     rows: Ref<InternalRow[]>, 

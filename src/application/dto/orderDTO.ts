@@ -1,5 +1,5 @@
 import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
-import { IEntityDTO } from "./type";
+import type { IEntityDTO } from "./type";
 
 export interface OrderDTO extends IEntityDTO {
     id: string;

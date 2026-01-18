@@ -92,7 +92,7 @@ import { useLocalizationHelpers } from '@/presentation/composables/useLocalizati
 import { shoesVariationLayout } from "@/presentation/composables/order/useProductVariation";
 import { useVariationTableMapper } from "@/presentation/composables/editableTable/useVariationTableMapper";
 
-import { OrderItemEditVM } from "@/presentation/viewModels/orderItemEditVM";
+import { type OrderItemEditVM } from "@/presentation/viewModels/orderItemEditVM";
 
 const { tCap } = useLocalizationHelpers();
 

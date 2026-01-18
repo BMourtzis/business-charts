@@ -1,12 +1,11 @@
-import { computed, Ref } from "vue";
+import { computed, type Ref } from "vue";
 
 import { Order } from "@/domain/order/models/order";
 
 import { useLocalizationHelpers } from "../useLocalization";
-import { DataTableHeader } from "vuetify";
+import type { DataTableHeader } from "vuetify";
 import { Partner } from "@/domain/partner/models/partner";
 import { getPartnerDetails } from "../partner/usePartnerDetails";
-import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
 import { getDirectionString, getStatusString } from "./useOrderDetails";
 
 function toOrderTable(order: Order, tCap: (key: string, count?: number) => string): OrderTableRow {

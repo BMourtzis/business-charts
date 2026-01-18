@@ -1,8 +1,8 @@
-import { IMapper } from "@/application/mapper/type";
-import { IRepository } from "./type";
-import { IEntity } from "@/domain/type";
-import { IEntityDTO } from "@/application/dto/type";
-import { IStorage } from "@/infrastructure/persistence/type";
+import { type IMapper } from "@/application/mapper/type";
+import { type IRepository } from "./type";
+import { type IEntity } from "@/domain/type";
+import { type IEntityDTO } from "@/application/dto/type";
+import { type IStorage } from "@/infrastructure/persistence/type";
 
 export abstract class LocalRepository<T extends IEntity, DTO extends IEntityDTO> implements IRepository<T, DTO> {
     private _storage: IStorage;

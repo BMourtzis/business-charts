@@ -1,8 +1,8 @@
-import { OrderItemDTO, OrderItemVariationDTO } from "@/application/dto/orderDTO";
-import { VariationEditVM } from "../viewModels/variationEditVM";
-import { OrderEditVM, OrderItemEditVM } from "../viewModels/orderItemEditVM";
-import { AttributesRecord, normalizeAttribute } from "@/domain/order/models/orderItemVariation";
-import { CreateCreditOrderCommand, CreateOrderDTO } from "@/application/commands/order/createCreditOrderCommand";
+import type { OrderItemDTO, OrderItemVariationDTO } from "@/application/dto/orderDTO";
+import type { VariationEditVM } from "../viewModels/variationEditVM";
+import type { OrderEditVM, OrderItemEditVM } from "../viewModels/orderItemEditVM";
+import { type AttributesRecord, normalizeAttribute } from "@/domain/order/models/orderItemVariation";
+import type { CreateCreditOrderCommand, CreateOrderDTO } from "@/application/commands/order/createCreditOrderCommand";
 
 const SIZE_KEYS = [
     'shoe:38',

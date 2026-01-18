@@ -1,6 +1,6 @@
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
-import { AddressDTO } from "@/application/dto/contactDTO";
+import type { AddressDTO } from "@/application/dto/contactDTO";
 import { createSupplier } from "@/domain/partner/models/supplier";
 import { createEmail, createPhone } from "@/domain/contact/models/contact";
 import { createAddress } from "@/domain/contact/models/address";

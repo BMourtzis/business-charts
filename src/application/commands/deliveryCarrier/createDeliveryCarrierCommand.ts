@@ -1,4 +1,4 @@
-import { AddressDTO } from "@/application/dto/contactDTO";
+import type { AddressDTO } from "@/application/dto/contactDTO";
 import { DeliveryCarrierMapperInstance } from "@/application/mapper/deliverCarrierMapper";
 import { createAddress } from "@/domain/contact/models/address";
 import { createDeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";

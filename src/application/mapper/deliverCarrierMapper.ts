@@ -1,7 +1,7 @@
 import { DeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";
-import { DeliveryCarrierDTO } from "../dto/deliveryCarrierDTO";
+import type { DeliveryCarrierDTO } from "../dto/deliveryCarrierDTO";
 import { AddressMapperInstance, ContactMapperInstance } from "./contactMapper";
-import { IMapper } from "./type";
+import type { IMapper } from "./type";
 
 export class DeliveryCarrierMapper implements IMapper<DeliveryCarrier, DeliveryCarrierDTO> {
     toModel(dto: DeliveryCarrierDTO): DeliveryCarrier {

@@ -1,5 +1,5 @@
-import { AddressDTO, ContactDTO } from "./contactDTO";
-import { IEntityDTO } from "./type";
+import type { AddressDTO, ContactDTO } from "./contactDTO";
+import type { IEntityDTO } from "./type";
 
 export interface DeliveryCarrierDTO extends IEntityDTO {
     id: string;

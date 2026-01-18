@@ -170,7 +170,7 @@ import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 
 import OrderItemEdit from './OrderItemEdit.vue';
-import { OrderEditVM } from '@/presentation/viewModels/orderItemEditVM';
+import type { OrderEditVM } from '@/presentation/viewModels/orderItemEditVM';
 import { dtoToVM, orderVmToCmd } from '@/presentation/mappers/orderItemMapper';
 
 import AmountAdjustmentField from '../shared/AmountAdjustmentField.vue';

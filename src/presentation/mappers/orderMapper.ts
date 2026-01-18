@@ -1,5 +1,5 @@
 import { Order } from "@/domain/order/models/order";
-import { OrderItemVariationVM, OrderItemVM, OrderVM } from "../viewModels/orderVM";
+import type { OrderItemVariationVM, OrderItemVM, OrderVM } from "../viewModels/orderVM";
 import { OrderItem } from "@/domain/order/models/orderItem";
 import { OrderItemVariation } from "@/domain/order/models/orderItemVariation";
 

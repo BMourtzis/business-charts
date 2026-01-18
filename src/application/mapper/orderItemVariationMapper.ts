@@ -1,5 +1,5 @@
 import { OrderItemVariation } from "@/domain/order/models/orderItemVariation";
-import { OrderItemVariationDTO } from "../dto/orderDTO";
+import type { OrderItemVariationDTO } from "../dto/orderDTO";
 
 export class OrderItemVariationMapper {
     toModel(dto: OrderItemVariationDTO): OrderItemVariation {

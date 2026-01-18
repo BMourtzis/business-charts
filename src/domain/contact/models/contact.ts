@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { ContactType } from "../contactTypes";
-import { IEntity } from "@/domain/type";
+import { type IEntity } from "@/domain/type";
 
 export class Contact implements IEntity {
     private _id: string;

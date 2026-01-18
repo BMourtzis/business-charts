@@ -71,7 +71,7 @@
 import { ref, watch } from "vue";
 import EditableCell from "./EditableCell.vue";
 
-import { TableColumn, InternalRow, TableRow, toInternal, toPublic } from "@/presentation/composables/editableTable/useEditableTable";
+import { type TableColumn, type InternalRow, type TableRow, toInternal, toPublic } from "@/presentation/composables/editableTable/useEditableTable";
 import { useTableCellEditing } from "@/presentation/composables/editableTable/useTableCellEditing";
 import { editorMap } from "./editors/editorMap";
 import { rendererMap } from "./renderers/rendererMap";

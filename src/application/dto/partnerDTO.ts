@@ -1,6 +1,6 @@
 import { PartnerType } from "@/domain/partner/partnerTypes"
-import { AddressDTO, ContactDTO } from "./contactDTO"
-import { IEntityDTO } from "./type"
+import type { AddressDTO, ContactDTO } from "./contactDTO"
+import type { IEntityDTO } from "./type"
 
 export interface PartnerDTO extends IEntityDTO {
     id: string

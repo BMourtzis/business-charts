@@ -5,7 +5,7 @@ import { getPartnerTypeStringResource } from "@/domain/partner/partnerTypes";
 
 import { getOrderById } from "@/application/queries/order/getOrderByIdQuery";
 import { getOrdersForPartner } from "@/application/queries/order/getOrdersForPartnerQuery";
-import { PartnerDTO } from "@/application/dto/partnerDTO";
+import type { PartnerDTO } from "@/application/dto/partnerDTO";
 
 import { usePartnersStore } from "../stores/partnerStore";
 import { useOrdersStore } from "../stores/orderStore";

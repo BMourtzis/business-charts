@@ -1,4 +1,4 @@
-import { VariationEditVM } from "./variationEditVM"
+import { type VariationEditVM } from "./variationEditVM"
 
 export type OrderEditVM = {
     direction: 'Credit' | "Debit",

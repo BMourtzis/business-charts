@@ -1,5 +1,5 @@
 import { VaultSession } from "@/infrastructure/security/crypto-session";
-import { IStorage } from "./type";
+import { type IStorage } from "./type";
 
 export class EncryptedStorage implements IStorage {
     private readonly _storage = localStorage;

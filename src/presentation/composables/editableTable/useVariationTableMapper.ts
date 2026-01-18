@@ -1,5 +1,5 @@
-import { VariationEditVM } from "@/presentation/viewModels/variationEditVM";
-import { TableColumn, TableRow } from "./useEditableTable";
+import { type VariationEditVM } from "@/presentation/viewModels/variationEditVM";
+import type { TableColumn, TableRow } from "./useEditableTable";
 
 export function useVariationTableMapper(layout: TableColumn[]) {
     const attributeColumns = layout.filter(c => c.type === 'variation');

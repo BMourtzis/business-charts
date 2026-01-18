@@ -2,7 +2,7 @@ import { ContactType } from "@/domain/contact/contactTypes";
 import { PartnerType } from "@/domain/partner/partnerTypes";
 import { Address, createAddress } from "@/domain/contact/models/address";
 import { Contact, createEmail, createPhone } from "@/domain/contact/models/contact";
-import { IEntity } from "@/domain/type";
+import type { IEntity } from "@/domain/type";
 
 export abstract class Partner implements IEntity {
     readonly id: string;
@@ -36,7 +36,7 @@ export abstract class Partner implements IEntity {
         this._businessName = value;
     }
 
-    get contactName() { return this._contactName; }
+    public get contactName() { return this._contactName; }
     set contactName(value: string) {
         this._contactName = value;
     }

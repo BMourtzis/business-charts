@@ -1,4 +1,4 @@
-import { App } from "vue";
+import { type App } from "vue";
 import { StoreSyncService } from "./storeSyncService";
 import { broadcastChannelService } from "@/infrastructure/services/broadcastChannelService";
 
