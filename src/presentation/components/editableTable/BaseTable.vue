@@ -9,11 +9,12 @@
       <tr>
         <th v-if="hideRowIndex !== true">#</th>
         <th v-for="(columnLayout, cIndex) in tableColumns" :key="cIndex">{{ columnLayout.title }}</th>
+        <th v-if="$slots.actions"></th>
       </tr>
     </thead>
 
     <tbody>
-      <tr v-for="(row, rIndex) in rows" :key="rIndex">
+      <tr v-for="(row, rIndex) in modelValue" :key="rIndex">
         <td v-if="hideRowIndex !== true">{{ rIndex + 1 }}</td>
         <template v-for="(cell, cIndex) in row.cells" :key="cIndex">
           <slot
@@ -22,7 +23,7 @@
             :column="tableColumns[cIndex]"
             :cell="cell"
             :rowIndex="rIndex"
-            :cellIndex="cIndex"
+            :colIndex="cIndex"
           >
             <td 
               v-if="tableColumns[cIndex].rendererType"
@@ -37,28 +38,27 @@
             </td>
           </slot>
         </template>
+        <td v-if="$slots.actions">
+          <slot
+            name="actions"
+            :row="row"
+            :rowIndex="rIndex"
+          />
+        </td>
       </tr>
     </tbody>
   </v-table>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-
-import { type TableColumn, type InternalRow, type TableRow, toInternal, toPublic } from "@/presentation/composables/editableTable/useEditableTable";
+import { type TableColumn, type InternalRow, type TableRow } from "@/presentation/composables/editableTable/useEditableTable";
 import { rendererMap } from "./renderers/rendererMap";
 
 const props = defineProps<{
-  tableRows: TableRow[],
+  modelValue: InternalRow[],
   tableColumns: TableColumn[],
   hideRowIndex?: boolean
 }>();
-
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: TableRow[]): void
-}>();
-
-const rows = computed(() => toInternal(props.tableRows));
 
 function getDisplayValue(row: InternalRow, column: TableColumn, celValue: string) {
   if(column.calculate) {
@@ -66,6 +66,8 @@ function getDisplayValue(row: InternalRow, column: TableColumn, celValue: string
   }
   return celValue;
 }
+
+// TODO: refactor common functions into a composable to clear this up
 
 // function hasEditor(columnIndex: number) {
 //   return props.tableColumns[columnIndex].editorType !== undefined;

@@ -1,70 +1,58 @@
 <template>
-  <v-table 
-    class="editable-table"
-    v-if="tableColumns.length > 0"
-    density="compact"
-    striped="even"
+  <base-table
+    :table-columns="tableColumns"
+    :modelValue="rows"
+    :hide-row-index="hideRowIndex"
   >
-    <thead>
-      <tr>
-        <th v-if="hideRowIndex !== true">#</th>
-        <th v-for="(columnLayout, cIndex) in tableColumns" :key="cIndex">{{ columnLayout.title }}</th>
-        <th></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <tr v-for="(row, rIndex) in rows" :key="rIndex">
-        <td v-if="hideRowIndex !== true">{{ rIndex + 1 }}</td>
-        <template v-for="(cell, cIndex) in row.cells" :key="cIndex">
-          <editable-cell
-            v-model="cell.value"
-            :focused="isCellFocused(rIndex, cIndex)"
-            :hasEditor="hasEditor(cIndex)"
-            :width="tableColumns[cIndex].width"
-            @request-edit="startEditingCell(rIndex, cIndex)"
-            @request-close="stopEditingCell"
-            @request-move-cell="moveEditingCellByCell"
-            @request-move-row="moveEditingCellByRow"
-          >
-            <template #editor="slot" v-if="tableColumns[cIndex].editorType">
-              <component
-                :is="editorMap[tableColumns[cIndex].editorType]"
-                :model-value="slot.value"
-                @update:model-value="slot.onUpdate"
-                :width="slot.width"
-                :items="tableColumns[cIndex].list"
-                @blur="slot.onBlur"
-                @navigate="slot.onNavigate"
-              />
-            </template>
-            <template 
-              #display="slot" 
-              v-if="tableColumns[cIndex].rendererType"
-            >
-              <component
-                :is="rendererMap[tableColumns[cIndex].rendererType]"
-                :model-value="getDisplayValue(row, tableColumns[cIndex], slot.value)"
-                :width="slot.width"
-                :focused="slot.focused"
-                @update:model-value="slot.onUpdate"
-                @blur="slot.onBlur"
-                @navigate="slot.onNavigate"
-              />
-            </template>
-          </editable-cell>
-        </template>
-        <td>
-          <v-btn
-            icon="mdi-close"
-            variant="text"
-            color="error"
-            @click="removeRow(rIndex)"
+    <template
+      #cell="{ row, rowIndex, column, colIndex, cell}"
+    >
+      <editable-cell
+        v-model="cell.value"
+        :focused="isCellFocused(rowIndex, colIndex)"
+        :hasEditor="hasEditor(colIndex)"
+        :width="column.width"
+        @request-edit="startEditingCell(rowIndex, colIndex)"
+        @request-close="stopEditingCell"
+        @request-move-cell="moveEditingCellByCell"
+        @request-move-row="moveEditingCellByRow"
+      >
+        <template #editor="slot" v-if="column.editorType">
+          <component
+            :is="editorMap[column.editorType]"
+            :model-value="slot.value"
+            @update:model-value="slot.onUpdate"
+            :width="slot.width"
+            :items="column.list"
+            @blur="slot.onBlur"
+            @navigate="slot.onNavigate"
           />
-        </td>
-      </tr>
-    </tbody>
-  </v-table>
+        </template>
+        <template 
+          #display="slot" 
+          v-if="column.rendererType"
+        >
+          <component
+            :is="rendererMap[column.rendererType]"
+            :model-value="getDisplayValue(row, column, slot.value)"
+            :width="slot.width"
+            :focused="slot.focused"
+            @update:model-value="slot.onUpdate"
+            @blur="slot.onBlur"
+            @navigate="slot.onNavigate"
+          />
+        </template>
+      </editable-cell>
+    </template>
+    <template #actions="{row, rowIndex}">
+      <v-btn
+        icon="mdi-close"
+        variant="text"
+        color="error"
+        @click="removeRow(rowIndex)"
+      />
+    </template>
+  </base-table>
 </template>
 
 <script setup lang="ts">
@@ -75,6 +63,7 @@ import { type TableColumn, type InternalRow, type TableRow, toInternal, toPublic
 import { useTableCellEditing } from "@/presentation/composables/editableTable/useTableCellEditing";
 import { editorMap } from "./editors/editorMap";
 import { rendererMap } from "./renderers/rendererMap";
+import BaseTable from "./BaseTable.vue";
 
 const props = defineProps<{
   modelValue: TableRow[],

@@ -31,7 +31,7 @@
       </v-row>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
-      <base-table 
+      <display-table 
         :tableRows="rows"
         :table-columns="shoesVariationLayout"
       />
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseTable from '../editableTable/BaseTable.vue';
+import DisplayTable from '../editableTable/renderers/DisplayTable.vue';
 
 import type { OrderItem } from '@/domain/order/models/orderItem';
 import { sumSizing, useVariationTableMapper } from '@/presentation/composables/editableTable/useVariationTableMapper';
