@@ -1,8 +1,70 @@
-<template></template>
+<template>
+  <v-card>
+    <v-card-title>{{ tCap("common.timeline") }}</v-card-title>
+    <v-divider />
+    <v-card-text>
+      <v-timeline align="start" side="end">
+        <v-timeline-item
+          dot-color="indigo"
+          size="small"
+        >
+          <div class="d-flex">
+            <strong class="me-4">{{ getDate(order.createdDate) }}</strong>
+            <div> {{ tCap('order.createdDate') }}</div>
+          </div>
+        </v-timeline-item>
+        <v-timeline-item
+          dot-color="indigo"
+          size="small"
+           v-if="order.approvedDate"
+        >
+          <div class="d-flex">
+            <strong class="me-4">{{ getDate(order.approvedDate) }}</strong>
+            <div> {{ tCap('order.approvedDate') }}</div>
+          </div>
+        </v-timeline-item>
+        <v-timeline-item
+          dot-color="indigo"
+          size="small"
+           v-if="order.shippedDate"
+        >
+          <div class="d-flex">
+            <strong class="me-4">{{ getDate(order.shippedDate) }}</strong>
+            <div> {{ tCap('order.shippedDate') }}</div>
+          </div>
+        </v-timeline-item>
+        <v-timeline-item
+          dot-color="grey"
+          size="small"
+           v-if="order.completedDate"
+        >
+          <div class="d-flex">
+            <strong class="me-4">{{ getDate(order.completedDate) }}</strong>
+            <div> {{ tCap('order.completedDate') }}</div>
+          </div>
+        </v-timeline-item>
+                <v-timeline-item
+          dot-color="red"
+          size="small"
+           v-if="order.cancelledDate"
+        >
+          <div class="d-flex">
+            <strong class="me-4">{{ getDate(order.cancelledDate) }}</strong>
+            <div> {{ tCap('order.cancelledDate') }}</div>
+          </div>
+        </v-timeline-item>
+      </v-timeline>
+    </v-card-text>
+  </v-card>
+</template>
 
 <script setup lang="ts">
 import { Order } from '@/domain/order/models/order';
 
+import { getDate } from '@/presentation/composables/order/useOrderDetails';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+
+const { tCap } = useLocalizationHelpers();
 
 const props = defineProps<{ order: Order }>();
 

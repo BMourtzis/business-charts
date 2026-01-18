@@ -139,7 +139,6 @@ import { useOrders } from '@/presentation/composables/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { OrderDirection } from "@/domain/order/orderTypes";
 
-
 const { tCap } = useLocalizationHelpers();
 const router = useRouter();
 const { deleteOrderCommmandHandler } = useOrders();

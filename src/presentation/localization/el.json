@@ -74,7 +74,8 @@
         "primary_gen": "κύρια",
         "noDateSelected": " - ",
         "credit": "Χρέωση",
-        "debit": "Πίστωση"
+        "debit": "Πίστωση",
+        "timeline": "χρονολόγιο"
     },
     "contact": {
         "email": "email",
@@ -144,6 +145,10 @@
         "remainingAmount": "υπόλοιπο",
         "dueDate": "ημερομηνία παράδοσης",
         "createdDate": "ημερομηνία δημιουργίας",
+        "approvedDate": "ημερομηνία έγκρισης",
+        "shippedDate": "ημερομηνία απστολής",
+        "completedDate": "ημερομηνία ολοκλήρωσης",
+        "cancelledDate": "ημερομηνία ακύρωσης",
         "status": "κατάσταση",
         "draft": "πρόχειρο",
         "cancelled": "ακυρώθηκε",
