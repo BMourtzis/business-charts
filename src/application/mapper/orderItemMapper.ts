@@ -8,7 +8,6 @@ export class OrderItemMapper implements IMapper<OrderItem, OrderItemDTO> {
         return new OrderItem(
             dto.id, 
             dto.name, 
-            dto.basePrice, 
             dto.variations.map(OrderItemVariationMapperInstance.toModel));
     }
 
@@ -16,7 +15,6 @@ export class OrderItemMapper implements IMapper<OrderItem, OrderItemDTO> {
         return {
             id: model.id,
             name: model.name,
-            basePrice: model.basePrice,
             variations: model.variations.map(OrderItemVariationMapperInstance.toDTO)
         };
     }

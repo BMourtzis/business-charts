@@ -3,26 +3,50 @@ import { IEntityDTO } from "./type";
 
 export interface OrderDTO extends IEntityDTO {
     id: string;
+    orderNumber: string;
     partnerId: string;
-    createdDate: Date;
-    sentDate?: Date;
-    dueDate?: Date;
     status: OrderStatus;
     direction: OrderDirection;
-    vatRate: number;
     items: OrderItemDTO[];
+    notes: string;
+
+    vatRate: number;
+    discountAmount: number;
+    depositAmount: number
+
+    createdDate: string;
+    dueDate?: string;
+    approvedDate?: string;
+    cancelledDate?: string;
+    shippedDate?: string;
+    completedDate?: string;
 }
 
 export interface OrderItemDTO extends IEntityDTO {
     id: string;
     name: string;
-    basePrice: number;
     variations: OrderItemVariationDTO[]
 }
 
 type AttributesRecord = Record<string, string | number>;
 
 export interface OrderItemVariationDTO {
+    normalizedAttributes: string;
     attributes: AttributesRecord,
+    price: number;
     quantity: number;
 }
+export interface OrderItemVariationUpdateDTO {
+    key: string;
+    variation: OrderItemVariationDTO
+}
+
+export interface OrderItemUpdateDTO {
+    itemId? : string;
+    name?: string;
+
+    addVariation?: OrderItemVariationDTO[],
+    replaceVariations?: OrderItemVariationUpdateDTO[],
+    deleteVariations?: string[]
+}
+

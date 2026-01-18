@@ -37,17 +37,10 @@
                   :rules="[required]"
                 />
               </v-col>
-              <v-col cols="2">
-                <v-text-field
-                  :model-value="form.vatRate * 100"
-                  @update:model-value="val => form.vatRate = Number(val) / 100"
-                  type="number"
-                  :label="tCap('order.vatRate')"
-                  :rules="[required, numeric]"
-                  min="0"
-                  max="100"
-                  step="1"
-                  suffix="%"
+              <v-col cols="6">
+                <date-picker
+                  v-model="form.dueDate"
+                  :title="tCap('order.dueDate')"
                 />
               </v-col>
               <v-col cols="12" class="d-flex justify-space-between align-center mb-4">
@@ -62,7 +55,7 @@
               </v-col>
             </v-row>
             <v-row dense>
-              <v-expansion-panels >
+              <v-expansion-panels v-model="openPanels" multiple>
                 <order-item-edit 
                   v-for="(orderItem, index) in form.items"
                   :key="orderItem.id"
@@ -73,17 +66,59 @@
             </v-row>
             <v-row class="mb-4" justify="end" align="center">
               <v-col cols="auto">
-                <strong>{{ tCap('order.totalQuantity') }}:</strong> {{ totalQuantityAllItems }}
+                {{ tCap('order.orderQuantity') }}: <strong>{{ totalQuantityAllItems }}</strong>
               </v-col>
               <v-col cols="auto">
-                <strong>{{ tCap('order.totalAmount') }}:</strong> {{ totalAmountAllItems.toFixed(2) }} €
+                {{ tCap('order.orderSum') }} <strong>{{ totalAmountAllItems.toFixed(2) }}€</strong>
               </v-col>
             </v-row>
-            <v-row class="mb-4" justify="end" align="center">
-              <strong>{{ tCap('order.taxRate') }}:</strong> {{ taxAmount.toFixed(2) }} €
-            </v-row>
-            <v-row class="mb-4" justify="end" align="center">
-              <strong>{{ tCap('order.totalAmount') }}:</strong> {{ totalAmount.toFixed(2) }} €
+            <v-row>
+              <v-col cols="6">
+                <v-textarea
+                  v-model="form.notes"
+                  :label="tCap('order.notes')"
+                  :rules="[maxLength(1000)]"
+                  rows="4"
+                  counter="1000"
+                />
+              </v-col>
+              <v-col dense cols="6">
+                <v-row class="mb-4" justify="end" align="center">
+                  <v-col cols="6">
+                    <vat-calculator-field
+                      v-model="form.vatRate"
+                      :base-amount="totalAmountAllItems"
+                    />
+                  </v-col>
+                  <v-col cols="4">
+                    {{ tCap('order.amountAfterTax') }} <strong>{{ totalAmountAllItemsWithTax.toFixed(2) }}€</strong>
+                  </v-col>
+                </v-row>
+                <v-row class="mb-4" justify="end" align="center">
+                  <v-col cols="6">
+                    <amount-adjustment-field
+                      v-model="form.discountAmount"
+                      :base-amount="totalAmountAllItemsWithTax"
+                      :label="tCap('order.discount')"
+                    />
+                  </v-col>
+                  <v-col cols="4">
+                    {{ tCap('order.total') }}: <strong>{{ totalAmount.toFixed(2) }}€</strong>
+                  </v-col>
+                </v-row>
+                <v-row class="mb-4" justify="end" align="center">
+                  <v-col cols="6">
+                    <amount-adjustment-field
+                      v-model="form.depositAmount"
+                      :base-amount="totalAmount"
+                      :label="tCap('order.deposit')"
+                    />
+                  </v-col>
+                  <v-col cols="4">
+                    {{ tCap('order.remainingAmount') }}: <strong>{{ totalAmountAfterDeposit.toFixed(2) }}€</strong>
+                  </v-col>
+                </v-row>
+              </v-col>
             </v-row>
             <v-alert
               v-if="errorMessage"
@@ -99,6 +134,12 @@
       </v-card-text>
 
       <v-card-actions>
+        <v-btn
+          variant="tonal"
+          color="warning"
+          :text="tCap('common.clear')"
+          @click="reset"
+        />
         <v-spacer />
         <v-btn
           variant="tonal"
@@ -120,7 +161,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, nextTick, reactive, ref } from 'vue';
 import { v4 as uuidv4 } from "uuid";
 
 import { useOrders } from '@/presentation/composables/useOrders';
@@ -129,54 +170,60 @@ import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 
 import OrderItemEdit from './OrderItemEdit.vue';
-import { OrderItemEditVM } from '@/presentation/viewModels/orderItemEditVM';
-import { dtoToVM } from '@/presentation/mappers/orderItemMapper';
+import { OrderEditVM } from '@/presentation/viewModels/orderItemEditVM';
+import { dtoToVM, orderVmToCmd } from '@/presentation/mappers/orderItemMapper';
+
+import AmountAdjustmentField from '../shared/AmountAdjustmentField.vue';
+import VatCalculatorField from '../shared/vatCalculatorField.vue';
+import DatePicker from '../shared/DatePicker.vue';
 
 const { 
   maxLength, 
-  required, 
-  numeric
+  required
 } = useValidationRules();
 
-const { createDebitOrderCommand, createCreditOrderCommand, partners, partnersToItemProps } = useOrders();
+const { createCreditOrderCommmandHandler, partners, partnersToItemProps } = useOrders();
 
 const { tCap } = useLocalizationHelpers();
 
 const directions = ["Credit", "Debit"];
 
 const form = reactive({
-    direction: '',
+    direction: 'Credit',
     partnerId: '',
     vatRate: .24,
-    items: [] as OrderItemEditVM[]
-});
+    dueDate: null,
+    notes: '',
+    depositAmount: 0,
+    discountAmount: 0,
+    items: []
+} as OrderEditVM);
 
 const {
   dialog, 
+  formRef,
   validForm,
   loading,
   errorMessage,
   close,
+  reset,
   submit
-} = useFormDialog(form);
+} = useFormDialog(form, {autoReset: false});
 
-watch(
-  () => form.items,
-  () => {
-    console.log("Order items updated", form.items);
-  },
-  { deep: true }
-)
+const openPanels = ref<number[]>([]);
 
 function addItem() {
   form.items.push(
     dtoToVM({
       id: uuidv4(),
       name: "",
-      basePrice: 0.00,
       variations: []
     })
   );
+
+  nextTick(() => {
+    openPanels.value.push(form.items.length -1);
+  });
 }
 
 const totalQuantityAllItems = computed(() => {
@@ -207,12 +254,19 @@ const totalAmountAllItems = computed(() =>
 
 
 const taxAmount = computed(() => {
-  const totalWithoutTax = totalAmountAllItems.value;
-  return totalWithoutTax * form.vatRate;
+  return totalAmountAllItems.value * form.vatRate;
+});
+
+const totalAmountAllItemsWithTax = computed(() => {
+  return totalAmountAllItems.value + taxAmount.value;
 });
 
 const totalAmount = computed(() => {
-  return totalAmountAllItems.value + taxAmount.value;
+  return totalAmountAllItemsWithTax.value - form.discountAmount;
+});
+
+const totalAmountAfterDeposit = computed(() => {
+  return totalAmount.value - form.depositAmount;
 });
 
 function removeItem(id: string) {
@@ -225,13 +279,13 @@ function removeItem(id: string) {
 
 async function saveOrder() {
   await submit(async (form) => {
-    console.log(form);
-    if(form.direction === 'credit') {
-        createCreditOrderCommand(form.partnerId);
-    } else if (form.direction === 'debit') {
-        createDebitOrderCommand(form.partnerId);
+    if(form.direction === 'Credit') {
+      const cmd = orderVmToCmd(form)
+      // console.log(cmd);
+      createCreditOrderCommmandHandler.handle(orderVmToCmd(form));
     }
 
+    reset();
   });
 }
 
@@ -241,4 +295,19 @@ async function saveOrder() {
   .button-alignement {
     margin-bottom: 15px;
   }
+
+  .date-picker-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.v-label {
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 4px;
+}
+.date-btn {
+  justify-content: flex-start; /* aligns text to left like v-text-field */
+  padding: 0;
+}
 </style>

@@ -4,6 +4,7 @@ import { IEntityDTO } from "./type"
 
 export interface PartnerDTO extends IEntityDTO {
     id: string
+    clientNumber: number;
     contactName: string
     type: PartnerType
     businessName?: string

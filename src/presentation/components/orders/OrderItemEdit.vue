@@ -17,13 +17,13 @@
             >
               <v-spacer/>
               <v-col cols="3">
-                Variations: {{ variationNumber }}
+                {{ tCap("order.variation", 2) }}: <strong>{{ variationNumber }}</strong>
               </v-col>
               <v-col cols="3">
-                Total Quantity: {{ totalQuantity }}
+                {{ tCap("order.productQuantity") }}: <strong>{{ totalQuantity }}</strong>
               </v-col>
               <v-col cols="3">
-                Sum: {{ totalLineAmount }}€
+                {{ tCap("order.productSum") }}: <strong>{{ totalLineAmount.toFixed(2) }}€</strong>
               </v-col>
               <v-col cols="1" >
                 <v-btn
@@ -57,7 +57,7 @@
             v-model="localItem.basePrice"
             @blur="commitChanges"
             :label="tCap('order.basePrice')"
-            :rules="[required, numeric]"
+            :rules="[numeric]"
             type="number"
             min="0"
             step="0.01"
@@ -67,7 +67,7 @@
         <v-col cols="2">
           <v-btn
             color="success"
-            text="Add Variation"
+            :text="tCap('order.addVariationTitle')"
             prepend-icon="mdi-plus"
             variant="text"
             @click="addVariation"
@@ -75,24 +75,24 @@
         </v-col>
       </v-row>
       <editable-table 
+        v-if="tableRows.length > 0"
         v-model="tableRows" 
         :tableColumns="shoesVariationLayout"
-        :context="calculateContext"
       />
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
 
 <script setup lang="ts">
+import EditableTable from "@/presentation/components/editableTable/EditableTable.vue";
 import { computed, ref, toRaw, watch } from "vue";
 
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-
-import EditableTable from "../shared/EditableTable.vue";
 import { shoesVariationLayout } from "@/presentation/composables/order/useProductVariation";
+import { useVariationTableMapper } from "@/presentation/composables/editableTable/useVariationTableMapper";
+
 import { OrderItemEditVM } from "@/presentation/viewModels/orderItemEditVM";
-import { useVariationTableMapper } from "@/presentation/composables/shared/useVariationTableMapper";
 
 const { tCap } = useLocalizationHelpers();
 
@@ -155,10 +155,6 @@ const totalQuantity = computed(() =>
 const totalLineAmount = computed(() => 
   localItem.value.variations.reduce((sum, v) => sum + (sumSizing(v) * v.price), 0)
 );
-
-const calculateContext = computed(() => ({
-  itemPrice: localItem.value.basePrice
-}));
 
 
 function addVariation() {

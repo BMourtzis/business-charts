@@ -2,9 +2,9 @@ import { VariationEditVM } from "@/presentation/viewModels/variationEditVM";
 import { TableColumn, TableRow } from "./useEditableTable";
 
 export function useVariationTableMapper(layout: TableColumn[]) {
-    const attributeColumns = layout.slice(0,2 );
-    const sizingColumns = layout.filter(c => c.name.includes('shoe:'));
-    const priceColumn = layout.find(c => c.name === "variationPrice")!;
+    const attributeColumns = layout.filter(c => c.type === 'variation');
+    const sizingColumns = layout.filter(c => c.type === 'size');
+    const priceColumn = layout.find(c => c.type === 'price')!;
 
     function vmToRows(vms: VariationEditVM[]): TableRow[] {
         return vms.map(vm => ({

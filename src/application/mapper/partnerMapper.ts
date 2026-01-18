@@ -12,6 +12,7 @@ function getModelType(dto: PartnerDTO) {
         case PartnerType.Supplier:
             return new Supplier(
                 dto.id,
+                dto.clientNumber,
                 dto.contactName,
                 dto.activity ?? '',
                 dto.businessName
@@ -20,6 +21,7 @@ function getModelType(dto: PartnerDTO) {
             return new B2BCustomer(
                 dto.id,
                 dto.contactName,
+                dto.clientNumber,
                 dto.deliveryCarrierId ?? '',
                 dto.businessName
             );
@@ -41,6 +43,7 @@ export class PartnerMapper implements IMapper<Partner, PartnerDTO> {
     toDTO(model: Partner): PartnerDTO {
         const base  = {
             id: model.id,
+            clientNumber: model.clientNumber,
             businessName: model.businessName,
             contactName: model.contactName,
             type: model.type,

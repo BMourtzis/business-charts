@@ -5,26 +5,28 @@ import { getPartnerTypeStringResource } from "@/domain/partner/partnerTypes";
 
 import { getOrderById } from "@/application/queries/order/getOrderByIdQuery";
 import { getOrdersForPartner } from "@/application/queries/order/getOrdersForPartnerQuery";
-import { createCreditOrderCommand, createDebitOrderCommand } from "@/application/commands/order/createOrderCommand";
-import { updateOrderStatusCommand } from "@/application/commands/order/updateOrderCommand";
-import { addOrderItemCommand, removeOrderItemCommand, updateOrderItemCommand } from "@/application/commands/order/updateOrderItemCommand";
-import { deleteOrderComand } from "@/application/commands/order/deleteOrderCommand";
 import { PartnerDTO } from "@/application/dto/partnerDTO";
 
 import { usePartnersStore } from "../stores/partnerStore";
 import { useOrdersStore } from "../stores/orderStore";
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { CreateCreditOrderCommmandHandler } from "@/application/commands/order/createCreditOrderCommand";
+import { OrderMapperInstance } from "@/application/mapper/orderMapper";
+import { Order } from "@/domain/order/models/order";
+import { DeleteOrderCommandHandler } from "@/application/commands/order/deleteOrderCommand";
 
 export function useOrders() {
     const store = useOrdersStore();
+    const { allOrders } = storeToRefs(store)
+
     const partnerStore = usePartnersStore();
-    const partnerStoreRef = storeToRefs(partnerStore);
+    const { all } = storeToRefs(partnerStore);
 
     const { tCap } = useLocalizationHelpers();
 
     return {
-        allOrders: store.allOrders,
-        partners: computed(() => partnerStoreRef.all.value),
+        allOrders: computed(() => allOrders.value.map(OrderMapperInstance.toModel) as Order[]),
+        partners: computed(() => all.value),
         totalsPerPartner: computed(() => store.totalsPerPartner),
         globalTotals: computed(() => store.globalTotals),
         creditOrders: store.creditOrders,
@@ -35,13 +37,8 @@ export function useOrders() {
         partnersToItemProps: getPartnersToItemProps(tCap),
         getOrderById,
         getOrdersForPartner,
-        createDebitOrderCommand,
-        createCreditOrderCommand,
-        updateOrderStatusCommand,
-        addOrderItemCommand,
-        removeOrderItemCommand,
-        updateOrderItemCommand,
-        deleteOrderComand
+        createCreditOrderCommmandHandler: new CreateCreditOrderCommmandHandler(store),
+        deleteOrderCommmandHandler: new DeleteOrderCommandHandler(store),
     }
 }
 

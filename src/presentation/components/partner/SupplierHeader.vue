@@ -24,7 +24,9 @@
       >
         {{ supplier.contactName }}
       </div>
-      
+      <div class="text-subtitle-1 text-grey-darken-1">
+        {{ tCap('partner.clientNumber') }}: <strong>{{ supplier.clientNumber }}</strong>
+      </div>
       <div class="text-subtitle-1 text-grey-darken-1">
         {{ tCap('partner.activity') }}: <strong>{{ supplier.activity }}</strong>
       </div>
