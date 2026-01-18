@@ -1,4 +1,4 @@
-import { PartnerDTO } from '@/application/dto/partnerDTO';
+import { type PartnerDTO } from '@/application/dto/partnerDTO';
 import { PartnerType } from '@/domain/partner/partnerTypes';
 import { defineStore } from 'pinia';
 

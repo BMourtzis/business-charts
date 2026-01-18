@@ -1,4 +1,4 @@
-import { IEntity } from "@/domain/type";
+import { type IEntity } from "@/domain/type";
 import { v4 as uuidv4 } from "uuid";
 
 export class Address implements IEntity {

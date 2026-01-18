@@ -1,4 +1,4 @@
-import { DeliveryCarrierDTO } from "@/application/dto/deliveryCarrierDTO";
+import { type DeliveryCarrierDTO } from "@/application/dto/deliveryCarrierDTO";
 import { DeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";
 import { DeliveryCarrierMapperInstance } from "@/application/mapper/deliverCarrierMapper";
 import { LocalRepository } from "./localRepository";

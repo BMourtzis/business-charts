@@ -58,7 +58,7 @@ import { Partner } from '@/domain/partner/models/partner';
 
 import { usePartners } from '@/presentation/composables/partner/usePartners';
 import { usePartnerTable } from '@/presentation/composables/partner/usePartnersTable';
-import { VDataTableRow } from '@/presentation/types/types';
+import { type VDataTableRow } from '@/presentation/types/types';
 
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import EditPartnerModal from "./EditPartnerModal.vue";

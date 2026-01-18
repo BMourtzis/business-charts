@@ -1,4 +1,4 @@
-import { Store } from "pinia";
+import { type Store } from "pinia";
 
 export interface StoreSyncAdapter<State = any> {
     storeId: string;

@@ -1,4 +1,4 @@
-import { DeliveryCarrierDTO } from '@/application/dto/deliveryCarrierDTO';
+import { type DeliveryCarrierDTO } from '@/application/dto/deliveryCarrierDTO';
 import { defineStore } from 'pinia';
 
 export const useDeliveryCarrierStore = defineStore("deliveryCarriers", {

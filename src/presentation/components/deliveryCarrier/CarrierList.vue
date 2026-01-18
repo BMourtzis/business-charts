@@ -49,7 +49,7 @@ import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
 
 import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
 import { useDeliveryCarrierTable } from '@/presentation/composables/deliveryCarrier/useCarrierTable';
-import { VDataTableRow } from '@/presentation/types/types';
+import { type VDataTableRow } from '@/presentation/types/types';
 
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import PhoneLink from '@/presentation/components/contact/PhoneLink.vue';

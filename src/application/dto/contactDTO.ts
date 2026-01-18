@@ -1,5 +1,5 @@
 import { ContactType } from "@/domain/contact/contactTypes"
-import { IEntityDTO } from "./type";
+import type { IEntityDTO } from "./type";
 
 export interface ContactDTO extends IEntityDTO {
     id: string;

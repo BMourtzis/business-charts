@@ -1,13 +1,12 @@
-import { computed, Ref } from "vue";
+import { computed, type Ref } from "vue";
 
 import { Order } from "@/domain/order/models/order";
 
 import { useLocalizationHelpers } from "../useLocalization";
-import { DataTableHeader } from "vuetify";
+import type { DataTableHeader } from "vuetify";
 import { Partner } from "@/domain/partner/models/partner";
 import { getPartnerDetails } from "../partner/usePartnerDetails";
-import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
-import { getDirectionString, getStatusString } from "./useOrderDetails";
+import type { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
 
 function toOrderTable(order: Order, tCap: (key: string, count?: number) => string): OrderTableRow {
     return {
@@ -16,8 +15,8 @@ function toOrderTable(order: Order, tCap: (key: string, count?: number) => strin
         partner: getPartnerDetails(order.partnerId),
         createdDate: getDate(order.createdDate),
         dueDate: getDate(order.dueDate),
-        status: getStatusString(order.status, tCap),
-        direction: getDirectionString(order.direction, tCap),
+        status: order.status,
+        direction: order.direction,
         total: toAmountString(order.totalAmount)
     }
 }
@@ -69,7 +68,7 @@ export interface OrderTableRow {
     partner?: Partner,
     createdDate: string,
     dueDate: string,
-    status: string,
-    direction: string,
+    status: OrderStatus,
+    direction: OrderDirection,
     total: string
 }

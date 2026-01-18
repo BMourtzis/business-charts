@@ -1,9 +1,9 @@
-import { PartnerDTO } from "@/application/dto/partnerDTO";
-import { IEntityDTO } from "@/application/dto/type";
+import { type PartnerDTO } from "@/application/dto/partnerDTO";
+import { type IEntityDTO } from "@/application/dto/type";
 import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
 import { Partner } from "@/domain/partner/models/partner";
 import { Supplier } from "@/domain/partner/models/supplier";
-import { IEntity } from "@/domain/type";
+import { type IEntity } from "@/domain/type";
 
 export interface IRepository<T extends IEntity, DTO extends IEntityDTO> {
     getAll(): Promise<DTO[]>;

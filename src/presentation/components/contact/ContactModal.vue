@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch, PropType } from 'vue';
+import { computed, watch, type PropType } from 'vue';
 
 import { Contact } from '@/domain/contact/models/contact';
 import { ContactType } from '@/domain/contact/contactTypes';
@@ -94,7 +94,7 @@ import { ContactType } from '@/domain/contact/contactTypes';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useContactForm } from '@/presentation/composables/contact/useContactForm';
-import { AddressOwnerType } from '@/presentation/composables/contact/useAddressHandlers';
+import { type AddressOwnerType } from '@/presentation/composables/contact/useAddressHandlers';
 import { useContactHandlers } from '@/presentation/composables/contact/useContactHandlers';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 

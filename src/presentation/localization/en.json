@@ -73,7 +73,8 @@
         "primary_gen": "primary",
         "noDateSelected": " - ",
         "credit": "credit",
-        "debit": "debit"
+        "debit": "debit",
+        "timeline": "timeline"
     },
     "export": {
         "dataTransfer": "Data Transfer",
@@ -153,6 +154,10 @@
         "remainingAmount": "remaining amount",
         "dueDate": "due date",
         "createdDate": "created date",
+        "approvedDate": "approved date",
+        "shippedDate": "shipped date",
+        "completedDate": "completed date",
+        "cancelledDate": "cancelled date",
         "status": "status",
         "draft": "draft",
         "cancelled": "cancelled",

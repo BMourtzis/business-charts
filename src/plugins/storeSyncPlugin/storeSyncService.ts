@@ -1,6 +1,6 @@
 import { BroadcastChannelService } from "@/infrastructure/services/broadcastChannelService";
-import { createStoreSyncAdapter, StoreSyncAdapter } from "./storeSyncAdapter";
-import { Store } from "pinia";
+import { createStoreSyncAdapter, type StoreSyncAdapter } from "./storeSyncAdapter";
+import { type Store } from "pinia";
 import { VaultSession } from "@/infrastructure/security/crypto-session";
 
 const STORE_PATCH_MESSAGE_TYPE = "STORE_PATCH";

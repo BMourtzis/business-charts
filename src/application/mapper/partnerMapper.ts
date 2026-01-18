@@ -1,10 +1,10 @@
 import { Partner } from "@/domain/partner/models/partner";
-import { PartnerDTO } from "../dto/partnerDTO";
+import type { PartnerDTO } from "../dto/partnerDTO";
 import { AddressMapperInstance, ContactMapperInstance } from "./contactMapper";
 import { PartnerType } from "@/domain/partner/partnerTypes";
 import { Supplier } from "@/domain/partner/models/supplier";
 import { B2BCustomer } from "@/domain/partner/models/b2bCustomer";
-import { IMapper } from "./type";
+import type { IMapper } from "./type";
 
 
 function getModelType(dto: PartnerDTO) {

@@ -1,7 +1,7 @@
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { partnerRepository } from "@/infrastructure/repositories/partnerRepository.local";
 import { createB2BCustomer } from "@/domain/partner/models/b2bCustomer";
-import { AddressDTO } from "@/application/dto/contactDTO";
+import type { AddressDTO } from "@/application/dto/contactDTO";
 import { createEmail, createPhone } from "@/domain/contact/models/contact";
 import { createAddress } from "@/domain/contact/models/address";
 import { PartnerMapperInstance } from "@/application/mapper/partnerMapper";

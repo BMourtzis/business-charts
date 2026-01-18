@@ -1,7 +1,7 @@
 
 import { Order } from "@/domain/order/models/order";
-import { OrderDTO } from "@/application/dto/orderDTO";
-import { IMapper } from "./type";
+import type { OrderDTO } from "@/application/dto/orderDTO";
+import type { IMapper } from "./type";
 import { OrderItemMapperInstance } from "./orderItemMapper";
 import { YearlyClientSequence } from "@/domain/yearlySequence";
 

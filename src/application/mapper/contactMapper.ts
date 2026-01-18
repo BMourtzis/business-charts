@@ -1,7 +1,7 @@
 import { Contact } from "@/domain/contact/models/contact";
-import { AddressDTO, ContactDTO } from "../dto/contactDTO";
+import type { AddressDTO, ContactDTO } from "../dto/contactDTO";
 import { Address } from "@/domain/contact/models/address";
-import { IMapper } from "./type";
+import type { IMapper } from "./type";
 
 export class ContactMapper implements IMapper<Contact, ContactDTO> {
     toModel(dto: ContactDTO): Contact {

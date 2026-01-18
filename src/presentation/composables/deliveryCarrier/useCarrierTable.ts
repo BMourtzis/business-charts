@@ -1,5 +1,5 @@
-import { computed, Ref } from "vue";
-import { DataTableHeader } from "vuetify";
+import { computed, type Ref } from "vue";
+import { type DataTableHeader } from "vuetify";
 
 import { DeliveryCarrier } from "@/domain/deliveryCarrier/deliveryCarrier";
 import { ContactType } from "@/domain/contact/contactTypes";
