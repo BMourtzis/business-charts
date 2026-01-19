@@ -106,7 +106,7 @@
         class="text-subtitle-1 text-grey-darken-1 font-weight-bold order-details-line">
         {{ tCap("order.notes") }}:
       </div>
-      <span>{{ order.notes }}</span>
+      <span class="formatted-notes">{{ order.notes }}</span>
     </v-col>
 
     <v-col cols="4" md="5" class="text-md-right">
@@ -177,5 +177,8 @@ function deleteOrder() {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-left-width: 2px;
+  }
+  .formatted-notes {
+    white-space: pre-wrap;
   }
 </style>
