@@ -6,6 +6,8 @@
         v-model="menu"
         transition="scale-transition"
         offset-y
+        :close-on-content-click="false"
+        close-on-back
       >
         <template #activator="{ props }">
           <v-btn
@@ -26,7 +28,6 @@
           elevation="1"
           hide-header
           show-adjacent-months
-          @input="menu = false"
           @update:model-value="onUpdate"
         />
       </v-menu>
@@ -66,6 +67,7 @@ function onUpdate() {
   if(!date.value) return;
 
   emit("update:modelValue", date.value);
+  menu.value = false;
 }
 
 const formattedDate = computed(() => {
