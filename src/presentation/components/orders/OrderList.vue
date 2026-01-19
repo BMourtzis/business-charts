@@ -5,6 +5,7 @@
     class="text-start"
     hide-default-footer
     density="comfortable"
+    :items-per-page="-1"
     hover
     @click:row="rowClick"
   >
