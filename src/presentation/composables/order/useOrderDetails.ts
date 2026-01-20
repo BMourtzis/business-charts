@@ -1,6 +1,7 @@
 import { OrderMapperInstance } from "@/application/mapper/orderMapper";
 import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
+import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 import { computed } from "vue";
 
 export function useOrderDetails(id: string) {
@@ -42,7 +43,7 @@ export function getDate(date: Date) {
 }
 
 export function getAmount(amount: number): string {
-    return `${amount.toFixed(2)}€`
+    return numberPriceToGreekFormatLocale(amount);
 }
 
 export function getStatusString(status: OrderStatus, tCap: (key: string, count?: number) => string): string {

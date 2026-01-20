@@ -168,7 +168,9 @@ const titleMap: Record<string, string> = {
   deliveryCarriers: "pages.deliveryCarrier.carriers",
   deliveryCarrierDetails: "pages.deliveryCarrier.details",
   dataTransfer: "pages.dataTransfer",
-  changePassword: "pages.changePassword"
+  changePassword: "pages.changePassword",
+  orders: "pages.order.orders",
+  orderDetails: "pages.order.details"
 };
 
 function isLeaf(item: NavItem): boolean {

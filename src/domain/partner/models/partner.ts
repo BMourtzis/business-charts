@@ -14,9 +14,9 @@ export abstract class Partner implements IEntity {
     private _addresses: Address[];
     
     private _businessName?: string;
-    private _contactName: string;
+    private _contactName?: string;
 
-    constructor(id: string, type: PartnerType, clientNumber: number, contactName: string, businessName?: string) {
+    constructor(id: string, type: PartnerType, clientNumber: number, businessName?: string, contactName?: string, ) {
         this.id = id;
         this.clientNumber = clientNumber;
         this.type = type;
@@ -30,23 +30,15 @@ export abstract class Partner implements IEntity {
     get emails() { return this._emails.slice(); }
     get phones() { return this._phones.slice(); }
     get addresses() { return this._addresses.slice(); }
-
-    get businessName() { return this._businessName || ""; }
-    set businessName(value: string) {
-        this._businessName = value;
-    }
-
-    public get contactName() { return this._contactName; }
-    set contactName(value: string) {
-        this._contactName = value;
-    }
+    get businessName() { return this._businessName; }
+    get contactName() { return this._contactName };
 
     updateData(contactName?: string, businessName?: string) {
-        if(contactName &&contactName !== undefined && contactName !== this._contactName) {
+        if(contactName !== undefined || contactName !== this.contactName) {
             this._contactName = contactName;
         }
 
-        if(businessName !== undefined || businessName !== this._businessName) {
+        if(businessName !== undefined && businessName !== this.businessName) {
             this._businessName = businessName;
         }
     }

@@ -1,8 +1,8 @@
 <template>
   <v-text-field
     class="price-editor"
-    :model-value="modelValue"
-    @update:model-value="$emit('update:modelValue', sanitize($event))"
+    :model-value="localeValue"
+    @update:model-value="$emit('update:modelValue', greekToIntlLocale($event))"
     density="compact"
     variant="underlined"
     hide-details
@@ -11,15 +11,17 @@
     inputmode="decimal"
     @blur="$emit('blur')"
     @keydown="onKeydown"
-    suffix="€"
+    :suffix="getMonetarySign()"
     :style="{ width: width || '2vw'}"
   />
 </template>
 
 <script setup lang="ts">
 import { useCellNavigation } from '@/presentation/composables/editableTable/onCellNavigation';
+import { getMonetarySign, greekToIntlLocale, intlToGreekLocale } from '@/utlis/priceUtils';
+import { computed } from 'vue';
 
-defineProps<{
+const props = defineProps<{
   modelValue: string;
   width?: string;
 }>();
@@ -30,15 +32,13 @@ const emit = defineEmits([
   "navigate"
 ]);
 
+const localeValue = computed(() => intlToGreekLocale(props.modelValue));
+
 const { onKeydown} = useCellNavigation(emit);
 
-function sanitize(value: string) {
-  // allow digits and at most one decimal point
-  const parts = value.replace(/[^\d.]/g, '').split('.');
-  if (parts.length > 2) {
-    // more than one dot → keep only first dot
-    return parts.shift() + '.' + parts.join('');
-  }
-  return parts.join('.');
+function toNumberString(localeValue: string): string {
+  const normalized = localeValue.replace(",", ".");
+  return normalized === "" ? "" : normalized;
 }
+
 </script>

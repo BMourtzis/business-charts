@@ -84,6 +84,10 @@ export class Order implements IEntity {
         return this.subtotal + this.taxAmount - this.discountAmount;
     }
 
+    get remainingAmount() {
+        return this.totalAmount - this._depositAmount;
+    }
+
     get dueDate() { return this._dueDate; }
     get createdDate() { return this._createdDate; }
     get approvedDate() { return this._approvedDate; }

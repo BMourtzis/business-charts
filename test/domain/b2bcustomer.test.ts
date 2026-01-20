@@ -10,7 +10,7 @@ describe('B2BCustomer class', () => {
     const businessName = 'Beta Business'
     const clientNumber = 1;
 
-    const customer = createB2BCustomer(name, clientNumber, carrierId, businessName);
+    const customer = createB2BCustomer(businessName, clientNumber, carrierId, name);
 
     // Should be instance of B2BCustomer
     expect(customer).toBeInstanceOf(Partner);

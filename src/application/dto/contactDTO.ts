@@ -13,8 +13,8 @@ export interface AddressDTO extends IEntityDTO {
     id: string;
     name?: string;
     isPrimary: boolean;
-    street: string;
-    city: string;
+    street?: string;
+    city?: string;
     zip?: string;
     country?: string;
 }

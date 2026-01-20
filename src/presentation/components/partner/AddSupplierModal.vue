@@ -41,7 +41,7 @@
                 <v-text-field
                   v-model="form.activity"
                   :label="tCap('partner.activity')"
-                  :rules="[required, maxLength(50)]"
+                  :rules="[maxLength(50)]"
                 />
               </v-col>
               <v-col cols="12">
@@ -66,14 +66,14 @@
                 <v-text-field
                   v-model="form.street"
                   :label="tCap('address.street')"
-                  :rules="[streetRule, maxLength(50)]"
+                  :rules="[maxLength(50)]"
                 />
               </v-col>
               <v-col cols="8">
                 <v-text-field
                   v-model="form.city"
                   :label="tCap('address.city')"
-                  :rules="[cityRule, maxLength(50)]"
+                  :rules="[maxLength(50)]"
                 />
               </v-col>
               <v-col cols="4">
@@ -128,7 +128,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 
-import { usePartners } from '@/presentation/composables/partner/usePartners';
+import { getAddressFromFields, usePartners } from '@/presentation/composables/partner/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
@@ -145,29 +145,9 @@ const { createSupplierCommandHandler } = usePartners();
 
 const { tCap } = useLocalizationHelpers();
 
-type FormType = {
-  contactName: string;
-  businessName?: string;
-  activity: string;
-  email?: string;
-  phone?: string;
-  street?: string;
-  city?: string;
-  zip?: string;
-  country?: string;
-}
-
 const form = reactive({
-  businessName: '',
   contactName: '',
-  activity: '',
-  email: '',
-  phone: '',
-  street: '',
-  city: '',
-  zip: '',
-  country: ''
-} as FormType);
+} as CreateSupplierVM);
 
 const {
   dialog, 
@@ -179,16 +159,6 @@ const {
   submit
 } = useFormDialog(form);
 
-function streetRule() {
-  if ((form.city || form.zip || form.country) && !form.street) return tCap('validation.streetRequired');
-  return true;
-}
-
-function cityRule() {
-  if ((form.street || form.zip || form.country) && !form.city) return tCap('validation.cityRequired');
-  return true;
-}
-
 async function saveSupplier() {
   await submit(async (form) => {
     createSupplierCommandHandler.handle({
@@ -197,23 +167,11 @@ async function saveSupplier() {
       businessName: form.businessName, 
       email: form.email, 
       phone: form.phone, 
-      address: getAddressFromForm(form)
+      address: getAddressFromFields(form.street, form.city, form.zip, form.country)
     });
   });
 }
 
-function getAddressFromForm(form: FormType) {
-  if(!form.street && !form.city) return undefined;
-
-  return {
-    id: "",
-    isPrimary: true,
-    street: form.street ?? "",
-    city: form.city ?? "",
-    zip: form.zip,
-    country: form.country
-  };
-}
 </script>
 
 <style scoped>

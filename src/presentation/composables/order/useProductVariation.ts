@@ -8,7 +8,7 @@ export const colourVariation = {
     rendererType: "text",
     navigable: true,
     width: "4vw",
-    list: [ "BLK", "WILD", "F", "KIT.TZIN", "GLOW", "BL", "ΚΦ", "ΒΕΡ. ΝΑΠΑ", "ΣΑ.ΤΖΙΝ", "ΣΑ", "ΚΝΛ", "ΨΗΦ", "OL", "X", "XK", "ΤΑΜΠΑ.Ψ", "ΓΚΡΙ", "ΜΝΤ", "ΚΙΤ.ΤΖΙΝ", "ΚΦ.ΝΑΙΡ"]
+    list: ["WILD", "F", "GLOW", "BL", "ΚΦ", "ΒΕΡ. ΝΑΠΑ", "ΣΑ.ΤΖΙΝ", "ΣΑ", "ΚΝΛ", "ΨΗΦ", "OL", "X", "XK", "ΤΑΜΠΑ.ΨΑΘΑ", "ΓΚΡΙ", "ΜΝΤ", "ΚΙΤ.ΤΖΙΝ", "ΚΦ.ΝΑΙΡ", "CAM", "LIM.ΚΡ", "ROSE.ΚΡ", "Χ.ΝΑΠΑ", "ΤΑΜΠΑ.ΚΡ", "OL.ΚΡ", "ΚΥΡ.ΝΑΙΡ", "Μ", "ΓΚΡΙ.ΝΑΙΡ", "ΓΚΡΙ.ΚΡ"]
 };
 
 export const soleVariation = {
@@ -19,7 +19,7 @@ export const soleVariation = {
     rendererType: "text",
     navigable: true,
     width: "4vw",
-    list: ["anatomic", "SOFT", "soft", "vamos", "VAMOS", "FIESTA", "fiesta", "SAND", "sand"]
+    list: ["anatomic", "soft", "SOFT", "vamos", "VAMOS", "fiesta", "FIESTA", "sand", "SAND", "momo", "MOMO", "esp"]
 }
 
 export const menVariation = {

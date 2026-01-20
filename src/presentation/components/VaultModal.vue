@@ -22,9 +22,11 @@
               <v-col cols="12">
                 <v-text-field
                   v-model="form.password"
+                  autofocus
                   :label="tCap('vault.password')"
                   :rules="[required]"
                   type="password"
+                  @keydown.enter.prevent="tryUnlock"
                 />
               </v-col>
             </v-row>
