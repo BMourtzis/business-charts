@@ -3,17 +3,14 @@ import { Partner } from "./partner";
 import { v4 as uuidv4 } from "uuid";
 
 export class Supplier extends Partner {
-    private _activity: string;
+    private _activity?: string;
 
-    constructor(id: string, clientNumber: number, contactName: string, activity: string, businessName?: string) {
+    constructor(id: string, clientNumber: number, contactName: string, activity?: string, businessName?: string) {
         super(id, PartnerType.Supplier, clientNumber, businessName, contactName);
         this._activity = activity;
     }
 
     get activity() { return this._activity; }
-    set activity(value: string) {
-        this._activity = value;
-    }
 
     updateData(contactName?: string, businessName?: string, activity?: string) {
         super.updateData(contactName, businessName);
@@ -24,6 +21,6 @@ export class Supplier extends Partner {
     }
 }
 
-export function createSupplier(name: string, clientNumber: number, activity: string, businessName?: string): Supplier {
+export function createSupplier(name: string, clientNumber: number, activity?: string, businessName?: string): Supplier {
     return new Supplier(uuidv4(), clientNumber, name, activity, businessName);
 }

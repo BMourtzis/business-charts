@@ -146,7 +146,7 @@ export interface PartnerTableRow extends BasePartnerRow {
 
 export interface SupplierTableRow extends BasePartnerRow {
     rowType: "supplier";
-    activity: string;
+    activity?: string;
 }
 
 export interface B2BCustomerTableRow extends BasePartnerRow {

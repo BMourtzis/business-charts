@@ -41,7 +41,7 @@
                 <v-text-field
                   v-model="form.activity"
                   :label="tCap('partner.activity')"
-                  :rules="[required, maxLength(50)]"
+                  :rules="[maxLength(50)]"
                 />
               </v-col>
               <v-col cols="12">
@@ -132,6 +132,7 @@ import { usePartners } from '@/presentation/composables/partner/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
+import { isNullOrEmpty } from '@/utlis/stringUtils';
 
 const { 
   maxLength, 
@@ -148,7 +149,7 @@ const { tCap } = useLocalizationHelpers();
 type FormType = {
   contactName: string;
   businessName?: string;
-  activity: string;
+  activity?: string;
   email?: string;
   phone?: string;
   street?: string;
@@ -158,15 +159,7 @@ type FormType = {
 }
 
 const form = reactive({
-  businessName: '',
   contactName: '',
-  activity: '',
-  email: '',
-  phone: '',
-  street: '',
-  city: '',
-  zip: '',
-  country: ''
 } as FormType);
 
 const {
@@ -203,18 +196,20 @@ async function saveSupplier() {
 }
 
 function getAddressFromForm(form: FormType) {
-  if(!form.street || !form.city || !form.zip || !form.country) {
-    return {
-      id: "",
-      isPrimary: true,
-      street: form.street ?? "",
-      city: form.city ?? "",
-      zip: form.zip,
-      country: form.country
-    };
-  }
+  if(isNullOrEmpty(form.street)
+    && isNullOrEmpty(form.city)
+    && isNullOrEmpty(form.zip)
+    && isNullOrEmpty(form.country)
+  ) return undefined;
   
-  return undefined;
+  return {
+    id: "",
+    isPrimary: true,
+    street: form.street ?? "",
+    city: form.city ?? "",
+    zip: form.zip,
+    country: form.country
+  };
 }
 </script>
 

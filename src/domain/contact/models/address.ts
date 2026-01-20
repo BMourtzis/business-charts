@@ -1,4 +1,5 @@
 import { type IEntity } from "@/domain/type";
+import { isNullOrEmpty } from "@/utlis/stringUtils";
 import { v4 as uuidv4 } from "uuid";
 
 export class Address implements IEntity {
@@ -39,12 +40,6 @@ function assertAddressDetails(street?: string, city?: string, zip?: string, coun
     ) {
         throw new Error("An address needs to have at least one of the following: street, city, zip or country");
     }
-}
-
-function isNullOrEmpty(value?: string) {
-    if(!value) return true;
-    if(value === "") return true;
-    return false;
 }
 
 export function createAddress(street?: string, city?: string, zip?: string, country?: string, isPrimary = false, name?: string) {

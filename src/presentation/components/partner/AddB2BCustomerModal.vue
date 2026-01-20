@@ -142,6 +142,7 @@ import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 
 import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal.vue';
+import { isNullOrEmpty } from '@/utlis/stringUtils';
 
 const { 
   maxLength, 
@@ -168,14 +169,7 @@ type FormType = {
 }
 
 const form = reactive({
-  businessName: '',
-  contactName: '',
-  email: '',
-  phone: '',
-  street: '',
-  city: '',
-  zip: '',
-  country: ''
+  businessName: ''
 } as FormType);
 
 const {
@@ -220,18 +214,20 @@ async function saveB2BCustomer() {
 }
 
 function getAddressFromForm(form: FormType) {
-  if(!form.street || !form.city || !form.zip || !form.country) {
-    return {
-      id: "",
-      isPrimary: true,
-      street: form.street ?? "",
-      city: form.city ?? "",
-      zip: form.zip,
-      country: form.country
-    };
-  }
+  if(isNullOrEmpty(form.street)
+    && isNullOrEmpty(form.city)
+    && isNullOrEmpty(form.zip)
+    && isNullOrEmpty(form.country)
+  ) return undefined;
   
-  return undefined;
+  return {
+    id: "",
+    isPrimary: true,
+    street: form.street ?? "",
+    city: form.city ?? "",
+    zip: form.zip,
+    country: form.country
+  };
 }
 </script>
 

@@ -9,7 +9,7 @@ import { ClientNumberService } from "@/infrastructure/services/clientNumberServi
 
 export interface CreateSupplierCommand {
     contactName: string, 
-    activity: string,
+    activity?: string,
     businessName?: string, 
     email?: string, 
     phone?: string, 
