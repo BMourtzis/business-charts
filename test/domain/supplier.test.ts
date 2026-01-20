@@ -12,7 +12,7 @@ describe('createSupplier', () => {
     expect(supplier.clientNumber).toBe(clientNumber);
     expect(supplier.contactName).toBe(name);
     expect(supplier.activity).toBe(activity);
-    expect(supplier.businessName).toBe("");
+    expect(supplier.businessName).toBe(undefined);
     expect(supplier.id).toBeTruthy();
   });
 

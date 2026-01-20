@@ -8,7 +8,7 @@ import { createAddress } from '@/domain/contact/models/address.js'
 // Concrete subclass for testing
 class TestPartner extends Partner {
   constructor(id: string, clientNumber: number,  contactName: string, businessName?: string) {
-    super(id, PartnerType.Supplier, clientNumber, contactName, businessName)
+    super(id, PartnerType.Supplier, clientNumber, businessName, contactName )
   }
 }
 
