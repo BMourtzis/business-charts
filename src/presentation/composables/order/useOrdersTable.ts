@@ -7,6 +7,7 @@ import type { DataTableHeader } from "vuetify";
 import { Partner } from "@/domain/partner/models/partner";
 import { getPartnerDetails } from "../partner/usePartnerDetails";
 import type { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
+import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 
 function toOrderTable(order: Order, tCap: (key: string, count?: number) => string): OrderTableRow {
     return {
@@ -17,7 +18,7 @@ function toOrderTable(order: Order, tCap: (key: string, count?: number) => strin
         dueDate: getDate(order.dueDate),
         status: order.status,
         direction: order.direction,
-        total: toAmountString(order.totalAmount)
+        total: numberPriceToGreekFormatLocale(order.totalAmount)
     }
 }
 
@@ -29,10 +30,6 @@ function getDate(date?: Date): string {
     if(!date) return "-";
 
     return date.toLocaleDateString()
-}
-
-function toAmountString(amount: number): string {
-    return `${amount.toFixed(2)}€`;
 }
 
 function getOrderHeaders(tCap: (key: string, count?: number) => string) {

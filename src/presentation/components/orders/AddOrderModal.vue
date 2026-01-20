@@ -69,7 +69,8 @@
                 {{ tCap('order.orderQuantity') }}: <strong>{{ totalQuantityAllItems }}</strong>
               </v-col>
               <v-col cols="auto">
-                {{ tCap('order.orderSum') }} <strong>{{ totalAmountAllItems.toFixed(2) }}€</strong>
+                {{ tCap('order.orderSum') }} 
+                <strong>{{ numberPriceToGreekFormatLocale(totalAmountAllItems) }}</strong>
               </v-col>
             </v-row>
             <v-row>
@@ -91,7 +92,8 @@
                     />
                   </v-col>
                   <v-col cols="4">
-                    {{ tCap('order.amountAfterTax') }} <strong>{{ totalAmountAllItemsWithTax.toFixed(2) }}€</strong>
+                    {{ tCap('order.amountAfterTax') }} 
+                    <strong>{{ numberPriceToGreekFormatLocale(totalAmountAllItemsWithTax) }}</strong>
                   </v-col>
                 </v-row>
                 <v-row class="mb-4" justify="end" align="center">
@@ -103,7 +105,8 @@
                     />
                   </v-col>
                   <v-col cols="4">
-                    {{ tCap('order.total') }}: <strong>{{ totalAmount.toFixed(2) }}€</strong>
+                    {{ tCap('order.total') }}: 
+                    <strong>{{ numberPriceToGreekFormatLocale(totalAmount) }}</strong>
                   </v-col>
                 </v-row>
                 <v-row class="mb-4" justify="end" align="center">
@@ -115,7 +118,8 @@
                     />
                   </v-col>
                   <v-col cols="4">
-                    {{ tCap('order.remainingAmount') }}: <strong>{{ totalAmountAfterDeposit.toFixed(2) }}€</strong>
+                    {{ tCap('order.remainingAmount') }}: 
+                    <strong>{{ numberPriceToGreekFormatLocale(totalAmountAfterDeposit) }}</strong>
                   </v-col>
                 </v-row>
               </v-col>
@@ -176,6 +180,7 @@ import { dtoToVM, orderVmToCmd } from '@/presentation/mappers/orderItemMapper';
 import AmountAdjustmentField from '../shared/AmountAdjustmentField.vue';
 import VatCalculatorField from '../shared/vatCalculatorField.vue';
 import DatePicker from '../shared/DatePicker.vue';
+import { numberPriceToGreekFormatLocale } from '@/utlis/priceUtils';
 
 const { 
   maxLength, 
@@ -243,7 +248,7 @@ const totalAmountAllItems = computed(() =>
     const itemTotal = item.variations?.reduce(
       (sum, variation) => {
         const variationQuantity = Object.values(variation.sizing).reduce((a, b) => a + b, 0);
-        return sum + variationQuantity * variation.price;  // variation now has price
+        return sum + variationQuantity * variation.price;
       },
       0
     ) ?? 0;

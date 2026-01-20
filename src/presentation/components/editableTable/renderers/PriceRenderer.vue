@@ -7,6 +7,7 @@
     </span>
 </template>
 <script setup lang="ts">
+import { stringPriceToGreekFormatLocale } from '@/utlis/priceUtils';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -14,13 +15,7 @@ const props = defineProps<{
     width?: string;
 }>();
 
-const formattedPrice = computed(() => {
-    const price = parseFloat(props.modelValue);
-    if(isNaN(price)) {
-        return "0.00 €";
-    }
-    return `${price.toFixed(2)} €`;
-});
+const formattedPrice = computed(() => stringPriceToGreekFormatLocale(props.modelValue));
 </script>
 
 <style scoped>
