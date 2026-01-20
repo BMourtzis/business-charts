@@ -135,14 +135,13 @@ import { reactive } from 'vue';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
 
-import { usePartners } from '@/presentation/composables/partner/usePartners';
+import { getAddressFromFields, usePartners } from '@/presentation/composables/partner/usePartners';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 
 import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal.vue';
-import { isNullOrEmpty } from '@/utlis/stringUtils';
 
 const { 
   maxLength, 
@@ -156,21 +155,9 @@ const { carriers } = useDeliveryCarriers()
 
 const { tCap } = useLocalizationHelpers();
 
-type FormType = {
-  contactName?: string;
-  businessName: string;
-  deliveryCarrierId?: string;
-  email?: string;
-  phone?: string;
-  street?: string;
-  city?: string;
-  zip?: string;
-  country?: string;
-}
-
 const form = reactive({
   businessName: ''
-} as FormType);
+} as CreateB2BCustomerVM);
 
 const {
   dialog, 
@@ -190,16 +177,6 @@ function itemProps(item: DeliveryCarrier) {
     }
 }
 
-// function streetRule() {
-//   if ((form.city || form.zip || form.country) && !form.street) return tCap('validation.streetRequired');
-//   return true;
-// }
-
-// function cityRule() {
-//   if ((form.street || form.zip || form.country) && !form.city) return tCap('validation.cityRequired');
-//   return true;
-// }
-
 async function saveB2BCustomer() {
   await submit(async (form) => {
     createB2BCustomerCommandHandler.handle({
@@ -208,26 +185,9 @@ async function saveB2BCustomer() {
       businessName: form.businessName, 
       email: form.email, 
       phone: form.phone, 
-      address: getAddressFromForm(form)
+      address: getAddressFromFields(form.street, form.city, form.zip, form.country)
     });
   });
-}
-
-function getAddressFromForm(form: FormType) {
-  if(isNullOrEmpty(form.street)
-    && isNullOrEmpty(form.city)
-    && isNullOrEmpty(form.zip)
-    && isNullOrEmpty(form.country)
-  ) return undefined;
-  
-  return {
-    id: "",
-    isPrimary: true,
-    street: form.street ?? "",
-    city: form.city ?? "",
-    zip: form.zip,
-    country: form.country
-  };
 }
 </script>
 

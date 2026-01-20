@@ -16,6 +16,7 @@ import { AddPartnerPhoneCommandHandler, EditPartnerPhoneCommandHandler, RemovePa
 import { AddPartnerAddressCommandHandler, EditPartnerAddressCommandHandler, RemovePartnerAddressCommandHandler } from "@/application/commands/partner/addressCommands";
 
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
+import { isNullOrEmpty } from "@/utlis/stringUtils";
 
 
 export function usePartners() {
@@ -45,4 +46,21 @@ export function usePartners() {
         removeAddressCommandHandler: new RemovePartnerAddressCommandHandler(store),
         deletePartnerCommandHandler: new DeletePartnerCommandHandler(store)
     }
+}
+
+export function getAddressFromFields(street?: string, city?: string, zip?: string, country?: string) {
+  if(isNullOrEmpty(street)
+    && isNullOrEmpty(city)
+    && isNullOrEmpty(zip)
+    && isNullOrEmpty(country)
+  ) return undefined;
+  
+  return {
+    id: "",
+    isPrimary: true,
+    street: street,
+    city: city,
+    zip: zip,
+    country: country
+  };
 }
