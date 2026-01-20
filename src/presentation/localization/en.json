@@ -13,6 +13,10 @@
         "deliveryCarrier": {
             "carriers": "Delivery Carriers",
             "details": "Delivery Carrier Details"
+        },
+        "order": {
+            "orders": "Orders",
+            "details": "Order Details"
         }
     },
     "validation": {
