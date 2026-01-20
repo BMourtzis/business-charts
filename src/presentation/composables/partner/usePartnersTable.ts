@@ -25,22 +25,26 @@ function getPhones(phones: Contact[]) {
 }
 
 function toPartnerTable(partner: Partner): PartnerTableRow {
-    const phones = getPhones(partner.phones);
     const address = getPrimaryAddress(partner.addresses);
 
     return {
         id: partner.id,
         clientNumber: partner.clientNumber,
         type: partner.type,
-        name: partner.businessName
-            ? `${partner.businessName} (${partner.contactName})`
-            : partner.contactName,
+        name: getName(partner),
         city: address?.city,
-        address,
-        phones,
+        address: address,
+        phones: getPhones(partner.phones),
         rowType: "partner",
         value: partner
     }
+}
+
+function getName(partner: Partner): string {
+    if(partner.businessName && partner.contactName) return `${partner.businessName} (${partner.contactName})`;
+    if(partner.businessName) return partner.businessName;
+    if(partner.contactName) return partner.contactName;
+    return "";
 }
 
 function toSupplierTable(supplier: Supplier): SupplierTableRow {
@@ -76,7 +80,6 @@ function getSupplierHeaders(tCap: (key: string, count?: number) => string) {
         { title: tCap('partner.clientNumber'), key: "clientNumber", align: 'start' },
         { title: tCap('partner.activity'), key: "activity", align: 'start' },
         { title: tCap('address.city'), key: "city", align: 'start' },  
-        { title: tCap('address.street'), key: "address", align: 'start' },  
         { title: tCap('contact.phone', 2), key: "phones", align: 'start' },  
         { title: tCap('common.action', 2), key: "actions", align: 'start' }
     ] satisfies DataTableHeader[];
@@ -87,7 +90,6 @@ function getB2BCustomerHeader(tCap: (key: string, count?: number) => string) {
         { title: tCap('common.name'), key: "name", align: 'start' },
         { title: tCap('partner.clientNumber'), key: "clientNumber", align: 'start' },
         { title: tCap('address.city'), key: "city", align: 'start' },  
-        { title: tCap('address.street'), key: "address", align: 'start' },  
         { title: tCap('contact.phone', 2), key: "phones", align: 'start' },
         { title: tCap('deliveryCarrier.carrier'), key: "deliveryCarrier", align: 'start' },
         { title: tCap('common.action', 2), key: "actions", align: 'start'}

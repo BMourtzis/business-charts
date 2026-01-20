@@ -13,17 +13,17 @@ function getModelType(dto: PartnerDTO) {
             return new Supplier(
                 dto.id,
                 dto.clientNumber,
-                dto.contactName,
+                dto.contactName ?? "",
                 dto.activity ?? '',
                 dto.businessName
             );
         case PartnerType.B2BCustomer:
             return new B2BCustomer(
                 dto.id,
-                dto.contactName,
+                dto.businessName ?? "",
                 dto.clientNumber,
                 dto.deliveryCarrierId ?? '',
-                dto.businessName
+                dto.contactName
             );
         default:
             throw new Error(`Unsupported partner type: ${dto}`);

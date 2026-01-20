@@ -25,15 +25,15 @@
             <v-row dense>
               <v-col cols="12">
                 <v-text-field
-                  v-model="form.contactName"
-                  :label="tCap('partner.contactName')"
+                  v-model="form.businessName"
+                  :label="tCap('partner.businessName')"
                   :rules="[required, rangeLength(3, 50)]"
                 />
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  v-model="form.businessName"
-                  :label="tCap('partner.businessName')"
+                  v-model="form.contactName"
+                  :label="tCap('partner.contactName')"
                   :rules="[maxLength(50)]"
                 />
               </v-col>
@@ -43,7 +43,6 @@
                   :item-props="itemProps"
                   label="Carrier"
                   :items="carriers"
-                  :rules="[required]"
                 >
                   <template #append-inner>
                     <CarrierModal mini />
@@ -72,14 +71,14 @@
                 <v-text-field
                   v-model="form.street"
                   :label="tCap('address.street')"
-                  :rules="[streetRule, maxLength(50)]"
+                  :rules="[maxLength(50)]"
                 />
               </v-col>
               <v-col cols="8">
                 <v-text-field
                   v-model="form.city"
                   :label="tCap('address.city')"
-                  :rules="[cityRule, maxLength(50)]"
+                  :rules="[maxLength(50)]"
                 />
               </v-col>
               <v-col cols="4">
@@ -157,9 +156,9 @@ const { carriers } = useDeliveryCarriers()
 const { tCap } = useLocalizationHelpers();
 
 type FormType = {
-  contactName: string;
-  businessName?: string;
-  deliveryCarrierId: string;
+  contactName?: string;
+  businessName: string;
+  deliveryCarrierId?: string;
   email?: string;
   phone?: string;
   street?: string;
@@ -171,7 +170,6 @@ type FormType = {
 const form = reactive({
   businessName: '',
   contactName: '',
-  deliveryCarrierId: '',
   email: '',
   phone: '',
   street: '',
@@ -198,15 +196,15 @@ function itemProps(item: DeliveryCarrier) {
     }
 }
 
-function streetRule() {
-  if ((form.city || form.zip || form.country) && !form.street) return tCap('validation.streetRequired');
-  return true;
-}
+// function streetRule() {
+//   if ((form.city || form.zip || form.country) && !form.street) return tCap('validation.streetRequired');
+//   return true;
+// }
 
-function cityRule() {
-  if ((form.street || form.zip || form.country) && !form.city) return tCap('validation.cityRequired');
-  return true;
-}
+// function cityRule() {
+//   if ((form.street || form.zip || form.country) && !form.city) return tCap('validation.cityRequired');
+//   return true;
+// }
 
 async function saveB2BCustomer() {
   await submit(async (form) => {
@@ -222,16 +220,18 @@ async function saveB2BCustomer() {
 }
 
 function getAddressFromForm(form: FormType) {
-  if(!form.street && !form.city) return undefined;
-
-  return {
-    id: "",
-    isPrimary: true,
-    street: form.street ?? "",
-    city: form.city ?? "",
-    zip: form.zip,
-    country: form.country
-  };
+  if(!form.street || !form.city || !form.zip || !form.country) {
+    return {
+      id: "",
+      isPrimary: true,
+      street: form.street ?? "",
+      city: form.city ?? "",
+      zip: form.zip,
+      country: form.country
+    };
+  }
+  
+  return undefined;
 }
 </script>
 

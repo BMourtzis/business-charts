@@ -6,7 +6,7 @@ export class Supplier extends Partner {
     private _activity: string;
 
     constructor(id: string, clientNumber: number, contactName: string, activity: string, businessName?: string) {
-        super(id, PartnerType.Supplier, clientNumber, contactName, businessName);
+        super(id, PartnerType.Supplier, clientNumber, businessName, contactName);
         this._activity = activity;
     }
 

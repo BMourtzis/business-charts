@@ -19,12 +19,12 @@
         />
       </div>
     </template>
-    <template #[`item.address`]="{ item }">
+    <template #[`item.city`]="{ item }">
       <div class="d-flex flex-column gap-1">
         <AddressLink 
           class="d-flex align-center"
           :address="item.address"
-          format="street"
+          format="city"
         />
       </div>
     </template>

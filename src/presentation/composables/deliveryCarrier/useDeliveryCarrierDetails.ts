@@ -6,7 +6,8 @@ import { useDeliveryCarrierStore } from "@/presentation/stores/deliveryCarrierSt
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { computed } from "vue";
 
-export function getCarrierDetails(deliveryCarrierId: string) {
+export function getCarrierDetails(deliveryCarrierId?: string) {
+    if(!deliveryCarrierId) return undefined;
     const store = useDeliveryCarrierStore();
 
     const carrier = store.getById(deliveryCarrierId);

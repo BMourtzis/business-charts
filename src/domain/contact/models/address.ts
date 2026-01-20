@@ -2,28 +2,27 @@ import { type IEntity } from "@/domain/type";
 import { v4 as uuidv4 } from "uuid";
 
 export class Address implements IEntity {
-    private _id: string;
+    readonly id: string;
     
     name?: string;
     isPrimary: boolean;
 
-    street: string;
-    city: string;
+    street?: string;
+    city?: string;
     zip?: string;
     country?: string;
 
-    constructor(id: string, isPrimary: boolean, street: string, city: string, zip?: string, country?: string, name?: string) {
-        this._id = id;
+    constructor(id: string, isPrimary: boolean, street?: string, city?: string, zip?: string, country?: string, name?: string) {
+        assertAddressDetails(street, city, zip, country);
+
+        this.id = id;
         this.isPrimary = isPrimary,
         this.name = name;
-
         this.street = street;
         this.city = city;
         this.zip = zip;
         this.country = country;
     }
-
-    get id() { return this._id; }
     
     get value() {
         return[this.street, this.city, this.zip, this.country]
@@ -32,6 +31,22 @@ export class Address implements IEntity {
     }
 }
 
-export function createAddress(street: string, city: string, zip?: string, country?: string, isPrimary = false, name?: string) {
+function assertAddressDetails(street?: string, city?: string, zip?: string, country?: string) {
+    if(isNullOrEmpty(street)
+        && isNullOrEmpty(city)
+        && isNullOrEmpty(zip)
+        && isNullOrEmpty(country)
+    ) {
+        throw new Error("An address needs to have at least one of the following: street, city, zip or country");
+    }
+}
+
+function isNullOrEmpty(value?: string) {
+    if(!value) return true;
+    if(value === "") return true;
+    return false;
+}
+
+export function createAddress(street?: string, city?: string, zip?: string, country?: string, isPrimary = false, name?: string) {
     return new Address(uuidv4(), isPrimary, street, city, zip, country, name);
 }
