@@ -18,12 +18,13 @@
 import { computed, ref, watch } from 'vue'
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization'
 import { useValidationRules } from '@/presentation/composables/useValidationRules'
+import { numberPriceToGreekFormatLocale } from '@/utlis/priceUtils'
 
 const { required, numeric } = useValidationRules()
 const { tCap } = useLocalizationHelpers()
 
 const props = defineProps<{
-  modelValue: number   // VAT RATE (e.g. 0.24)
+  modelValue: number
   baseAmount: number
 }>()
 
@@ -38,32 +39,24 @@ const onInput = (val: string | number) => {
   inputValue.value = Number(val) / 100
 }
 
-const vatAmount = computed(() =>
-  +(inputValue.value * props.baseAmount).toFixed(2)
-)
+const vatAmount = computed(() =>(inputValue.value * props.baseAmount));
 
-const hintString = computed(() => `${vatAmount.value} €`)
+const hintString = computed(() => numberPriceToGreekFormatLocale(vatAmount.value));
 
-/**
- * Sync incoming VAT rate
- */
 watch(
   () => props.modelValue,
   v => {
     inputValue.value = Number(v) || 0
   },
   { immediate: true }
-)
+);
 
-/**
- * Emit VAT rate
- */
 watch(
   () => inputValue.value,
   v => {
     emit('update:modelValue', v)
   }
-)
+);
 </script>
 
 <style scoped>

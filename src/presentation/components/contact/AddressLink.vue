@@ -1,5 +1,5 @@
 <template>
-  <div v-if="address?.street">
+  <div v-if="address">
     <v-icon 
       icon="mdi-map-marker" 
       size="16" 
@@ -14,6 +14,7 @@
     >
       <span v-if="format === 'full'">{{ address.value }}</span>
       <span v-if="format === 'street'">{{ address.street }}</span>
+      <span v-if="format === 'city'">{{ address.city }}</span>
     </a>
   </div>
 </template>
@@ -23,7 +24,7 @@ import { Address } from '@/domain/contact/models/address';
 
 defineProps<{
   address: Address | undefined;
-  format: "full" | "street"
+  format: "full" | "street" | "city"
 }>();
 
 function googleMapsUrl(address: string) {

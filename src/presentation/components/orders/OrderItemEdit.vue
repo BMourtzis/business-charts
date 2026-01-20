@@ -23,7 +23,8 @@
                 {{ tCap("order.productQuantity") }}: <strong>{{ totalQuantity }}</strong>
               </v-col>
               <v-col cols="3">
-                {{ tCap("order.productSum") }}: <strong>{{ totalLineAmount.toFixed(2) }}€</strong>
+                {{ tCap("order.productSum") }}: 
+                <strong>{{ numberPriceToGreekFormatLocale(totalLineAmount) }}</strong>
               </v-col>
               <v-col cols="1" >
                 <v-btn
@@ -93,6 +94,7 @@ import { shoesVariationLayout } from "@/presentation/composables/order/useProduc
 import { useVariationTableMapper, sumSizing } from "@/presentation/composables/editableTable/useVariationTableMapper";
 
 import { type OrderItemEditVM } from "@/presentation/viewModels/orderItemEditVM";
+import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 
 const { tCap } = useLocalizationHelpers();
 

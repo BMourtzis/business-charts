@@ -8,9 +8,9 @@ import { PartnerMapperInstance } from "@/application/mapper/partnerMapper";
 import { ClientNumberService } from "@/infrastructure/services/clientNumberService";
 
 export interface CreateB2BCustomerCommand {
-    contactName: string;
-    deliveryCarrierId: string;
-    businessName?: string;
+    businessName: string;
+    contactName?: string;
+    deliveryCarrierId?: string;
     email?: string;
     phone?: string;
     address?: AddressDTO
@@ -22,7 +22,7 @@ export class CreateB2BCustomerCommandHandler {
     async handle(cmd: CreateB2BCustomerCommand) {
         const clientNumber = await ClientNumberService.getNext();
 
-        const customer = createB2BCustomer(cmd.contactName, clientNumber, cmd.deliveryCarrierId, cmd.businessName);
+        const customer = createB2BCustomer(cmd.businessName, clientNumber, cmd.deliveryCarrierId, cmd.contactName);
         
         if(cmd.email && cmd.email.trim() != '') customer.addEmail(createEmail(cmd.email, true));
         if(cmd.phone && cmd.phone.trim() != '') customer.addPhone(createPhone(cmd.phone, true));

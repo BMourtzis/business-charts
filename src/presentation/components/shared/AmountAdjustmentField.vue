@@ -15,13 +15,14 @@
         selected-class="bg-primary"
       >
         <v-btn value="percent">%</v-btn>
-        <v-btn value="amount">€</v-btn>
+        <v-btn value="amount">{{ getMonetarySign() }}</v-btn>
       </v-btn-toggle>
     </template>
   </v-text-field>
 </template>
 
 <script setup lang="ts">
+import { getMonetarySign, numberPriceToGreekFormatLocale } from '@/utlis/priceUtils';
 import { computed, ref, watch } from 'vue';
 
 const props = defineProps<{
@@ -37,17 +38,17 @@ const emit = defineEmits<{
 const mode = ref<'percent' | 'amount'>('percent');
 const inputValue = ref<number | null>(0);
 
-const discountAmount = computed(() => {
-    if(mode.value === 'amount') {
+const calculatedAmount = computed(() => {
+  if(mode.value === 'amount') {
     return inputValue.value || 0;
   } else {
-    return (((inputValue.value || 0) / 100) * props.baseAmount).toFixed(2);
+    return (((inputValue.value || 0) / 100) * props.baseAmount);
   }
 });
 
 const hintString = computed(() => {
   if(mode.value === 'percent') {
-    return `${discountAmount.value} €`;
+    return numberPriceToGreekFormatLocale(calculatedAmount.value);
   }
   return "";
 });

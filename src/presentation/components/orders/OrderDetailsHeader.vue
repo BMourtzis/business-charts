@@ -1,11 +1,11 @@
 <template>
   <v-row align="start" justify="space-between" dense>
     <v-col cols="5" class="d-flex" justify="start">
-      <h1 class="text-h4 font-weight-bold mr-2">
+      <h1 class="mr-2">
         {{ getOrderNumberName() }}
       </h1>
-      <status-chip :status="order.status" class="ml-2" />
-      <direction-chip :direction="order.direction" class="ml-2"/>
+      <status-chip :status="order.status" class="ml-2 mt-2" />
+      <direction-chip :direction="order.direction" class="ml-2 mt-2"/>
     </v-col>
     <v-col cols="4" class="d-flex flex-row justify-end">
       <!-- TODO: move to separate component -->
@@ -119,6 +119,10 @@
           · {{ tCap("order.discount") }} <strong>{{ getAmount(order.discountAmount) }} </strong>
         </span>
       </div>
+      <div v-if="order.depositAmount > 0">
+        {{ tCap("order.deposit") }} <strong>{{ getAmount(order.discountAmount) }} </strong>
+        · {{ tCap("order.remainingAmount") }} <strong>{{ getAmount(order.remainingAmount) }} </strong>
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -148,7 +152,7 @@ const props = defineProps<{ order: Order }>();
 const partner = computed(() => getPartnerDetails(props.order.partnerId));
 
 function getOrderNumberName() {
-  return `${tCap('order.order')} #${ props.order.orderNumber }`;
+  return `#${ props.order.orderNumber }`;
 }
 
 
