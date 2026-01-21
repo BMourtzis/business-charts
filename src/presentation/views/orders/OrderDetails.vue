@@ -9,8 +9,6 @@
     >
       <v-col 
         cols="12" 
-        md="8"
-        xl="10"
       >
         <order-details-line-items
           :order="model"
@@ -18,8 +16,8 @@
       </v-col>
       <v-col 
         cols="12" 
-        md="4"
-        xl="2"
+        md="12"
+        xl="12"
       >
         <order-details-timeline
           :order="model"

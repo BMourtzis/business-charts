@@ -11,29 +11,36 @@
       </v-list-item>
     </v-card-title>
     <v-card-text>
-      <v-expansion-panels v-model="openPanels" multiple>
-        <order-details-line-item-details 
-          v-for="orderItem in order.items"
-          :key="orderItem.id"
-          :item="orderItem"
-        />
-      </v-expansion-panels>
+      <display-table 
+        :tableRows="rows"
+        :table-columns="shoesVariationLayout"
+      />
     </v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
+import DisplayTable from '../editableTable/DisplayTable.vue';
+
+import { computed } from 'vue';
+
 import { Order } from '@/domain/order/models/order';
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import { ref } from 'vue';
-import OrderDetailsLineItemDetails from './OrderDetailsLineItemDetails.vue';
+import { shoesVariationLayout } from '@/presentation/composables/order/useProductVariation';
+import { useVariationTableMapper } from '@/presentation/composables/editableTable/useVariationTableMapper';
+import { mapOrderLineItemsToVM } from '@/presentation/mappers/orderMapper';
 
 const { tCap } = useLocalizationHelpers();
 
+const { vmToRows } = useVariationTableMapper(shoesVariationLayout);
+
 const props = defineProps<{ order: Order }>();
 
-const openPanels = ref<number[]>([]);
+const rows = computed(() => {
+  const lineItems = mapOrderLineItemsToVM([...props.order.items]);
+  return vmToRows(lineItems);
+});
 
 </script>
 

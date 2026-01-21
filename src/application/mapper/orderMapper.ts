@@ -18,6 +18,7 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
             getDateOrUndefined(dto.dueDate),
             getDate(dto.createdDate),
             getDateOrUndefined(dto.approvedDate),
+            getDateOrUndefined(dto.shippedDate),
             getDateOrUndefined(dto.cancelledDate),
             getDateOrUndefined(dto.completedDate),
             dto.notes,

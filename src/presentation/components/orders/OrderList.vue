@@ -61,17 +61,14 @@ const { deleteOrderCommmandHandler } = useOrders();
 const { data, headers } = useOrderTable(toRef(props, "orders"));
 
 function getOrderName(row: OrderTableRow): string {
-  if(row.partner) {
-    return `παραγγελία για ${getPartnerName(row.partner)}`;
-  }
-  
-  return row.id;
+  return row.orderNumber
 }
 
 function getPartnerName(partner: Partner) {
-  return partner.businessName
-            ? `${partner.businessName} (${partner.contactName})`
-            : partner.contactName;
+  if(partner.businessName && partner.contactName) return `${partner.businessName} (${partner.contactName})`;
+  if(partner.businessName) return partner.businessName;
+  if(partner.contactName) return partner.contactName;
+  return "";
 }
 
 function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
