@@ -1,5 +1,15 @@
 import type { InternalRow, TableColumn } from "../editableTable/useEditableTable";
 
+export const productCode = {
+    name: "productCode",
+    title: "Κωδικός Προιόντος",
+    type: "productCode",
+    editorType: "text",
+    rendererType: "text",
+    navigable: true,
+    width: "2.5vw",
+}
+
 export const colourVariation = {
     name: "colour",
     title: "Χρώμα",
@@ -153,23 +163,27 @@ export const shoeSizeVariations = [
 
 export const shoesVariationLayout = [
     {
-        order: 0, 
-        ...colourVariation
+        order: 0,
+        ...productCode
     },
     {
         order: 1,
-        ...soleVariation
+        ...colourVariation
     },
     {
         order: 2,
+        ...soleVariation
+    },
+    {
+        order: 3,
         ...menVariation
     },
     ...shoeSizeVariations.map((s, sIndex) => ({
-        order: sIndex + 3,
+        order: sIndex + 4,
         ...s
     })),
     {
-        order: shoeSizeVariations.length + 3,
+        order: shoeSizeVariations.length + 4,
         title: "Τεμάχια Παραλλαγής",
         name: "calculated:totalQty",
         type: "calculated",
@@ -178,7 +192,7 @@ export const shoesVariationLayout = [
         calculate: calculateTotalQty
     },
     {
-        order: shoeSizeVariations.length + 4,
+        order: shoeSizeVariations.length + 5,
         title: "Τιμή Παραλλαγής",
         name: "variationPrice",
         type: "price",
@@ -188,7 +202,7 @@ export const shoesVariationLayout = [
         width: "2.5vw",
     },
     {
-        order: shoeSizeVariations.length + 5,
+        order: shoeSizeVariations.length + 6,
         title: "Σύνολο Παραλλαγής",
         name: "calculated:totalPrice",
         type: "calculated",

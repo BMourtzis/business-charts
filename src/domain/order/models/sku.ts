@@ -9,10 +9,18 @@ export function calculateDerivedSKU(
     if(keys.length === 0) return productCode;
 
     const variationPart = keys.sort()
-        .map(k => variationSnapshot[k].toLowerCase().replace(/\s+/g, "-"))
+        .map(k => formatVariationValue(k, variationSnapshot[k]))
         .join("-");
 
     return `${productCode}-${variationPart}`;
+}
+
+function formatVariationValue(key: string, value: string | boolean) {
+    if(typeof value === 'boolean') {
+        return key.toLowerCase().replace(/\s+/g, "-");
+    }
+
+    return value.toLowerCase().replace(/\s+/g, "-");
 }
 
 export class Sku {

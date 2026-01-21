@@ -11,13 +11,9 @@
       </v-list-item>
     </v-card-title>
     <v-card-text>
-      <v-expansion-panels v-model="openPanels" multiple>
-        <order-details-line-item-details 
-          v-for="orderItem in order.items"
-          :key="orderItem.id"
-          :item="orderItem"
-        />
-      </v-expansion-panels>
+      <order-details-line-item-details 
+        :items="[...order.items]"
+      />
     </v-card-text>
   </v-card>
 </template>
@@ -26,14 +22,11 @@
 import { Order } from '@/domain/order/models/order';
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import { ref } from 'vue';
 import OrderDetailsLineItemDetails from './OrderDetailsLineItemDetails.vue';
 
 const { tCap } = useLocalizationHelpers();
 
 const props = defineProps<{ order: Order }>();
-
-const openPanels = ref<number[]>([]);
 
 </script>
 

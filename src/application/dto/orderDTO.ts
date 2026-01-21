@@ -24,7 +24,7 @@ export interface OrderDTO extends IEntityDTO {
 }
 
 export interface OrderLineItemDTO {
-    name: string;
+    name?: string;
     derivedSku: string;
     quantity: number;
     unitPrice: number;
