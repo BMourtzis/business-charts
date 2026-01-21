@@ -156,7 +156,7 @@ const navItems = [
     { title: t('pages.partner.b2bCustomers', 2), icon: 'mdi-account-multiple-outline', to: '/b2b-customers' },
     { title: t('pages.deliveryCarrier.carriers', 2), icon: 'mdi-truck-delivery', to: '/carriers' },
   ]},
-  { title: 'Orders', icon: 'mdi-receipt-text-outline', to: '/orders' },
+  { title: t('pages.order.orders', 2), icon: 'mdi-receipt-text-outline', to: '/orders' },
   // { title: 'Reports', icon: 'mdi-chart-bar', to: '/reports' },
 ] as NavItem[];
 

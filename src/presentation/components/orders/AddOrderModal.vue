@@ -44,7 +44,7 @@
                 />
               </v-col>
               <v-col cols="12" class="d-flex justify-space-between align-center mb-4">
-                <h3>{{ tCap('order.items') }}</h3>
+                <h3>{{ tCap('order.items', 2) }}</h3>
                 <v-btn
                   color="indigo"
                   :text="tCap('order.addOrderItemTitle')"
