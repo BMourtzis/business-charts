@@ -35,7 +35,7 @@ export const soleVariation = {
 export const menVariation = {
     name: "men",
     title: "Men",
-    type: "variation",
+    type: "flag",
     rendererType: "checkbox",
     navigable: true,
     width: "1vw",

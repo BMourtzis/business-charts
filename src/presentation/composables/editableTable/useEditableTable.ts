@@ -4,7 +4,7 @@ export type TableColumn = {
   name: string,
   title: string,
   navigable: boolean,
-  type: "size" | "variation" | "price" | "calculated" | "productCode",
+  type: "size" | "variation" | "flag" | "price" | "calculated" | "productCode",
   editorType?: "autocomplete" | "number" | "price" | "text",
   rendererType?: "text" | "price" | "checkbox",
   list: string[],

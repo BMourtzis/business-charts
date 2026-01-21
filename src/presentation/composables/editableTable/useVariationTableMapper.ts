@@ -1,10 +1,11 @@
 import { type VariationEditVM } from "@/presentation/viewModels/variationEditVM";
 import type { TableColumn, TableRow } from "./useEditableTable";
 import type { OrderLineItemVM } from "@/presentation/viewModels/orderVM";
-import { calculateDerivedSKU } from "@/domain/order/models/sku";
+import { calculateDerivedSKU, type VariationSnapshot } from "@/domain/order/models/sku";
 
 export function useVariationTableMapper(layout: TableColumn[]) {
     const attributeColumns = layout.filter(c => c.type === 'variation');
+    const flagsColumns = layout.filter(c => c.type === 'flag');
     const sizingColumns = layout.filter(c => c.type === 'size');
     const priceColumn = layout.find(c => c.type === 'price')!;
     const productCodeColumn = layout.find(c => c.type === 'productCode')!;
@@ -21,14 +22,24 @@ export function useVariationTableMapper(layout: TableColumn[]) {
                 if(col === productCodeColumn) {
                     return vm.productCode;
                 }
-                return vm.variationSnapshot[col.name] || "";
+                return getVariation(vm.variationSnapshot, col);
             })
         }));
     }
 
+    function getVariation(variationSnapshot: VariationSnapshot, col: TableColumn): string {
+        if(col.type === "flag") return variationSnapshot.flags?.[col.name] ? "true" : "";
+
+        return variationSnapshot.attributes?.[col.name] || "";
+    }
+
     function rowsToVm(rows: TableRow[]): OrderLineItemVM[] {
         return rows.map(row => {
-            const attributes = getAttributes(row);
+            const snapshot = {
+                attributes: getAttributes(row),
+                flags: getFlags(row)
+            };
+
             const productCode = getProductCode(row);
             const unitPrice = getUnitPrice(row);
             const sizing = getSizing(row);
@@ -36,9 +47,9 @@ export function useVariationTableMapper(layout: TableColumn[]) {
             return {
                 unitPrice: unitPrice,
                 productCode: productCode,
-                variationSnapshot: attributes,
+                variationSnapshot: snapshot,
                 sizing: sizing,
-                derivedSku: calculateDerivedSKU(productCode, attributes)
+                derivedSku: calculateDerivedSKU(productCode, snapshot)
             };
         });
     }
@@ -48,6 +59,15 @@ export function useVariationTableMapper(layout: TableColumn[]) {
             attributeColumns.map(c => [c.name, row.cells[c.order]])
         );
     }
+
+    function getFlags(row: TableRow): Record<string, true> {
+        return Object.fromEntries(
+            flagsColumns
+                .filter(c => Boolean(row.cells[c.order]))
+                .map(c => [c.name, true])
+        );
+    }
+
 
     function getProductCode(row: TableRow): string {
         return row.cells[layout.indexOf(productCodeColumn)] 

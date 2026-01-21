@@ -30,15 +30,26 @@ export function mapOrderLineItemsToVM(items: OrderLineItem[]): OrderLineItemVM[]
 }
 
 function mapOrderItemToVM(item: OrderLineItem): OrderLineItemVM {
-    const {size, ...attributes } = item.sku.variationSnapshot;
+    const attributes = item.sku.variationSnapshot.attributes ?? {};
+    const { size, ...restAttributes } = attributes;
+
     return {
         name: item.name,
         unitPrice: item.unitPrice,
         productCode: item.productCode,
-        derivedSku: calculateDerivedSKU(item.productCode, attributes),
-        variationSnapshot: attributes,
+        derivedSku: calculateDerivedSKU(
+            item.productCode,
+            {
+                attributes: restAttributes,
+                flags: item.sku.variationSnapshot.flags
+            }
+        ),
+        variationSnapshot: {
+            attributes: restAttributes,
+            flags: item.sku.variationSnapshot.flags
+        },
         sizing: formatSizing(size, item.quantity)
-    }
+    };
 }
 
 function mergeLineItems(items: OrderLineItemVM[]): OrderLineItemVM[] {

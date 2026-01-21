@@ -84,26 +84,34 @@ function mapItemVmToDTOList(items: OrderLineItemVM[]): OrderLineItemDTO[] {
 }
 
 ///Will take 1 vm and probably produce a number of dtos because of sizing
-function itemVmToDTO(vm: OrderLineItemVM, original?: OrderLineItemDTO): OrderLineItemDTO[] {
+function itemVmToDTO(
+    vm: OrderLineItemVM,
+    original?: OrderLineItemDTO
+): OrderLineItemDTO[] {
     const sizingList = getSizingList(vm.sizing);
-    const commonAttributes = getCommonAttributes(vm.variationSnapshot, original?.variationSnapshot);
+    const baseSnapshot = mergeVariationSnapshots(
+        vm.variationSnapshot,
+        original?.variationSnapshot
+    );
 
-    return sizingList
-        .map(([key, value]) => {
-            const attributes = {
-                ...commonAttributes,
-                size: key
-            }
+    return sizingList.map(([size, quantity]) => {
+        const snapshot: VariationSnapshot = {
+            attributes: {
+                ...(baseSnapshot.attributes ?? {}),
+                size
+            },
+            flags: baseSnapshot.flags
+        };
 
-            return {
-                name: vm.name,
-                unitPrice: vm.unitPrice,
-                productCode: vm.productCode,
-                quantity: value,
-                variationSnapshot: attributes,
-                derivedSku: calculateDerivedSKU(vm.productCode, attributes)
-            };
-        });
+        return {
+            name: vm.name,
+            unitPrice: vm.unitPrice,
+            productCode: vm.productCode,
+            quantity,
+            variationSnapshot: snapshot,
+            derivedSku: calculateDerivedSKU(vm.productCode, snapshot)
+        };
+    });
 }
 
 ///If there are duplicate dtos, merge them.
@@ -135,22 +143,40 @@ function getSizingList(sizing: Record<string, number>) {
         });
 }
 
-function getCommonAttributes(
-    attributes: Record<string, string>, 
-    original?: VariationSnapshot) {
-    
-    const cleanedAttrs = cleanAttributes(attributes);
+function mergeVariationSnapshots(
+    snapshot: VariationSnapshot,
+    original?: VariationSnapshot
+): VariationSnapshot {
+    const attributes = {
+        ...(original?.attributes ?? {}),
+        ...(cleanAttributes(snapshot.attributes) ?? {})
+    };
+
+    const flags = {
+        ...(original?.flags ?? {}),
+        ...(snapshot.flags ?? {})
+    };
+
     return {
-        ...(original ?? {}),
-        ...cleanedAttrs
+        ...(Object.keys(attributes).length ? { attributes } : {}),
+        ...(Object.keys(flags).length ? { flags } : {})
     };
 }
 
-function cleanAttributes(attributes: Record<string, string>): Record<string, string> {
-    return Object.fromEntries(
-        Object.entries(attributes).filter(([_, value]) =>
-        value !== "" && value !== null && value !== undefined)
+function cleanAttributes(
+    attributes?: Record<string, string>
+): Record<string, string> | undefined {
+    if (!attributes) return undefined;
+
+    const cleaned = Object.fromEntries(
+        Object.entries(attributes).filter(
+            ([_, value]) => value !== ""
+        )
     );
+
+    return Object.keys(cleaned).length > 0
+        ? cleaned
+        : undefined;
 }
 
 
