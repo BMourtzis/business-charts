@@ -34,13 +34,27 @@
             <v-row dense>
               <v-col cols="12">
                 <v-text-field
+                  v-if="supplier"
                   v-model="form.contactName"
                   :label="tCap('partner.contactName')"
                   :rules="[required, rangeLength(3, 50)]"
                 />
+                <v-text-field
+                  v-if="b2bCustomer"
+                  v-model="form.contactName"
+                  :label="tCap('partner.contactName')"
+                  :rules="[rangeLength(3, 50)]"
+                />
               </v-col>
               <v-col cols="12">
                 <v-text-field
+                  v-if="b2bCustomer"
+                  v-model="form.businessName"
+                  :label="tCap('partner.businessName')"
+                  :rules="[required, maxLength(50)]"
+                />
+                <v-text-field
+                  v-if="supplier"
                   v-model="form.businessName"
                   :label="tCap('partner.businessName')"
                   :rules="[maxLength(50)]"
@@ -162,7 +176,7 @@ const {
 watch(dialog, (open) => {
   if(open && props.partner) {
     form.businessName = props.partner.businessName ?? "";
-    form.contactName = props.partner.contactName;
+    form.contactName = props.partner.contactName ?? "";
     if(supplier.value) {
       form.activity = supplier.value.activity ?? "";
     }
