@@ -1,7 +1,7 @@
 <template>
   <v-checkbox
     ref="checkboxRef"
-    :model-value="modelValue"
+    :model-value="Boolean(modelValue)"
     @update:model-value="$emit('update:modelValue', $event)"
     density="compact"
     hide-details

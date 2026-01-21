@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import DisplayTable from '../editableTable/renderers/DisplayTable.vue';
+import DisplayTable from '../editableTable/DisplayTable.vue';
 
 import { computed } from 'vue';
 

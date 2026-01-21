@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { toInternal, type TableColumn, type TableRow } from '@/presentation/composables/editableTable/useEditableTable';
 import { computed } from 'vue';
-import BaseTable from '../BaseTable.vue';
+import BaseTable from './BaseTable.vue';
 
 const props = defineProps<{
   tableRows: TableRow[],
