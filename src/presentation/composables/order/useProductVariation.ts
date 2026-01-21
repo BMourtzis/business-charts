@@ -2,12 +2,12 @@ import type { InternalRow, TableColumn } from "../editableTable/useEditableTable
 
 export const productCode = {
     name: "productCode",
-    title: "Κωδικός Προιόντος",
+    title: "Κωδικός Προϊόντος",
     type: "productCode",
     editorType: "text",
     rendererType: "text",
     navigable: true,
-    width: "2.5vw",
+    width: "2vw",
 }
 
 export const colourVariation = {
@@ -17,7 +17,7 @@ export const colourVariation = {
     editorType: "autocomplete",
     rendererType: "text",
     navigable: true,
-    width: "4vw",
+    width: "2.5vw",
     list: ["WILD", "F", "GLOW", "BL", "ΚΦ", "ΒΕΡ. ΝΑΠΑ", "ΣΑ.ΤΖΙΝ", "ΣΑ", "ΚΝΛ", "ΨΗΦ", "OL", "X", "XK", "ΤΑΜΠΑ.ΨΑΘΑ", "ΓΚΡΙ", "ΜΝΤ", "ΚΙΤ.ΤΖΙΝ", "ΚΦ.ΝΑΙΡ", "CAM", "LIM.ΚΡ", "ROSE.ΚΡ", "Χ.ΝΑΠΑ", "ΤΑΜΠΑ.ΚΡ", "OL.ΚΡ", "ΚΥΡ.ΝΑΙΡ", "Μ", "ΓΚΡΙ.ΝΑΙΡ", "ΓΚΡΙ.ΚΡ"]
 };
 
@@ -28,7 +28,7 @@ export const soleVariation = {
     editorType: "autocomplete",
     rendererType: "text",
     navigable: true,
-    width: "4vw",
+    width: "2.5vw",
     list: ["anatomic", "soft", "SOFT", "vamos", "VAMOS", "fiesta", "FIESTA", "sand", "SAND", "momo", "MOMO", "esp"]
 }
 
@@ -49,7 +49,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:36",
@@ -58,7 +58,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:37",
@@ -67,7 +67,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:38",
@@ -76,7 +76,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:39",
@@ -85,7 +85,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:40",
@@ -94,7 +94,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:41",
@@ -103,7 +103,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:42",
@@ -112,7 +112,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:43",
@@ -121,7 +121,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:44",
@@ -130,7 +130,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:45",
@@ -139,7 +139,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:46",
@@ -148,7 +148,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
     {
         name: "shoe:47",
@@ -157,7 +157,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1.2vw",
+        width: "1vw",
     },
 ];
 
