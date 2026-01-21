@@ -1,3 +1,4 @@
+import type { VariationSnapshot } from "@/domain/order/models/sku";
 import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
 
 export interface OrderVM {
@@ -16,19 +17,26 @@ export interface OrderVM {
     shippedDate?: string;
     completedDate?: string;
     notes: string;
-    items: OrderItemVM[];
+    items: OrderLineItemVM[];
 }
 
-export interface OrderItemVM {
-    id: string;
-    name: string;
-    variations: OrderItemVariationVM[]
+export type OrderEditVM = {
+    direction: 'Credit' | "Debit",
+    partnerId: string,
+    vatRate: number,
+    dueDate: Date | null,
+    notes: string,
+    depositAmount: number,
+    discountAmount: number,
+    items: OrderLineItemVM[]
 }
 
-export interface OrderItemVariationVM {
-    attributes: Record<string, string>,
+export interface OrderLineItemVM {
+    name?: string;
+    unitPrice: number;
+    productCode: string;
+    derivedSku: string;
+    variationSnapshot: VariationSnapshot;
     sizing: Record<string, number>,
-    price: number,
-    normalizedAttributes: string;
 }
 

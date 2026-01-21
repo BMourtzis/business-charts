@@ -1,28 +1,26 @@
 import { type IEntity } from "@/domain/type";
 import { OrderDirection, OrderStateTransitions, OrderStatus } from "../orderTypes";
-import { OrderItem } from "./orderItem";
 import { v4 as uuidv4 } from "uuid";
-import { OrderItemVariation } from "./orderItemVariation";
 import { YearlyClientSequence } from "@/domain/yearlySequence";
+import { OrderLineItem } from "./orderLineItem";
+import { OrderTimeline } from "./orderTimeline";
 
 export class Order implements IEntity {
-    private _id: string;
-    sequence: YearlyClientSequence;
-    private _partnerId: string;
+    readonly id: string;
+    readonly sequence: YearlyClientSequence;
+    readonly partnerId: string;
+    readonly createdDate: Date;
+    readonly direction: OrderDirection;
+
     private _status: OrderStatus;
-    private _direction: OrderDirection;
-    private _items: OrderItem[];
+    private _items: OrderLineItem[];
     
     private _vatRate: number;
     private _discountAmount: number;
     private _depositAmount: number;
 
-    private _createdDate: Date;
     private _dueDate?: Date;
-    private _approvedDate?: Date;
-    private _cancelledDate?: Date;
-    private _shippedDate?: Date;
-    private _completedDate?: Date;
+    private _timeline: OrderTimeline;
 
     notes: string;
 
@@ -33,41 +31,42 @@ export class Order implements IEntity {
         status: OrderStatus, 
         direction: OrderDirection, 
         vatRate: number, 
-        items: OrderItem[],
+        items: OrderLineItem[],
         dueDate?: Date, 
         createdDate?: Date, 
         approvedDate?: Date,
+        shippedDate?: Date,
         cancelledDate?: Date,
         completedDate?: Date,
         notes = "",
         discountAmount = 0,
         depositAmount = 0
     ) {
-        this._id = id;
+        this.id = id;
         this.sequence = sequence;
-        this._partnerId = partnerId;
+        this.partnerId = partnerId;
         
         this._vatRate = vatRate;
         this.notes = notes;
         this._discountAmount = discountAmount;
         this._depositAmount = depositAmount;
         this._status = status;
-        this._direction = direction;
+        this.direction = direction;
         this._items = items.slice();
         
         this._dueDate = dueDate;
-        this._createdDate = createdDate ?? new Date();
-        this._approvedDate = approvedDate;
-        this._cancelledDate = cancelledDate;
-        this._completedDate = completedDate;
+        this.createdDate = createdDate ?? new Date();
+        this._timeline = new OrderTimeline(
+            approvedDate, 
+            shippedDate, 
+            completedDate, 
+            cancelledDate
+        );
     }
 
-    get id() { return this._id; }
     get orderNumber() {return this.sequence.format(); }
-    get partnerId() { return this._partnerId; }
     get status() { return this._status; }
-    get direction() { return this._direction; }
-    get items(): readonly OrderItem[] { 
+    get items(): readonly OrderLineItem[] { 
         return this._items; 
     }
 
@@ -77,7 +76,7 @@ export class Order implements IEntity {
     get depositAmount() { return this._depositAmount; }
 
     get subtotal() { 
-        return this._items.reduce((sum, item) => sum + item.sumAmount, 0); 
+        return this._items.reduce((sum, item) => sum + item.total, 0); 
     }
 
     get totalAmount() {
@@ -89,57 +88,72 @@ export class Order implements IEntity {
     }
 
     get dueDate() { return this._dueDate; }
-    get createdDate() { return this._createdDate; }
-    get approvedDate() { return this._approvedDate; }
-    get shippedDate() { return this._shippedDate; }
-    get completedDate() { return this._completedDate; }
-    get cancelledDate() { return this._cancelledDate; }
+    get approvedDate() { return this._timeline.approved; }
+    get shippedDate() { return this._timeline.shipped; }
+    get completedDate() { return this._timeline.completed; }
+    get cancelledDate() { return this._timeline.cancelled; }
 
     //Order items
-    addItem(item: OrderItem) {
-        this.assertEdit();
-
-        this._items.push(item);
-    }
-
-    setItems(items: OrderItem[]) {
+    setItems(items: OrderLineItem[]) {
         this.assertEdit();
 
         this._items = items.slice();
     }
 
-    removeItem(itemId: string) {
+    addLine(item: OrderLineItem) {
         this.assertEdit();
 
-        const index = this._items.findIndex(i => i.id === itemId);
-        if(index === -1) return;
+        const existingIdx = this.findItemIndex(item.derivedSKU);
 
-        this._items.splice(index, 1);
+        if(existingIdx === -1) {
+            this._items.push(item);
+        } else {
+            const existingItem = this._items[existingIdx];
+            this._items[existingIdx] = this.mergeLineItems(existingItem, item);
+        }
     }
 
-    
-    renameItem(itemId: string, newName: string) {
+    private mergeLineItems(existingItem: OrderLineItem, newItem: OrderLineItem): OrderLineItem {
+        return new OrderLineItem(
+            existingItem.sku,
+            newItem.name,
+            newItem.unitPrice,
+            existingItem.quantity + newItem.quantity
+      );
+    }
+
+    changeQuantity(derivedSKU: string, quantity: number) {
+        this.editItem(derivedSKU, (order) => order.withQuantity(quantity));
+    }
+
+    changeUnitPrice(derivedSKU: string, priceNumber: number) {
+        this.editItem(derivedSKU, (order) => order.withUnitPrice(priceNumber));
+    }
+
+    removeLine(derivedSKU: string) {
+        this.assertEdit();
+        this._items = this._items.filter(i => i.derivedSKU !== derivedSKU);
+    }
+
+    private editItem(derivedSKU: string, getOrderLineItemUpdate: (order: OrderLineItem) => OrderLineItem) {
         this.assertEdit();
 
-        const item = this.findItem(itemId);
+        const idx = this.findItemIndex(derivedSKU);
+        if (idx === -1) throw new Error(`OrderItem ${derivedSKU} not found`);
+        const oldItem = this._items[idx];
 
-        item.rename(newName);
+        this._items[idx] = getOrderLineItemUpdate(oldItem);
     }
 
-    updateItem(itemId: string, update: OrderItemUpdate) {
-        //TODO
+    private findItemIndex(derivedSKU: string): number {
+        return this.items.findIndex(i => i.derivedSKU === derivedSKU);
     }
 
-    private findItem(itemId: string) {
-        const item = this.items.find(i => i.id === itemId);
-        if (!item) throw new Error(`OrderItem ${itemId} not found`);
-        return item;
-    }
     //Status
     approve() {
         this.assertTransition(OrderStatus.Approved);
         this._status = OrderStatus.Approved;
-        this._approvedDate = new Date();
+        this._timeline = this._timeline.withApproved();
     }
 
     toProcessing() {
@@ -155,23 +169,24 @@ export class Order implements IEntity {
     toShipped(shippedDate?: Date) {
         this.assertTransition(OrderStatus.Shipped);
         this._status = OrderStatus.Shipped;
-        this._shippedDate = shippedDate || new Date();
+        this._timeline = this._timeline.withShipped(shippedDate || new Date());
     }
 
     completed() {
         this.assertTransition(OrderStatus.Completed);
         this._status = OrderStatus.Completed;
-        this._completedDate = new Date();
+        this._timeline = this._timeline.withCompleted();
     }
 
     cancelled() {
         this.assertTransition(OrderStatus.Cancelled);
         this._status = OrderStatus.Cancelled;
-        this._cancelledDate = new Date();
+        this._timeline = this._timeline.withCancelled();
     }
 
+    //Asserts
     private assertTransition(newStatus: OrderStatus) {
-        if (this.canTransitionTo(newStatus)) 
+        if (!this.canTransitionTo(newStatus)) 
             throw new Error(
                 `Invalid status transition from '${OrderStatus[this._status]}' to '${OrderStatus[newStatus]}'.`
             );
@@ -192,24 +207,12 @@ export class Order implements IEntity {
     }
 }
 
-export type OrderItemUpdate = {
-    name?: string;
-    addVariations?: OrderItemVariation[],
-    replaceVariations?: OrderItemVariationUpdate[]
-    deleteVariations?: string[]
-}
-
-export type OrderItemVariationUpdate = {
-    key: string;
-    variation: OrderItemVariation
-}
-
 //You pay supplier
-export function createDebitOrder(partnerId: string, sequence: YearlyClientSequence,  items: OrderItem[], vatRate: number, dueDate?: Date): Order {
+export function createDebitOrder(partnerId: string, sequence: YearlyClientSequence,  items: OrderLineItem[], vatRate: number, dueDate?: Date): Order {
     return new Order(uuidv4(), sequence, partnerId, OrderStatus.Draft, OrderDirection.Debit, vatRate, items, dueDate);
 }
 
 //customer pays you
-export function createCreditOrder(partnerId: string, sequence: YearlyClientSequence, items: OrderItem[], vatRate: number, dueDate?: Date, notes?: string, discountAmount?: number, depositAmount?: number): Order {
-    return new Order(uuidv4(), sequence, partnerId, OrderStatus.Draft, OrderDirection.Credit, vatRate, items, dueDate, undefined, undefined, undefined, undefined, notes, discountAmount, depositAmount );
+export function createCreditOrder(partnerId: string, sequence: YearlyClientSequence, items: OrderLineItem[], vatRate: number, dueDate?: Date, notes?: string, discountAmount?: number, depositAmount?: number): Order {
+    return new Order(uuidv4(), sequence, partnerId, OrderStatus.Draft, OrderDirection.Credit, vatRate, items, dueDate, undefined, undefined, undefined, undefined, undefined, notes, discountAmount, depositAmount );
 }

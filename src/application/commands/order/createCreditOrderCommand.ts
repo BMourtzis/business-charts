@@ -1,8 +1,7 @@
-import type { OrderItemVariationDTO } from "@/application/dto/orderDTO";
+import type { OrderLineItemDTO } from "@/application/dto/orderDTO";
+import { OrderItemMapperInstance } from "@/application/mapper/orderItemMapper";
 import { OrderMapperInstance } from "@/application/mapper/orderMapper";
 import { createCreditOrder } from "@/domain/order/models/order";
-import { createOrderItem } from "@/domain/order/models/orderItem";
-import { OrderItemVariation } from "@/domain/order/models/orderItemVariation";
 import { orderRepository } from "@/infrastructure/repositories/orderRepository.local";
 import { OrderNumberService } from "@/infrastructure/services/orderNumberService";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
@@ -14,24 +13,14 @@ export interface CreateCreditOrderCommand {
     notes: string;
     depositAmount: number;
     discountAmount: number;
-    items: CreateOrderDTO[];
+    items: OrderLineItemDTO[];
 };
-
-export interface CreateOrderDTO {
-    name: string;
-    variations: OrderItemVariationDTO[];
-}
 
 export class CreateCreditOrderCommmandHandler {
     constructor(private _orderStore = useOrdersStore()) {}
 
     async handle(cmd: CreateCreditOrderCommand) {
-        const items = cmd.items.map(itemDto =>
-            createOrderItem(
-                itemDto.name,
-                itemDto.variations.map(v => new OrderItemVariation(v.quantity, v.price, v.attributes))
-            )
-        );
+        const items = cmd.items.map(OrderItemMapperInstance.toModel);
 
         const sequence = await OrderNumberService.getNext(cmd.partnerId);
 

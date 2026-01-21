@@ -1,5 +1,6 @@
 import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
 import type { IEntityDTO } from "./type";
+import type { VariationSnapshot } from "@/domain/order/models/sku";
 
 export interface OrderDTO extends IEntityDTO {
     id: string;
@@ -7,7 +8,7 @@ export interface OrderDTO extends IEntityDTO {
     partnerId: string;
     status: OrderStatus;
     direction: OrderDirection;
-    items: OrderItemDTO[];
+    items: OrderLineItemDTO[];
     notes: string;
 
     vatRate: number;
@@ -22,31 +23,11 @@ export interface OrderDTO extends IEntityDTO {
     completedDate?: string;
 }
 
-export interface OrderItemDTO extends IEntityDTO {
-    id: string;
-    name: string;
-    variations: OrderItemVariationDTO[]
-}
-
-type AttributesRecord = Record<string, string | number>;
-
-export interface OrderItemVariationDTO {
-    normalizedAttributes: string;
-    attributes: AttributesRecord,
-    price: number;
-    quantity: number;
-}
-export interface OrderItemVariationUpdateDTO {
-    key: string;
-    variation: OrderItemVariationDTO
-}
-
-export interface OrderItemUpdateDTO {
-    itemId? : string;
+export interface OrderLineItemDTO {
     name?: string;
-
-    addVariation?: OrderItemVariationDTO[],
-    replaceVariations?: OrderItemVariationUpdateDTO[],
-    deleteVariations?: string[]
+    derivedSku: string;
+    quantity: number;
+    unitPrice: number;
+    productCode: string;
+    variationSnapshot: VariationSnapshot;
 }
-

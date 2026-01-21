@@ -44,7 +44,7 @@
                 />
               </v-col>
               <v-col cols="12" class="d-flex justify-space-between align-center mb-4">
-                <h3>{{ tCap('order.items') }}</h3>
+                <h3>{{ tCap('order.items', 2) }}</h3>
                 <v-btn
                   color="indigo"
                   :text="tCap('order.addOrderItemTitle')"
@@ -55,14 +55,9 @@
               </v-col>
             </v-row>
             <v-row dense>
-              <v-expansion-panels v-model="openPanels" multiple>
-                <order-item-edit 
-                  v-for="(orderItem, index) in form.items"
-                  :key="orderItem.id"
-                  v-model="form.items[index]"
-                  @removeItem="removeItem(orderItem.id)"
-                />
-              </v-expansion-panels>
+              <order-item-edit 
+                v-model="form.items"
+              />
             </v-row>
             <v-row class="mb-4" justify="end" align="center">
               <v-col cols="auto">
@@ -166,7 +161,6 @@
 
 <script setup lang="ts">
 import { computed, nextTick, reactive, ref } from 'vue';
-import { v4 as uuidv4 } from "uuid";
 
 import { useOrders } from '@/presentation/composables/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
@@ -174,13 +168,13 @@ import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 
 import OrderItemEdit from './OrderItemEdit.vue';
-import type { OrderEditVM } from '@/presentation/viewModels/orderItemEditVM';
-import { dtoToVM, orderVmToCmd } from '@/presentation/mappers/orderItemMapper';
+import { orderVmToCmd } from '@/presentation/mappers/orderItemMapper';
 
 import AmountAdjustmentField from '../shared/AmountAdjustmentField.vue';
 import VatCalculatorField from '../shared/vatCalculatorField.vue';
 import DatePicker from '../shared/DatePicker.vue';
 import { numberPriceToGreekFormatLocale } from '@/utlis/priceUtils';
+import type { OrderEditVM } from '@/presentation/viewModels/orderVM';
 
 const { 
   maxLength, 
@@ -218,13 +212,14 @@ const {
 const openPanels = ref<number[]>([]);
 
 function addItem() {
-  form.items.push(
-    dtoToVM({
-      id: uuidv4(),
+  form.items.push({
       name: "",
-      variations: []
-    })
-  );
+      derivedSku: "",
+      unitPrice: 0,
+      productCode: "",
+      variationSnapshot: {},
+      sizing: {}
+    });
 
   nextTick(() => {
     openPanels.value.push(form.items.length -1);
@@ -233,25 +228,16 @@ function addItem() {
 
 const totalQuantityAllItems = computed(() => {
   return form.items.reduce((sum, item) => {
-    const itemQty = item.variations?.reduce(
-      (s, v) => s + Object.values(v.sizing).reduce((a, b) => a + b, 0),
-      0
-    ) ?? 0;
+    const itemQty = Object.values(item.sizing).reduce((a, b) => a + b, 0) ?? 0;
     return sum + itemQty;
   }, 0)
-}
-);
+});
 
 // total amount across all items
 const totalAmountAllItems = computed(() =>
   form.items.reduce((total, item) => {
-    const itemTotal = item.variations?.reduce(
-      (sum, variation) => {
-        const variationQuantity = Object.values(variation.sizing).reduce((a, b) => a + b, 0);
-        return sum + variationQuantity * variation.price;
-      },
-      0
-    ) ?? 0;
+    const itemQty = Object.values(item.sizing).reduce((a, b) => a + b, 0) ?? 0;
+    const itemTotal = itemQty * item.unitPrice;
 
     return total + itemTotal;
   }, 0)
@@ -274,19 +260,9 @@ const totalAmountAfterDeposit = computed(() => {
   return totalAmount.value - form.depositAmount;
 });
 
-function removeItem(id: string) {
-  const itemIndex = form.items.findIndex(e => e.id === id);
-
-  if(itemIndex == -1) return;
-
-  form.items.splice(itemIndex, 1);
-}
-
 async function saveOrder() {
   await submit(async (form) => {
     if(form.direction === 'Credit') {
-      const cmd = orderVmToCmd(form)
-      // console.log(cmd);
       createCreditOrderCommmandHandler.handle(orderVmToCmd(form));
     }
 
