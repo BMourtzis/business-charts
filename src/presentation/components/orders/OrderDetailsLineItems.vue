@@ -11,22 +11,36 @@
       </v-list-item>
     </v-card-title>
     <v-card-text>
-      <order-details-line-item-details 
-        :items="[...order.items]"
+      <display-table 
+        :tableRows="rows"
+        :table-columns="shoesVariationLayout"
       />
     </v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
+import DisplayTable from '../editableTable/renderers/DisplayTable.vue';
+
+import { computed } from 'vue';
+
 import { Order } from '@/domain/order/models/order';
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import OrderDetailsLineItemDetails from './OrderDetailsLineItemDetails.vue';
+import { shoesVariationLayout } from '@/presentation/composables/order/useProductVariation';
+import { useVariationTableMapper } from '@/presentation/composables/editableTable/useVariationTableMapper';
+import { mapOrderLineItemsToVM } from '@/presentation/mappers/orderMapper';
 
 const { tCap } = useLocalizationHelpers();
 
+const { vmToRows } = useVariationTableMapper(shoesVariationLayout);
+
 const props = defineProps<{ order: Order }>();
+
+const rows = computed(() => {
+  const lineItems = mapOrderLineItemsToVM([...props.order.items]);
+  return vmToRows(lineItems);
+});
 
 </script>
 
