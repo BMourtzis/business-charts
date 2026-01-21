@@ -1,21 +1,25 @@
-import { OrderItem } from "@/domain/order/models/orderItem";
-import type { IMapper } from "./type";
-import type { OrderItemDTO } from "../dto/orderDTO";
-import { OrderItemVariationMapperInstance } from "./orderItemVariationMapper";
+import { Sku } from "@/domain/order/models/sku";
+import type { OrderLineItemDTO } from "../dto/orderDTO";
+import { OrderLineItem } from "@/domain/order/models/orderLineItem";
 
-export class OrderItemMapper implements IMapper<OrderItem, OrderItemDTO> {
-    toModel(dto: OrderItemDTO): OrderItem {
-        return new OrderItem(
-            dto.id, 
-            dto.name, 
-            dto.variations.map(OrderItemVariationMapperInstance.toModel));
+export class OrderItemMapper  {
+    toModel(dto: OrderLineItemDTO): OrderLineItem {
+        return new OrderLineItem(
+            new Sku(dto.productCode, dto.variationSnapshot),
+            dto.name,
+            dto.unitPrice,
+            dto.quantity
+        );
     }
 
-    toDTO(model: OrderItem) : OrderItemDTO {
+    toDTO(model: OrderLineItem) : OrderLineItemDTO {
         return {
-            id: model.id,
             name: model.name,
-            variations: model.variations.map(OrderItemVariationMapperInstance.toDTO)
+            derivedSku: model.derivedSKU,
+            quantity: model.quantity,
+            unitPrice: model.unitPrice,
+            productCode: model.productCode,
+            variationSnapshot: model.sku.variationSnapshot
         };
     }
 }
