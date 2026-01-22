@@ -1,7 +1,9 @@
-import { type IEntity } from "@/domain/type";
-import { OrderDirection, OrderStateTransitions, OrderStatus } from "../orderTypes";
 import { v4 as uuidv4 } from "uuid";
+
+import { type IEntity } from "@/domain/type";
 import { YearlyClientSequence } from "@/domain/yearlySequence";
+
+import { OrderDirection, OrderStateTransitions, OrderStatus } from "../orderTypes";
 import { OrderLineItem } from "./orderLineItem";
 import { OrderTimeline } from "./orderTimeline";
 
@@ -208,11 +210,52 @@ export class Order implements IEntity {
 }
 
 //You pay supplier
-export function createDebitOrder(partnerId: string, sequence: YearlyClientSequence,  items: OrderLineItem[], vatRate: number, dueDate?: Date): Order {
-    return new Order(uuidv4(), sequence, partnerId, OrderStatus.Draft, OrderDirection.Debit, vatRate, items, dueDate);
+export function createDebitOrder(
+    partnerId: string, 
+    sequence: YearlyClientSequence, 
+    items: OrderLineItem[], 
+    vatRate: number, 
+    dueDate?: Date
+): Order {
+    return new Order(
+        uuidv4(),
+        sequence, 
+        partnerId, 
+        OrderStatus.Draft, 
+        OrderDirection.Debit, 
+        vatRate, 
+        items, 
+        dueDate
+    );
 }
 
 //customer pays you
-export function createCreditOrder(partnerId: string, sequence: YearlyClientSequence, items: OrderLineItem[], vatRate: number, dueDate?: Date, notes?: string, discountAmount?: number, depositAmount?: number): Order {
-    return new Order(uuidv4(), sequence, partnerId, OrderStatus.Draft, OrderDirection.Credit, vatRate, items, dueDate, undefined, undefined, undefined, undefined, undefined, notes, discountAmount, depositAmount );
+export function createCreditOrder(
+    partnerId: string, 
+    sequence: YearlyClientSequence, 
+    items: OrderLineItem[], 
+    vatRate: number, 
+    dueDate?: Date, 
+    notes?: string, 
+    discountAmount?: number, 
+    depositAmount?: number
+): Order {
+    return new Order(
+        uuidv4(), 
+        sequence, 
+        partnerId, 
+        OrderStatus.Draft, 
+        OrderDirection.Credit, 
+        vatRate, 
+        items, 
+        dueDate, 
+        undefined, 
+        undefined, 
+        undefined, 
+        undefined, 
+        undefined, 
+        notes, 
+        discountAmount, 
+        depositAmount
+    );
 }

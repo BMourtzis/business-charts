@@ -5,7 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 export class Supplier extends Partner {
     private _activity?: string;
 
-    constructor(id: string, clientNumber: number, contactName: string, activity?: string, businessName?: string) {
+    constructor(
+        id: string, 
+        clientNumber: number, 
+        contactName: string, 
+        activity?: string,
+        businessName?: string
+    ) {
         super(id, PartnerType.Supplier, clientNumber, businessName, contactName);
         this._activity = activity;
     }
@@ -21,6 +27,17 @@ export class Supplier extends Partner {
     }
 }
 
-export function createSupplier(name: string, clientNumber: number, activity?: string, businessName?: string): Supplier {
-    return new Supplier(uuidv4(), clientNumber, name, activity, businessName);
+export function createSupplier(
+    name: string, 
+    clientNumber: number, 
+    activity?: string, 
+    businessName?: string
+): Supplier {
+    return new Supplier(
+        uuidv4(), 
+        clientNumber, 
+        name, 
+        activity, 
+        businessName
+    );
 }

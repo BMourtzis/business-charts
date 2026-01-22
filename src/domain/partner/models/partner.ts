@@ -16,7 +16,13 @@ export abstract class Partner implements IEntity {
     private _businessName?: string;
     private _contactName?: string;
 
-    constructor(id: string, type: PartnerType, clientNumber: number, businessName?: string, contactName?: string, ) {
+    constructor(
+        id: string, 
+        type: PartnerType, 
+        clientNumber: number, 
+        businessName?: string, 
+        contactName?: string
+    ) {
         this.id = id;
         this.clientNumber = clientNumber;
         this.type = type;
