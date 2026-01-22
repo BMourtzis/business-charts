@@ -7,11 +7,11 @@ export function stringPriceToGreekFormatLocale(amount: string) {
 
 export function numberPriceToGreekFormatLocale(amount: number): string{
     if(isNaN(amount)) {
-        return `0,00 ${getMonetarySign()}`;
+        return `0,00${getMonetarySign()}`;
     }
     const priceString = amount.toFixed(2);
     const greekLocalePrice = dotToComma(priceString);
-    return `${greekLocalePrice} ${getMonetarySign()}`;
+    return `${greekLocalePrice}${getMonetarySign()}`;
 }
 
 export function intlToGreekLocale(amount: string) {

@@ -8,7 +8,12 @@
     <thead>
       <tr>
         <th v-if="hideRowIndex !== true">#</th>
-        <th v-for="(columnLayout, cIndex) in tableColumns" :key="cIndex">{{ columnLayout.title }}</th>
+        <th 
+          v-for="(columnLayout, cIndex) in tableColumns" 
+          :key="cIndex"
+        >
+          {{ columnLayout.title }}
+        </th>
         <th v-if="$slots.actions"></th>
       </tr>
     </thead>

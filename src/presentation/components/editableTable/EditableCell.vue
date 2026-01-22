@@ -111,7 +111,3 @@ function requestClose(e?: KeyboardEvent) {
 }
 
 </script>
-
-<style lang="css" scoped>
-
-</style>
