@@ -2,7 +2,7 @@ import type { InternalRow, TableColumn } from "../editableTable/useEditableTable
 
 export const productCode = {
     name: "productCode",
-    title: "Κωδικός Προϊόντος",
+    title: "Κωδικός",
     type: "productCode",
     editorType: "text",
     rendererType: "text",
@@ -41,6 +41,8 @@ export const menVariation = {
     width: "1vw",
 }
 
+const sizeWidth = "1vw";
+
 export const shoeSizeVariations = [
     {
         name: "shoe:35",
@@ -49,7 +51,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:36",
@@ -58,7 +60,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:37",
@@ -67,7 +69,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:38",
@@ -76,7 +78,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:39",
@@ -85,7 +87,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:40",
@@ -94,7 +96,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:41",
@@ -103,7 +105,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:42",
@@ -112,7 +114,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:43",
@@ -121,7 +123,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:44",
@@ -130,7 +132,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:45",
@@ -139,7 +141,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:46",
@@ -148,7 +150,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
     {
         name: "shoe:47",
@@ -157,7 +159,7 @@ export const shoeSizeVariations = [
         editorType: "number",
         rendererType: "text",
         navigable: true,
-        width: "1vw",
+        width: sizeWidth,
     },
 ];
 
@@ -184,7 +186,7 @@ export const shoesVariationLayout = [
     })),
     {
         order: shoeSizeVariations.length + 4,
-        title: "Τεμάχια Παραλλαγής",
+        title: "Τεμάχια",
         name: "calculated:totalQty",
         type: "calculated",
         rendererType: "text",
@@ -193,7 +195,7 @@ export const shoesVariationLayout = [
     },
     {
         order: shoeSizeVariations.length + 5,
-        title: "Τιμή Παραλλαγής",
+        title: "Τιμή",
         name: "variationPrice",
         type: "price",
         editorType: "price",
@@ -203,7 +205,7 @@ export const shoesVariationLayout = [
     },
     {
         order: shoeSizeVariations.length + 6,
-        title: "Σύνολο Παραλλαγής",
+        title: "Σύνολο",
         name: "calculated:totalPrice",
         type: "calculated",
         rendererType: "price",
