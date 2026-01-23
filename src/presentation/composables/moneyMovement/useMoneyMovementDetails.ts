@@ -1,18 +1,28 @@
 import { MoneyDirection, MoneyMovementReason, PaymentMethod } from "@/domain/payment/MoneyMovementTypes";
+import { useLocalizationHelpers } from "../useLocalization";
+import { computed } from "vue";
+
+export function useMoneyMovementDetails() {
+    const { tCap } = useLocalizationHelpers();
+
+    return {
+        paymentMethodTypes: computed(() => getPaymentMethodTypes(tCap)),
+        moneyDirectionTypes: computed(() => getMoneyDirectionTypes(tCap)),
+        movementReasonTypes: computed(() => getMovementReasonTypes(tCap))
+    }
+}
+
+
+function getPaymentMethodTypes(tCap: (key: string) => string) {
+    return Object.values(PaymentMethod).map(method => ({
+        title: getPaymentMethodString(method, tCap),
+        value: method,
+        icon: getPaymentMethodIcon(method)
+    }));
+}
 
 export function getPaymentMethodString(method: PaymentMethod, tCap: (key: string, count?: number) => string): string {
-    switch(method) {
-        case PaymentMethod.Card:
-            return tCap("moneyMovement.card");
-        case PaymentMethod.Bank:
-            return tCap("moneyMovement.bank");
-        case PaymentMethod.Cash:
-            return tCap("moneyMovement.cash");
-        case PaymentMethod.Online:
-            return tCap("moneyMovement.online");
-        case PaymentMethod.Cheque:
-            return tCap("moneyMovement.cheque");
-    }
+    return tCap(`moneyMovement.${method.toLowerCase()}`)
 }
 
 export function getPaymentMethodIcon(method: PaymentMethod): string {
@@ -30,13 +40,16 @@ export function getPaymentMethodIcon(method: PaymentMethod): string {
     }
 }
 
+function getMoneyDirectionTypes(tCap: (key: string) => string) {
+    return Object.values(MoneyDirection).map(direction => ({
+        title: getMoneyDirectionString(direction, tCap),
+        value: direction,
+        icon: getMoneyDirectionIcon(direction)
+    }));
+}
+
 export function getMoneyDirectionString(direction: MoneyDirection, tCap: (key: string, count?: number) => string): string {
-    switch(direction) {
-        case MoneyDirection.In:
-            return tCap("moneyMovement.in");
-        case MoneyDirection.Out:
-            return tCap("moneyMovement.out");
-    }
+    return tCap(`moneyMovement.${direction.toLowerCase()}`)
 }
 
 export function getMoneyDirectionIcon(direction: MoneyDirection): string {
@@ -57,20 +70,16 @@ export function getMoneyDirectionColour(direction: MoneyDirection): string {
     }
 }
 
+function getMovementReasonTypes(tCap: (key: string) => string) {
+    return Object.values(MoneyMovementReason).map(reason => ({
+        title: getMovementReasonString(reason, tCap),
+        value: reason
+    }));
+}
+
 export function getMovementReasonString(
     reason: MoneyMovementReason, 
     tCap: (key: string, count?: number) => string
 ): string {
-    switch(reason) {
-        case MoneyMovementReason.CustomerPayment:
-            return tCap("moneyMovement.customerPayment");
-        case MoneyMovementReason.CustomerRefund:
-            return tCap("moneyMovement.customerRefund");
-        case MoneyMovementReason.SupplierPayment:
-            return tCap("moneyMovement.supplierPayment");
-        case MoneyMovementReason.SupplierRefund:
-            return tCap("moneyMovement.supplierRefund");
-        case MoneyMovementReason.Adjustment:
-            return tCap("moneyMovement.adjustment");
-    }
+    return tCap(`moneyMovement.${reason.toLowerCase()}`);
 }

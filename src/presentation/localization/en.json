@@ -186,15 +186,16 @@
         "reason": "reason",
         "in": "in",
         "out": "out",
-        "customerPayment":"customer payment",
-        "customerRefund": "customer refund",
-        "supplierPayment": "supplier payment",
-        "supplierRefund": "supplier refund",
+        "customerpayment":"customer payment",
+        "customerrefund": "customer refund",
+        "supplierpayment": "supplier payment",
+        "supplierrefund": "supplier refund",
         "adjustment": "adjustment",
         "card": "card",
         "bank": "bank transfer",
         "cash": "cash",
         "online": "online",
-        "cheque": "cheque"
+        "cheque": "cheque",
+        "addMoneyMovement": "add money movement"
     }
 }

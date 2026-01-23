@@ -42,6 +42,7 @@ export function useOrders() {
     }
 }
 
+//TODO: move to partners
 function getPartnersToItemProps(tCap: (key: string) => string) {
     return (item: PartnerDTO) => {
         if(!item) return;

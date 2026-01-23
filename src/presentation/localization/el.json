@@ -177,15 +177,16 @@
         "reason": "αιτία",
         "in": "είσπραξη",
         "out": "πληρωμή",
-        "customerPayment":"είσπραξη από πελάτη",
-        "customerRefund": "επιστροφή σε πελάτη",
-        "supplierPayment": "πληρωμή σε προμηθευτή",
-        "supplierRefund": "επιστροφή από προμηθευτή",
+        "customerpayment":"είσπραξη από πελάτη",
+        "customerrefund": "επιστροφή σε πελάτη",
+        "supplierpayment": "πληρωμή σε προμηθευτή",
+        "supplierrefund": "επιστροφή από προμηθευτή",
         "adjustment": "διόρθωση υπολοίπου",
         "card": "κάρτα",
         "bank": "τραπεζική κατάθεση",
         "cash": "μετρητά",
         "online": "online",
-        "cheque": "επιταγή"
+        "cheque": "επιταγή",
+        "addMoneyMovement": "προσθήκη χρηματικής κίνησης"
     }
 }
