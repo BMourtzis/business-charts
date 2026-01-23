@@ -5,7 +5,7 @@ export type LocaleType = "en" | "el";
 type TParams = Record<string, string | number | boolean> | undefined;
 
 export function useLocalizationHelpers() {
-  const { t, locale  } = useI18n();
+  const { t, locale } = useI18n();
 
   const tCap = (key: string, count = 1, params?: TParams) => {
     const str = t(key, {...params, count});

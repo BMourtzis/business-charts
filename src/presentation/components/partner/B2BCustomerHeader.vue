@@ -32,12 +32,7 @@
         class="text-subtitle-1 text-grey-darken-1"
       >
         {{ tCap('deliveryCarrier.carrier') }}:
-        <v-btn 
-          variant="text" 
-          :to="`/carrier/${carrier.id}`"
-        >
-          {{ carrier.name }}
-        </v-btn> -
+        <carrier-btn :carrier="carrier" /> -
         <AddressLink 
           :address="carrier.primaryLocation" 
           format="full" 
@@ -52,7 +47,7 @@
         mini
       />
       <ConfirmDeleteModal
-        :name="b2bCustomer.businessName"
+        :name="b2bCustomer.businessName ?? b2bCustomer.contactName ?? ''"
         :action-fn="() => deletePartner()"
         mini
       />
@@ -73,6 +68,7 @@ import { getCarrierDetails } from "@/presentation/composables/deliveryCarrier/us
 import EditPartnerModal from "@/presentation/components/partner/EditPartnerModal.vue";
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import AddressLink from "../contact/AddressLink.vue";
+import CarrierBtn from "../deliveryCarrier/CarrierBtn.vue";
 
 const props = defineProps<{
   b2bCustomer: B2BCustomer;

@@ -34,6 +34,9 @@
 <script setup lang="ts">
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import PartnerBtn from "../partner/PartnerBtn.vue";
+import PaymentMethodChip from "./PaymentMethodChip.vue";
+import MovementDirectionChip from "./MovementDirectionChip.vue";
+import MovementReasonChip from "./MovementReasonChip.vue";
 
 import { toRef } from 'vue';
 import { useRouter } from 'vue-router';
@@ -42,10 +45,8 @@ import type { MoneyMovement } from "@/domain/payment/models/moneyMovement";
 import { Partner } from '@/domain/partner/models/partner';
 
 import type { VDataTableRow } from '@/presentation/types/types';
-import { useMoneyMovementTable, type MoneyMovementTableRow } from "@/presentation/composables/moneyMovement/useMoneyMovementTable";
-import PaymentMethodChip from "./PaymentMethodChip.vue";
-import MovementDirectionChip from "./MovementDirectionChip.vue";
-import MovementReasonChip from "./MovementReasonChip.vue";
+import { useMoneyMovementTable } from "@/presentation/composables/moneyMovement/useMoneyMovementTable";
+
 
 const router = useRouter();
 

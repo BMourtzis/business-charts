@@ -136,11 +136,10 @@ import { useRouter } from 'vue-router';
 
 import { Order } from '@/domain/order/models/order';
 
-import { getDate, getAmount } from '@/presentation/composables/order/useOrderDetails';
 import { getPartnerDetails } from '@/presentation/composables/partner/usePartnerDetails';
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import { OrderStatus } from "@/domain/order/orderTypes";
+import { getAmount, getDate } from "@/presentation/composables/useUtils";
 
 const { tCap } = useLocalizationHelpers();
 const router = useRouter();

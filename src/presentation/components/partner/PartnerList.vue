@@ -29,13 +29,10 @@
       </div>
     </template>
     <template #[`item.deliveryCarrier`]="{ item }">
-      <v-btn 
+      <carrier-btn 
         v-if="item.rowType === 'b2b' && item.deliveryCarrier !== undefined"
-        variant="text" 
-        @click.stop="() => router.push(`/carrier/${item.deliveryCarrier?.id}`)"
-      >
-        {{ item.deliveryCarrier.name }}
-      </v-btn>
+        :carrier="item.deliveryCarrier" 
+      />
     </template>
     <template #[`item.actions`]="{ item }">
       <EditPartnerModal 
@@ -65,6 +62,7 @@ import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue
 import EditPartnerModal from "./EditPartnerModal.vue";
 import PhoneLink from '@/presentation/components/contact/PhoneLink.vue';
 import AddressLink from '@/presentation/components/contact/AddressLink.vue';
+import CarrierBtn from '../deliveryCarrier/CarrierBtn.vue';
 
 const { deletePartnerCommandHandler } = usePartners();
 const router = useRouter();
