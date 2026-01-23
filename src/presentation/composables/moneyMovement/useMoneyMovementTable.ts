@@ -13,7 +13,7 @@ function toMovementTable(
 ): MoneyMovementTableRow {
     return {
         id: movement.id,
-        movementNumber: getMovementNumber(""),
+        movementNumber: getMovementNumber(movement.movementNumber),
         partner: getPartnerDetails(movement.partnerId),
         createdDate: getDate(movement.createdDate),
         amount: numberPriceToGreekFormatLocale(movement.amount),

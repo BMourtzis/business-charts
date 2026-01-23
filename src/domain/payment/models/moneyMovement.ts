@@ -1,8 +1,10 @@
 import type { IEntity } from "@/domain/type";
 import { type MoneyDirection, type PaymentMethod, type MoneyMovementReason } from "../MoneyMovementTypes";
+import type { MovementYearlyClientSequence } from "../movementYearlySequence";
 
 export class MoneyMovement implements IEntity {
     readonly id: string;
+    readonly sequence: MovementYearlyClientSequence;
     readonly partnerId: string;
     readonly amount: number;
     readonly method: PaymentMethod;
@@ -12,6 +14,7 @@ export class MoneyMovement implements IEntity {
 
     constructor(
         id: string, 
+        sequence: MovementYearlyClientSequence,
         partnerId: string, 
         amount: number, 
         method: PaymentMethod, 
@@ -24,6 +27,7 @@ export class MoneyMovement implements IEntity {
         }
 
         this.id = id;
+        this.sequence = sequence;
         this.partnerId = partnerId;
         this.amount = amount;
         this.method = method;
@@ -31,4 +35,6 @@ export class MoneyMovement implements IEntity {
         this.reason = reason;
         this.createdDate = date || new Date();
     }
+
+    get movementNumber() { return this.sequence.format(); }
 }

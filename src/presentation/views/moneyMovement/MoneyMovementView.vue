@@ -30,7 +30,6 @@ import MoneyMovementList from '@/presentation/components/moneyMovement/MoneyMove
 import { useMoneyMovements } from '@/presentation/composables/moneyMovement/useMoneyMovements';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
-
 const { tCap } = useLocalizationHelpers();
 
 const { allMoneyMovements } = useMoneyMovements();

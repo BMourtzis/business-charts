@@ -9,4 +9,5 @@ export interface MoneyMovementDTO extends IEntityDTO {
     direction: MoneyDirection;
     reason: MoneyMovementReason;
     createdDate: Date;
+    movementNumber: string;
 }
