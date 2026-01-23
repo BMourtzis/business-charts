@@ -6,7 +6,7 @@ import { useLocalizationHelpers } from "../useLocalization";
 import type { DataTableHeader } from "vuetify";
 import { Partner } from "@/domain/partner/models/partner";
 import { getPartnerDetails } from "../partner/usePartnerDetails";
-import type { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
+import type { OrderStatus, OrderType } from "@/domain/order/orderTypes";
 import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 
 function toOrderTable(order: Order, tCap: (key: string, count?: number) => string): OrderTableRow {
@@ -17,7 +17,7 @@ function toOrderTable(order: Order, tCap: (key: string, count?: number) => strin
         createdDate: getDate(order.createdDate),
         dueDate: getDate(order.dueDate),
         status: order.status,
-        direction: order.direction,
+        type: order.type,
         total: numberPriceToGreekFormatLocale(order.totalAmount)
     }
 }
@@ -66,6 +66,6 @@ export interface OrderTableRow {
     createdDate: string,
     dueDate: string,
     status: OrderStatus,
-    direction: OrderDirection,
+    type: OrderType,
     total: string
 }

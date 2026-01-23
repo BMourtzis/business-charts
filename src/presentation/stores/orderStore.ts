@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import { Order } from '@/domain/order/models/order';
 import { type OrderDTO } from '@/application/dto/orderDTO';
 import { OrderMapperInstance } from '@/application/mapper/orderMapper';
-import { OrderDirection } from '@/domain/order/orderTypes';
+import { OrderType } from '@/domain/order/orderTypes';
 
 export interface AmountsRecord {
     debited: number;
@@ -35,7 +35,7 @@ export const useOrdersStore = defineStore('orders', {
                     result[o.partnerId] = { credited: 0, debited: 0, balance: 0};
                 }
 
-                if(o.direction === OrderDirection.Credit) {
+                if(o.type === OrderType.Sales) {
                     result[o.partnerId].credited += o.totalAmount;
                     result[o.partnerId].balance += o.totalAmount;
                 } else {
@@ -52,7 +52,7 @@ export const useOrdersStore = defineStore('orders', {
             const allOrders = this.allOrders.map(OrderMapperInstance.toModel) as Order[];
 
             for(const o of allOrders) {
-                if(o.direction === OrderDirection.Credit) credited += o.totalAmount;
+                if(o.type === OrderType.Sales) credited += o.totalAmount;
                 else debited += o.totalAmount;
             }
 
@@ -66,14 +66,14 @@ export const useOrdersStore = defineStore('orders', {
         creditOrders: (state) => {
             return (partnerId?: string) => 
                 state.orders.filter(order => 
-                    order.direction === OrderDirection.Credit && 
+                    order.type === OrderType.Sales && 
                     (!partnerId || order.partnerId === partnerId)
                 );
         },
         debitOrders: (state) => {
             return (partnerId?: string) => 
                 state.orders.filter(order => 
-                    order.direction === OrderDirection.Debit &&
+                    order.type === OrderType.Sales &&
                     (!partnerId || order.partnerId === partnerId)
                 );
         },

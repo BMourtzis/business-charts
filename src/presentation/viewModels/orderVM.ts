@@ -1,11 +1,11 @@
 import type { VariationSnapshot } from "@/domain/order/models/sku";
-import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
+import { OrderType, OrderStatus } from "@/domain/order/orderTypes";
 
 export interface OrderVM {
     id: string;
     partnerId: string;
     status: OrderStatus;
-    direction: OrderDirection;
+    type: OrderType;
     totalAmount: number;
     subtotal: number;
     taxAmount: number;
@@ -21,7 +21,7 @@ export interface OrderVM {
 }
 
 export type OrderEditVM = {
-    direction: 'Credit' | "Debit",
+    type: 'Sales' | "Purchase",
     partnerId: string,
     vatRate: number,
     dueDate: Date | null,

@@ -18,7 +18,7 @@ export const OrderStateTransitions: Record<OrderStatus, OrderStatus[]> = {
     [OrderStatus.Cancelled]: []
 };
 
-export enum OrderDirection {
-    Credit = "Credit",
-    Debit = "Debit"
+export enum OrderType {
+    Sales = "Sales",
+    Purchase = "Purchase"
 }
