@@ -17,6 +17,9 @@
         "order": {
             "orders": "Παραγγελίες",
             "details": "Στοιχεία Παραγγελίας"
+        },
+        "money-movement": {
+            "money-movements": "Κινήσεις Χρημάτων"
         }
     },
     "validation": {
@@ -163,5 +166,26 @@
         "completed": "ολοκληρώθηκε",
         "sales": "πώληση",
         "purchase": "αγορά"
+    },
+    "moneyMovement": {
+        "moneyMovement": "κινήση Χρημάτων | κινήσεις χρημάτων",
+        "number": "αριθμός κίνησης",
+        "amount": "ποσό",
+        "createdDate":"ημερομηνία δημιουργίας",
+        "method": "τρόπος πληρωμής",
+        "direction": "κατεύθυνση",
+        "reason": "αιτία",
+        "in": "είσπραξη",
+        "out": "πληρωμή",
+        "customerPayment":"είσπραξη από πελάτη",
+        "customerRefund": "επιστροφή σε πελάτη",
+        "supplierPayment": "πληρωμή σε προμηθευτή",
+        "supplierRefund": "επιστροφή από προμηθευτή",
+        "adjustment": "διόρθωση υπολοίπου",
+        "card": "κάρτα",
+        "bank": "τραπεζική κατάθεση",
+        "cash": "μετρητά",
+        "online": "online",
+        "cheque": "επιταγή"
     }
 }

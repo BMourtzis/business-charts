@@ -1,7 +1,7 @@
 import type { MoneyMovementDTO } from '@/application/dto/moneyMovementDTO';
 import { defineStore } from 'pinia';
 
-export const usePaymentsStore = defineStore('payments', {
+export const useMoneyMovementStore = defineStore('payments', {
     state: () => ({
         moneyMovements: [] as MoneyMovementDTO[]
     }),

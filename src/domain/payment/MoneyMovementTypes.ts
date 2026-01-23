@@ -2,7 +2,8 @@ export enum PaymentMethod {
     Card = "Card",
     Bank = "Bank",
     Cash = "Cash",
-    Online = "Online"
+    Online = "Online",
+    Cheque = "Cheque"
 }
 
 export enum MoneyDirection {
