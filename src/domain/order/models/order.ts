@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { type IEntity } from "@/domain/type";
 import { YearlyClientSequence } from "@/domain/yearlySequence";
 
-import { OrderDirection, OrderStateTransitions, OrderStatus } from "../orderTypes";
+import { OrderType, OrderStateTransitions, OrderStatus } from "../orderTypes";
 import { OrderLineItem } from "./orderLineItem";
 import { OrderTimeline } from "./orderTimeline";
 
@@ -12,7 +12,7 @@ export class Order implements IEntity {
     readonly sequence: YearlyClientSequence;
     readonly partnerId: string;
     readonly createdDate: Date;
-    readonly direction: OrderDirection;
+    readonly type: OrderType;
 
     private _status: OrderStatus;
     private _items: OrderLineItem[];
@@ -26,12 +26,16 @@ export class Order implements IEntity {
 
     notes: string;
 
+    /**
+    * Rehydration constructor.
+    * Use ONLY when loading from persistence.
+    */
     constructor(
         id: string, 
         sequence: YearlyClientSequence,
         partnerId: string, 
         status: OrderStatus, 
-        direction: OrderDirection, 
+        type: OrderType, 
         vatRate: number, 
         items: OrderLineItem[],
         dueDate?: Date, 
@@ -53,7 +57,7 @@ export class Order implements IEntity {
         this._discountAmount = discountAmount;
         this._depositAmount = depositAmount;
         this._status = status;
-        this.direction = direction;
+        this.type = type;
         this._items = items.slice();
         
         this._dueDate = dueDate;
@@ -63,6 +67,55 @@ export class Order implements IEntity {
             shippedDate, 
             completedDate, 
             cancelledDate
+        );
+    }
+
+    static createIncomingOrder(
+        partnerId: string, 
+        sequence: YearlyClientSequence, 
+        items: OrderLineItem[], 
+        vatRate: number, 
+        dueDate?: Date, 
+        notes?: string, 
+        discountAmount?: number, 
+        depositAmount?: number
+    ): Order {
+        return new Order(
+            uuidv4(), 
+            sequence, 
+            partnerId, 
+            OrderStatus.Draft, 
+            OrderType.Sales, 
+            vatRate, 
+            items, 
+            dueDate, 
+            undefined, 
+            undefined, 
+            undefined, 
+            undefined, 
+            undefined, 
+            notes, 
+            discountAmount, 
+            depositAmount
+        );
+    }
+
+    static createOutgoingOrder(
+        partnerId: string, 
+        sequence: YearlyClientSequence, 
+        items: OrderLineItem[], 
+        vatRate: number, 
+        dueDate?: Date
+    ): Order {
+        return new Order(
+            uuidv4(),
+            sequence, 
+            partnerId, 
+            OrderStatus.Draft, 
+            OrderType.Purchase, 
+            vatRate, 
+            items, 
+            dueDate
         );
     }
 
@@ -207,55 +260,4 @@ export class Order implements IEntity {
     private canEditOrder() {
         return this._status === OrderStatus.Draft;
     }
-}
-
-//You pay supplier
-export function createDebitOrder(
-    partnerId: string, 
-    sequence: YearlyClientSequence, 
-    items: OrderLineItem[], 
-    vatRate: number, 
-    dueDate?: Date
-): Order {
-    return new Order(
-        uuidv4(),
-        sequence, 
-        partnerId, 
-        OrderStatus.Draft, 
-        OrderDirection.Debit, 
-        vatRate, 
-        items, 
-        dueDate
-    );
-}
-
-//customer pays you
-export function createCreditOrder(
-    partnerId: string, 
-    sequence: YearlyClientSequence, 
-    items: OrderLineItem[], 
-    vatRate: number, 
-    dueDate?: Date, 
-    notes?: string, 
-    discountAmount?: number, 
-    depositAmount?: number
-): Order {
-    return new Order(
-        uuidv4(), 
-        sequence, 
-        partnerId, 
-        OrderStatus.Draft, 
-        OrderDirection.Credit, 
-        vatRate, 
-        items, 
-        dueDate, 
-        undefined, 
-        undefined, 
-        undefined, 
-        undefined, 
-        undefined, 
-        notes, 
-        discountAmount, 
-        depositAmount
-    );
 }

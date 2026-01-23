@@ -5,7 +5,7 @@
         {{ getOrderNumberName() }}
       </h1>
       <status-chip :status="order.status" class="ml-2 mt-2" />
-      <direction-chip :direction="order.direction" class="ml-2 mt-2"/>
+      <order-type-chip :type="order.type" class="ml-2 mt-2"/>
     </v-col>
     <v-col cols="4" class="d-flex flex-row justify-end">
       <!-- TODO: move to separate component -->
@@ -87,8 +87,7 @@
         v-if="partner" 
         class="text-subtitle-1 text-grey-darken-1 order-details-line"
       >
-        <strong v-if="order.direction === OrderDirection.Credit">{{ tCap('partner.customer') }}</strong>
-        <strong v-if="order.direction === OrderDirection.Debit">{{ tCap('partner.customer') }}</strong>:
+        <strong>{{ tCap('partner.customer') }}</strong>:
         <v-btn 
           variant="text" 
           :to="`/partner/${partner.id}`"
@@ -130,7 +129,7 @@
 <script setup lang="ts">
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import StatusChip from "./StatusChip.vue";
-import DirectionChip from "./DirectionChip.vue";
+import OrderTypeChip from "./OrderTypeChip.vue";
 
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -141,7 +140,7 @@ import { getDate, getAmount } from '@/presentation/composables/order/useOrderDet
 import { getPartnerDetails } from '@/presentation/composables/partner/usePartnerDetails';
 import { useOrders } from '@/presentation/composables/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import { OrderDirection } from "@/domain/order/orderTypes";
+import { OrderStatus } from "@/domain/order/orderTypes";
 
 const { tCap } = useLocalizationHelpers();
 const router = useRouter();

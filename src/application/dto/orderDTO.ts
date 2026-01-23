@@ -1,4 +1,4 @@
-import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
+import { OrderType, OrderStatus } from "@/domain/order/orderTypes";
 import type { IEntityDTO } from "./type";
 import type { VariationSnapshot } from "@/domain/order/models/sku";
 
@@ -7,7 +7,7 @@ export interface OrderDTO extends IEntityDTO {
     orderNumber: string;
     partnerId: string;
     status: OrderStatus;
-    direction: OrderDirection;
+    type: OrderType;
     items: OrderLineItemDTO[];
     notes: string;
 

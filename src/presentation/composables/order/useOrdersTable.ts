@@ -6,7 +6,7 @@ import { useLocalizationHelpers } from "../useLocalization";
 import type { DataTableHeader } from "vuetify";
 import { Partner } from "@/domain/partner/models/partner";
 import { getPartnerDetails } from "../partner/usePartnerDetails";
-import type { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
+import type { OrderStatus, OrderType } from "@/domain/order/orderTypes";
 import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 
 function toOrderTable(order: Order, tCap: (key: string, count?: number) => string): OrderTableRow {
@@ -17,7 +17,7 @@ function toOrderTable(order: Order, tCap: (key: string, count?: number) => strin
         createdDate: getDate(order.createdDate),
         dueDate: getDate(order.dueDate),
         status: order.status,
-        direction: order.direction,
+        type: order.type,
         total: numberPriceToGreekFormatLocale(order.totalAmount)
     }
 }
@@ -39,7 +39,7 @@ function getOrderHeaders(tCap: (key: string, count?: number) => string) {
         { title: tCap('order.createdDate'), key: "createdDate", align: 'start' },
         { title: tCap('order.dueDate'), key: "dueDate", align: 'start' },
         { title: tCap('order.status'), key: "status", align: 'start' },
-        { title: tCap('order.direction'), key: "direction", align: 'start' },
+        { title: tCap('order.type'), key: "direction", align: 'start' },
         { title: tCap('order.total'), key: "total", align: 'start' },  
         { title: tCap('common.action', 2), key: "actions", align: 'start'}
     ] satisfies DataTableHeader[];
@@ -66,6 +66,6 @@ export interface OrderTableRow {
     createdDate: string,
     dueDate: string,
     status: OrderStatus,
-    direction: OrderDirection,
+    type: OrderType,
     total: string
 }

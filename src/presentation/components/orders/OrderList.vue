@@ -22,7 +22,7 @@
       <status-chip :status="row.status" />
     </template>
     <template #[`item.direction`]="{ item: row }">
-      <direction-chip :direction="row.direction" />
+      <order-type-chip :type="row.type" />
     </template>
     <template #[`item.actions`]="{ item: row }">
       <ConfirmDeleteModal
@@ -48,7 +48,7 @@ import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { OrderTableRow, } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
 import StatusChip from "./StatusChip.vue";
-import DirectionChip from "./DirectionChip.vue";
+import OrderTypeChip from "./OrderTypeChip.vue";
 
 const router = useRouter();
 

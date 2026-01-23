@@ -1,7 +1,7 @@
 import type { OrderLineItemDTO } from "@/application/dto/orderDTO";
 import { OrderItemMapperInstance } from "@/application/mapper/orderItemMapper";
 import { OrderMapperInstance } from "@/application/mapper/orderMapper";
-import { createCreditOrder } from "@/domain/order/models/order";
+import { Order } from "@/domain/order/models/order";
 import { orderRepository } from "@/infrastructure/repositories/orderRepository.local";
 import { OrderNumberService } from "@/infrastructure/services/orderNumberService";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
@@ -24,7 +24,7 @@ export class CreateCreditOrderCommmandHandler {
 
         const sequence = await OrderNumberService.getNext(cmd.partnerId);
 
-        const order = createCreditOrder(
+        const order = Order.createIncomingOrder(
             cmd.partnerId,
             sequence,
             items,
