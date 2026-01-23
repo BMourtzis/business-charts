@@ -12,7 +12,7 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
             YearlyClientSequence.fromFormatted(dto.orderNumber),
             dto.partnerId,
             dto.status,
-            dto.direction,
+            dto.type,
             dto.vatRate,
             dto.items.map(OrderItemMapperInstance.toModel),
             getDateOrUndefined(dto.dueDate),
@@ -33,7 +33,7 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
             orderNumber: model.orderNumber,
             partnerId: model.partnerId,
             status: model.status,
-            direction: model.direction,
+            type: model.type,
             items: model.items.map(OrderItemMapperInstance.toDTO),
             notes: model.notes,
 

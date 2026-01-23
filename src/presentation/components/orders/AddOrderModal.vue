@@ -31,10 +31,12 @@
               </v-col>
               <v-col cols="6">
                 <v-select
-                  v-model="form.direction"
-                  :label="tCap('order.direction')"
-                  :items="directions"
+                  v-model="form.type"
+                  :label="tCap('order.type')"
+                  :items="orderTypes"
                   :rules="[required]"
+                  item-title="title"
+                  item-value="value"
                 />
               </v-col>
               <v-col cols="6">
@@ -175,6 +177,8 @@ import VatCalculatorField from '../shared/vatCalculatorField.vue';
 import DatePicker from '../shared/DatePicker.vue';
 import { numberPriceToGreekFormatLocale } from '@/utlis/priceUtils';
 import type { OrderEditVM } from '@/presentation/viewModels/orderVM';
+import { getOrderTypeString } from '@/presentation/composables/order/useOrderDetails';
+import { OrderType } from '@/domain/order/orderTypes';
 
 const { 
   maxLength, 
@@ -185,10 +189,12 @@ const { createCreditOrderCommmandHandler, partners, partnersToItemProps } = useO
 
 const { tCap } = useLocalizationHelpers();
 
-const directions = ["Credit", "Debit"];
+const orderTypes = [
+  {title: getOrderTypeString(OrderType.Sales, tCap), value: "Sales" }, 
+  {title: getOrderTypeString(OrderType.Purchase, tCap), value: "Purchase"}];
 
 const form = reactive({
-    direction: 'Credit',
+    type: 'Sales',
     partnerId: '',
     vatRate: .24,
     dueDate: null,
@@ -262,7 +268,8 @@ const totalAmountAfterDeposit = computed(() => {
 
 async function saveOrder() {
   await submit(async (form) => {
-    if(form.direction === 'Credit') {
+    console.log(form);
+    if(form.type === 'Sales') {
       createCreditOrderCommmandHandler.handle(orderVmToCmd(form));
     }
 

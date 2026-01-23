@@ -135,7 +135,7 @@
     "order": {
         "order": "order | orders",
         "number": "order number",
-        "direction": "direction",
+        "type": "type",
         "items": "order item | order items",
         "product": "product | products",
         "basePrice": "base price",
@@ -169,6 +169,8 @@
         "processing": "processing",
         "readyForShipment": "ready for shipment",
         "shipped": "shipped",
-        "completed": "completed"
+        "completed": "completed",
+        "sales": "sales",
+        "purchase": "purchase"
     }
 }

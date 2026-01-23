@@ -1,5 +1,5 @@
 import { OrderMapperInstance } from "@/application/mapper/orderMapper";
-import { OrderDirection, OrderStatus } from "@/domain/order/orderTypes";
+import { OrderType, OrderStatus } from "@/domain/order/orderTypes";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
 import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 import { computed } from "vue";
@@ -65,11 +65,11 @@ export function getStatusString(status: OrderStatus, tCap: (key: string, count?:
     }
 }
 
-export function getDirectionString(direction: OrderDirection, tCap: (key: string, count?: number) => string): string {
-    switch(direction) {
-        case OrderDirection.Credit:
-            return tCap("common.credit");
-        case OrderDirection.Debit:
-            return tCap("common.debit");
+export function getOrderTypeString(type: OrderType, tCap: (key: string, count?: number) => string): string {
+    switch(type) {
+        case OrderType.Sales:
+            return tCap("order.sales");
+        case OrderType.Purchase:
+            return tCap("order.purchase");
     }
 }
