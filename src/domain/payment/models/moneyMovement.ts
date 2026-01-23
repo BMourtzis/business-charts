@@ -1,16 +1,6 @@
 import type { IEntity } from "@/domain/type";
 import { type MoneyDirection, type PaymentMethod, type MoneyMovementReason } from "../MoneyMovementTypes";
 
-export interface PaymentDTO {
-    id: string;
-    partnerId: string;
-    amount: number;
-    method: PaymentMethod;
-    direction: MoneyDirection;
-    reason: MoneyMovementReason;
-    createdDate: Date;
-}
-
 export class MoneyMovement implements IEntity {
     readonly id: string;
     readonly partnerId: string;
