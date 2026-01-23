@@ -39,7 +39,7 @@ function getOrderHeaders(tCap: (key: string, count?: number) => string) {
         { title: tCap('order.createdDate'), key: "createdDate", align: 'start' },
         { title: tCap('order.dueDate'), key: "dueDate", align: 'start' },
         { title: tCap('order.status'), key: "status", align: 'start' },
-        { title: tCap('order.direction'), key: "direction", align: 'start' },
+        { title: tCap('order.type'), key: "direction", align: 'start' },
         { title: tCap('order.total'), key: "total", align: 'start' },  
         { title: tCap('common.action', 2), key: "actions", align: 'start'}
     ] satisfies DataTableHeader[];
