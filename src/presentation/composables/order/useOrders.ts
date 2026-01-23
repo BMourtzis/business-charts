@@ -7,8 +7,8 @@ import { getOrderById } from "@/application/queries/order/getOrderByIdQuery";
 import { getOrdersForPartner } from "@/application/queries/order/getOrdersForPartnerQuery";
 import type { PartnerDTO } from "@/application/dto/partnerDTO";
 
-import { usePartnersStore } from "../stores/partnerStore";
-import { useOrdersStore } from "../stores/orderStore";
+import { usePartnersStore } from "@/presentation/stores/partnerStore";
+import { useOrdersStore } from "@/presentation/stores/orderStore";
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { CreateCreditOrderCommmandHandler } from "@/application/commands/order/createCreditOrderCommand";
 import { OrderMapperInstance } from "@/application/mapper/orderMapper";

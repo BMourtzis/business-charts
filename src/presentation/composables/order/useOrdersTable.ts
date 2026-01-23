@@ -19,7 +19,7 @@ function toOrderTable(order: Order, tCap: (key: string, count?: number) => strin
         status: order.status,
         type: order.type,
         total: numberPriceToGreekFormatLocale(order.totalAmount)
-    }
+    };
 }
 
 function getOrderNumber(orderNumber: string): string {

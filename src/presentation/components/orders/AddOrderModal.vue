@@ -164,7 +164,7 @@
 <script setup lang="ts">
 import { computed, nextTick, reactive, ref } from 'vue';
 
-import { useOrders } from '@/presentation/composables/useOrders';
+import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';

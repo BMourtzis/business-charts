@@ -138,7 +138,7 @@ import { Order } from '@/domain/order/models/order';
 
 import { getDate, getAmount } from '@/presentation/composables/order/useOrderDetails';
 import { getPartnerDetails } from '@/presentation/composables/partner/usePartnerDetails';
-import { useOrders } from '@/presentation/composables/useOrders';
+import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { OrderStatus } from "@/domain/order/orderTypes";
 
