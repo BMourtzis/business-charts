@@ -8,6 +8,6 @@ export interface MoneyMovementDTO extends IEntityDTO {
     method: PaymentMethod;
     direction: MoneyDirection;
     reason: MoneyMovementReason;
-    createdDate: Date;
+    createdDate: string;
     movementNumber: string;
 }

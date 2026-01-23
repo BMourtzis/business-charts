@@ -9,7 +9,7 @@ import { getPartnerDetails } from "../partner/usePartnerDetails";
 import type { OrderStatus, OrderType } from "@/domain/order/orderTypes";
 import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 
-function toOrderTable(order: Order, tCap: (key: string, count?: number) => string): OrderTableRow {
+function toOrderTable(order: Order): OrderTableRow {
     return {
         id: order.id,
         orderNumber: getOrderNumber(order.orderNumber),
@@ -51,7 +51,7 @@ export function useOrderTable(orderRef: Ref<Order[] | undefined>) {
     const data = computed(() => {
         const orders = orderRef.value ?? [];
 
-        return orders.map(o => toOrderTable(o, tCap));
+        return orders.map(o => toOrderTable(o));
     });
 
     const headers = computed(() => getOrderHeaders(tCap));

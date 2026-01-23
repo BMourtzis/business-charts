@@ -8,8 +8,7 @@ import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 import type { DataTableHeader } from "vuetify";
 
 function toMovementTable(
-    movement: MoneyMovement, 
-    tCap: (key: string, count?: number) => string
+    movement: MoneyMovement
 ): MoneyMovementTableRow {
     return {
         id: movement.id,
@@ -37,11 +36,12 @@ function getMovementHeaders(tCap: (key: string, count?: number) => string) {
     return [
         { title: tCap('moneyMovement.number'), key: "movementNumber", align: 'start' },
         { title: tCap('partner.businessName'), key: "partner", align: 'start' },
-        { title: tCap('moneyMovement.amount'), key: "amount", align: 'start' },
         { title: tCap('moneyMovement.createdDate'), key: "createdDate", align: 'start' },
-        { title: tCap('moneyMovement.method'), key: "method", align: 'start' },
         { title: tCap('moneyMovement.direction'), key: "direction", align: 'start' },
-        { title: tCap('moneyMovement.reason'), key: "reason", align: 'start' }
+        { title: tCap('moneyMovement.reason'), key: "reason", align: 'start' },
+        { title: tCap('moneyMovement.method'), key: "method", align: 'start' },
+        { title: tCap('moneyMovement.amount'), key: "amount", align: 'start' },
+        
     ] satisfies DataTableHeader[];
 }
 
@@ -51,7 +51,7 @@ export function useMoneyMovementTable(movementRef: Ref<MoneyMovement[] | undefin
     const data = computed(() => {
         const movements = movementRef.value ?? [];
 
-        return movements.map(m => toMovementTable(m, tCap));
+        return movements.map(m => toMovementTable(m));
     });
 
     const headers = computed(() => getMovementHeaders(tCap));

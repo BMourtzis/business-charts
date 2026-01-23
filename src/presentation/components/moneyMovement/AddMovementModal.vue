@@ -122,8 +122,11 @@ import { useOrders } from '@/presentation/composables/order/useOrders';
 
 import { getMonetarySign } from '@/utlis/priceUtils';
 import { useMoneyMovementDetails } from '@/presentation/composables/moneyMovement/useMoneyMovementDetails';
+import { useMoneyMovements } from '@/presentation/composables/moneyMovement/useMoneyMovements';
 
 const { partners, partnersToItemProps } = useOrders();
+
+const { createMoneyMovementCommandHandler } = useMoneyMovements();
 
 const { paymentMethodTypes, movementReasonTypes } = useMoneyMovementDetails()
 
@@ -153,7 +156,14 @@ const {
 
 async function saveMoneyMovement() {
   await submit(async (form) => {
-    console.log(form.amount, form.partnerId, form.method, form.reason);
+    if(!form.amount || !form.partnerId || !form.method || !form.reason) return;
+
+    await createMoneyMovementCommandHandler.handle({
+      partnerId: form.partnerId,
+      amount: Number(form.amount),
+      method: form.method,
+      reason: form.reason
+    });
     reset();
   });
 }

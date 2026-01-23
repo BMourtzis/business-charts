@@ -13,7 +13,7 @@ export class MoneyMovementMapper implements IMapper<MoneyMovement, MoneyMovement
             dto.method,
             dto.direction,
             dto.reason,
-            dto.createdDate
+            getDate(dto.createdDate)
         )
     };
 
@@ -25,10 +25,14 @@ export class MoneyMovementMapper implements IMapper<MoneyMovement, MoneyMovement
             method: model.method,
             direction: model.direction,
             reason: model.reason,
-            createdDate: model.createdDate,
+            createdDate: model.createdDate.toISOString(),
             movementNumber: model.movementNumber
         }
     }
+}
+
+function getDate(isoString: string): Date {
+    return new Date(isoString);
 }
 
 export const MoneyMovementMapperInstance = new MoneyMovementMapper();

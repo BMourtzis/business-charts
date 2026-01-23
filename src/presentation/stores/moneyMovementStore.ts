@@ -15,5 +15,22 @@ export const useMoneyMovementStore = defineStore('payments', {
             return (partnerId: string) => state.moneyMovements
                 .filter(o => o.partnerId === partnerId);
         },
+    },
+    actions: {
+        setMovements(moneyMovements: MoneyMovementDTO[]) {
+            this.moneyMovements = moneyMovements;
+        },
+        add(moneyMovement: MoneyMovementDTO) {
+            this.moneyMovements.push(moneyMovement);
+        },
+        update(updatedOrder: MoneyMovementDTO) {
+            const index = this.moneyMovements.findIndex(p => p.id === updatedOrder.id);
+            if (index !== -1) {
+                this.moneyMovements[index] = updatedOrder;
+            }
+        },
+        remove(id: string) {
+            this.moneyMovements = this.moneyMovements.filter(p => p.id !== id);
+        }
     }
 });
