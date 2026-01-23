@@ -17,11 +17,15 @@ import { AddPartnerAddressCommandHandler, EditPartnerAddressCommandHandler, Remo
 
 import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { isNullOrEmpty } from "@/utlis/stringUtils";
+import { useLocalizationHelpers } from "../useLocalization";
+import type { PartnerDTO } from "@/application/dto/partnerDTO";
 
 
 export function usePartners() {
     const store = usePartnersStore();
     const { all } = storeToRefs(store);
+
+    const { tCap } = useLocalizationHelpers();
 
     return {
         b2bCustomers: computed(() => all.value
@@ -30,6 +34,9 @@ export function usePartners() {
         suppliers: computed(() => all.value
             .filter(p => p.type === PartnerType.Supplier)
             .map(PartnerMapperInstance.toModel) as Supplier[]),
+        partners: computed(() => all.value),
+        partnersToItemProps: getPartnersToItemProps(tCap),
+        //Commands
         createSupplierCommandHandler: new CreateSupplierCommandHandler(store),
         createB2BCustomerCommandHandler: new CreateB2BCustomerCommandHandler(store),
         editSupplierCommandHandler: new EditSupplierCommandHandler(store),
@@ -47,6 +54,31 @@ export function usePartners() {
         deletePartnerCommandHandler: new DeletePartnerCommandHandler(store)
     }
 }
+
+function getPartnersToItemProps(tCap: (key: string) => string) {
+    return (item: PartnerDTO) => {
+        if(!item) return;
+
+        return {
+            title: item.businessName || item.contactName,
+            value: item.id,
+            subtitle: tCap(getPartnerTypeStringResource(item.type))
+        };
+    }
+}
+
+function getPartnerTypeStringResource(type: PartnerType) {
+    return partnerTypeToStringResource[type];
+}
+
+const partnerTypeToStringResource: Record<PartnerType, string> = {
+  [PartnerType.Supplier]: "partner.supplier",
+  [PartnerType.B2BCustomer]: "partner.b2bCustomer",
+  [PartnerType.RetailCustomer]: "partner.customer",
+  [PartnerType.Contractor]: "partner.contractor",
+};
+
+
 
 export function getAddressFromFields(street?: string, city?: string, zip?: string, country?: string) {
   if(isNullOrEmpty(street)

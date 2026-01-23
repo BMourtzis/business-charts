@@ -112,19 +112,17 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 
+import type { MoneyMovementEditVM } from '@/presentation/viewModels/moneyMovementVM';
+import { getMonetarySign } from '@/utlis/priceUtils';
+
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
-
-import type { MoneyMovementEditVM } from '@/presentation/viewModels/moneyMovementVM';
-
-import { useOrders } from '@/presentation/composables/order/useOrders';
-
-import { getMonetarySign } from '@/utlis/priceUtils';
 import { useMoneyMovementDetails } from '@/presentation/composables/moneyMovement/useMoneyMovementDetails';
 import { useMoneyMovements } from '@/presentation/composables/moneyMovement/useMoneyMovements';
+import { usePartners } from '@/presentation/composables/partner/usePartners';
 
-const { partners, partnersToItemProps } = useOrders();
+const { partners, partnersToItemProps } = usePartners();
 
 const { createMoneyMovementCommandHandler } = useMoneyMovements();
 

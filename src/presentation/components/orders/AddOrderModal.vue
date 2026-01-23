@@ -179,13 +179,15 @@ import { numberPriceToGreekFormatLocale } from '@/utlis/priceUtils';
 import type { OrderEditVM } from '@/presentation/viewModels/orderVM';
 import { getOrderTypeString } from '@/presentation/composables/order/useOrderDetails';
 import { OrderType } from '@/domain/order/orderTypes';
+import { usePartners } from '@/presentation/composables/partner/usePartners';
 
 const { 
   maxLength, 
   required
 } = useValidationRules();
 
-const { createCreditOrderCommmandHandler, partners, partnersToItemProps } = useOrders();
+const { createCreditOrderCommmandHandler } = useOrders();
+const { partners, partnersToItemProps } = usePartners();
 
 const { tCap } = useLocalizationHelpers();
 
