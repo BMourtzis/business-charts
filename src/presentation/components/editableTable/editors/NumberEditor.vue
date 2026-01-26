@@ -1,35 +1,37 @@
 <template>
   <v-text-field
-    class="number-editor"
+    ref="fieldRef"
     :model-value="modelValue"
     @update:model-value="$emit('update:modelValue', $event)"
     density="compact"
     variant="underlined"
     hide-details
-    autofocus
-    type="text"
-    inputmode="numeric"
-    pattern="[0-9]*"
-    @blur="$emit('blur')"
+    tabindex="0"
+    @blur="$emit('blur', focusKey)"
     @keydown="onKeydown"
-    :style="{ width: width || '1vw'}"
+    :style="{ width: width || '1vw' }"
   />
 </template>
 
 <script setup lang="ts">
-import { useCellNavigation } from '@/presentation/composables/editableTable/onCellNavigation';
+import { useCellNavigation } from '@/presentation/composables/editableTable/onCellNavigation'
+import type { NavigationDirection } from '@/presentation/viewModels/navigation';
+import { useEditorFocus } from '@/presentation/composables/editableTable/useEditorFocus';
 
 defineProps<{
   modelValue: string;
   width?: string;
+  focusKey: number;
+}>()
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string): void,
+  (e: 'blur', focusKey: number): void,
+  (e: 'navigate', direction: NavigationDirection): void
 }>();
 
-const emit = defineEmits([
-  'update:modelValue',
-  'blur',
-  "navigate"
+const { onKeydown } = useCellNavigation(emit);
 
-]);
+const { fieldRef } = useEditorFocus();
 
-const { onKeydown} = useCellNavigation(emit);
 </script>

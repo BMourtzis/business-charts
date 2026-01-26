@@ -1,7 +1,6 @@
 import { OrderMapperInstance } from "@/application/mapper/orderMapper";
 import { OrderType, OrderStatus } from "@/domain/order/orderTypes";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
-import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 import { computed } from "vue";
 
 export function useOrderDetails(id: string) {
@@ -36,14 +35,6 @@ export function statusColor(status: OrderStatus): string {
             return "grey";
         
     }
-}
-
-export function getDate(date: Date) {
-    return date.toLocaleDateString()
-}
-
-export function getAmount(amount: number): string {
-    return numberPriceToGreekFormatLocale(amount);
 }
 
 export function getStatusString(status: OrderStatus, tCap: (key: string, count?: number) => string): string {

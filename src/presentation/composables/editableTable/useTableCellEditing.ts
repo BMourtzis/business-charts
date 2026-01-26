@@ -1,47 +1,49 @@
-import { ref, type Ref } from "vue";
+import { computed, ref, type Ref } from "vue";
 import type { InternalRow, TableColumn } from "./useEditableTable";
+
+export type CellPosition = {
+    row: number,
+    column: number
+}
 
 export function useTableCellEditing(
     rows: Ref<InternalRow[]>, 
     tableColumns: Readonly<TableColumn[]>, 
     commitChanges: () => void) {
 
-    type CellPosition = {
-        row: number,
-        column: number
-    }
-
     function toCellId(pos: CellPosition) {
         return pos.row * tableColumns.length + pos.column;
     }
 
-    function fromCellId(cellId: number): CellPosition {
+    function fromCellId(cellId: number | null): CellPosition | null {
+        if(cellId === null) return null;
         return {
             row: Math.floor(cellId / tableColumns.length),
             column: cellId % tableColumns.length
         };
     }
 
-    const editingCellId = ref<number | null>(null);
+    const activeCell = ref<CellPosition | null>(null);
+    const focusKey = ref(0);
 
     function startEditingCell(rowIndex: number, columnIndex: number) {
-        editingCellId.value = toCellId({row: rowIndex, column: columnIndex});
+        activeCell.value = {row: rowIndex, column: columnIndex};
     }
 
     function stopEditingCell() {
-        editingCellId.value = null;
+        activeCell.value = null
         commitChanges();
     }
 
     function moveEditingCellByCell(moveByPositions: number) {
-        if(editingCellId.value !== null) {
-            moveCell(editingCellId.value, moveByPositions);
+        if(activeCell.value !== null) {
+            moveCell(toCellId(activeCell.value), moveByPositions);
         }
     }
 
     function moveEditingCellByRow(moveByPositions: number) {
-        if(editingCellId.value !== null) {
-            moveCell(editingCellId.value, getRowBaseIndex(moveByPositions));
+        if(activeCell.value !== null) {
+            moveCell(toCellId(activeCell.value), getRowBaseIndex(moveByPositions));
         }
     }
 
@@ -52,7 +54,8 @@ export function useTableCellEditing(
 
         while(isCellMoveValid(pos)) {
             if(isCellNavigable(pos)) {
-                editingCellId.value = pos;
+                activeCell.value = fromCellId(pos);
+                focusKey.value++;
                 commitChanges();
                 return;
             }
@@ -85,10 +88,12 @@ export function useTableCellEditing(
     }
 
     function isCellFocused(rIndex: number, cIndex: number) {
-        return getRowBaseIndex(rIndex) + cIndex === editingCellId.value;
+        return getRowBaseIndex(rIndex) + cIndex === fromCellId(activeCell.value);
     }
 
     return {
+        activeCell,
+        focusKey,
         startEditingCell,
         isCellFocused,
         stopEditingCell,

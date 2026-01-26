@@ -1,8 +1,8 @@
-const clientNumberPadding = 4;
-const valuePadding = 4;
-
 export class YearlyClientSequence {
-    private constructor(
+    static clientNumberPadding = 4;
+    static valuePadding = 4;
+
+    protected constructor(
         public readonly year: number,
         public readonly clientNumber: number,
         public readonly value: number
@@ -45,7 +45,7 @@ export class YearlyClientSequence {
     }
 
     format(): string {
-        return `${this.year}-${getNumberWithPadding(this.clientNumber, clientNumberPadding)}${getNumberWithPadding(this.value, valuePadding)}`;
+        return `${this.year}-${getNumberWithPadding(this.clientNumber, YearlyClientSequence.clientNumberPadding)}${getNumberWithPadding(this.value, YearlyClientSequence.valuePadding)}`;
     }
 }
 

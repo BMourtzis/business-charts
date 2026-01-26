@@ -17,6 +17,9 @@
         "order": {
             "orders": "Orders",
             "details": "Order Details"
+        },
+        "money-movement": {
+            "money-movements": "Money Movements"
         }
     },
     "validation": {
@@ -172,5 +175,27 @@
         "completed": "completed",
         "sales": "sales",
         "purchase": "purchase"
+    },
+    "moneyMovement": {
+        "moneyMovement": "money movement | money movements",
+        "number": "movement number",
+        "amount": "amount",
+        "createdDate":"created date",
+        "method": "payment method",
+        "direction": "directions",
+        "reason": "reason",
+        "in": "in",
+        "out": "out",
+        "customerpayment":"customer payment",
+        "customerrefund": "customer refund",
+        "supplierpayment": "supplier payment",
+        "supplierrefund": "supplier refund",
+        "adjustment": "adjustment",
+        "card": "card",
+        "bank": "bank transfer",
+        "cash": "cash",
+        "online": "online",
+        "cheque": "cheque",
+        "addMoneyMovement": "add money movement"
     }
 }

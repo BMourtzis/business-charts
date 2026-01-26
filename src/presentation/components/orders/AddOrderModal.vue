@@ -162,30 +162,34 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, reactive, ref } from 'vue';
-
-import { useOrders } from '@/presentation/composables/useOrders';
-import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import { useFormDialog } from '@/presentation/composables/useFormDialog';
-import { useValidationRules } from '@/presentation/composables/useValidationRules';
-
 import OrderItemEdit from './OrderItemEdit.vue';
-import { orderVmToCmd } from '@/presentation/mappers/orderItemMapper';
-
 import AmountAdjustmentField from '../shared/AmountAdjustmentField.vue';
 import VatCalculatorField from '../shared/vatCalculatorField.vue';
 import DatePicker from '../shared/DatePicker.vue';
+
+import { computed, nextTick, reactive, ref } from 'vue';
+
+import { OrderType } from '@/domain/order/orderTypes';
+
+import { useOrders } from '@/presentation/composables/order/useOrders';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { useFormDialog } from '@/presentation/composables/useFormDialog';
+import { useValidationRules } from '@/presentation/composables/useValidationRules';
+import { usePartners } from '@/presentation/composables/partner/usePartners';
+import { getOrderTypeString } from '@/presentation/composables/order/useOrderDetails';
+
+import { orderVmToCmd } from '@/presentation/mappers/orderItemMapper';
+
 import { numberPriceToGreekFormatLocale } from '@/utlis/priceUtils';
 import type { OrderEditVM } from '@/presentation/viewModels/orderVM';
-import { getOrderTypeString } from '@/presentation/composables/order/useOrderDetails';
-import { OrderType } from '@/domain/order/orderTypes';
 
 const { 
   maxLength, 
   required
 } = useValidationRules();
 
-const { createCreditOrderCommmandHandler, partners, partnersToItemProps } = useOrders();
+const { createCreditOrderCommmandHandler } = useOrders();
+const { partners, partnersToItemProps } = usePartners();
 
 const { tCap } = useLocalizationHelpers();
 
@@ -268,7 +272,6 @@ const totalAmountAfterDeposit = computed(() => {
 
 async function saveOrder() {
   await submit(async (form) => {
-    console.log(form);
     if(form.type === 'Sales') {
       createCreditOrderCommmandHandler.handle(orderVmToCmd(form));
     }

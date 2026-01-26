@@ -38,7 +38,7 @@
         mini
       />
       <ConfirmDeleteModal
-        :name="supplier.businessName"
+        :name="supplier.contactName ?? supplier.businessName ?? ''"
         :action-fn="() => deletePartner()"
         mini
       />

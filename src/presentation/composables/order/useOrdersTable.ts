@@ -9,7 +9,7 @@ import { getPartnerDetails } from "../partner/usePartnerDetails";
 import type { OrderStatus, OrderType } from "@/domain/order/orderTypes";
 import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 
-function toOrderTable(order: Order, tCap: (key: string, count?: number) => string): OrderTableRow {
+function toOrderTable(order: Order): OrderTableRow {
     return {
         id: order.id,
         orderNumber: getOrderNumber(order.orderNumber),
@@ -19,7 +19,7 @@ function toOrderTable(order: Order, tCap: (key: string, count?: number) => strin
         status: order.status,
         type: order.type,
         total: numberPriceToGreekFormatLocale(order.totalAmount)
-    }
+    };
 }
 
 function getOrderNumber(orderNumber: string): string {
@@ -39,7 +39,7 @@ function getOrderHeaders(tCap: (key: string, count?: number) => string) {
         { title: tCap('order.createdDate'), key: "createdDate", align: 'start' },
         { title: tCap('order.dueDate'), key: "dueDate", align: 'start' },
         { title: tCap('order.status'), key: "status", align: 'start' },
-        { title: tCap('order.direction'), key: "direction", align: 'start' },
+        { title: tCap('order.type'), key: "direction", align: 'start' },
         { title: tCap('order.total'), key: "total", align: 'start' },  
         { title: tCap('common.action', 2), key: "actions", align: 'start'}
     ] satisfies DataTableHeader[];
@@ -51,7 +51,7 @@ export function useOrderTable(orderRef: Ref<Order[] | undefined>) {
     const data = computed(() => {
         const orders = orderRef.value ?? [];
 
-        return orders.map(o => toOrderTable(o, tCap));
+        return orders.map(o => toOrderTable(o));
     });
 
     const headers = computed(() => getOrderHeaders(tCap));
