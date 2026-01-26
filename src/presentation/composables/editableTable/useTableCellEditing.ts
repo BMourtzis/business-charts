@@ -1,21 +1,22 @@
-import { ref, type Ref } from "vue";
+import { computed, ref, type Ref } from "vue";
 import type { InternalRow, TableColumn } from "./useEditableTable";
+
+export type CellPosition = {
+    row: number,
+    column: number
+}
 
 export function useTableCellEditing(
     rows: Ref<InternalRow[]>, 
     tableColumns: Readonly<TableColumn[]>, 
     commitChanges: () => void) {
 
-    type CellPosition = {
-        row: number,
-        column: number
-    }
-
     function toCellId(pos: CellPosition) {
         return pos.row * tableColumns.length + pos.column;
     }
 
-    function fromCellId(cellId: number): CellPosition {
+    function fromCellId(cellId: number | null): CellPosition | null {
+        if(cellId === null) return null;
         return {
             row: Math.floor(cellId / tableColumns.length),
             column: cellId % tableColumns.length
@@ -23,6 +24,9 @@ export function useTableCellEditing(
     }
 
     const editingCellId = ref<number | null>(null);
+
+    const activeCell = computed(() => fromCellId(editingCellId.value));
+    const focusKey = ref(0);
 
     function startEditingCell(rowIndex: number, columnIndex: number) {
         editingCellId.value = toCellId({row: rowIndex, column: columnIndex});
@@ -53,6 +57,7 @@ export function useTableCellEditing(
         while(isCellMoveValid(pos)) {
             if(isCellNavigable(pos)) {
                 editingCellId.value = pos;
+                focusKey.value++;
                 commitChanges();
                 return;
             }
@@ -89,6 +94,8 @@ export function useTableCellEditing(
     }
 
     return {
+        activeCell,
+        focusKey,
         startEditingCell,
         isCellFocused,
         stopEditingCell,

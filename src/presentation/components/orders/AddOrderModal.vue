@@ -272,7 +272,6 @@ const totalAmountAfterDeposit = computed(() => {
 
 async function saveOrder() {
   await submit(async (form) => {
-    console.log(form);
     if(form.type === 'Sales') {
       createCreditOrderCommmandHandler.handle(orderVmToCmd(form));
     }
