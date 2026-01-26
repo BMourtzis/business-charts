@@ -84,7 +84,6 @@ const {
   activeCell,
   focusKey,
   startEditingCell,
-  isCellFocused,
   stopEditingCell,
   moveEditingCellByCell,
   moveEditingCellByRow

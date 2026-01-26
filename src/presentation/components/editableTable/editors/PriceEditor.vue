@@ -19,9 +19,10 @@
 
 <script setup lang="ts">
 import { useCellNavigation } from '@/presentation/composables/editableTable/onCellNavigation';
+import { useEditorFocus } from '@/presentation/composables/editableTable/useEditorFocus';
 import type { NavigationDirection } from '@/presentation/viewModels/navigation';
 import { getMonetarySign, greekToIntlLocale, intlToGreekLocale } from '@/utlis/priceUtils';
-import { computed, nextTick, onMounted, ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
   modelValue: string;
@@ -39,15 +40,5 @@ const localeValue = computed(() => intlToGreekLocale(props.modelValue));
 
 const { onKeydown} = useCellNavigation(emit);
 
-const fieldRef = ref<any>(null);
-
-onMounted(() => focus());
-
-async function focus() {
-  await nextTick()
-  const input =
-    fieldRef.value?.$el?.querySelector('input')
-  input?.focus()
-}
-
+const { fieldRef } = useEditorFocus();
 </script>

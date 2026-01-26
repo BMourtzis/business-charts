@@ -14,9 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, onMounted } from 'vue'
 import { useCellNavigation } from '@/presentation/composables/editableTable/onCellNavigation'
 import type { NavigationDirection } from '@/presentation/viewModels/navigation';
+import { useEditorFocus } from '@/presentation/composables/editableTable/useEditorFocus';
 
 defineProps<{
   modelValue: string;
@@ -32,15 +32,6 @@ const emit = defineEmits<{
 
 const { onKeydown } = useCellNavigation(emit);
 
-const fieldRef = ref<any>(null);
-
-onMounted(() => focus());
-
-async function focus() {
-  await nextTick()
-  const input =
-    fieldRef.value?.$el?.querySelector('input')
-  input?.focus()
-}
+const { fieldRef } = useEditorFocus();
 
 </script>

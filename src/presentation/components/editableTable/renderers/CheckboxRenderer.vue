@@ -14,8 +14,9 @@
 
 <script setup lang="ts">
 import { useCellNavigation } from '@/presentation/composables/editableTable/onCellNavigation';
+import { useCheckboxFocus } from '@/presentation/composables/editableTable/useEditorFocus';
 import { NavigationDirection } from '@/presentation/viewModels/navigation';
-import { nextTick, onMounted, ref, watch } from 'vue';
+import { toRef } from 'vue';
 
 const props = defineProps<{
   modelValue: string;
@@ -48,19 +49,21 @@ function onCheckboxKeydown(e: KeyboardEvent) {
   onKeydown(e);
 }
 
-const checkboxRef = ref<HTMLElement | any>(null);
+const { checkboxRef } = useCheckboxFocus(toRef(props, "focusKey"));
 
-onMounted(() => focus());
+// const checkboxRef = ref<HTMLElement | any>(null);
 
-watch(() => props.focusKey, (k) => {
-  if (!k) return;
-  focus();
-})
+// onMounted(() => focus());
 
-async function focus() {
-  await nextTick();
-  const input: HTMLInputElement | null =
-    checkboxRef.value?.$el?.querySelector('input[type="checkbox"]');
-  input?.focus();
-}
+// watch(() => props.focusKey, (k) => {
+//   if (!k) return;
+//   focus();
+// })
+
+// async function focus() {
+//   await nextTick();
+//   const input: HTMLInputElement | null =
+//     checkboxRef.value?.$el?.querySelector('input[type="checkbox"]');
+//   input?.focus();
+// }
 </script>
