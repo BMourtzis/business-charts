@@ -23,29 +23,27 @@ export function useTableCellEditing(
         };
     }
 
-    const editingCellId = ref<number | null>(null);
-
-    const activeCell = computed(() => fromCellId(editingCellId.value));
+    const activeCell = ref<CellPosition | null>(null);
     const focusKey = ref(0);
 
     function startEditingCell(rowIndex: number, columnIndex: number) {
-        editingCellId.value = toCellId({row: rowIndex, column: columnIndex});
+        activeCell.value = {row: rowIndex, column: columnIndex};
     }
 
     function stopEditingCell() {
-        editingCellId.value = null;
+        activeCell.value = null
         commitChanges();
     }
 
     function moveEditingCellByCell(moveByPositions: number) {
-        if(editingCellId.value !== null) {
-            moveCell(editingCellId.value, moveByPositions);
+        if(activeCell.value !== null) {
+            moveCell(toCellId(activeCell.value), moveByPositions);
         }
     }
 
     function moveEditingCellByRow(moveByPositions: number) {
-        if(editingCellId.value !== null) {
-            moveCell(editingCellId.value, getRowBaseIndex(moveByPositions));
+        if(activeCell.value !== null) {
+            moveCell(toCellId(activeCell.value), getRowBaseIndex(moveByPositions));
         }
     }
 
@@ -56,7 +54,7 @@ export function useTableCellEditing(
 
         while(isCellMoveValid(pos)) {
             if(isCellNavigable(pos)) {
-                editingCellId.value = pos;
+                activeCell.value = fromCellId(pos);
                 focusKey.value++;
                 commitChanges();
                 return;
@@ -90,7 +88,7 @@ export function useTableCellEditing(
     }
 
     function isCellFocused(rIndex: number, cIndex: number) {
-        return getRowBaseIndex(rIndex) + cIndex === editingCellId.value;
+        return getRowBaseIndex(rIndex) + cIndex === fromCellId(activeCell.value);
     }
 
     return {
