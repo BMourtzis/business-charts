@@ -1,0 +1,1 @@
+function i(e){const r=parseFloat(e);return t(r)}function t(e){if(isNaN(e))return`0,00${n()}`;const r=e.toFixed(2);return`${o(r)}${n()}`}function u(e){return o(e)}function s(e){return c(e)}function o(e){return e.replace(".",",")}function c(e){return e.replace(",",".")}function n(){return"€"}export{s as a,n as g,u as i,t as n,i as s};
