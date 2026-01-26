@@ -9,9 +9,11 @@
     >
       <editable-cell
         v-model="cell.value"
-        :focused="isCellFocused(rowIndex, colIndex)"
         :hasEditor="hasEditor(colIndex)"
         :width="column.width"
+        :position="{row: rowIndex, column: colIndex}"
+        :active-cell="activeCell"
+        :focus-key="focusKey"
         @request-edit="startEditingCell(rowIndex, colIndex)"
         @request-close="stopEditingCell"
         @request-move-cell="moveEditingCellByCell"
@@ -23,6 +25,7 @@
             :model-value="slot.value"
             @update:model-value="slot.onUpdate"
             :width="slot.width"
+            :focusKey="slot.focusKey"
             :items="column.list"
             @blur="slot.onBlur"
             @navigate="slot.onNavigate"
@@ -36,7 +39,7 @@
             :is="rendererMap[column.rendererType]"
             :model-value="getDisplayValue(row, column, slot.value)"
             :width="slot.width"
-            :focused="slot.focused"
+            :focusKey="slot.focusKey"
             @update:model-value="slot.onUpdate"
             @blur="slot.onBlur"
             @navigate="slot.onNavigate"
@@ -78,8 +81,9 @@ const emit = defineEmits<{
 const rows = ref<InternalRow[]>([]);
 
 const { 
+  activeCell,
+  focusKey,
   startEditingCell,
-  isCellFocused,
   stopEditingCell,
   moveEditingCellByCell,
   moveEditingCellByRow

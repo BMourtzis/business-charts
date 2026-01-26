@@ -44,3 +44,10 @@ export function usePartnerDetails(id: string) {
 
     return { dto, model, isSupplier, isB2BCustomer };
 }
+
+export function getPartnerName(partner: Partner) {
+  if(partner.businessName && partner.contactName) return `${partner.businessName} (${partner.contactName})`;
+  if(partner.businessName) return partner.businessName;
+  if(partner.contactName) return partner.contactName;
+  return "";
+}

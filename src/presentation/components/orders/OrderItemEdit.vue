@@ -8,12 +8,13 @@
 
 <script setup lang="ts">
 import EditableTable from "@/presentation/components/editableTable/EditableTable.vue";
+
 import { computed, ref, toRaw, watch } from "vue";
+
+import type { OrderLineItemVM } from "@/presentation/viewModels/orderVM";
 
 import { shoesVariationLayout } from "@/presentation/composables/order/useProductVariation";
 import { useVariationTableMapper } from "@/presentation/composables/editableTable/useVariationTableMapper";
-
-import type { OrderLineItemVM } from "@/presentation/viewModels/orderVM";
 
 
 const props = defineProps<{

@@ -29,7 +29,7 @@
 import OrderList from '@/presentation/components/orders/OrderList.vue';
 import AddOrderModal from "@/presentation/components/orders/AddOrderModal.vue";
 
-import { useOrders } from '@/presentation/composables/useOrders';
+import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 const { allOrders } = useOrders();

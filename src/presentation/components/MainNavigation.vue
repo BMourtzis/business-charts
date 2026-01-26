@@ -151,12 +151,13 @@ type NavItem = {
 };
 
 const navItems = [
-  { title: t('pages.partner.partners', 2), icon: "mdi-account-multiple-outline", name:"Partners", items: [
-    { title: t('pages.partner.suppliers', 2), icon: 'mdi-account-multiple-outline', to: '/suppliers' },
-    { title: t('pages.partner.b2bCustomers', 2), icon: 'mdi-account-multiple-outline', to: '/b2b-customers' },
-    { title: t('pages.deliveryCarrier.carriers', 2), icon: 'mdi-truck-delivery', to: '/carriers' },
+  { title: t('pages.partner.partners'), icon: "mdi-account-multiple-outline", name:"Partners", items: [
+    { title: t('pages.partner.suppliers'), icon: 'mdi-account-multiple-outline', to: '/suppliers' },
+    { title: t('pages.partner.b2bCustomers'), icon: 'mdi-account-multiple-outline', to: '/b2b-customers' },
+    { title: t('pages.deliveryCarrier.carriers'), icon: 'mdi-truck-delivery', to: '/carriers' },
   ]},
-  { title: t('pages.order.orders', 2), icon: 'mdi-receipt-text-outline', to: '/orders' },
+  { title: t('pages.order.orders'), icon: 'mdi-receipt-text-outline', to: '/orders' },
+  { title: t('pages.money-movement.money-movements'), icon: 'mdi-cash', to: '/moneyMovements' },
   // { title: 'Reports', icon: 'mdi-chart-bar', to: '/reports' },
 ] as NavItem[];
 
@@ -170,7 +171,8 @@ const titleMap: Record<string, string> = {
   dataTransfer: "pages.dataTransfer",
   changePassword: "pages.changePassword",
   orders: "pages.order.orders",
-  orderDetails: "pages.order.details"
+  orderDetails: "pages.order.details",
+  moneyMovements: "pages.money-movement.money-movements"
 };
 
 function isLeaf(item: NavItem): boolean {

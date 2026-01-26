@@ -4,8 +4,10 @@ interface NavigationOptions {
     allowArrowNavigation?: boolean;
 }
 
+type NavigateEmit = (e: 'navigate', direction: NavigationDirection) => void;
+
 export function useCellNavigation(
-    emit: (e: 'navigate', direction: NavigationDirection) => void,
+    emit: NavigateEmit,
     options: NavigationOptions = {}
 ) {
     const {
@@ -14,7 +16,6 @@ export function useCellNavigation(
 
     function onKeydown(e: KeyboardEvent) {
         let direction: NavigationDirection | null = null;
-
         switch(e.key) {
             case "Enter":
                 direction = e.shiftKey ? NavigationDirection.Up : NavigationDirection.Down;
@@ -24,9 +25,10 @@ export function useCellNavigation(
                 break;
         }
 
-        if(direction === null) return;
+        if(!direction) return;
 
         e.preventDefault();
+        e.stopPropagation();
         emit('navigate', direction);
     }
 

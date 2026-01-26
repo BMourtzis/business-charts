@@ -4,6 +4,7 @@ import { partnerRoutes } from './partnerRoutes';
 import { carrierRoutes } from './carrierRoutes';
 import { orderRoutes } from './orderRoutes';
 import { optionRoutes } from './optionRoutes';
+import { moneyMovementRoutes } from './moneyMovementRoutes'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -18,7 +19,8 @@ const routes: RouteRecordRaw[] = [
     ...partnerRoutes,
     ...carrierRoutes,
     ...orderRoutes,
-    ...optionRoutes
+    ...optionRoutes,
+    ...moneyMovementRoutes
 ];
 
 export const router = createRouter({
