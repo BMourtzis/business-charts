@@ -152,6 +152,7 @@ const {
   submit
 } = useFormDialog(form);
 
+//TODO: handle adjustment with the correct direction
 async function saveMoneyMovement() {
   await submit(async (form) => {
     if(!form.amount || !form.partnerId || !form.method || !form.reason) return;

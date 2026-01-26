@@ -37,7 +37,6 @@ function getMovementHeaders(tCap: (key: string, count?: number) => string) {
         { title: tCap('moneyMovement.number'), key: "movementNumber", align: 'start' },
         { title: tCap('partner.businessName'), key: "partner", align: 'start' },
         { title: tCap('moneyMovement.createdDate'), key: "createdDate", align: 'start' },
-        { title: tCap('moneyMovement.direction'), key: "direction", align: 'start' },
         { title: tCap('moneyMovement.reason'), key: "reason", align: 'start' },
         { title: tCap('moneyMovement.method'), key: "method", align: 'start' },
         { title: tCap('moneyMovement.amount'), key: "amount", align: 'start' },

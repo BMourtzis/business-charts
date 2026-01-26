@@ -15,11 +15,8 @@
     <template #[`item.method`]="{ item: row }">
       <payment-method-chip :method="row.method" />
     </template>
-    <template #[`item.direction`]="{ item: row }">
-      <movement-direction-chip :direction="row.direction" />
-    </template>
     <template #[`item.reason`]="{ item: row }">
-      <movement-reason-chip :reason="row.reason" />
+      <movement-reason-chip :reason="row.reason" :direction="row.direction" />
     </template>
     <template #[`item.actions`]="{ item: row }">
       <ConfirmDeleteModal
