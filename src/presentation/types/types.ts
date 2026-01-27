@@ -4,3 +4,10 @@ export type VDataTableRow<T> = {
   page?: number;
   type?: string;
 };
+
+export type ButtonOptions = {
+  title: string;
+  color?: string;
+  icon?: string;
+  action: () => void
+}

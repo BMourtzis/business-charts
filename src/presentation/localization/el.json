@@ -167,7 +167,13 @@
         "sales": "πώληση",
         "purchase": "αγορά",
         "labelCsvTitle": "εξαγωγή CSV για ετικέτες",
-        "exportInvoiceTitle": "εξαγωγή τιμολογίου"
+        "exportInvoiceTitle": "εξαγωγή τιμολογίου",
+        "approveBtn": "έγκριση",
+        "processingBtn": "ύπο επεξεργασία",
+        "readyForShipmentBtn": "έτοιμο για αποστολή",
+        "shippedBtn": "αποστολή",
+        "completedBtn": "ολοκλήρωση",
+        "cancelledBtn": "ακύρωση"
     },
     "moneyMovement": {
         "moneyMovement": "κινήση Χρημάτων | κινήσεις χρημάτων",

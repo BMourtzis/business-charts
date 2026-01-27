@@ -8,46 +8,7 @@
       <order-type-chip :type="order.type" class="ml-2 mt-2"/>
     </v-col>
     <v-col cols="4" class="d-flex flex-row justify-end">
-      <!-- TODO: move to separate component -->
-      <!-- <div class="d-flex button-with-dropdown">
-        <v-btn 
-          color="primary" 
-          class="left-btn"
-          variant="flat"
-          size="small"
-        >
-          Main Action
-        </v-btn>
-
-        <v-menu offset-y>
-          <template #activator="{ props }">
-            <v-btn 
-              color="primary" 
-              v-bind="props" 
-              class="right-btn"
-              variant="flat"
-              size="small"
-            >
-              <v-icon>mdi-chevron-down</v-icon>
-            </v-btn>
-          </template>
-
-          <v-list>
-            <v-list-item>
-              <v-list-item-title>Option 1</v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title>Option 2</v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title>Option 3</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </div>
-      <v-btn color="grey" variant="flat" size="small">Complete</v-btn>
-      <v-btn color="red" variant="flat" size="small">Cancel</v-btn> -->
-      
+      <order-details-header-status :order="order" />
     </v-col>
 
     <v-col cols="1" class="d-flex flex-row justify-end">
@@ -112,6 +73,7 @@ import { getPartnerDetails } from '@/presentation/composables/partner/usePartner
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { getAmount, getDate } from "@/presentation/composables/useUtils";
 import OrderDetailsHeaderMenu from "./OrderDetailsHeaderMenu.vue";
+import OrderDetailsHeaderStatus from "./OrderDetailsHeaderStatus.vue";
 
 const { tCap } = useLocalizationHelpers();
 
@@ -133,16 +95,6 @@ function getOrderNumberName() {
     min-height: 32px;
   }
 
-  .button-with-dropdown .left-btn {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .button-with-dropdown .right-btn {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-left-width: 2px;
-  }
   .formatted-notes {
     white-space: pre-wrap;
   }
