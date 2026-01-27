@@ -174,7 +174,9 @@
         "shipped": "shipped",
         "completed": "completed",
         "sales": "sales",
-        "purchase": "purchase"
+        "purchase": "purchase",
+        "labelCsvTitle": "export CSV for labels",
+        "exportInvoiceTitle": "export invoice"
     },
     "moneyMovement": {
         "moneyMovement": "money movement | money movements",

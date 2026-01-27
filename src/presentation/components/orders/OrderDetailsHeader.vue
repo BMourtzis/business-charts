@@ -52,38 +52,7 @@
 
     <v-col cols="1" class="d-flex flex-row justify-end">
       <!-- <EditPartnerModal :partner="supplier" mini /> -->
-      <ConfirmDeleteModal
-        :name="getOrderNumberName()"
-        :action-fn="() => deleteOrder()"
-        mini
-      />
-      <v-btn 
-        variant="text"
-        icon="mdi-file-delimited"
-        @click="useExportLabelPrintListToCSV(order)"
-      />
-      <!-- TODO: move to separate componet -->
-      <!-- <v-menu>
-        <template v-slot:activator="{ props }">
-          <v-btn icon="mdi-dots-vertical" variant="text" v-bind="props"></v-btn>
-        </template>
-
-        <v-list>
-          <v-list-item @click="console.log('clicked')">
-            <template v-slot:prepend>
-              <v-icon color="red" icon="mdi-trash-can"></v-icon>
-            </template>
-            <v-list-item-title>Delete</v-list-item-title>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>Option 2</v-list-item-title>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>Option 3</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu> -->
-
+      <order-details-header-menu :order="order" />
     </v-col>
   </v-row>
   <v-row align="start" justify="space-between" dense>
@@ -132,24 +101,19 @@
 </template>
 
 <script setup lang="ts">
-import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import StatusChip from "./StatusChip.vue";
 import OrderTypeChip from "./OrderTypeChip.vue";
 
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
 
 import { Order } from '@/domain/order/models/order';
 
 import { getPartnerDetails } from '@/presentation/composables/partner/usePartnerDetails';
-import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { getAmount, getDate } from "@/presentation/composables/useUtils";
-import { useExportLabelPrintListToCSV } from "@/presentation/composables/order/useCSVExport";
+import OrderDetailsHeaderMenu from "./OrderDetailsHeaderMenu.vue";
 
 const { tCap } = useLocalizationHelpers();
-const router = useRouter();
-const { deleteOrderCommmandHandler } = useOrders();
 
 const props = defineProps<{ order: Order }>();
 
@@ -158,13 +122,6 @@ const partner = computed(() => getPartnerDetails(props.order.partnerId));
 function getOrderNumberName() {
   return `#${ props.order.orderNumber }`;
 }
-
-
-function deleteOrder() {
-  router.back();
-  deleteOrderCommmandHandler.handle({id: props.order.id});
-}
-
 </script>
 
 <style lang="css" scoped>

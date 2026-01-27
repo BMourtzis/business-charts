@@ -165,7 +165,9 @@
         "shipped": "απεστάλη",
         "completed": "ολοκληρώθηκε",
         "sales": "πώληση",
-        "purchase": "αγορά"
+        "purchase": "αγορά",
+        "labelCsvTitle": "εξαγωγή CSV για ετικέτες",
+        "exportInvoiceTitle": "εξαγωγή τιμολογίου"
     },
     "moneyMovement": {
         "moneyMovement": "κινήση Χρημάτων | κινήσεις χρημάτων",
