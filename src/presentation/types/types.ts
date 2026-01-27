@@ -5,9 +5,10 @@ export type VDataTableRow<T> = {
   type?: string;
 };
 
-export type ButtonOptions = {
+export type ActionDescriptor<TInput = void> = {
+  id?: string;
   title: string;
   color?: string;
   icon?: string;
-  action: () => void
+  execute: (input?: TInput) => void
 }

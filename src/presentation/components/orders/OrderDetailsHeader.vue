@@ -54,7 +54,7 @@
         </span>
       </div>
       <div v-if="order.depositAmount > 0">
-        {{ tCap("order.deposit") }} <strong>{{ getAmount(order.discountAmount) }} </strong>
+        {{ tCap("order.deposit") }} <strong>{{ getAmount(order.depositAmount) }} </strong>
         · {{ tCap("order.remainingAmount") }} <strong>{{ getAmount(order.remainingAmount) }} </strong>
       </div>
     </v-col>

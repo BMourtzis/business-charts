@@ -1,7 +1,8 @@
 import type { Order } from "@/domain/order/models/order";
 import { OrderStateTransitions, OrderStatus } from "@/domain/order/orderTypes";
-import type { ButtonOptions } from "@/presentation/types/types";
+import type { ActionDescriptor } from "@/presentation/types/types";
 import { useLocalizationHelpers } from "../useLocalization";
+import type { ApproveOrderInput } from "@/presentation/components/orders/OrderDetailsHeaderStatus.vue";
 
 export function useOrderStatus(order: Order) {
     const availableStatuses = getAvailableActions(order.status);
@@ -24,43 +25,47 @@ export function useOrderStatus(order: Order) {
         }
     }
 
-    function getApprovalBtnOptions(): ButtonOptions | null {
+    function getApprovalBtnOptions(): ActionDescriptor<ApproveOrderInput> | null {
         if(!canMoveStatusTo(availableStatuses, OrderStatus.Approved)) return null;
 
         return {
+            id: "approve",
             title: tCap('order.approveBtn'),
             color: "indigo",
-            action: () => {}
+            execute: (input) => { }
         }
     }
 
-    function getProcessingBtnOptions(): ButtonOptions | null {
+    function getProcessingBtnOptions(): ActionDescriptor | null {
         if(!canMoveStatusTo(availableStatuses, OrderStatus.Processing)) return null;
 
         return {
+            id: "processing",
             title: tCap('order.processingBtn'),
             color: "indigo",
-            action: () => {}
+            execute: () => {}
         }
     }
 
-    function getReadyForShipmentBtnOptions(): ButtonOptions | null {
+    function getReadyForShipmentBtnOptions(): ActionDescriptor | null {
         if(!canMoveStatusTo(availableStatuses, OrderStatus.ReadyForShipment)) return null;
 
         return {
+            id: "readyForShipment",
             title: tCap('order.readyForShipmentBtn'),
             color: "indigo",
-            action: () => {}
+            execute: () => {}
         }
     }
 
-    function getShippedBtnOptions(): ButtonOptions | null {
+    function getShippedBtnOptions(): ActionDescriptor | null {
         if(!canMoveStatusTo(availableStatuses, OrderStatus.Shipped)) return null;
 
         return {
+            id: "shipped",
             title: tCap('order.shippedBtn'),
             color: "indigo",
-            action: () => {}
+            execute: () => {}
         }
     }
 

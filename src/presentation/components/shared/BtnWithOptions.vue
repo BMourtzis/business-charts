@@ -10,7 +10,7 @@
       :text="mainBtnOptions.title"
       :color="mainBtnOptions.color"
       :icon="mainBtnOptions.icon"
-      @click="mainBtnOptions.action?.()"
+      @click="$emit('action', mainBtnOptions)"
     >
       {{ mainBtnOptions.title }}
     </v-btn>
@@ -39,7 +39,7 @@
             :prepend-icon="btnOptions.icon"
             :color="btnOptions.color"
             :title="btnOptions.title"
-            @click="btnOptions.action()"
+            @click="$emit('action', btnOptions)"
           />
         </template>
       </v-list>
@@ -48,13 +48,18 @@
 </template>
 
 <script setup lang="ts">
-import type { ButtonOptions } from '@/presentation/types/types';
+import type { ActionDescriptor } from '@/presentation/types/types';
 import { computed } from 'vue';
 
 const props = defineProps<{
-  mainBtnOptions: ButtonOptions,
-  menuOptions: ButtonOptions[];
+  mainBtnOptions: ActionDescriptor<any>,
+  menuOptions: ActionDescriptor<any>[];
 }>();
+
+const emit = defineEmits<{
+  (e: 'action', btn: ActionDescriptor<any>): void;
+}>();
+
 
 const leftBtnClass = computed(() => ({
   'left-btn': props.menuOptions.length > 0
