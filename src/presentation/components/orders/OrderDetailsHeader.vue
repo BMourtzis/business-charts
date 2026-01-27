@@ -57,6 +57,11 @@
         :action-fn="() => deleteOrder()"
         mini
       />
+      <v-btn 
+        variant="text"
+        icon="mdi-file-delimited"
+        @click="useExportLabelPrintListToCSV(order)"
+      />
       <!-- TODO: move to separate componet -->
       <!-- <v-menu>
         <template v-slot:activator="{ props }">
@@ -140,6 +145,7 @@ import { getPartnerDetails } from '@/presentation/composables/partner/usePartner
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { getAmount, getDate } from "@/presentation/composables/useUtils";
+import { useExportLabelPrintListToCSV } from "@/presentation/composables/order/useCSVExport";
 
 const { tCap } = useLocalizationHelpers();
 const router = useRouter();
