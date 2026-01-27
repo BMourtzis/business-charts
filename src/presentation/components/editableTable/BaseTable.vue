@@ -39,6 +39,7 @@
                 :model-value="getDisplayValue(row, tableColumns[cIndex], cell.value)"
                 :width="tableColumns[cIndex].width"
                 :readonly="true"
+                :focus-key="0"
               />
             </td>
           </slot>
@@ -56,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { type TableColumn, type InternalRow, type TableRow } from "@/presentation/composables/editableTable/useEditableTable";
+import { type TableColumn, type InternalRow } from "@/presentation/composables/editableTable/useEditableTable";
 import { rendererMap } from "./renderers/rendererMap";
 
 const props = defineProps<{
