@@ -57,6 +57,7 @@
         :action-fn="() => deleteOrder()"
         mini
       />
+      <v-btn @click="generatePDF(order)" icon="mdi-printer-outline" variant="text"/>
       <!-- TODO: move to separate componet -->
       <!-- <v-menu>
         <template v-slot:activator="{ props }">
@@ -140,10 +141,13 @@ import { getPartnerDetails } from '@/presentation/composables/partner/usePartner
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { getAmount, getDate } from "@/presentation/composables/useUtils";
+import { useInvoicePDF } from "@/presentation/composables/order/useInvoicePdf";
 
 const { tCap } = useLocalizationHelpers();
 const router = useRouter();
 const { deleteOrderCommmandHandler } = useOrders();
+
+const { generatePDF } = useInvoicePDF();
 
 const props = defineProps<{ order: Order }>();
 
