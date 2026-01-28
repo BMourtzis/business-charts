@@ -20,6 +20,7 @@
     </template>
     <template #[`item.actions`]="{ item: row }">
       <ConfirmDeleteModal
+        v-if="row.status === OrderStatus.Draft"
         :name="row.orderNumber"
         :action-fn="() => deleteOrderCommmandHandler.handle({id: row.id})"
         :mini="true"
@@ -43,6 +44,7 @@ import { Partner } from '@/domain/partner/models/partner';
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useOrderTable, type OrderTableRow } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
+import { OrderStatus } from "@/domain/order/orderTypes";
 
 const router = useRouter();
 

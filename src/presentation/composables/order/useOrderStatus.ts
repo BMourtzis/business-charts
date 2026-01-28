@@ -6,6 +6,9 @@ import type { ActionDescriptor } from "@/presentation/types/types";
 import { useLocalizationHelpers } from "../useLocalization";
 import type { ApproveOrderInput } from "@/presentation/components/orders/OrderDetailsHeaderStatus.vue";
 import { ApproveOrderCommandHandler, type ApproveOrderCommand } from "@/application/commands/order/approveOrderCommand";
+import { ToProcessingOrderCommandHandler } from "@/application/commands/order/toProcessingOrderCommand";
+import { ReadyForShipmentOrderCommandHandler } from "@/application/commands/order/readyForShipmentOrderCommand";
+import { ShipOrderCommandHandler } from "@/application/commands/order/shipOrderCommand";
 
 
 export function useOrderStatus(order: Ref<Order>) {
@@ -60,7 +63,15 @@ export function useOrderStatus(order: Ref<Order>) {
             id: "processing",
             title: tCap('order.processingBtn'),
             color: "indigo",
-            execute: async () => {}
+            execute: async () => {
+                try {
+                    await new ToProcessingOrderCommandHandler().handle({orderId: order.value.id});
+                } catch (err) {
+                    if(err instanceof Error) {
+                        alert(err.message);
+                    }
+                }
+            }
         }
     }
 
@@ -71,7 +82,15 @@ export function useOrderStatus(order: Ref<Order>) {
             id: "readyForShipment",
             title: tCap('order.readyForShipmentBtn'),
             color: "indigo",
-            execute: async () => {}
+            execute: async () => {
+                try {
+                    await new ReadyForShipmentOrderCommandHandler().handle({orderId: order.value.id});
+                } catch (err) {
+                    if(err instanceof Error) {
+                        alert(err.message);
+                    }
+                }
+            }
         }
     }
 
@@ -82,7 +101,15 @@ export function useOrderStatus(order: Ref<Order>) {
             id: "shipped",
             title: tCap('order.shippedBtn'),
             color: "indigo",
-            execute: async () => {}
+            execute: async () => {
+                try {
+                    await new ShipOrderCommandHandler().handle({orderId: order.value.id});
+                } catch (err) {
+                    if(err instanceof Error) {
+                        alert(err.message);
+                    }
+                }
+            }
         }
     }
 

@@ -284,19 +284,19 @@ export class Order implements IEntity {
         this._status = OrderStatus.ReadyForShipment;
     }
 
-    toShipped(shippedDate?: Date) {
+    shipOrder(shippedDate?: Date) {
         this.assertTransition(OrderStatus.Shipped);
         this._status = OrderStatus.Shipped;
         this._timeline = this._timeline.withShipped(shippedDate || new Date());
     }
 
-    completed() {
+    completeOrder() {
         this.assertTransition(OrderStatus.Completed);
         this._status = OrderStatus.Completed;
         this._timeline = this._timeline.withCompleted();
     }
 
-    cancelled() {
+    cancelOrder() {
         this.assertTransition(OrderStatus.Cancelled);
         this._status = OrderStatus.Cancelled;
         this._timeline = this._timeline.withCancelled();

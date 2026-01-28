@@ -8,25 +8,30 @@ export function useOrderTimeline(order: Ref<Order>) {
 
     const TIMELINE_STEPS: TimelineStep[] = [
         {
-            name: tCap('order.createdDate'),
+            name: "created",
+            title: tCap('order.createdDate'),
             getDate: o => o.createdDate
         },
         {
-            name: tCap('order.approvedDate'),
+            name: "apporved",
+            title: tCap('order.approvedDate'),
             getDate: o => o.approvedDate
         },
         {
-            name: tCap('order.shippedDate'),
+            name: "shipped",
+            title: tCap('order.shippedDate'),
             getDate: o => o.shippedDate
         },
         {
-            name: tCap('order.completedDate'),
+            name: "completed",
+            title: tCap('order.completedDate'),
             getDate: o => o.completedDate
         }
     ];
 
     const CANCELLED_STEP: TimelineStep = {
-        name: tCap('order.cancelledDate'),
+        name: "cancelled",
+        title: tCap('order.cancelledDate'),
         getDate: o => o.cancelledDate,
         isCancelled: true
     };
@@ -49,21 +54,27 @@ function buildOrderTimeline(
         baseSteps.push(cancelledSetp)
     }
 
-    const withDates = baseSteps.map(step => ({
+    let withDates = baseSteps.map(step => ({
         name: step.name,
+        title: step.title,
         date: step.getDate(order)
-    }))
+    }));
+
+    if(order.status === OrderStatus.Cancelled) {
+        withDates = withDates
+            .filter(s => s.date);
+    }
 
     // Find last step that has a date
     const lastDatedIndex = withDates
         .map(s => s.date)
-        .findLastIndex(d => d !== undefined)
+        .findLastIndex(d => d !== undefined);
 
     return withDates.map((step, index) => {
         // Cancelled terminal step
         if (
             order.status === OrderStatus.Cancelled &&
-            step.name === "Cancelled"
+            step.name === 'cancelled'
         ) {
             return {
                 ...step,
@@ -88,13 +99,15 @@ function buildOrderTimeline(
 }
 
 type TimelineStep = {
-    name: string
+    title: string,
+    name: "created" | "apporved" | "shipped" | "cancelled" | "completed",
     getDate: (o: Order) => Date | undefined
     isCancelled?: boolean
 };
 
 export type TimelineItem = {
-    name: string
+    title: string,
+    name: "created" | "apporved" | "shipped" | "cancelled" | "completed",
     date?: Date
     colour: "cyan" | "indigo" | "red" | "grey"
 }
