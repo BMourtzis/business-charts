@@ -1,3 +1,5 @@
+import { computed, type Ref } from "vue";
+
 import type { Order } from "@/domain/order/models/order";
 import { OrderStateTransitions, OrderStatus } from "@/domain/order/orderTypes";
 import type { ActionDescriptor } from "@/presentation/types/types";
@@ -5,8 +7,9 @@ import { useLocalizationHelpers } from "../useLocalization";
 import type { ApproveOrderInput } from "@/presentation/components/orders/OrderDetailsHeaderStatus.vue";
 import { ApproveOrderCommandHandler, type ApproveOrderCommand } from "@/application/commands/order/approveOrderCommand";
 
-export function useOrderStatus(order: Order) {
-    const availableStatuses = getAvailableActions(order.status);
+
+export function useOrderStatus(order: Ref<Order>) {
+    const availableStatuses = computed(() => getAvailableActions(order.value.status));
 
     const { tCap } = useLocalizationHelpers();
 
@@ -27,7 +30,7 @@ export function useOrderStatus(order: Order) {
     }
 
     function getApprovalBtnOptions(): ActionDescriptor<ApproveOrderInput> | null {
-        if(!canMoveStatusTo(availableStatuses, OrderStatus.Approved)) return null;
+        if(!canMoveStatusTo(availableStatuses.value, OrderStatus.Approved)) return null;
 
         return {
             id: "approve",
@@ -35,7 +38,7 @@ export function useOrderStatus(order: Order) {
             color: "indigo",
             execute: async (input) => { 
                 const cmd = {
-                    orderId: order.id
+                    orderId: order.value.id
                 } as ApproveOrderCommand;
 
                 if(input?.amount && input.amount > 0 && input?.method) {
@@ -51,7 +54,7 @@ export function useOrderStatus(order: Order) {
     }
 
     function getProcessingBtnOptions(): ActionDescriptor | null {
-        if(!canMoveStatusTo(availableStatuses, OrderStatus.Processing)) return null;
+        if(!canMoveStatusTo(availableStatuses.value, OrderStatus.Processing)) return null;
 
         return {
             id: "processing",
@@ -62,7 +65,7 @@ export function useOrderStatus(order: Order) {
     }
 
     function getReadyForShipmentBtnOptions(): ActionDescriptor | null {
-        if(!canMoveStatusTo(availableStatuses, OrderStatus.ReadyForShipment)) return null;
+        if(!canMoveStatusTo(availableStatuses.value, OrderStatus.ReadyForShipment)) return null;
 
         return {
             id: "readyForShipment",
@@ -73,7 +76,7 @@ export function useOrderStatus(order: Order) {
     }
 
     function getShippedBtnOptions(): ActionDescriptor | null {
-        if(!canMoveStatusTo(availableStatuses, OrderStatus.Shipped)) return null;
+        if(!canMoveStatusTo(availableStatuses.value, OrderStatus.Shipped)) return null;
 
         return {
             id: "shipped",
@@ -84,10 +87,10 @@ export function useOrderStatus(order: Order) {
     }
 
     return {
-        mainBtnOptions: getMainButtonOptions(),
-        canCancel: canMoveStatusTo(availableStatuses, OrderStatus.Cancelled),
-        canComplete:canMoveStatusTo(availableStatuses, OrderStatus.Completed)
-    }
+        mainBtnOptions: computed(() => getMainButtonOptions()),
+        canCancel: computed(() => canMoveStatusTo(availableStatuses.value, OrderStatus.Cancelled)),
+        canComplete: computed(() => canMoveStatusTo(availableStatuses.value, OrderStatus.Completed))
+    };
 }
 
 function getAvailableActions(orderStatus: OrderStatus) {

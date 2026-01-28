@@ -34,13 +34,14 @@ import { useLocalizationHelpers } from '@/presentation/composables/useLocalizati
 import type { ActionDescriptor } from '@/presentation/types/types';
 import ApproveOrderModal from './ApproveOrderModal.vue';
 import type { PaymentMethod } from '@/domain/payment/MoneyMovementTypes';
+import { toRef } from 'vue';
 
 const props = defineProps<{
   order: Order;
 }>();
 
 const { tCap } = useLocalizationHelpers();
-const { mainBtnOptions, canCancel, canComplete } = useOrderStatus(props.order);
+const { mainBtnOptions, canCancel, canComplete } = useOrderStatus(toRef(props, 'order'));
 const { dialogRef, openApproveModal } = useApproveOrderDialog();
 
 function handleActionClick(btn: ActionDescriptor<any>) {
