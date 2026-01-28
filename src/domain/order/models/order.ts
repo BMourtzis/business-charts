@@ -134,6 +134,10 @@ export class Order implements IEntity {
         return this._items; 
     }
 
+    get allocations(): readonly MoneyAllocation[] {
+        return this._allocations;
+    }
+
     get vatRate() { return this._vatRate; } //TODO: should be .24
     get taxAmount() { return this.subtotal * this._vatRate; }
     get discountAmount() { return this._discountAmount; }

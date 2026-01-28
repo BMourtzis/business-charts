@@ -4,6 +4,7 @@ import type { OrderDTO } from "@/application/dto/orderDTO";
 import type { IMapper } from "./type";
 import { OrderItemMapperInstance } from "./orderItemMapper";
 import { YearlyClientSequence } from "@/domain/yearlySequence";
+import { MoneyAllocationMapperInstance } from "./moneyAllocationMapper";
 
 export class OrderMapper implements IMapper<Order, OrderDTO> {
     toModel(dto: OrderDTO): Order {
@@ -15,6 +16,7 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
             dto.type,
             dto.vatRate,
             dto.items.map(OrderItemMapperInstance.toModel),
+            dto.allocations?.map(MoneyAllocationMapperInstance.toModel) ?? [],
             getDateOrUndefined(dto.dueDate),
             getDate(dto.createdDate),
             getDateOrUndefined(dto.approvedDate),
@@ -36,6 +38,7 @@ export class OrderMapper implements IMapper<Order, OrderDTO> {
             type: model.type,
             items: model.items.map(OrderItemMapperInstance.toDTO),
             notes: model.notes,
+            allocations: model.allocations.map(MoneyAllocationMapperInstance.toDTO),
 
             vatRate: model.vatRate,
             discountAmount: model.discountAmount,
