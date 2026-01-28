@@ -3,14 +3,14 @@
     <v-card-title>{{ tCap("common.timeline") }}</v-card-title>
     <v-divider />
     <v-card-text>
-      <v-timeline align="start" side="end" direction="horizontal">
+      <v-timeline align="start" side="end">
         <template v-for="timelineItem in timelineItems">
           <v-timeline-item
             :dot-color="timelineItem.colour"
             size="small"
           >
             <template #opposite>
-              <div> {{ timelineItem.name }}</div>
+              <div> {{ timelineItem.title }}</div>
             </template>
             <div class="d-flex">
               <strong v-if="timelineItem.date" class="me-4">{{ getDate(timelineItem.date) }}</strong>
