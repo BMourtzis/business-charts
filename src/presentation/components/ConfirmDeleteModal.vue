@@ -5,7 +5,7 @@
   >
     <template #activator="{ props: activatorProps }">
       <v-btn
-        v-if="!mini"
+        v-if="showButton"
         v-bind="activatorProps"
         color="red"
         :text="tCap('common.delete')"
@@ -13,7 +13,7 @@
         variant="flat"
       />
       <v-btn
-        v-if="mini"
+        v-if="showIcon"
         v-bind="activatorProps"
         color="red"
         icon="mdi-trash-can"
@@ -57,15 +57,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from 'vue';
+import { ref, nextTick, computed, watch } from 'vue';
 
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 const props = defineProps<{
+  modelValue?: boolean;
   name: string;
   actionFn: () => void;
-  mini: boolean;
+  mini?: boolean;
+  hide?: boolean;
+}>();
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: boolean): void
 }>();
 
 const { tCap } = useLocalizationHelpers();
@@ -78,7 +84,20 @@ const {
   validForm,
   loading,
   close,
-} = useFormDialog(form); 
+} = useFormDialog(form);
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    if(value !== undefined) {
+      dialog.value = value;
+    }
+  }
+);
+
+watch(dialog, (value) => {
+  emit('update:modelValue', value);
+});
 
 async function confirmAction() {
   loading.value = true;
@@ -90,6 +109,16 @@ async function confirmAction() {
     loading.value = false;
   }
 }
+
+const showButton = computed(() => {
+  if(props.hide) return false;
+  return !props.mini;
+});
+
+const showIcon = computed(() => {
+  if(props.hide) return false;
+  return props.mini;
+});
 </script>
 
 <style lang="css" scoped>

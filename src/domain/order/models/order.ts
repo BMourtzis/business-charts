@@ -6,6 +6,8 @@ import { YearlyClientSequence } from "@/domain/yearlySequence";
 import { OrderType, OrderStateTransitions, OrderStatus } from "../orderTypes";
 import { OrderLineItem } from "./orderLineItem";
 import { OrderTimeline } from "./orderTimeline";
+import { MoneyAllocation } from "./moneyAllocation";
+import { AllocationDirection } from "../allocationTypes";
 
 export class Order implements IEntity {
     readonly id: string;
@@ -24,6 +26,8 @@ export class Order implements IEntity {
     private _dueDate?: Date;
     private _timeline: OrderTimeline;
 
+    private _allocations: MoneyAllocation[];
+
     notes: string;
 
     /**
@@ -38,6 +42,7 @@ export class Order implements IEntity {
         type: OrderType, 
         vatRate: number, 
         items: OrderLineItem[],
+        allocations: MoneyAllocation[],
         dueDate?: Date, 
         createdDate?: Date, 
         approvedDate?: Date,
@@ -68,6 +73,8 @@ export class Order implements IEntity {
             completedDate, 
             cancelledDate
         );
+
+        this._allocations = allocations;
     }
 
     static createIncomingOrder(
@@ -88,6 +95,7 @@ export class Order implements IEntity {
             OrderType.Sales, 
             vatRate, 
             items, 
+            [],
             dueDate, 
             undefined, 
             undefined, 
@@ -115,7 +123,8 @@ export class Order implements IEntity {
             OrderType.Purchase, 
             vatRate, 
             items, 
-            dueDate
+            [],
+            dueDate,
         );
     }
 
@@ -123,6 +132,10 @@ export class Order implements IEntity {
     get status() { return this._status; }
     get items(): readonly OrderLineItem[] { 
         return this._items; 
+    }
+
+    get allocations(): readonly MoneyAllocation[] {
+        return this._allocations;
     }
 
     get vatRate() { return this._vatRate; } //TODO: should be .24
@@ -204,6 +217,56 @@ export class Order implements IEntity {
         return this.items.findIndex(i => i.derivedSKU === derivedSKU);
     }
 
+    //Allocations
+    allocateMoney(
+        moneyMovementId: string,
+        amount: number,
+        direction: AllocationDirection
+    ) {
+        this.assertAllocationAmount(amount);
+
+        this.assertAllocation(amount, direction);
+
+        const allocation = new MoneyAllocation(
+            moneyMovementId,
+            amount, 
+            direction
+        );
+
+        this._allocations.push(allocation);
+    }
+
+    private assertAllocationAmount(amount: number) {
+        if(amount <= 0) throw new Error("Allocation amount must be greater than zero");
+    }
+
+    private assertAllocation(
+    amount: number,
+    direction: AllocationDirection
+) {
+    switch (direction) {
+        case AllocationDirection.Apply:
+            if (amount > this.remainingAllocatableAmount) {
+                throw new Error("Cannot allocate more than remaining amount");
+            }
+            break;
+
+        case AllocationDirection.Reverse:
+            if (amount > this.netAllocatedAmount) {
+                throw new Error("Cannot reverse more than allocated amount");
+            }
+            break;
+    }
+}
+
+    get remainingAllocatableAmount() {
+        return this.totalAmount - this.netAllocatedAmount;
+    }
+
+    get netAllocatedAmount() {
+        return this._allocations.reduce((sum, item) => sum + item.effectiveAmount, 0);
+    }
+
     //Status
     approve() {
         this.assertTransition(OrderStatus.Approved);
@@ -239,7 +302,6 @@ export class Order implements IEntity {
         this._timeline = this._timeline.withCancelled();
     }
 
-    //Asserts
     private assertTransition(newStatus: OrderStatus) {
         if (!this.canTransitionTo(newStatus)) 
             throw new Error(
