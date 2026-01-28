@@ -15,9 +15,9 @@
         />
       </v-col>
       <v-col 
-        cols="12" 
-        md="12"
-        xl="12"
+        cols="6" 
+        md="4"
+        xl="2"
       >
         <order-details-timeline
           :order="model"
