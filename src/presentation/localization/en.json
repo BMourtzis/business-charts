@@ -182,7 +182,8 @@
         "readyForShipmentBtn": "ready for shipment",
         "shippedBtn": "ship",
         "completedBtn": "complete",
-        "cancelledBtn": "cancel"
+        "cancelledBtn": "cancel",
+        "approveOrderTitle": "approve order"
     },
     "moneyMovement": {
         "moneyMovement": "money movement | money movements",

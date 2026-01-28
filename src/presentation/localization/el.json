@@ -173,7 +173,9 @@
         "readyForShipmentBtn": "έτοιμο για αποστολή",
         "shippedBtn": "αποστολή",
         "completedBtn": "ολοκλήρωση",
-        "cancelledBtn": "ακύρωση"
+        "cancelledBtn": "ακύρωση",
+        "approveOrderTitle": "έγκριση παραγγελίας"
+
     },
     "moneyMovement": {
         "moneyMovement": "κινήση Χρημάτων | κινήσεις χρημάτων",
