@@ -1,5 +1,6 @@
 <template>
   <BtnWithOptions 
+    v-if="mainBtnOptions.mainBtnOptions"
     :main-btn-options="mainBtnOptions.mainBtnOptions" 
     :menu-options="mainBtnOptions.menuOptions" 
     @action="handleActionClick"
@@ -12,6 +13,7 @@
     size="small"
     :text="tCap('order.completedBtn')"
     class="mr-2"
+    @click="completeOrder"
   />
   <v-btn 
     v-if="canCancel"
@@ -19,6 +21,7 @@
     variant="flat" 
     size="small"
     :text="tCap('order.cancelledBtn')"
+    @click="cancelOrder"
   />
   <approve-order-modal ref="dialogRef" />
 </template>
@@ -35,6 +38,8 @@ import type { ActionDescriptor } from '@/presentation/types/types';
 import ApproveOrderModal from './ApproveOrderModal.vue';
 import type { PaymentMethod } from '@/domain/payment/MoneyMovementTypes';
 import { toRef } from 'vue';
+import { CompleteOrderCommandHandler } from '@/application/commands/order/completeOrderCommand';
+import { CancelOrderCommandHandler } from '@/application/commands/order/cancelOrderCommand';
 
 const props = defineProps<{
   order: Order;
@@ -57,6 +62,26 @@ function handleActionClick(btn: ActionDescriptor<any>) {
 
   // default: execute immediately
   btn.execute();
+}
+
+async function completeOrder() {
+  try {
+    await new CompleteOrderCommandHandler().handle({orderId: props.order.id});
+  } catch (err) {
+    if(err instanceof Error) {
+      alert(err.message);
+    }
+  }
+}
+
+async function cancelOrder() {
+  try {
+    await new CancelOrderCommandHandler().handle({orderId: props.order.id});
+  } catch (err) {
+    if(err instanceof Error) {
+      alert(err.message);
+    }
+  }
 }
 
 export type ApproveOrderInput = {
