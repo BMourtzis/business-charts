@@ -174,7 +174,16 @@
         "shipped": "shipped",
         "completed": "completed",
         "sales": "sales",
-        "purchase": "purchase"
+        "purchase": "purchase",
+        "labelCsvTitle": "export CSV for labels",
+        "exportInvoiceTitle": "export invoice",
+        "approveBtn": "approve",
+        "processingBtn": "process",
+        "readyForShipmentBtn": "ready for shipment",
+        "shippedBtn": "ship",
+        "completedBtn": "complete",
+        "cancelledBtn": "cancel",
+        "approveOrderTitle": "approve order"
     },
     "moneyMovement": {
         "moneyMovement": "money movement | money movements",

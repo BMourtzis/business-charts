@@ -165,7 +165,17 @@
         "shipped": "απεστάλη",
         "completed": "ολοκληρώθηκε",
         "sales": "πώληση",
-        "purchase": "αγορά"
+        "purchase": "αγορά",
+        "labelCsvTitle": "εξαγωγή CSV για ετικέτες",
+        "exportInvoiceTitle": "εξαγωγή τιμολογίου",
+        "approveBtn": "έγκριση",
+        "processingBtn": "ύπο επεξεργασία",
+        "readyForShipmentBtn": "έτοιμο για αποστολή",
+        "shippedBtn": "αποστολή",
+        "completedBtn": "ολοκλήρωση",
+        "cancelledBtn": "ακύρωση",
+        "approveOrderTitle": "έγκριση παραγγελίας"
+
     },
     "moneyMovement": {
         "moneyMovement": "κινήση Χρημάτων | κινήσεις χρημάτων",
