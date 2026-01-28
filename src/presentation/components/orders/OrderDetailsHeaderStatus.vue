@@ -39,16 +39,14 @@ const props = defineProps<{
 }>();
 
 const { tCap } = useLocalizationHelpers();
-
 const { mainBtnOptions, canCancel, canComplete } = useOrderStatus(props.order);
-
 const { dialogRef, openApproveModal } = useApproveOrderDialog();
 
 function handleActionClick(btn: ActionDescriptor<any>) {
   if (btn.id === 'approve') {
     openApproveModal({
       initialInput: { amount: props.order.depositAmount },
-      onConfirm: (input) => {
+      onConfirm: async (input) => {
         btn.execute(input);
       },
     });

@@ -32,7 +32,7 @@ export function useOrderStatus(order: Order) {
             id: "approve",
             title: tCap('order.approveBtn'),
             color: "indigo",
-            execute: (input) => { }
+            execute: async (input) => { }
         }
     }
 
@@ -43,7 +43,7 @@ export function useOrderStatus(order: Order) {
             id: "processing",
             title: tCap('order.processingBtn'),
             color: "indigo",
-            execute: () => {}
+            execute: async () => {}
         }
     }
 
@@ -54,7 +54,7 @@ export function useOrderStatus(order: Order) {
             id: "readyForShipment",
             title: tCap('order.readyForShipmentBtn'),
             color: "indigo",
-            execute: () => {}
+            execute: async () => {}
         }
     }
 
@@ -65,7 +65,7 @@ export function useOrderStatus(order: Order) {
             id: "shipped",
             title: tCap('order.shippedBtn'),
             color: "indigo",
-            execute: () => {}
+            execute: async () => {}
         }
     }
 

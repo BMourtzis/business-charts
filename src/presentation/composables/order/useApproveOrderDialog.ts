@@ -7,7 +7,7 @@ const dialogRef = ref<InstanceType<typeof ApproveOrderModal>>();
 export function useApproveOrderDialog() {
   function openApproveModal(options: {
     initialInput?: Partial<ApproveOrderInput>;
-    onConfirm: (input: ApproveOrderInput) => void;
+    onConfirm: (input: ApproveOrderInput) => Promise<void>;
   }) {
     dialogRef.value?.open(options);
   }

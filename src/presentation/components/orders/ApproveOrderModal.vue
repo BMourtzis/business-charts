@@ -14,6 +14,15 @@
           :suffix="getMonetarySign()" 
           autofocus 
         />
+        <v-alert
+          v-if="errorMessage"
+          type="error"
+          variant="tonal"
+          density="compact"
+          class="mt-2"
+        >
+          {{ errorMessage }}
+        </v-alert>
       </v-card-text>
 
       <v-card-actions>
@@ -21,7 +30,7 @@
         <v-btn variant="text" @click="close">
           {{ tCap('common.cancel') }}
         </v-btn>
-        <v-btn color="indigo" @click="confirm">
+        <v-btn color="indigo" :loading="isExecuting" @click="confirm">
           {{ tCap('order.approveBtn') }}
         </v-btn>
       </v-card-actions>
@@ -40,18 +49,19 @@ import { getMonetarySign } from '@/utlis/priceUtils';
 const { tCap } = useLocalizationHelpers();
 
 const isOpen = ref(false);
+const isExecuting = ref(false);
 const amount = ref<number>(0);
+const errorMessage = ref<string | null>(null);
 
-let onConfirm: ((input: ApproveOrderInput) => void) | null = null;
+let onConfirm: ((input: ApproveOrderInput) => Promise<void>) | null = null;
 
 function open(options: {
   initialInput?: Partial<ApproveOrderInput>;
-  onConfirm: (input: ApproveOrderInput) => void;
+  onConfirm: (input: ApproveOrderInput) => Promise<void>;
 }) {
-  onConfirm = options.onConfirm;
-
+  
   amount.value = options.initialInput?.amount ?? 0;
-
+  onConfirm = options.onConfirm;
   isOpen.value = true;
 }
 
@@ -59,9 +69,19 @@ function close() {
   isOpen.value = false;
 }
 
-function confirm() {
-  onConfirm?.({ amount: amount.value });
-  close();
+async function confirm() {
+  if(!onConfirm) return;
+  isExecuting.value = true;
+  try {
+    await onConfirm({ amount: amount.value });
+    close();
+  } catch(e) {
+    if(e instanceof Error) {
+      errorMessage.value = e.message;
+    }
+  } finally {
+    isExecuting.value = false;
+  }
 }
 
 defineExpose({ open });

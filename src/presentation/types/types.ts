@@ -10,5 +10,6 @@ export type ActionDescriptor<TInput = void> = {
   title: string;
   color?: string;
   icon?: string;
-  execute: (input?: TInput) => void
+  requiresInput?: boolean;
+  execute: (input?: TInput) => Promise<void>
 }
