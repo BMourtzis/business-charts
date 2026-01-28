@@ -33,6 +33,7 @@ import { useOrderStatus } from '@/presentation/composables/order/useOrderStatus'
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import type { ActionDescriptor } from '@/presentation/types/types';
 import ApproveOrderModal from './ApproveOrderModal.vue';
+import type { PaymentMethod } from '@/domain/payment/MoneyMovementTypes';
 
 const props = defineProps<{
   order: Order;
@@ -59,6 +60,7 @@ function handleActionClick(btn: ActionDescriptor<any>) {
 
 export type ApproveOrderInput = {
   amount: number;
+  method: PaymentMethod | null
 };
 
 </script>

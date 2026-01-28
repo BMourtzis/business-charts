@@ -3,6 +3,7 @@ import { OrderStateTransitions, OrderStatus } from "@/domain/order/orderTypes";
 import type { ActionDescriptor } from "@/presentation/types/types";
 import { useLocalizationHelpers } from "../useLocalization";
 import type { ApproveOrderInput } from "@/presentation/components/orders/OrderDetailsHeaderStatus.vue";
+import { ApproveOrderCommandHandler, type ApproveOrderCommand } from "@/application/commands/order/approveOrderCommand";
 
 export function useOrderStatus(order: Order) {
     const availableStatuses = getAvailableActions(order.status);
@@ -32,7 +33,20 @@ export function useOrderStatus(order: Order) {
             id: "approve",
             title: tCap('order.approveBtn'),
             color: "indigo",
-            execute: async (input) => { }
+            execute: async (input) => { 
+                const cmd = {
+                    orderId: order.id
+                } as ApproveOrderCommand;
+
+                if(input?.amount && input.amount > 0 && input?.method) {
+                    cmd.deposit = {
+                        amount: input.amount,
+                        method: input.method
+                    };
+                }
+
+                await new ApproveOrderCommandHandler().handle(cmd);
+            }
         }
     }
 

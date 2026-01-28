@@ -126,7 +126,7 @@ const { partners, partnersToItemProps } = usePartners();
 
 const { createMoneyMovementCommandHandler } = useMoneyMovements();
 
-const { paymentMethodTypes, movementReasonTypes } = useMoneyMovementDetails()
+const { paymentMethodTypes, movementReasonTypes } = useMoneyMovementDetails();
 
 const { 
   required

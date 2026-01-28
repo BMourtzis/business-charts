@@ -14,6 +14,19 @@
           :suffix="getMonetarySign()" 
           autofocus 
         />
+        <v-select
+          v-model="method"
+          :label="tCap('moneyMovement.method')"
+          :items="paymentMethodTypes"
+          item-title="title"
+          item-value="value"
+          :item-props="item => ({prependIcon: item.icon})"
+        >
+          <template #selection="{ item }">
+            <v-icon class="mr-2">{{ item.raw.icon }}</v-icon>
+            {{ item.raw.title }}
+          </template>
+        </v-select>
         <v-alert
           v-if="errorMessage"
           type="error"
@@ -43,14 +56,20 @@ import type { ApproveOrderInput } from './OrderDetailsHeaderStatus.vue';
 
 import { ref } from 'vue';
 
-import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { PaymentMethod } from '@/domain/payment/MoneyMovementTypes';
+
 import { getMonetarySign } from '@/utlis/priceUtils';
 
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
+import { useMoneyMovementDetails } from '@/presentation/composables/moneyMovement/useMoneyMovementDetails';
+
 const { tCap } = useLocalizationHelpers();
+const { paymentMethodTypes } = useMoneyMovementDetails();
 
 const isOpen = ref(false);
 const isExecuting = ref(false);
 const amount = ref<number>(0);
+const method = ref<PaymentMethod | null>(null);
 const errorMessage = ref<string | null>(null);
 
 let onConfirm: ((input: ApproveOrderInput) => Promise<void>) | null = null;
@@ -60,7 +79,8 @@ function open(options: {
   onConfirm: (input: ApproveOrderInput) => Promise<void>;
 }) {
   
-  amount.value = options.initialInput?.amount ?? 0;
+  const inputAmount = options.initialInput?.amount ?? 0;
+  amount.value = Number(inputAmount.toFixed(2));
   onConfirm = options.onConfirm;
   isOpen.value = true;
 }
@@ -72,8 +92,9 @@ function close() {
 async function confirm() {
   if(!onConfirm) return;
   isExecuting.value = true;
+
   try {
-    await onConfirm({ amount: amount.value });
+    await onConfirm({ amount: amount.value, method: method.value });
     close();
   } catch(e) {
     if(e instanceof Error) {
