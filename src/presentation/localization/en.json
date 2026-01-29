@@ -19,7 +19,8 @@
             "details": "Order Details"
         },
         "money-movement": {
-            "money-movements": "Money Movements"
+            "money-movements": "Money Movements",
+            "details": "Money Movement Details"
         }
     },
     "validation": {
@@ -207,6 +208,8 @@
         "cash": "cash",
         "online": "online",
         "cheque": "cheque",
-        "addMoneyMovement": "add money movement"
+        "addMoneyMovement": "add money movement",
+        "allocatedAmount": "allocated",
+        "remainingAmount": "remaining"
     }
 }

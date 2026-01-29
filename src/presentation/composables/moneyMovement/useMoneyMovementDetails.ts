@@ -1,8 +1,42 @@
 import { MoneyDirection, MoneyMovementReason, PaymentMethod } from "@/domain/payment/MoneyMovementTypes";
 import { useLocalizationHelpers } from "../useLocalization";
 import { computed } from "vue";
+import { useMoneyMovementStore } from "@/presentation/stores/moneyMovementStore";
+import { MoneyMovementMapperInstance } from "@/application/mapper/moneyMovementMapper";
+import { useOrdersStore } from "@/presentation/stores/orderStore";
 
-export function useMoneyMovementDetails() {
+export function useMoneyMovementDetails(id: string) {
+    const store = useMoneyMovementStore();
+
+    const dto = computed(() => store.getMoneyMovementById(id));
+
+    const model = computed(() => {
+        const movement = dto.value;
+
+        if(!movement) return undefined;
+
+        return MoneyMovementMapperInstance.toModel(movement);
+    });
+
+    return {dto, model};
+}
+
+export function getMoneyMovementAllocations(moneyMovementId: string, partnerId: string) {
+    const orderStore = useOrdersStore();
+    return computed(() => orderStore.getOrdersByMovmementId(moneyMovementId, partnerId));
+}
+
+export function getMoneyMovementAllocatedAmount(moneyMovementId: string, partnerId: string) {
+    const orders = getMoneyMovementAllocations(moneyMovementId, partnerId);
+
+    return computed(() => orders.value.reduce((orderAcc, order) => {
+        return (orderAcc + order.allocations
+            .reduce((allocAcc, alloc) => allocAcc + alloc.amount, 0)
+        )
+    }, 0));
+}
+
+export function useMoneyMovementTypes() {
     const { tCap } = useLocalizationHelpers();
 
     return {

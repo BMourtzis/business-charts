@@ -19,7 +19,8 @@
             "details": "Στοιχεία Παραγγελίας"
         },
         "money-movement": {
-            "money-movements": "Κινήσεις Χρημάτων"
+            "money-movements": "Κινήσεις Χρημάτων",
+            "details": "Στοιχεία Κίνησης"
         }
     },
     "validation": {
@@ -199,6 +200,8 @@
         "cash": "μετρητά",
         "online": "online",
         "cheque": "επιταγή",
-        "addMoneyMovement": "προσθήκη χρηματικής κίνησης"
+        "addMoneyMovement": "προσθήκη χρηματικής κίνησης",
+        "allocatedAmount": "επιμερισμένο",
+        "remainingAmount": "υπόλοιπο"
     }
 }
