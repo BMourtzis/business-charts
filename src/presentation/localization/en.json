@@ -183,7 +183,9 @@
         "shippedBtn": "ship",
         "completedBtn": "complete",
         "cancelledBtn": "cancel",
-        "approveOrderTitle": "approve order"
+        "approveOrderTitle": "approve order",
+        "moneyAllocation": "money allocation | money allocations",
+        "allocatedAt": "allocated at"
     },
     "moneyMovement": {
         "moneyMovement": "money movement | money movements",

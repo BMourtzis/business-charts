@@ -5,9 +5,6 @@
         <template #title>
           <h3>{{ tCap('order.items', 2) }}</h3>
         </template>
-        <template #append>
-          <v-chip size="small">{{ order.items.length }}</v-chip>
-        </template>
       </v-list-item>
     </v-card-title>
     <v-card-text>

@@ -23,6 +23,16 @@
           :order="model"
         />
       </v-col>
+      <v-spacer/>
+      <v-col 
+        cols="6" 
+        md="6"
+        xl="8"
+      >
+        <order-details-money-allocations
+          :allocations="[...model.allocations]"
+        />
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -31,6 +41,7 @@
 import OrderDetailsHeader from '@/presentation/components/orders/OrderDetailsHeader.vue';
 import OrderDetailsLineItems from '@/presentation/components/orders/OrderDetailsLineItems.vue';
 import OrderDetailsTimeline from '@/presentation/components/orders/OrderDetailsTimeline.vue';
+import OrderDetailsMoneyAllocations from '@/presentation/components/orders/OrderDetailsMoneyAllocations.vue';
 
 import { useOrderDetails } from '@/presentation/composables/order/useOrderDetails';
 

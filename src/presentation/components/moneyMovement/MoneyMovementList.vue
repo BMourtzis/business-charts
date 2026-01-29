@@ -32,7 +32,6 @@
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
 import PartnerBtn from "../partner/PartnerBtn.vue";
 import PaymentMethodChip from "./PaymentMethodChip.vue";
-import MovementDirectionChip from "./MovementDirectionChip.vue";
 import MovementReasonChip from "./MovementReasonChip.vue";
 
 import { toRef } from 'vue';
