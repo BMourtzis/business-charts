@@ -1,1 +1,0 @@
-import{O as o,Q as a,R as n,C as i,P as u,T as p}from"./index-BxCWqn6m.js";function C(r){if(!r)return;const e=o().getById(r);if(e)return a.toModel(e)}function m(r){const t=n();return{b2bCustomers:i(()=>t.getByType(u.B2BCustomer).filter(s=>s.deliveryCarrierId===r).map(p.toModel))}}export{C as g,m as u};
