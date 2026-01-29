@@ -10,6 +10,7 @@
         density="comfortable"
         :items-per-page="-1"
         hover
+        @click:row="rowClick"
       >
         <template #[`item.method`]="{ item: row }">
           <payment-method-chip :method="row.method" />
@@ -32,6 +33,10 @@ import type { MoneyAllocation } from '@/domain/order/models/moneyAllocation';
 import { useOrderAllocationsTable } from '@/presentation/composables/order/useOrderAllocationsTable';
 
 import { useLocalizationHelpers } from "@/presentation/composables/useLocalization";
+import type { VDataTableRow } from "@/presentation/types/types";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const { tCap } = useLocalizationHelpers();
 
@@ -41,8 +46,8 @@ const props = defineProps<{
 
 const { data, headers } = useOrderAllocationsTable(toRef(props, "allocations"));
 
-// function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
-//   router.push(`/order/${row.item.id}`);
-// }
+function rowClick(_: MouseEvent, row: VDataTableRow<MoneyAllocation>) {
+  router.push(`/moneyMovements/${row.item.moneyMovementId}`);
+}
 
 </script>

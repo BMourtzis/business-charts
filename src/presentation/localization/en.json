@@ -207,6 +207,8 @@
         "cash": "cash",
         "online": "online",
         "cheque": "cheque",
-        "addMoneyMovement": "add money movement"
+        "addMoneyMovement": "add money movement",
+        "allocatedAmount": "allocated",
+        "remainingAmount": "remaining"
     }
 }

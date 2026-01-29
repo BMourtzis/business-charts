@@ -199,6 +199,8 @@
         "cash": "μετρητά",
         "online": "online",
         "cheque": "επιταγή",
-        "addMoneyMovement": "προσθήκη χρηματικής κίνησης"
+        "addMoneyMovement": "προσθήκη χρηματικής κίνησης",
+        "allocatedAmount": "επιμερισμένο",
+        "remainingAmount": "υπόλοιπο"
     }
 }

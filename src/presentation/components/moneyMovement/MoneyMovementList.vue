@@ -52,7 +52,7 @@ const props = defineProps < {
 
 const { data, headers } = useMoneyMovementTable(toRef(props, "moneyMovements"));
 
-function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
+function rowClick(_: MouseEvent, row: VDataTableRow<MoneyMovement>) {
   router.push(`/moneyMovements/${row.item.id}`);
 }
 

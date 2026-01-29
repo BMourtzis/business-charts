@@ -61,10 +61,10 @@ import { PaymentMethod } from '@/domain/payment/MoneyMovementTypes';
 import { getMonetarySign } from '@/utlis/priceUtils';
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import { useMoneyMovementDetails } from '@/presentation/composables/moneyMovement/useMoneyMovementDetails';
+import { useMoneyMovementTypes } from '@/presentation/composables/moneyMovement/useMoneyMovementDetails';
 
 const { tCap } = useLocalizationHelpers();
-const { paymentMethodTypes } = useMoneyMovementDetails();
+const { paymentMethodTypes } = useMoneyMovementTypes();
 
 const isOpen = ref(false);
 const isExecuting = ref(false);

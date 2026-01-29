@@ -25,6 +25,16 @@ export const useOrdersStore = defineStore('orders', {
                 .filter(o => o.partnerId === partnerId)
                 .map(OrderMapperInstance.toModel) as Order[];
         },
+        getOrdersByMovmementId: (state) => {
+            return (movementId: string, partnerId: string) => state.orders
+                .filter(o => o.partnerId === partnerId)
+                .filter(o => o.allocations.some(a => a.moneyMovementId === movementId))
+                .map(o => ({
+                    ...o,
+                    allocations: o.allocations.filter(a => a.moneyMovementId === movementId)
+                }))
+                .map(OrderMapperInstance.toModel) as Order[];
+        },
         //Calculates total for all partners and caches it
         totalsPerPartner(): Record<string, AmountsRecord>{
             const result: Record<string, AmountsRecord> = {}
