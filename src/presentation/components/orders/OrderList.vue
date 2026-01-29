@@ -42,7 +42,7 @@ import { Order } from '@/domain/order/models/order';
 import { Partner } from '@/domain/partner/models/partner';
 
 import { useOrders } from '@/presentation/composables/order/useOrders';
-import { useOrderTable, type OrderTableRow } from '@/presentation/composables/order/useOrdersTable';
+import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
 import { OrderStatus } from "@/domain/order/orderTypes";
 

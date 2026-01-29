@@ -174,7 +174,9 @@
         "shippedBtn": "αποστολή",
         "completedBtn": "ολοκλήρωση",
         "cancelledBtn": "ακύρωση",
-        "approveOrderTitle": "έγκριση παραγγελίας"
+        "approveOrderTitle": "έγκριση παραγγελίας",
+        "moneyAllocation": "επιμερισμός | επιμερισμοί",
+        "allocatedAt": "ημερομηνία επιμερισμού"
 
     },
     "moneyMovement": {
