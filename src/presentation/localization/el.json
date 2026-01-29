@@ -19,7 +19,8 @@
             "details": "Στοιχεία Παραγγελίας"
         },
         "money-movement": {
-            "money-movements": "Κινήσεις Χρημάτων"
+            "money-movements": "Κινήσεις Χρημάτων",
+            "details": "Στοιχεία Κίνησης"
         }
     },
     "validation": {

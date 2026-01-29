@@ -19,7 +19,8 @@
             "details": "Order Details"
         },
         "money-movement": {
-            "money-movements": "Money Movements"
+            "money-movements": "Money Movements",
+            "details": "Money Movement Details"
         }
     },
     "validation": {
