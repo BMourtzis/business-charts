@@ -172,7 +172,8 @@ const titleMap: Record<string, string> = {
   changePassword: "pages.changePassword",
   orders: "pages.order.orders",
   orderDetails: "pages.order.details",
-  moneyMovements: "pages.money-movement.money-movements"
+  moneyMovements: "pages.money-movement.money-movements",
+  moneyMovementsDetails: "pages.money-movement.details"
 };
 
 function isLeaf(item: NavItem): boolean {

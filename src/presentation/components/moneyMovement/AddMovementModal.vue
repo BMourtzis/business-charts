@@ -118,7 +118,7 @@ import { getMonetarySign } from '@/utlis/priceUtils';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
-import { useMoneyMovementDetails } from '@/presentation/composables/moneyMovement/useMoneyMovementDetails';
+import { useMoneyMovementTypes } from '@/presentation/composables/moneyMovement/useMoneyMovementDetails';
 import { useMoneyMovements } from '@/presentation/composables/moneyMovement/useMoneyMovements';
 import { usePartners } from '@/presentation/composables/partner/usePartners';
 
@@ -126,7 +126,7 @@ const { partners, partnersToItemProps } = usePartners();
 
 const { createMoneyMovementCommandHandler } = useMoneyMovements();
 
-const { paymentMethodTypes, movementReasonTypes } = useMoneyMovementDetails();
+const { paymentMethodTypes, movementReasonTypes } = useMoneyMovementTypes();
 
 const { 
   required
