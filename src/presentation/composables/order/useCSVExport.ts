@@ -1,19 +1,18 @@
-import type { Order } from "@/domain/order/models/order";
 import type { OrderLineItem } from "@/domain/order/models/orderLineItem";
 
-export function useExportLabelPrintListToCSV(order: Order) {
-    const csv = orderToLabelPrintCSV(order);
-    downloadCsv(csv, `${order.orderNumber}-printlist.csv`);
+export function useExportLabelPrintListToCSV(lineItems: OrderLineItem[], filename: string) {
+    const csv = orderToLabelPrintCSV(lineItems);
+    downloadCsv(csv, `${filename}-printlist.csv`);
 }
 
-function orderToLabelPrintCSV(order: Order): string {
-    if(!order.items.length) return "";
+function orderToLabelPrintCSV(items: OrderLineItem[]): string {
+    if(!items.length) return "";
 
     const headers = ["MODEL", "Size"];
 
     const lines = [
         headers.join(","),
-        ...order.items.flatMap(i => lineItemsToLines(i))
+        ...items.flatMap(i => lineItemsToLines(i))
     ];
 
     return lines.join("\n\r");

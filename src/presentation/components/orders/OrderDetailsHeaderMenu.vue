@@ -7,7 +7,7 @@
       <v-list-item
         prepend-icon="mdi-file-delimited"
         :title="tCap('order.labelCsvTitle')"
-        @click="useExportLabelPrintListToCSV(order)"
+        @click="useExportLabelPrintListToCSV([...order.items], order.orderNumber)"
       />
       <v-list-item
         prepend-icon="mdi-invoice-export-outline"
