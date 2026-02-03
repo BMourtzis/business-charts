@@ -7,7 +7,7 @@
       <v-list-item
         prepend-icon="mdi-file-delimited"
         :title="tCap('order.labelCsvTitle')"
-        @click="useExportLabelPrintListToCSV([...order.items], order.orderNumber)"
+        @click="selectLineItemsOpen = true"
       />
       <v-list-item
         prepend-icon="mdi-invoice-export-outline"
@@ -29,6 +29,12 @@
     :action-fn="() => deleteOrder()"
     hide
   />
+
+  <select-line-items-modal 
+    v-model="selectLineItemsOpen"
+    :order="order"
+    :action="exportToCSVPrinList"
+  />
 </template>
 
 <script setup lang="ts">
@@ -42,6 +48,8 @@ import { useLocalizationHelpers } from '@/presentation/composables/useLocalizati
 import ConfirmDeleteModal from '../ConfirmDeleteModal.vue';
 import { useExportLabelPrintListToCSV } from '@/presentation/composables/order/useCSVExport';
 import { OrderStatus } from '@/domain/order/orderTypes';
+import SelectLineItemsModal from './SelectLineItemsModal.vue';
+import type { OrderLineItem } from '@/domain/order/models/orderLineItem';
 
 const router = useRouter();
 const { tCap } = useLocalizationHelpers();
@@ -53,10 +61,15 @@ const props = defineProps<{
 }>();
 
 const menuOpen = ref(false);
-const deleteDialogOpen = ref(false)
+const deleteDialogOpen = ref(false);
+const selectLineItemsOpen = ref(false);
 
 function getOrderNumberName() {
   return `#${ props.order.orderNumber }`;
+}
+
+function exportToCSVPrinList(items: OrderLineItem[]) {
+  useExportLabelPrintListToCSV(items, props.order.orderNumber);
 }
 
 function deleteOrder() {
