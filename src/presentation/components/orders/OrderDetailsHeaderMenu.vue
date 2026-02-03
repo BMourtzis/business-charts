@@ -7,7 +7,7 @@
       <v-list-item
         prepend-icon="mdi-file-delimited"
         :title="tCap('order.labelCsvTitle')"
-        @click="selectLineItemsOpen = true"
+        @click="openSelectLineItemsForCsvPrintList"
       />
       <v-list-item
         prepend-icon="mdi-invoice-export-outline"
@@ -32,8 +32,9 @@
 
   <select-line-items-modal 
     v-model="selectLineItemsOpen"
+    :title="selectLineItemsTitle"
     :order="order"
-    :action="exportToCSVPrinList"
+    :action="selectLineItemsAction"
   />
 </template>
 
@@ -62,7 +63,10 @@ const props = defineProps<{
 
 const menuOpen = ref(false);
 const deleteDialogOpen = ref(false);
+
 const selectLineItemsOpen = ref(false);
+const selectLineItemsAction = ref<(items: OrderLineItem[]) => void>(() => {});
+const selectLineItemsTitle = ref("");
 
 function getOrderNumberName() {
   return `#${ props.order.orderNumber }`;
@@ -75,6 +79,12 @@ function exportToCSVPrinList(items: OrderLineItem[]) {
 function deleteOrder() {
   router.back();
   deleteOrderCommmandHandler.handle({id: props.order.id});
+}
+
+function openSelectLineItemsForCsvPrintList() {
+  selectLineItemsAction.value = exportToCSVPrinList;
+  selectLineItemsTitle.value = tCap('order.labelCsvTitle');
+  selectLineItemsOpen.value = true;
 }
 
 

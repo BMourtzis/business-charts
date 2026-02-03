@@ -82,7 +82,9 @@
         "noDateSelected": " - ",
         "credit": "credit",
         "debit": "debit",
-        "timeline": "timeline"
+        "timeline": "timeline",
+        "exportCsv": "export CSV",
+        "exportPdf": "export PDF"
     },
     "export": {
         "dataTransfer": "Data Transfer",

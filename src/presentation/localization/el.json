@@ -83,7 +83,9 @@
         "noDateSelected": " - ",
         "credit": "Χρέωση",
         "debit": "Πίστωση",
-        "timeline": "χρονολόγιο"
+        "timeline": "χρονολόγιο",
+        "exportCsv": "εξαγωγή CSV",
+        "exportPdf": "εξαγωγή PDF"
     },
     "contact": {
         "email": "email",

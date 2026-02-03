@@ -3,7 +3,7 @@
     :model-value="modelValue"
     max-width="1800"
   >
-    <v-card>
+    <v-card :title="title">
       <v-card-text>
         <selectable-table 
           :table-rows="rows"
@@ -15,13 +15,13 @@
         <v-btn
           variant="tonal"
           color="indigo"
-          :text="tCap('common.save')"
+          :text="tCap('common.exportCsv')"
           @click="confirmAction"
         />
         <v-btn
           :text="tCap('common.cancel')"
           color="red"
-          @click="modelValue = false"
+          @click="emit('update:model-value', false)"
         />
       </v-card-actions>
     </v-card>
@@ -49,6 +49,7 @@ const { tCap } = useLocalizationHelpers();
 
 const props = defineProps<{
   modelValue: boolean;
+  title: string;
   order: Order;
   action: (items: OrderLineItem[]) => void;
 }>();
