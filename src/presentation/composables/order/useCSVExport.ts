@@ -19,12 +19,16 @@ function orderToLabelPrintCSV(items: OrderLineItem[]): string {
 }
 
 function lineItemsToLines(lineItem: OrderLineItem): string[] {
-    const model = `${lineItem.sku.productCode}${lineItem.sku.getSnapshotValues(["size"]).join(" ")}`
+    const model = getLineItemSKU(lineItem);
     const size = lineItem.sku.size;
 
     const entry = `${model}, ${size}`;
 
     return Array(lineItem.quantity).fill(entry);
+}
+
+function getLineItemSKU(lineItem: OrderLineItem): string {
+    return `${lineItem.sku.productCode}${lineItem.sku.getSnapshotValues(["size"]).join(" ")}`;
 }
 
 function downloadCsv(csv: string, filename = "export.csv") {
