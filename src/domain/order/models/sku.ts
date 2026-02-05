@@ -31,7 +31,7 @@ function valuesExcept(
 
   return Object.entries(record)
     .filter(([key]) => !excludedKeys.includes(key))
-    .map(([, value]) => value)
+    .map(([, value]) => value);
 }
 
 function keysExcept(
@@ -42,7 +42,7 @@ function keysExcept(
 
   return Object.entries(record)
     .filter(([key]) => !excludedKeys.includes(key))
-    .map(([key, ]) => key)
+    .map(([key, ]) => key);
 }
 
 export class Sku {

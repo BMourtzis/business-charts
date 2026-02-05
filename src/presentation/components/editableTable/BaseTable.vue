@@ -7,6 +7,15 @@
   >
     <thead>
       <tr>
+        <th v-if="selectable">
+          <v-checkbox
+            density="compact"
+            hide-details
+            :model-value="allSelected"
+            :indeterminate="someSelected"
+            @update:model-value="emit('toggle-all')"
+          />
+        </th>
         <th v-if="hideRowIndex !== true">#</th>
         <th 
           v-for="(columnLayout, cIndex) in tableColumns" 
@@ -19,7 +28,15 @@
     </thead>
 
     <tbody>
-      <tr v-for="(row, rIndex) in modelValue" :key="rIndex">
+      <tr v-for="(row, rIndex) in modelValue" :key="rowKey ? rowKey(row) : rIndex">
+        <td v-if="selectable">
+          <v-checkbox
+            density="compact"
+            hide-details
+            :model-value="selectedKeys?.has(rowKey!(row))"
+            @update:model-value="emit('toggle-row', rowKey!(row))"
+          />
+        </td>
         <td v-if="hideRowIndex !== true">{{ rIndex + 1 }}</td>
         <template v-for="(cell, cIndex) in row.cells" :key="cIndex">
           <slot
@@ -59,11 +76,21 @@
 <script setup lang="ts">
 import { type TableColumn, type InternalRow } from "@/presentation/composables/editableTable/useEditableTable";
 import { rendererMap } from "./renderers/rendererMap";
+import { computed } from "vue";
 
 const props = defineProps<{
-  modelValue: InternalRow[],
-  tableColumns: TableColumn[],
-  hideRowIndex?: boolean
+  modelValue: InternalRow[];
+  tableColumns: TableColumn[];
+  hideRowIndex?: boolean;
+
+  selectable?: boolean;
+  selectedKeys?: Set<string>;
+  rowKey?: (row: InternalRow) => string
+}>();
+
+const emit = defineEmits<{
+  (e: 'toggle-row', key: string): void;
+  (e: 'toggle-all'): void
 }>();
 
 function getDisplayValue(row: InternalRow, column: TableColumn, celValue: string) {
@@ -72,6 +99,18 @@ function getDisplayValue(row: InternalRow, column: TableColumn, celValue: string
   }
   return celValue;
 }
+
+const allSelected = computed(() =>
+  props.selectedKeys &&
+  props.modelValue.length > 0 &&
+  props.selectedKeys.size === props.modelValue.length
+);
+
+const someSelected = computed(() =>
+  props.selectedKeys &&
+  props.selectedKeys.size > 0 &&
+  props.selectedKeys.size < props.modelValue.length
+);
 
 // TODO: refactor common functions into a composable to clear this up
 

@@ -14,6 +14,14 @@ export function numberPriceToGreekFormatLocale(amount: number): string{
     return `${greekLocalePrice}${getMonetarySign()}`;
 }
 
+export function numberPriceToIntlFormat(amount: number): string {
+    if(isNaN(amount)) {
+        return `0.00${getMonetarySign()}`;
+    }
+    const priceString = amount.toFixed(2);
+    return `${priceString}${getMonetarySign()}`;
+}
+
 export function intlToGreekLocale(amount: string) {
     return dotToComma(amount);
 }

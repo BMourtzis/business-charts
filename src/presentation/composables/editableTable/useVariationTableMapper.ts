@@ -12,6 +12,7 @@ export function useVariationTableMapper(layout: TableColumn[]) {
 
     function vmToRows(vms: OrderLineItemVM[]): TableRow[] {
         return vms.map(vm => ({
+            id: vm.derivedSku,
             cells: layout.map(col => {
                 if(sizingColumns.includes(col)) {
                     return getNumberAttributeToCell(vm.sizing, col.name);
