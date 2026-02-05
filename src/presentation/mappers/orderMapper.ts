@@ -8,7 +8,7 @@ export function mapOrderToVM(order: Order): OrderVM {
     id: order.id,
     partnerId: order.partnerId,
     status: order.status,
-    direction: order.direction,
+    type: order.type,
     subtotal: order.subtotal,
     taxAmount: order.taxAmount,
     discountAmount: order.discountAmount,

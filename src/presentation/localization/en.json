@@ -82,7 +82,9 @@
         "noDateSelected": " - ",
         "credit": "credit",
         "debit": "debit",
-        "timeline": "timeline"
+        "timeline": "timeline",
+        "exportCsv": "export CSV",
+        "exportPdf": "export PDF"
     },
     "export": {
         "dataTransfer": "Data Transfer",
@@ -177,6 +179,7 @@
         "sales": "sales",
         "purchase": "purchase",
         "labelCsvTitle": "export CSV for labels",
+        "listCsvTitle": "rt CSV for order items",
         "exportInvoiceTitle": "export invoice",
         "approveBtn": "approve",
         "processingBtn": "process",

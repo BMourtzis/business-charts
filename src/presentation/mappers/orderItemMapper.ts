@@ -75,7 +75,7 @@ export function orderVmToCmd(vm: OrderEditVM): CreateCreditOrderCommand {
     };
 }
 
-function mapItemVmToDTOList(items: OrderLineItemVM[]): OrderLineItemDTO[] {
+export function mapItemVmToDTOList(items: OrderLineItemVM[]): OrderLineItemDTO[] {
     const lineDTOList = items.flatMap(i => itemVmToDTO(i));
     return mergeLineItems(lineDTOList) 
         .sort((a, b) =>

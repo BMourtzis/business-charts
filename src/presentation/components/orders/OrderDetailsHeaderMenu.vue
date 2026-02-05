@@ -6,8 +6,13 @@
     <v-list>
       <v-list-item
         prepend-icon="mdi-file-delimited"
+        :title="tCap('order.listCsvTitle')"
+        @click="openSelectLineItemsForCsvList"
+      />
+      <v-list-item
+        prepend-icon="mdi-label-multiple"
         :title="tCap('order.labelCsvTitle')"
-        @click="useExportLabelPrintListToCSV(order)"
+        @click="openSelectLineItemsForCsvPrintList"
       />
       <v-list-item
         prepend-icon="mdi-invoice-export-outline"
@@ -29,6 +34,13 @@
     :action-fn="() => deleteOrder()"
     hide
   />
+
+  <select-line-items-modal 
+    v-model="selectLineItemsOpen"
+    :title="selectLineItemsTitle"
+    :items="[...order.items]"
+    :action="selectLineItemsAction"
+  />
 </template>
 
 <script setup lang="ts">
@@ -40,8 +52,11 @@ import type { Order } from '@/domain/order/models/order';
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import ConfirmDeleteModal from '../ConfirmDeleteModal.vue';
-import { useExportLabelPrintListToCSV } from '@/presentation/composables/order/useCSVExport';
+import { useExportLabelPrintListToCSV, useExportListToCSV } from '@/presentation/composables/order/useCSVExport';
 import { OrderStatus } from '@/domain/order/orderTypes';
+import SelectLineItemsModal from './SelectLineItemsModal.vue';
+import type { OrderLineItem } from '@/domain/order/models/orderLineItem';
+import { shoesVariationLayout } from '@/presentation/composables/order/useProductVariation';
 
 const router = useRouter();
 const { tCap } = useLocalizationHelpers();
@@ -53,7 +68,11 @@ const props = defineProps<{
 }>();
 
 const menuOpen = ref(false);
-const deleteDialogOpen = ref(false)
+const deleteDialogOpen = ref(false);
+
+const selectLineItemsOpen = ref(false);
+const selectLineItemsAction = ref<(items: OrderLineItem[]) => void>(() => {});
+const selectLineItemsTitle = ref("");
 
 function getOrderNumberName() {
   return `#${ props.order.orderNumber }`;
@@ -62,6 +81,26 @@ function getOrderNumberName() {
 function deleteOrder() {
   router.back();
   deleteOrderCommmandHandler.handle({id: props.order.id});
+}
+
+function openSelectLineItemsForCsvPrintList() {
+  selectLineItemsAction.value = exportToCSVPrinList;
+  selectLineItemsTitle.value = tCap('order.labelCsvTitle');
+  selectLineItemsOpen.value = true;
+}
+
+function openSelectLineItemsForCsvList() {
+  selectLineItemsAction.value = exportToCsv;
+  selectLineItemsTitle.value = tCap('order.listCsvTitle');
+  selectLineItemsOpen.value = true;
+}
+
+function exportToCSVPrinList(items: OrderLineItem[]) {
+  useExportLabelPrintListToCSV(items, props.order.orderNumber);
+}
+
+function exportToCsv(items: OrderLineItem[]) {
+  useExportListToCSV(items, shoesVariationLayout, props.order.orderNumber)
 }
 
 
