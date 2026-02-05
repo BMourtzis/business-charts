@@ -8,6 +8,7 @@
         <selectable-table 
           :table-rows="rows"
           :table-columns="shoesVariationLayout"
+          :all-selected="true"
           v-model:selected="selectedRows"
         />
       </v-card-text>

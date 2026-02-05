@@ -13,11 +13,12 @@
 <script setup lang="ts">
 import { toInternal, type InternalRow, type TableColumn, type TableRow } from '@/presentation/composables/editableTable/useEditableTable';
 import BaseTable from './BaseTable.vue';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 const props = defineProps<{
   tableRows: TableRow[];
   tableColumns: TableColumn[],
+  allSelected?: boolean
 }>();
 
 const rows = computed(() => toInternal(props.tableRows));
@@ -27,6 +28,12 @@ const emit = defineEmits<{
 }>();
 
 const selectedKeys = ref<Set<string>>(new Set());
+
+onMounted(() => {
+  if(props.allSelected === true) {
+    toggleAll();
+  }
+})
 
 function rowKey(row: TableRow | InternalRow) {
   return row.id ?? "";
