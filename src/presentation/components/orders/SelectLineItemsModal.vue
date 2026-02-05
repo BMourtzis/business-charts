@@ -30,9 +30,9 @@
 </template>
 
 <script setup lang="ts">
+//TODO: make this handle the export to csv
 import SelectableTable from '../editableTable/SelectableTable.vue';
 
-import type { Order } from '@/domain/order/models/order';
 import type { OrderLineItem } from '@/domain/order/models/orderLineItem';
 
 import { computed, ref } from 'vue';
@@ -51,7 +51,7 @@ const { tCap } = useLocalizationHelpers();
 const props = defineProps<{
   modelValue: boolean;
   title: string;
-  order: Order;
+  items: OrderLineItem[];
   action: (items: OrderLineItem[]) => void;
 }>();
 
@@ -64,7 +64,7 @@ const selectedRows = ref<TableRow[]>([]);
 const { vmToRows, rowsToVm } = useVariationTableMapper(shoesVariationLayout);
 
 const rows = computed(() => {
-  const lineItems = mapOrderLineItemsToVM([...props.order.items]);
+  const lineItems = mapOrderLineItemsToVM(props.items);
   return vmToRows(lineItems);
 });
 

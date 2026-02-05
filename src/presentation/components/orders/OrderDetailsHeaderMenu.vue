@@ -38,7 +38,7 @@
   <select-line-items-modal 
     v-model="selectLineItemsOpen"
     :title="selectLineItemsTitle"
-    :order="order"
+    :items="[...order.items]"
     :action="selectLineItemsAction"
   />
 </template>
@@ -78,14 +78,6 @@ function getOrderNumberName() {
   return `#${ props.order.orderNumber }`;
 }
 
-function exportToCSVPrinList(items: OrderLineItem[]) {
-  useExportLabelPrintListToCSV(items, props.order.orderNumber);
-}
-
-function exportToCsv(items: OrderLineItem[]) {
-  useExportListToCSV(items, shoesVariationLayout, props.order.orderNumber)
-}
-
 function deleteOrder() {
   router.back();
   deleteOrderCommmandHandler.handle({id: props.order.id});
@@ -99,8 +91,16 @@ function openSelectLineItemsForCsvPrintList() {
 
 function openSelectLineItemsForCsvList() {
   selectLineItemsAction.value = exportToCsv;
-  selectLineItemsTitle.value = 'export to csv';
+  selectLineItemsTitle.value = tCap('order.listCsvTitle');
   selectLineItemsOpen.value = true;
+}
+
+function exportToCSVPrinList(items: OrderLineItem[]) {
+  useExportLabelPrintListToCSV(items, props.order.orderNumber);
+}
+
+function exportToCsv(items: OrderLineItem[]) {
+  useExportListToCSV(items, shoesVariationLayout, props.order.orderNumber)
 }
 
 
