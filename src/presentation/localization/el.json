@@ -170,6 +170,7 @@
         "sales": "πώληση",
         "purchase": "αγορά",
         "labelCsvTitle": "εξαγωγή CSV για ετικέτες",
+        "listCsvTitle": "εξαγωγή CSV για στοιχεία παραγγελίας",
         "exportInvoiceTitle": "εξαγωγή τιμολογίου",
         "approveBtn": "έγκριση",
         "processingBtn": "ύπο επεξεργασία",

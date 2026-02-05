@@ -179,6 +179,7 @@
         "sales": "sales",
         "purchase": "purchase",
         "labelCsvTitle": "export CSV for labels",
+        "listCsvTitle": "rt CSV for order items",
         "exportInvoiceTitle": "export invoice",
         "approveBtn": "approve",
         "processingBtn": "process",

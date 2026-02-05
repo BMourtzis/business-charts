@@ -6,6 +6,11 @@
     <v-list>
       <v-list-item
         prepend-icon="mdi-file-delimited"
+        :title="tCap('order.listCsvTitle')"
+        @click="openSelectLineItemsForCsvList"
+      />
+      <v-list-item
+        prepend-icon="mdi-label-multiple"
         :title="tCap('order.labelCsvTitle')"
         @click="openSelectLineItemsForCsvPrintList"
       />
@@ -47,10 +52,11 @@ import type { Order } from '@/domain/order/models/order';
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import ConfirmDeleteModal from '../ConfirmDeleteModal.vue';
-import { useExportLabelPrintListToCSV } from '@/presentation/composables/order/useCSVExport';
+import { useExportLabelPrintListToCSV, useExportListToCSV } from '@/presentation/composables/order/useCSVExport';
 import { OrderStatus } from '@/domain/order/orderTypes';
 import SelectLineItemsModal from './SelectLineItemsModal.vue';
 import type { OrderLineItem } from '@/domain/order/models/orderLineItem';
+import { shoesVariationLayout } from '@/presentation/composables/order/useProductVariation';
 
 const router = useRouter();
 const { tCap } = useLocalizationHelpers();
@@ -76,6 +82,10 @@ function exportToCSVPrinList(items: OrderLineItem[]) {
   useExportLabelPrintListToCSV(items, props.order.orderNumber);
 }
 
+function exportToCsv(items: OrderLineItem[]) {
+  useExportListToCSV(items, shoesVariationLayout, props.order.orderNumber)
+}
+
 function deleteOrder() {
   router.back();
   deleteOrderCommmandHandler.handle({id: props.order.id});
@@ -84,6 +94,12 @@ function deleteOrder() {
 function openSelectLineItemsForCsvPrintList() {
   selectLineItemsAction.value = exportToCSVPrinList;
   selectLineItemsTitle.value = tCap('order.labelCsvTitle');
+  selectLineItemsOpen.value = true;
+}
+
+function openSelectLineItemsForCsvList() {
+  selectLineItemsAction.value = exportToCsv;
+  selectLineItemsTitle.value = 'export to csv';
   selectLineItemsOpen.value = true;
 }
 
