@@ -4,6 +4,7 @@ export interface ExportDataCommand {
     includePartners: boolean;
     includeCarriers: boolean;
     includeOrders: boolean;
+    includeMovements: boolean
 }
 
 export class ExportDataCommandHandler {
@@ -17,7 +18,8 @@ export class ExportDataCommandHandler {
         await this._fileService.exportAll(
             cmd.includePartners,
             cmd.includeCarriers,
-            cmd.includeOrders
+            cmd.includeOrders,
+            cmd.includeMovements
         );
     }
 }
