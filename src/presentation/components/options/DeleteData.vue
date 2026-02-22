@@ -25,7 +25,14 @@
         <v-col cols="auto">
           <v-switch 
             v-model="deleteOrders" 
-            label="Orders"
+            :label="tCap('order.order', 2)"
+            color="primary"
+          />
+        </v-col>
+        <v-col cols="auto">
+          <v-switch 
+            v-model="deleteMovements" 
+            :label="tCap('moneyMovement.moneyMovement', 2)"
             color="primary"
           />
         </v-col>
@@ -52,15 +59,17 @@ import ConfirmDeleteModal from '@/presentation/components/ConfirmDeleteModal.vue
 const { deleteDataCommandHandler } = useDataManagement();
 const { tCap } = useLocalizationHelpers();
 
-let deletePartners = ref(false);
-let deleteCarriers = ref(false);
-let deleteOrders = ref(false);
+const deletePartners = ref(false);
+const deleteCarriers = ref(false);
+const deleteOrders = ref(false);
+const deleteMovements = ref(false)
 
 function deleteData() {
   deleteDataCommandHandler.handle({
     removePartners: deletePartners.value,
     removeCarriers: deleteCarriers.value,
-    removeOrders: deleteOrders.value
+    removeOrders: deleteOrders.value,
+    removeMovements: deleteMovements.value
   });
 }
 

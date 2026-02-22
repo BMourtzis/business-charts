@@ -37,9 +37,9 @@
 
   <select-line-items-modal 
     v-model="selectLineItemsOpen"
-    :title="selectLineItemsTitle"
+    :filename="selectLineItemsFilename"
     :items="[...order.items]"
-    :action="selectLineItemsAction"
+    :type="selectLineItemsType"
   />
 </template>
 
@@ -52,11 +52,8 @@ import type { Order } from '@/domain/order/models/order';
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import ConfirmDeleteModal from '../ConfirmDeleteModal.vue';
-import { useExportLabelPrintListToCSV, useExportListToCSV } from '@/presentation/composables/order/useCSVExport';
 import { OrderStatus } from '@/domain/order/orderTypes';
 import SelectLineItemsModal from './SelectLineItemsModal.vue';
-import type { OrderLineItem } from '@/domain/order/models/orderLineItem';
-import { shoesVariationLayout } from '@/presentation/composables/order/useProductVariation';
 
 const router = useRouter();
 const { tCap } = useLocalizationHelpers();
@@ -71,8 +68,8 @@ const menuOpen = ref(false);
 const deleteDialogOpen = ref(false);
 
 const selectLineItemsOpen = ref(false);
-const selectLineItemsAction = ref<(items: OrderLineItem[]) => void>(() => {});
-const selectLineItemsTitle = ref("");
+const selectLineItemsType = ref<"lineItems" | "labels">("lineItems");
+const selectLineItemsFilename = ref(props.order.orderNumber);
 
 function getOrderNumberName() {
   return `#${ props.order.orderNumber }`;
@@ -84,24 +81,13 @@ function deleteOrder() {
 }
 
 function openSelectLineItemsForCsvPrintList() {
-  selectLineItemsAction.value = exportToCSVPrinList;
-  selectLineItemsTitle.value = tCap('order.labelCsvTitle');
+  selectLineItemsType.value = "labels";
   selectLineItemsOpen.value = true;
 }
 
 function openSelectLineItemsForCsvList() {
-  selectLineItemsAction.value = exportToCsv;
-  selectLineItemsTitle.value = tCap('order.listCsvTitle');
+  selectLineItemsType.value = "lineItems";
   selectLineItemsOpen.value = true;
 }
-
-function exportToCSVPrinList(items: OrderLineItem[]) {
-  useExportLabelPrintListToCSV(items, props.order.orderNumber);
-}
-
-function exportToCsv(items: OrderLineItem[]) {
-  useExportListToCSV(items, shoesVariationLayout, props.order.orderNumber)
-}
-
 
 </script>
