@@ -21,11 +21,17 @@
             color="primary"
           />
         </v-col>
-
         <v-col cols="auto">
           <v-switch 
             v-model="exportOrders" 
-            label="Orders"
+            :label="tCap('order.order', 2)"
+            color="primary"
+          />
+        </v-col>
+        <v-col cols="auto">
+          <v-switch 
+            v-model="exportMovements" 
+            :label="tCap('moneyMovement.moneyMovement', 2)"
             color="primary"
           />
         </v-col>
@@ -51,15 +57,17 @@ import { useLocalizationHelpers } from '@/presentation/composables/useLocalizati
 const { exportDataCommandHandler } = useDataManagement();
 const { tCap } = useLocalizationHelpers();
 
-let exportPartners = ref(false);
-let exportCarriers = ref(false);
-let exportOrders = ref(false);
+const exportPartners = ref(false);
+const exportCarriers = ref(false);
+const exportOrders = ref(false);
+const exportMovements = ref(false);
 
 function exportData() {
   exportDataCommandHandler.handle({
     includePartners: exportPartners.value,
     includeCarriers: exportCarriers.value,
-    includeOrders: exportOrders.value
+    includeOrders: exportOrders.value,
+    includeMovements: exportMovements.value
   });
 }
 

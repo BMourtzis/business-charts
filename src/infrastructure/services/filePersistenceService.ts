@@ -5,13 +5,21 @@ import { deliveryCarrierRepository } from '@/infrastructure/repositories/deliver
 import { type PartnerDTO } from '@/application/dto/partnerDTO';
 import { type DeliveryCarrierDTO } from '@/application/dto/deliveryCarrierDTO';
 import { type OrderDTO } from '@/application/dto/orderDTO';
+import type { MoneyMovementDTO } from '@/application/dto/moneyMovementDTO';
+import { moneyMovementRepository } from '../repositories/moneyMovementRepository.local';
 
 export class FilePersistenceService {
-    async exportAll(includePartners: boolean, includeCarriers: boolean, includeOrders: boolean) {
+    async exportAll(
+        includePartners: boolean, 
+        includeCarriers: boolean, 
+        includeOrders: boolean, 
+        includeMovements: boolean
+    ) {
         const data = {
             partners: [] as PartnerDTO[],
             orders: [] as OrderDTO[],
             carriers: [] as DeliveryCarrierDTO[],
+            movements: [] as MoneyMovementDTO[]
         }
 
         if(includePartners) {
@@ -26,6 +34,10 @@ export class FilePersistenceService {
             data.orders = await orderRepository.getAll();
         }
 
+        if(includeMovements) {
+            data.movements = await moneyMovementRepository.getAll();
+        }
+
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
         const url = URL.createObjectURL(blob)
         const a = document.createElement('a')
@@ -35,7 +47,13 @@ export class FilePersistenceService {
         URL.revokeObjectURL(url)
     }
 
-    async importAll(file: File, includePartners: boolean, includeCarriers: boolean, includeOrders: boolean) {
+    async importAll(
+        file: File, 
+        includePartners: boolean, 
+        includeCarriers: boolean, 
+        includeOrders: boolean,
+        includeMovements: boolean
+    ) {
         const text = await file.text();
         const data = JSON.parse(text);
 
@@ -49,6 +67,10 @@ export class FilePersistenceService {
 
         if(includeOrders && data.carriers) {
             await deliveryCarrierRepository.saveAll(data.carriers);
+        }
+
+        if(includeMovements && data.movements) {
+            await moneyMovementRepository.saveAll(data.movements);
         }
     }
 }

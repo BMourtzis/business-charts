@@ -1,6 +1,7 @@
 <template>
   <v-dialog
     :model-value="modelValue"
+    @update:model-value="onDialogUpdate"
     max-width="1800"
   >
     <v-card :title="title">
@@ -30,7 +31,6 @@
 </template>
 
 <script setup lang="ts">
-//TODO: make this handle the export to csv
 import SelectableTable from '../editableTable/SelectableTable.vue';
 
 import type { OrderLineItem } from '@/domain/order/models/orderLineItem';
@@ -43,6 +43,7 @@ import { mapOrderLineItemsToVM } from '@/presentation/mappers/orderMapper';
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import type { TableRow } from '@/presentation/composables/editableTable/useEditableTable';
+import { useExportLabelPrintListToCSV, useExportListToCSV } from '@/presentation/composables/order/useCSVExport';
 import { mapItemVmToDTOList } from '@/presentation/mappers/orderItemMapper';
 import { OrderItemMapperInstance } from '@/application/mapper/orderItemMapper';
 
@@ -50,9 +51,9 @@ const { tCap } = useLocalizationHelpers();
 
 const props = defineProps<{
   modelValue: boolean;
-  title: string;
+  filename: string;
   items: OrderLineItem[];
-  action: (items: OrderLineItem[]) => void;
+  type: "lineItems" | "labels";
 }>();
 
 const emit = defineEmits<{
@@ -68,15 +69,49 @@ const rows = computed(() => {
   return vmToRows(lineItems);
 });
 
+const title = computed(() => {
+  if(props.type === "labels") {
+    return tCap('order.labelCsvTitle')
+  }
+  else if(props.type === "lineItems") {
+    return tCap('order.listCsvTitle')
+  }
+})
+
+const action = computed(() => {
+  if(props.type === "labels") {
+    return (items: OrderLineItem[]) =>
+      useExportLabelPrintListToCSV(items, props.filename);
+  }
+  else if(props.type === "lineItems") {
+    return (items: OrderLineItem[]) => 
+      useExportListToCSV(items, shoesVariationLayout, props.filename)
+  }
+
+  throw new Error("not a valid type");
+});
+
 function confirmAction() {
+  const models = getModels();
+
+  action.value(models);
+
+  closeDialog();
+}
+
+function getModels() {
   const vms = rowsToVm(selectedRows.value);
   const dtos = mapItemVmToDTOList(vms);
-  const models = dtos.map(OrderItemMapperInstance.toModel);
+  return dtos.map(OrderItemMapperInstance.toModel);
+}
 
-  props.action(models);
-
+function closeDialog() {
   emit("update:model-value", false);
   selectedRows.value = [];
+}
+
+function onDialogUpdate(value: boolean) {
+  if(!value) closeDialog();
 }
 
 </script>

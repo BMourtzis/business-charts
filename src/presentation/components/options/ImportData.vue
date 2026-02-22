@@ -25,7 +25,14 @@
         <v-col cols="auto">
           <v-switch 
             v-model="importOrders" 
-            label="Orders"
+            :label="tCap('order.order', 2)"
+            color="primary"
+          />
+        </v-col>
+        <v-col cols="auto">
+          <v-switch 
+            v-model="importMovements" 
+            :label="tCap('moneyMovement.moneyMovement', 2)"
             color="primary"
           />
         </v-col>
@@ -59,9 +66,10 @@ import { useLocalizationHelpers } from '@/presentation/composables/useLocalizati
 const { importDataCommandHandler } = useDataManagement();
 const { tCap } = useLocalizationHelpers();
 
-let importPartners = ref(false);
-let importCarriers = ref(false);
-let importOrders = ref(false);
+const importPartners = ref(false);
+const importCarriers = ref(false);
+const importOrders = ref(false);
+const importMovements = ref(false);
 
 let selectedFile = ref<File | null>(null);
 
@@ -72,7 +80,8 @@ function importData() {
         file: selectedFile.value,
         includePartners: importPartners.value,
         includeCarriers: importCarriers.value,
-        includeOrders: importOrders.value
+        includeOrders: importOrders.value,
+        includeMovements: importMovements.value
     });
 }
 
