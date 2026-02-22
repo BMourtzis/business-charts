@@ -56,9 +56,9 @@
   </v-data-table>
     <select-line-items-modal 
       v-model="selectLineItemsOpen"
-      :title="selectLineItemsTitle"
+      :filename="selectLineItemsFilename"
       :items="selectedLineItems"
-      :action="selectLineItemsAction"
+      :type="selectLineItemsType"
     />
 </template>
 
@@ -79,19 +79,14 @@ import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
 import { OrderStatus } from "@/domain/order/orderTypes";
-import type { OrderLineItem } from "@/domain/order/models/orderLineItem";
-import { useLocalizationHelpers } from "@/presentation/composables/useLocalization";
-import { useExportLabelPrintListToCSV, useExportListToCSV } from "@/presentation/composables/order/useCSVExport";
-import { shoesVariationLayout } from "@/presentation/composables/order/useProductVariation";
 
 const router = useRouter();
-const { tCap } = useLocalizationHelpers();
 
 const selected = ref<string[]>([]);
 
 const selectLineItemsOpen = ref(false);
-const selectLineItemsAction = ref<(items: OrderLineItem[]) => void>(() => {});
-const selectLineItemsTitle = ref("");
+const selectLineItemsType = ref<"lineItems" | "labels">("lineItems");
+const selectLineItemsFilename = ref("multiple-orders");
 
 const selectedLineItems = computed(() => {
   if(!props.orders) return [];
@@ -114,23 +109,13 @@ function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
 }
 
 function openSelectLineItemsForCsvPrintList() {
-  selectLineItemsAction.value = exportToCSVPrinList;
-  selectLineItemsTitle.value = tCap('order.labelCsvTitle');
+  selectLineItemsType.value = "labels";
   selectLineItemsOpen.value = true;
 }
 
 function openSelectLineItemsForCsvList() {
-  selectLineItemsAction.value = exportToCsv;
-  selectLineItemsTitle.value = tCap('order.listCsvTitle');
+  selectLineItemsType.value = "lineItems";
   selectLineItemsOpen.value = true;
-}
-
-function exportToCSVPrinList(items: OrderLineItem[]) {
-  useExportLabelPrintListToCSV(items, 'multiple-orders');
-}
-
-function exportToCsv(items: OrderLineItem[]) {
-  useExportListToCSV(items, shoesVariationLayout, 'multiple-orders')
 }
 
 </script>
