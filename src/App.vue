@@ -19,6 +19,8 @@ import VaultModal from './presentation/components/VaultModal.vue';
 import { useStoreSync } from './presentation/composables/useStoreSync';
 import { usePartnersStore } from './presentation/stores/partnerStore';
 import { useDeliveryCarrierStore } from './presentation/stores/deliveryCarrierStore';
+import { useOrdersStore } from './presentation/stores/orderStore';
+import { useMoneyMovementStore } from './presentation/stores/moneyMovementStore';
 
 //TODO: move to a better area
 onMounted(() => {
@@ -26,6 +28,8 @@ onMounted(() => {
 
   storeSync.registerStore(usePartnersStore());
   storeSync.registerStore(useDeliveryCarrierStore());
+  storeSync.registerStore(useOrdersStore());
+  storeSync.registerStore(useMoneyMovementStore())
 });
 
 
@@ -38,7 +42,6 @@ onMounted(() => {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 #main {
