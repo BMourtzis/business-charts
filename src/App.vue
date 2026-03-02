@@ -4,7 +4,7 @@
     <VaultModal />
     <!-- Main Content -->
     <v-main id="main">
-      <v-container class="py-6">
+      <v-container fluid class="py-6 px-10">
         <router-view />
       </v-container>
     </v-main>

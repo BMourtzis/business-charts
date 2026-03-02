@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="carrierModel">
+  <div v-if="carrierModel">
     <CarrierHeader
       :carrier="carrierModel"
     />
@@ -66,7 +66,7 @@
         />
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,6 @@
 <template>
-  <v-container v-if="model">
+  <div v-if="model">
+  <!-- <v-container fluid> -->
     <order-details-header
       :order="model"
     />
@@ -25,16 +26,17 @@
       </v-col>
       <v-spacer/>
       <v-col 
-        cols="6" 
-        md="6"
-        xl="8"
+        cols="8" 
+        md="8"
+        xl="6"
       >
         <order-details-money-allocations
           :allocations="[...model.allocations]"
         />
       </v-col>
     </v-row>
-  </v-container>
+  <!-- </v-container> -->
+  </div>
 </template>
 
 <script setup lang="ts">
