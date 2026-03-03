@@ -21,6 +21,7 @@ export interface OrderVM {
 }
 
 export type OrderEditVM = {
+    id?: string,
     type: 'Sales' | "Purchase",
     partnerId: string,
     vatRate: number,

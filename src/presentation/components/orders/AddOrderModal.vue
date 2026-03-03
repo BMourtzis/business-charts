@@ -167,7 +167,7 @@ import AmountAdjustmentField from '../shared/AmountAdjustmentField.vue';
 import VatCalculatorField from '../shared/vatCalculatorField.vue';
 import DatePicker from '../shared/DatePicker.vue';
 
-import { computed, nextTick, reactive, ref } from 'vue';
+import { computed, reactive } from 'vue';
 
 import { OrderType } from '@/domain/order/orderTypes';
 
@@ -219,8 +219,6 @@ const {
   submit
 } = useFormDialog(form, {autoReset: false});
 
-const openPanels = ref<number[]>([]);
-
 function addItem() {
   form.items.push({
       name: "",
@@ -230,10 +228,6 @@ function addItem() {
       variationSnapshot: {},
       sizing: {}
     });
-
-  nextTick(() => {
-    openPanels.value.push(form.items.length -1);
-  });
 }
 
 const totalQuantityAllItems = computed(() => {

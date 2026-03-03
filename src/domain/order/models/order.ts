@@ -181,6 +181,35 @@ export class Order implements IEntity {
         }
     }
 
+    syncLines(newItems: OrderLineItem[]) {
+        this.assertEdit();
+
+        const current = new Map(this._items.map(i => [i.derivedSKU, i]));
+        const incoming = new Map(newItems.map(i => [i.derivedSKU, i]));
+
+        for(const sku of current.keys()) {
+            if(!incoming.has(sku)) {
+                this.removeLine(sku);
+            }
+        }
+
+        for(const [sku, newLine] of incoming.entries()) {
+            const existing = current.get(sku);
+            if(!existing) {
+                this.addLine(newLine);
+            } else if (!this.linesEqual(existing, newLine)) {
+                this.editItem(sku, () => newLine);
+            }
+        }
+    }
+
+    private linesEqual(line1: OrderLineItem, line2: OrderLineItem): boolean {
+        return line1.derivedSKU === line2.derivedSKU &&
+            line1.name === line2.name &&
+            line1.unitPrice === line2.unitPrice &&
+            line1.quantity === line2.quantity;
+    }
+
     private mergeLineItems(existingItem: OrderLineItem, newItem: OrderLineItem): OrderLineItem {
         return new OrderLineItem(
             existingItem.sku,
@@ -191,14 +220,14 @@ export class Order implements IEntity {
     }
 
     changeQuantity(derivedSKU: string, quantity: number) {
-        this.editItem(derivedSKU, (order) => order.withQuantity(quantity));
+        this.editItem(derivedSKU, (item) => item.withQuantity(quantity));
     }
 
     changeUnitPrice(derivedSKU: string, priceNumber: number) {
-        this.editItem(derivedSKU, (order) => order.withUnitPrice(priceNumber));
+        this.editItem(derivedSKU, (item) => item.withUnitPrice(priceNumber));
     }
 
-    removeLine(derivedSKU: string) {
+    private removeLine(derivedSKU: string) {
         this.assertEdit();
         this._items = this._items.filter(i => i.derivedSKU !== derivedSKU);
     }
