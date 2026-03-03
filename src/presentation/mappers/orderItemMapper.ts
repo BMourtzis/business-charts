@@ -2,6 +2,7 @@ import type { CreateCreditOrderCommand } from "@/application/commands/order/crea
 import type { OrderEditVM, OrderLineItemVM } from "../viewModels/orderVM";
 import { calculateDerivedSKU, type VariationSnapshot } from "@/domain/order/models/sku";
 import type { OrderLineItemDTO } from "@/application/dto/orderDTO";
+import type { EditOrderItemsCommand } from "@/application/commands/order/editOrderitemsCommand";
 
 
 //TODO: add dtoToVM mapper
@@ -73,6 +74,13 @@ export function orderVmToCmd(vm: OrderEditVM): CreateCreditOrderCommand {
         discountAmount: vm.discountAmount,
         items: mapItemVmToDTOList(vm.items),
     };
+}
+
+export function orderVmToEditCmd(vm: OrderEditVM): EditOrderItemsCommand {
+    return {
+        orderId: vm.id ?? "",
+        items: mapItemVmToDTOList(vm.items)
+    }
 }
 
 export function mapItemVmToDTOList(items: OrderLineItemVM[]): OrderLineItemDTO[] {
