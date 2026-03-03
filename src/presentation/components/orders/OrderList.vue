@@ -52,6 +52,11 @@
         :action-fn="() => deleteOrderCommmandHandler.handle({id: row.id})"
         :mini="true"
       />
+      <EditOrderLinesModal 
+        v-if="row.status === OrderStatus.Draft"
+        :order="row.order" 
+        mini 
+      />
     </template>
   </v-data-table>
     <select-line-items-modal 
@@ -79,6 +84,7 @@ import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
 import { OrderStatus } from "@/domain/order/orderTypes";
+import EditOrderLinesModal from "./EditOrderLinesModal.vue";
 
 const router = useRouter();
 

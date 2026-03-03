@@ -9,6 +9,7 @@ import { CreateCreditOrderCommmandHandler } from "@/application/commands/order/c
 import { OrderMapperInstance } from "@/application/mapper/orderMapper";
 import { Order } from "@/domain/order/models/order";
 import { DeleteOrderCommandHandler } from "@/application/commands/order/deleteOrderCommand";
+import { EditOrderItemsCommandHandler } from "@/application/commands/order/editOrderitemsCommand";
 
 export function useOrders() {
     const store = useOrdersStore();
@@ -27,5 +28,6 @@ export function useOrders() {
         getOrdersForPartner,
         createCreditOrderCommmandHandler: new CreateCreditOrderCommmandHandler(store),
         deleteOrderCommmandHandler: new DeleteOrderCommandHandler(store),
+        editOrderLinesCommandHandler: new EditOrderItemsCommandHandler(store)
     }
 }
