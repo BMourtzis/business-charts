@@ -47,7 +47,7 @@
     </template>
     <template #[`item.actions`]="{ item: row }">
       <ConfirmDeleteModal
-        v-if="row.status === OrderStatus.Draft"
+        v-if="row.order.netAllocatedAmount === 0"
         :name="row.orderNumber"
         :action-fn="() => deleteOrderCommmandHandler.handle({id: row.id})"
         :mini="true"
@@ -69,7 +69,7 @@ import OrderTypeChip from "./OrderTypeChip.vue";
 import PartnerBtn from "../partner/PartnerBtn.vue";
 import SelectLineItemsModal from './SelectLineItemsModal.vue';
 
-import { computed, ref, toRef, watch } from 'vue';
+import { computed, ref, toRef } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { Order } from '@/domain/order/models/order';
@@ -96,9 +96,9 @@ const selectedLineItems = computed(() => {
   return filteredOrders.flatMap(o => o.items);
 });
 
-const props = defineProps < {
+const props = defineProps<{
   orders: Order[] | undefined;
-} > ();
+}>();
 
 const { deleteOrderCommmandHandler } = useOrders();
 

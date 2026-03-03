@@ -18,7 +18,8 @@ function toOrderTable(order: Order): OrderTableRow {
         dueDate: getDate(order.dueDate),
         status: order.status,
         type: order.type,
-        total: numberPriceToGreekFormatLocale(order.totalAmount)
+        total: numberPriceToGreekFormatLocale(order.totalAmount),
+        order: order
     };
 }
 
@@ -67,5 +68,6 @@ export interface OrderTableRow {
     dueDate: string,
     status: OrderStatus,
     type: OrderType,
-    total: string
+    total: string,
+    order: Order
 }
