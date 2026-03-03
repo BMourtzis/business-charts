@@ -19,7 +19,7 @@
         :title="tCap('order.exportInvoiceTitle')"
       />
       <v-list-item
-        v-if="order.status === OrderStatus.Draft"
+        v-if="order.netAllocatedAmount === 0"
         prepend-icon="mdi-trash-can"
         :title="tCap('common.delete')"
         class="text-red"

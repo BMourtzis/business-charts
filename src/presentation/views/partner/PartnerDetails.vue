@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="partnerModel">
+  <div v-if="partnerModel">
     <SupplierHeader
       v-if="supplier"
       :supplier="supplier"
@@ -37,7 +37,7 @@
         />
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">
