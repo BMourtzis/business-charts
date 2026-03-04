@@ -11,13 +11,6 @@
       <order-details-header-status :order="order" />
     </v-col>
     <v-col cols="1" class="d-flex flex-row justify-end">
-      <div class="mt-2">
-        <EditOrderLinesModal 
-          v-if="order.status === OrderStatus.Draft"
-          :order="order" 
-          mini 
-        />
-      </div>
       <order-details-header-menu :order="order" />
     </v-col>
   </v-row>

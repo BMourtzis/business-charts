@@ -1,12 +1,14 @@
 <template>
-  <v-card>
-    <v-card-title>
-      <v-list-item>
-        <template #title>
-          <h3>{{ tCap('order.items', 2) }}</h3>
-        </template>
-      </v-list-item>
-    </v-card-title>
+  <v-card
+    :title="tCap('order.items', 2)"
+  >
+    <template #append>
+              <EditOrderLinesModal 
+          v-if="order.status === OrderStatus.Draft"
+          :order="order" 
+          mini 
+        />
+    </template>
     <v-card-text>
       <display-table 
         :tableRows="rows"
@@ -17,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import EditOrderLinesModal from '@/presentation/components/orders/EditOrderLinesModal.vue';
 import DisplayTable from '../editableTable/DisplayTable.vue';
 
 import { computed } from 'vue';
@@ -27,6 +30,7 @@ import { useLocalizationHelpers } from '@/presentation/composables/useLocalizati
 import { shoesVariationLayout } from '@/presentation/composables/order/useProductVariation';
 import { useVariationTableMapper } from '@/presentation/composables/editableTable/useVariationTableMapper';
 import { mapOrderLineItemsToVM } from '@/presentation/mappers/orderMapper';
+import { OrderStatus } from '@/domain/order/orderTypes';
 
 const { tCap } = useLocalizationHelpers();
 

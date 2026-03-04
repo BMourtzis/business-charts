@@ -9,14 +9,14 @@
         v-bind="activatorProps"
         color="surface-variant"
         :text="tCap('order.editOrderLineItemsTitle')"
-        prepend-icon="mdi-plus"
+        prepend-icon="mdi-invoice-text-edit-outline"
         variant="flat"
       />
       <v-btn
         v-if="mini"
         v-bind="activatorProps"
         color="surface-variant"
-        icon="mdi-pencil"
+        icon="mdi-invoice-text-edit-outline"
         variant="text"
         density="compact"
       />
