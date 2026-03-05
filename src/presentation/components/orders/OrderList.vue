@@ -46,16 +46,20 @@
       <order-type-chip :type="row.type" />
     </template>
     <template #[`item.actions`]="{ item: row }">
-      <ConfirmDeleteModal
-        v-if="row.order.netAllocatedAmount === 0"
-        :name="row.orderNumber"
-        :action-fn="() => deleteOrderCommmandHandler.handle({id: row.id})"
-        :mini="true"
+      <EditOrderModal
+        :order="row.order"
+        mini
       />
       <EditOrderLinesModal 
         v-if="row.status === OrderStatus.Draft"
         :order="row.order" 
         mini 
+      />
+      <ConfirmDeleteModal
+        v-if="row.order.netAllocatedAmount === 0"
+        :name="row.orderNumber"
+        :action-fn="() => deleteOrderCommmandHandler.handle({id: row.id})"
+        :mini="true"
       />
     </template>
   </v-data-table>
@@ -85,6 +89,7 @@ import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
 import { OrderStatus } from "@/domain/order/orderTypes";
 import EditOrderLinesModal from "./EditOrderLinesModal.vue";
+import EditOrderModal from "./EditOrderModal.vue";
 
 const router = useRouter();
 
