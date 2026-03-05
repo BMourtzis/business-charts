@@ -161,6 +161,14 @@ export class Order implements IEntity {
     get completedDate() { return this._timeline.completed; }
     get cancelledDate() { return this._timeline.cancelled; }
 
+    updateNotes(newNotes: string) {
+        this.notes = newNotes;
+    }
+
+    updateDueDate(newDueDate: Date) {
+        this._dueDate = newDueDate;
+    }
+
     //Order items
     setItems(items: OrderLineItem[]) {
         this.assertEdit();

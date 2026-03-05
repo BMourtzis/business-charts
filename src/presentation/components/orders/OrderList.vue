@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="selected.length > 0">
+  <v-row>
     <v-col cols="1">
       <!-- <v-btn
         color="red"
@@ -7,22 +7,40 @@
         variant="text"
         density="compact"
       /> -->
-      <v-btn
-        color="grey"
-        icon="mdi-file-delimited"
-        variant="text"
-        density="compact"
-        @click="openSelectLineItemsForCsvList"
-      />
-      <v-btn
-        color="grey"
-        icon="mdi-label-multiple"
-        variant="text"
-        density="compact"
-        @click="openSelectLineItemsForCsvPrintList"
-      />
+      <v-tooltip 
+        :text="tCap('order.listCsvTitle')"
+        location="bottom"
+      >
+        <template #activator="{ props }">
+          <v-btn
+            :disabled="selected.length === 0"
+            v-bind="props"
+            color="green"
+            icon="mdi-file-delimited"
+            variant="text"
+            density="compact"
+            @click="openSelectLineItemsForCsvList"
+          />
+        </template>
+      </v-tooltip>
+      <v-tooltip 
+        :text="tCap('order.labelCsvTitle')"
+        location="bottom"
+      >
+        <template #activator="{ props }">
+          <v-btn
+            :disabled="selected.length === 0"
+            v-bind="props"
+            color="orange"
+            icon="mdi-label-multiple"
+            variant="text"
+            density="compact"
+            @click="openSelectLineItemsForCsvPrintList"
+          />
+        </template>
+      </v-tooltip>
+      
     </v-col>
-    
   </v-row>
   <v-data-table
     v-model="selected"
@@ -46,16 +64,20 @@
       <order-type-chip :type="row.type" />
     </template>
     <template #[`item.actions`]="{ item: row }">
-      <ConfirmDeleteModal
-        v-if="row.order.netAllocatedAmount === 0"
-        :name="row.orderNumber"
-        :action-fn="() => deleteOrderCommmandHandler.handle({id: row.id})"
-        :mini="true"
+      <EditOrderModal
+        :order="row.order"
+        mini
       />
       <EditOrderLinesModal 
         v-if="row.status === OrderStatus.Draft"
         :order="row.order" 
         mini 
+      />
+      <ConfirmDeleteModal
+        v-if="row.order.netAllocatedAmount === 0"
+        :name="row.orderNumber"
+        :action-fn="() => deleteOrderCommmandHandler.handle({id: row.id})"
+        :mini="true"
       />
     </template>
   </v-data-table>
@@ -85,8 +107,14 @@ import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
 import { OrderStatus } from "@/domain/order/orderTypes";
 import EditOrderLinesModal from "./EditOrderLinesModal.vue";
+import EditOrderModal from "./EditOrderModal.vue";
+import { useLocalizationHelpers } from "@/presentation/composables/useLocalization";
 
 const router = useRouter();
+
+const {
+  tCap
+} = useLocalizationHelpers();
 
 const selected = ref<string[]>([]);
 

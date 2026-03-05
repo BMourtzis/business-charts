@@ -12,11 +12,7 @@
     </v-col>
     <v-col cols="1" class="d-flex flex-row justify-end">
       <div class="mt-2">
-        <EditOrderLinesModal 
-          v-if="order.status === OrderStatus.Draft"
-          :order="order" 
-          mini 
-        />
+        <edit-order-modal :order="order" mini />
       </div>
       <order-details-header-menu :order="order" />
     </v-col>
@@ -81,6 +77,7 @@ import { getAmount, getDate } from "@/presentation/composables/useUtils";
 import OrderDetailsHeaderMenu from "./OrderDetailsHeaderMenu.vue";
 import OrderDetailsHeaderStatus from "./OrderDetailsHeaderStatus.vue";
 import { OrderStatus } from "@/domain/order/orderTypes";
+import EditOrderModal from "./EditOrderModal.vue";
 
 const { tCap } = useLocalizationHelpers();
 

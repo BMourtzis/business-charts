@@ -154,6 +154,7 @@
         "addOrderTitle": "add order",
         "addOrderItemTitle": "add order item",
         "addVariationTitle": "add variation",
+        "editOrderLineItemsTitle": "edit line items",
         "variation": "variation | variations",
         "productQuantity": "product quantity",
         "productSum": "product sum",
