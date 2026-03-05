@@ -7,7 +7,7 @@
       <v-btn
         v-if="!mini"
         v-bind="activatorProps"
-        color="surface-variant"
+        color="indigo"
         :text="tCap('order.editOrderLineItemsTitle')"
         prepend-icon="mdi-invoice-text-edit-outline"
         variant="flat"
@@ -15,7 +15,7 @@
       <v-btn
         v-if="mini"
         v-bind="activatorProps"
-        color="surface-variant"
+        color="indigo"
         icon="mdi-invoice-text-edit-outline"
         variant="text"
         density="compact"
