@@ -19,8 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import EditOrderLinesModal from '@/presentation/components/orders/EditOrderLinesModal.vue';
-import DisplayTable from '../editableTable/DisplayTable.vue';
+import EditOrderLinesModal from '@/presentation/components/orders/Modals/EditOrderLinesModal.vue';
+import DisplayTable from '@/presentation/components/editableTable/DisplayTable.vue';
 
 import { computed } from 'vue';
 

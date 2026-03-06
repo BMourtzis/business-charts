@@ -40,7 +40,7 @@
 
       <v-card-actions>
         <v-spacer />
-        <v-btn variant="text" @click="close">
+        <v-btn variant="text" @click="close" color="red">
           {{ tCap('common.cancel') }}
         </v-btn>
         <v-btn color="indigo" :loading="isExecuting" @click="confirm">
@@ -52,7 +52,6 @@
 </template>
 
 <script setup lang="ts">
-import type { ApproveOrderInput } from './OrderDetailsHeaderStatus.vue';
 
 import { ref } from 'vue';
 
@@ -62,6 +61,7 @@ import { getMonetarySign } from '@/utlis/priceUtils';
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useMoneyMovementTypes } from '@/presentation/composables/moneyMovement/useMoneyMovementDetails';
+import type { ApproveOrderInput } from '@/presentation/components/orders/Details/OrderDetailsHeaderStatus.vue';
 
 const { tCap } = useLocalizationHelpers();
 const { paymentMethodTypes } = useMoneyMovementTypes();

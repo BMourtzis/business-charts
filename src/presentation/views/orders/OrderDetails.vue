@@ -40,10 +40,10 @@
 </template>
 
 <script setup lang="ts">
-import OrderDetailsHeader from '@/presentation/components/orders/OrderDetailsHeader.vue';
-import OrderDetailsLineItems from '@/presentation/components/orders/OrderDetailsLineItems.vue';
-import OrderDetailsTimeline from '@/presentation/components/orders/OrderDetailsTimeline.vue';
-import OrderDetailsMoneyAllocations from '@/presentation/components/orders/OrderDetailsMoneyAllocations.vue';
+import OrderDetailsHeader from '@/presentation/components/orders/Details/OrderDetailsHeader.vue';
+import OrderDetailsLineItems from '@/presentation/components/orders/Details/OrderDetailsLineItems.vue';
+import OrderDetailsTimeline from '@/presentation/components/orders/Details/OrderDetailsTimeline.vue';
+import OrderDetailsMoneyAllocations from '@/presentation/components/orders/Details/OrderDetailsMoneyAllocations.vue';
 
 import { useOrderDetails } from '@/presentation/composables/order/useOrderDetails';
 

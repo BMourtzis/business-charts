@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import OrderList from '@/presentation/components/orders/OrderList.vue';
-import AddOrderModal from "@/presentation/components/orders/AddOrderModal.vue";
+import AddOrderModal from "@/presentation/components/orders/Modals/AddOrderModal.vue";
 
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';

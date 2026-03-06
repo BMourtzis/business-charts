@@ -177,10 +177,10 @@
 </template>
 
 <script setup lang="ts">
-import OrderItemEdit from './OrderItemEdit.vue';
-import AmountAdjustmentField from '../shared/AmountAdjustmentField.vue';
-import VatCalculatorField from '../shared/vatCalculatorField.vue';
-import DatePicker from '../shared/DatePicker.vue';
+import OrderItemEdit from '@/presentation/components/orders/Modals/OrderItemEdit.vue';
+import AmountAdjustmentField from '@/presentation/components/shared/AmountAdjustmentField.vue';
+import VatCalculatorField from '@/presentation/components/shared/vatCalculatorField.vue';
+import DatePicker from '@/presentation/components/shared/DatePicker.vue';
 
 import { computed, reactive } from 'vue';
 

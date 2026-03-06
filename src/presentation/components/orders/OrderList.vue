@@ -94,7 +94,9 @@ import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue
 import StatusChip from "./StatusChip.vue";
 import OrderTypeChip from "./OrderTypeChip.vue";
 import PartnerBtn from "../partner/PartnerBtn.vue";
-import SelectLineItemsModal from './SelectLineItemsModal.vue';
+import SelectLineItemsModal from '@/presentation/components/orders/Modals/SelectLineItemsModal.vue';
+import EditOrderLinesModal from "@/presentation/components/orders/Modals/EditOrderLinesModal.vue";
+import EditOrderModal from "@/presentation/components/orders/Modals/EditOrderModal.vue";
 
 import { computed, ref, toRef } from 'vue';
 import { useRouter } from 'vue-router';
@@ -106,8 +108,6 @@ import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
 import { OrderStatus } from "@/domain/order/orderTypes";
-import EditOrderLinesModal from "./EditOrderLinesModal.vue";
-import EditOrderModal from "./EditOrderModal.vue";
 import { useLocalizationHelpers } from "@/presentation/composables/useLocalization";
 
 const router = useRouter();

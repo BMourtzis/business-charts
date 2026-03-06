@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import SelectableTable from '../editableTable/SelectableTable.vue';
+import SelectableTable from '@/presentation/components/editableTable/SelectableTable.vue';
 
 import type { OrderLineItem } from '@/domain/order/models/orderLineItem';
 

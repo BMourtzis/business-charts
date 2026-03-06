@@ -63,9 +63,11 @@
 </template>
 
 <script setup lang="ts">
-import StatusChip from "./StatusChip.vue";
-import OrderTypeChip from "./OrderTypeChip.vue";
-import EditOrderLinesModal from "./EditOrderLinesModal.vue";
+import StatusChip from "@/presentation/components/orders/StatusChip.vue";
+import OrderTypeChip from "@/presentation/components/orders/OrderTypeChip.vue";
+import OrderDetailsHeaderMenu from "@/presentation/components/orders/Details/OrderDetailsHeaderMenu.vue";
+import OrderDetailsHeaderStatus from "@/presentation/components/orders/Details/OrderDetailsHeaderStatus.vue";
+import EditOrderModal from "@/presentation/components/orders/Modals/EditOrderModal.vue";
 
 import { computed } from 'vue';
 
@@ -74,10 +76,6 @@ import { Order } from '@/domain/order/models/order';
 import { getPartnerDetails } from '@/presentation/composables/partner/usePartnerDetails';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { getAmount, getDate } from "@/presentation/composables/useUtils";
-import OrderDetailsHeaderMenu from "./OrderDetailsHeaderMenu.vue";
-import OrderDetailsHeaderStatus from "./OrderDetailsHeaderStatus.vue";
-import { OrderStatus } from "@/domain/order/orderTypes";
-import EditOrderModal from "./EditOrderModal.vue";
 
 const { tCap } = useLocalizationHelpers();
 
