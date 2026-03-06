@@ -107,7 +107,7 @@ import { Partner } from '@/domain/partner/models/partner';
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
-import { OrderStatus } from "@/domain/order/orderTypes";
+import { OrderStatus, OrderType } from "@/domain/order/orderTypes";
 import { useLocalizationHelpers } from "@/presentation/composables/useLocalization";
 
 const router = useRouter();
@@ -134,6 +134,7 @@ const props = defineProps<{
   orders: Order[] | undefined;
   statusFilter: OrderStatus[];
   partnerFilter: string[];
+  typeFilter?: OrderType;
 }>();
 
 const { deleteOrderCommmandHandler } = useOrders();
@@ -152,6 +153,10 @@ const filteredOrders = computed(() => {
 
   if(props.partnerFilter.length > 0) {
     filtered = filtered.filter(o => props.partnerFilter.includes(o.partnerId));
+  }
+
+  if(props.typeFilter) {
+    filtered = filtered.filter(o => o.type === props.typeFilter);
   }
   
   return filtered;

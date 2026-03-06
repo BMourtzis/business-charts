@@ -8,6 +8,9 @@
         <v-col cols="3">
           <StatusFilter v-model="selectedStatuses" />
         </v-col>
+        <v-col cols="3">
+          <TypeFilter v-model="selectedType" />
+        </v-col>
         <v-spacer/>
         <v-col cols="1">
           <AddOrderModal mini />
@@ -21,6 +24,7 @@
         :orders="allOrders"
         :status-filter="selectedStatuses"
         :partner-filter="selectedPartners"
+        :type-filter="selectedType"
       />
     </v-card-text>
   </v-card>
@@ -32,16 +36,17 @@ import AddOrderModal from "@/presentation/components/orders/Modals/AddOrderModal
 import StatusFilter from '@/presentation/components/orders/List/StatusFilter.vue';
 import PartnerFilter from '@/presentation/components/orders/List/PartnerFilter.vue';
 
-
 import { useOrders } from '@/presentation/composables/order/useOrders';
 
 import { ref } from 'vue';
-import { OrderStatus } from '@/domain/order/orderTypes';
+import { OrderStatus, OrderType } from '@/domain/order/orderTypes';
+import TypeFilter from '@/presentation/components/orders/List/TypeFilter.vue';
 
 const { allOrders } = useOrders();
 
 const selectedStatuses = ref<OrderStatus[]>([]);
 const selectedPartners = ref<string[]>([]);
+const selectedType = ref<OrderType>();
 
 </script>
 
