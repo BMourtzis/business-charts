@@ -133,6 +133,7 @@ const selectedLineItems = computed(() => {
 const props = defineProps<{
   orders: Order[] | undefined;
   statusFilter: OrderStatus[];
+  partnerFilter: string[];
 }>();
 
 const { deleteOrderCommmandHandler } = useOrders();
@@ -141,10 +142,16 @@ const filteredOrders = computed(() => {
   if(!props.orders || props.orders.length === 0) return [];
   let filtered = props.orders;
 
+  console.log(props.partnerFilter);
+
   if(props.statusFilter.length > 0) {
     filtered = filtered.filter(o => props.statusFilter.includes(o.status));
   } else {
     filtered = filtered.filter(o => defaultStatusFilter.includes(o.status));
+  }
+
+  if(props.partnerFilter.length > 0) {
+    filtered = filtered.filter(o => props.partnerFilter.includes(o.partnerId));
   }
   
   return filtered;

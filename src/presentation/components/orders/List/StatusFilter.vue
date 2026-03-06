@@ -5,7 +5,7 @@
     item-title="title"
     item-value="value"
     :return-object="false"
-    placeholder="default filters"
+    placeholder="status"
     chips
     closable-chips
     multiple
