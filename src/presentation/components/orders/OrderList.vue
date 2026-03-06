@@ -132,11 +132,33 @@ const selectedLineItems = computed(() => {
 
 const props = defineProps<{
   orders: Order[] | undefined;
+  statusFilter: OrderStatus[];
 }>();
 
 const { deleteOrderCommmandHandler } = useOrders();
 
-const { data, headers } = useOrderTable(toRef(props, "orders"));
+const filteredOrders = computed(() => {
+  if(!props.orders || props.orders.length === 0) return [];
+  let filtered = props.orders;
+
+  if(props.statusFilter.length > 0) {
+    filtered = filtered.filter(o => props.statusFilter.includes(o.status));
+  } else {
+    filtered = filtered.filter(o => defaultStatusFilter.includes(o.status));
+  }
+  
+  return filtered;
+});
+
+const defaultStatusFilter = [
+  OrderStatus.Draft, 
+  OrderStatus.Approved, 
+  OrderStatus.Processing, 
+  OrderStatus.ReadyForShipment, 
+  OrderStatus.Shipped
+];
+
+const { data, headers } = useOrderTable(filteredOrders);
 
 function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
   router.push(`/order/${row.item.id}`);
