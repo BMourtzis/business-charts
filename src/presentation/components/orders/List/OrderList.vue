@@ -91,9 +91,9 @@
 
 <script setup lang="ts">
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
-import StatusChip from "./StatusChip.vue";
-import OrderTypeChip from "./OrderTypeChip.vue";
-import PartnerBtn from "../partner/PartnerBtn.vue";
+import StatusChip from "@/presentation/components/orders/StatusChip.vue";
+import OrderTypeChip from "@/presentation/components/orders/OrderTypeChip.vue";
+import PartnerBtn from "@/presentation/components/partner/PartnerBtn.vue";
 import SelectLineItemsModal from '@/presentation/components/orders/Modals/SelectLineItemsModal.vue';
 import EditOrderLinesModal from "@/presentation/components/orders/Modals/EditOrderLinesModal.vue";
 import EditOrderModal from "@/presentation/components/orders/Modals/EditOrderModal.vue";

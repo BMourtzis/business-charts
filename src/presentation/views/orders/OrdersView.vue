@@ -3,22 +3,7 @@
     <v-card-text>
       <v-row dense>
         <v-col cols="3">
-          <v-combobox
-            v-model="selectedStatuses"
-            :items="statuses"
-            item-title="title"
-            item-value="value"
-            :return-object="false"
-            placeholder="default filters"
-            chips
-            closable-chips
-            multiple
-            density="compact"
-          >
-            <template #chip="{ props, item }">
-              <StatusChip v-bind="props" :status="item.value" />
-            </template>
-          </v-combobox>
+          <StatusFilter v-model="selectedStatuses" />
         </v-col>
         <v-spacer/>
         <v-col cols="1">
@@ -35,14 +20,14 @@
 </template>
 
 <script setup lang="ts">
-import OrderList from '@/presentation/components/orders/OrderList.vue';
+import OrderList from '@/presentation/components/orders/List/OrderList.vue';
 import AddOrderModal from "@/presentation/components/orders/Modals/AddOrderModal.vue";
+import StatusFilter from '@/presentation/components/orders/List/StatusFilter.vue';
 
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { ref } from 'vue';
 import { OrderStatus } from '@/domain/order/orderTypes';
-import StatusChip from '@/presentation/components/orders/StatusChip.vue';
 import { getStatusString } from '@/presentation/composables/order/useOrderDetails';
 
 const { allOrders } = useOrders();
@@ -59,7 +44,7 @@ const statuses = [
   { value: OrderStatus.Completed, title: getStatusString(OrderStatus.Completed, tCap)},
 ];
 
-const selectedStatuses = ref([]);
+const selectedStatuses = ref<OrderStatus[]>([]);
 </script>
 
 <style scoped></style>
