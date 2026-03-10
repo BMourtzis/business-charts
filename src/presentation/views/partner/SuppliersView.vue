@@ -1,23 +1,34 @@
 <template>
-  <v-card 
-    class="pa-4"
-  >
-    <div class="d-flex justify-space-between align-center mb-4">
-      <div></div>
-      <!-- Filters (optional) -->
-      <!-- <div class="d-flex gap-3 mb-4">
-        <v-text-field
-          v-model="search"
-          density="compact"
-          prepend-icon="mdi-magnify"
-          placeholder="Search partners..."
-          variant="solo-filled"
-          hide-details
+  <v-card class="mb-5">
+    <v-card-text>
+      <v-row dense>
+        <v-col cols="3">
+          <v-text-field 
+            v-model="searchTerm" 
+            label="search"
+          />
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
+  <v-card class="mb-2">
+    <v-card-text>
+      <v-row dense>
+        <v-col cols="3"></v-col>
+        <v-spacer />
+        <v-col cols="3">
+          <AddSupplierModal />
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
+  <v-card>
+    <v-card-text>
+      <PartnersList 
+        :partners="suppliers" 
+        :search-term="searchTerm" 
         />
-      </div> -->
-      <AddSupplierModal />
-    </div>
-    <PartnersList :partners="suppliers" />
+    </v-card-text>
   </v-card>
 </template>
 
@@ -25,12 +36,14 @@
 import PartnersList from '@/presentation/components/partner/PartnerList.vue';
 import AddSupplierModal from '@/presentation/components/partner/AddSupplierModal.vue';
 
+import { ref } from 'vue';
+
 import { usePartners } from '@/presentation/composables/partner/usePartners';
-import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 
 const { suppliers } = usePartners();
-const { tCap } = useLocalizationHelpers()
+
+const searchTerm = ref("");
 
 </script>
 

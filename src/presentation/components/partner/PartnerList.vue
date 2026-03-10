@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { toRef } from 'vue';
+import { computed, toRef } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { Partner } from '@/domain/partner/models/partner';
@@ -69,14 +69,24 @@ const router = useRouter();
 
 const props = defineProps < {
   partners: Partner[] | undefined;
-} > ();
+  searchTerm: string;
+}>();
 
 function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
   router.push(`/partner/${row.item.id}`);
 }
 
+const filteredPartners = computed(() => {
+  if(!props.partners || props.partners.length === 0) return [];
 
-const { data, headers } = usePartnerTable(toRef(props, "partners"));
+  if(props.searchTerm) {
+    return props.partners.filter(p => p.businessName?.toLocaleLowerCase().includes(props.searchTerm.toLocaleLowerCase()) || p.contactName?.toLocaleLowerCase().includes(props.searchTerm.toLocaleLowerCase()));
+  }
+
+  return props.partners;
+});
+
+const { data, headers } = usePartnerTable(filteredPartners);
 
 </script>
 
