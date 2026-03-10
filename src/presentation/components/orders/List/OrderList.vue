@@ -54,7 +54,6 @@ import PartnerBtn from "@/presentation/components/partner/PartnerBtn.vue";
 import SelectLineItemsModal from '@/presentation/components/orders/Modals/SelectLineItemsModal.vue';
 import EditOrderLinesModal from "@/presentation/components/orders/Modals/EditOrderLinesModal.vue";
 import EditOrderModal from "@/presentation/components/orders/Modals/EditOrderModal.vue";
-import AddOrderModal from "@/presentation/components/orders/Modals/AddOrderModal.vue";
 
 import { computed, ref, toRef } from 'vue';
 import { useRouter } from 'vue-router';
@@ -66,11 +65,8 @@ import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
 import { OrderStatus, OrderType } from "@/domain/order/orderTypes";
-import { useLocalizationHelpers } from "@/presentation/composables/useLocalization";
 
 const router = useRouter();
-
-const { tCap } = useLocalizationHelpers();
 
 const selected = ref<string[]>([]);
 
@@ -94,52 +90,21 @@ const props = defineProps<{
 }>();
 
 const { deleteOrderCommmandHandler } = useOrders();
-
-const filteredOrders = computed(() => {
-  if(!props.orders || props.orders.length === 0) return [];
-  let filtered = props.orders;
-
-  console.log(props.partnerFilter);
-
-  if(props.statusFilter.length > 0) {
-    filtered = filtered.filter(o => props.statusFilter.includes(o.status));
-  } else {
-    filtered = filtered.filter(o => defaultStatusFilter.includes(o.status));
-  }
-
-  if(props.partnerFilter.length > 0) {
-    filtered = filtered.filter(o => props.partnerFilter.includes(o.partnerId));
-  }
-
-  if(props.typeFilter) {
-    filtered = filtered.filter(o => o.type === props.typeFilter);
-  }
-  
-  return filtered;
+const filters = computed(() => {
+  return {
+    status: props.statusFilter,
+    partner: props.partnerFilter,
+    type: props.typeFilter
+  };
 });
 
-const defaultStatusFilter = [
-  OrderStatus.Draft, 
-  OrderStatus.Approved, 
-  OrderStatus.Processing, 
-  OrderStatus.ReadyForShipment, 
-  OrderStatus.Shipped
-];
-
-const { data, headers } = useOrderTable(filteredOrders);
+const { data, headers } = useOrderTable(
+  toRef(props, "orders"),
+  filters
+);
 
 function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
   router.push(`/order/${row.item.id}`);
-}
-
-function openSelectLineItemsForCsvPrintList() {
-  selectLineItemsType.value = "labels";
-  selectLineItemsOpen.value = true;
-}
-
-function openSelectLineItemsForCsvList() {
-  selectLineItemsType.value = "lineItems";
-  selectLineItemsOpen.value = true;
 }
 
 </script>

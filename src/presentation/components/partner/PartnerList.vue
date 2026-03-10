@@ -76,17 +76,16 @@ function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
   router.push(`/partner/${row.item.id}`);
 }
 
-const filteredPartners = computed(() => {
-  if(!props.partners || props.partners.length === 0) return [];
+const filters = computed(() => {
+  return {
+    searchTerm: props.searchTerm
+  };
+})
 
-  if(props.searchTerm) {
-    return props.partners.filter(p => p.businessName?.toLocaleLowerCase().includes(props.searchTerm.toLocaleLowerCase()) || p.contactName?.toLocaleLowerCase().includes(props.searchTerm.toLocaleLowerCase()));
-  }
-
-  return props.partners;
-});
-
-const { data, headers } = usePartnerTable(filteredPartners);
+const { data, headers } = usePartnerTable(
+  toRef(props, "partners"),
+  filters
+);
 
 </script>
 

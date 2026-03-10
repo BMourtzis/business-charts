@@ -1,4 +1,4 @@
-import { computed, type Ref } from "vue";
+import { computed, type ComputedRef, type Ref } from "vue";
 
 import { Order } from "@/domain/order/models/order";
 
@@ -6,7 +6,7 @@ import { useLocalizationHelpers } from "../useLocalization";
 import type { DataTableHeader } from "vuetify";
 import { Partner } from "@/domain/partner/models/partner";
 import { getPartnerDetails } from "../partner/usePartnerDetails";
-import type { OrderStatus, OrderType } from "@/domain/order/orderTypes";
+import { OrderStatus, type OrderType } from "@/domain/order/orderTypes";
 import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 
 function toOrderTable(order: Order): OrderTableRow {
@@ -46,18 +46,65 @@ function getOrderHeaders(tCap: (key: string, count?: number) => string) {
     ] satisfies DataTableHeader[];
 }
 
-export function useOrderTable(orderRef: Ref<Order[] | undefined>) {
+function filterOrders(orders: Order[], filters?: OrderTableFilters) {
+    if(!orders || orders.length === 0) return [];
+    if(!filters) return orders;
+
+    let filtered = orders;
+
+    if(filters.status.length > 0) {
+        filtered = filtered.filter(o => 
+            filters.status.includes(o.status)
+        );
+    } else {
+        filtered = filtered.filter(o => 
+            defaultStatusFilter.includes(o.status)
+        );
+    }
+
+    if(filters.partner.length > 0) {
+        filtered = filtered.filter(o => 
+            filters.partner.includes(o.partnerId)
+        );
+    }
+
+    if(filters.type) {
+        filtered = filtered.filter(o => 
+            o.type === filters.type
+        );
+    }
+    
+    return filtered;
+}
+
+const defaultStatusFilter = [
+  OrderStatus.Draft, 
+  OrderStatus.Approved, 
+  OrderStatus.Processing, 
+  OrderStatus.ReadyForShipment, 
+  OrderStatus.Shipped
+];
+
+export function useOrderTable(orderRef: Ref<Order[] | undefined>, filters: Ref<OrderTableFilters>) {
     const { tCap } = useLocalizationHelpers();
 
     const data = computed(() => {
         const orders = orderRef.value ?? [];
 
-        return orders.map(o => toOrderTable(o));
+        const filteredOrders = filterOrders(orders, filters.value);
+
+        return filteredOrders.map(o => toOrderTable(o));
     });
 
     const headers = computed(() => getOrderHeaders(tCap));
 
     return { data, headers };
+}
+
+export interface OrderTableFilters {
+    status: OrderStatus[];
+    partner: string[];
+    type?: OrderType;
 }
 
 export interface OrderTableRow {

@@ -104,15 +104,34 @@ function isB2BCustomerArray(partners: unknown): partners is B2BCustomer[] {
     return Array.isArray(partners) && partners.every(p => p instanceof B2BCustomer);
 }
 
-export function usePartnerTable(partnersRef: Ref<Partner[] | undefined>) {
+function filterPartners(partners: Partner[], filters: PartnerTableFilters) {
+    if(!partners || partners.length === 0) return [];
+
+    if(filters.searchTerm) {
+        return partners.filter(p => 
+            p.businessName?.toLocaleLowerCase().includes(filters.searchTerm.toLocaleLowerCase()) || 
+            p.contactName?.toLocaleLowerCase().includes(filters.searchTerm.toLocaleLowerCase()));
+    }
+
+    return partners;
+}
+
+export function usePartnerTable(
+    partnersRef: Ref<Partner[] | undefined>,
+    filters: Ref<PartnerTableFilters>
+) {
     const { tCap } = useLocalizationHelpers();
 
     const data = computed(() => {
         const partners = partnersRef.value ?? [];
 
-        if (isSupplierArray(partners)) return partners.map(toSupplierTable);
-        if (isB2BCustomerArray(partners)) return partners.map(toB2BCustomerTable);
-        return partners.map(toPartnerTable);
+        const filteredPartners = filterPartners(partners, filters.value);
+
+        if (isSupplierArray(filteredPartners)) 
+            return filteredPartners.map(toSupplierTable);
+        if (isB2BCustomerArray(filteredPartners)) 
+            return filteredPartners.map(toB2BCustomerTable);
+        return filteredPartners.map(toPartnerTable);
     });
 
     const headers = computed(() => {
@@ -124,6 +143,10 @@ export function usePartnerTable(partnersRef: Ref<Partner[] | undefined>) {
     });
 
     return { data, headers };
+}
+
+export interface PartnerTableFilters {
+    searchTerm: string;
 }
 
 export type PartnerRowType = "partner" | "supplier" | "b2b";

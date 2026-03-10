@@ -67,17 +67,17 @@ const props = defineProps < {
   searchTerm: string;
 }>();
 
-const filteredCarriers = computed(() => {
-  if(!props.carriers || props.carriers.length === 0) return [];
+const filters = computed(() => {
+  return {
+    searchTerm: props.searchTerm
+  };
+});
 
-  if(props.searchTerm) {
-    return props.carriers.filter(c => c.name.toLocaleLowerCase().includes(props.searchTerm.toLocaleLowerCase()));
-  }
 
-  return props.carriers;
-})
-
-const { data, headers } = useDeliveryCarrierTable(filteredCarriers);
+const { data, headers } = useDeliveryCarrierTable(
+  toRef(props, "carriers"), 
+  filters
+);
 
 function rowClick(_: MouseEvent, row: VDataTableRow<DeliveryCarrier>) {
   router.push(`/carrier/${row.item.id}`);

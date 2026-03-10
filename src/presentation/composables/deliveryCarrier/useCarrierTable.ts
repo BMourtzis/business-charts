@@ -32,16 +32,43 @@ function toTableData(carrier: DeliveryCarrier) {
     };
 }
 
-export function useDeliveryCarrierTable(carriersRef: Ref<DeliveryCarrier[] | undefined>) {
+function filterCarriers(
+    carriers: DeliveryCarrier[], 
+    filters: CarrierTableFilters
+) {
+    if(!carriers || carriers.length === 0) return [];
+
+    if(filters.searchTerm) {
+        return carriers.filter(c => 
+            c.name.toLocaleLowerCase()
+                .includes(filters.searchTerm.toLocaleLowerCase()));
+    }
+
+    return carriers;
+}
+
+export function useDeliveryCarrierTable(
+    carriersRef: Ref<DeliveryCarrier[] | undefined>,
+    filters: Ref<CarrierTableFilters>
+) {
     const { tCap } = useLocalizationHelpers();
 
     const data = computed(() => {
         const carriers = carriersRef.value ?? [];
 
-        return carriers.map(toTableData)
+        const filteredCarriers = filterCarriers(
+            carriers, 
+            filters.value
+        );
+
+        return filteredCarriers.map(toTableData)
     });
 
     const headers = getCarrierTableHeaders(tCap);
 
     return {data, headers};
+}
+
+export interface CarrierTableFilters {
+    searchTerm: string;
 }
