@@ -5,6 +5,7 @@
     class="text-start"
     hide-default-footer
     density="comfortable"
+    :items-per-page="-1"
     hover
     @click:row="rowClick"
   >
@@ -42,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { toRef } from 'vue';
+import { computed, toRef } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
@@ -63,9 +64,20 @@ const router = useRouter();
 
 const props = defineProps < {
   carriers: DeliveryCarrier[] | undefined;
-} > ();
+  searchTerm: string;
+}>();
 
-const { data, headers } = useDeliveryCarrierTable(toRef(props, "carriers"));
+const filteredCarriers = computed(() => {
+  if(!props.carriers || props.carriers.length === 0) return [];
+
+  if(props.searchTerm) {
+    return props.carriers.filter(c => c.name.toLocaleLowerCase().includes(props.searchTerm.toLocaleLowerCase()));
+  }
+
+  return props.carriers;
+})
+
+const { data, headers } = useDeliveryCarrierTable(filteredCarriers);
 
 function rowClick(_: MouseEvent, row: VDataTableRow<DeliveryCarrier>) {
   router.push(`/carrier/${row.item.id}`);
