@@ -1,12 +1,6 @@
 <template>
-  <v-row>
+  <!-- <v-row>
     <v-col cols="1">
-      <!-- <v-btn
-        color="red"
-        icon="mdi-trash-can"
-        variant="text"
-        density="compact"
-      /> -->
       <v-tooltip 
         :text="tCap('order.listCsvTitle')"
         location="bottom"
@@ -39,9 +33,12 @@
           />
         </template>
       </v-tooltip>
-      
     </v-col>
-  </v-row>
+    <v-spacer />
+      <v-col cols="3">
+        <AddOrderModal />
+      </v-col>
+  </v-row> -->
   <v-data-table
     v-model="selected"
     show-select
@@ -81,12 +78,12 @@
       />
     </template>
   </v-data-table>
-    <select-line-items-modal 
-      v-model="selectLineItemsOpen"
-      :filename="selectLineItemsFilename"
-      :items="selectedLineItems"
-      :type="selectLineItemsType"
-    />
+  <select-line-items-modal 
+    v-model="selectLineItemsOpen"
+    :filename="selectLineItemsFilename"
+    :items="selectedLineItems"
+    :type="selectLineItemsType"
+  />
 </template>
 
 <script setup lang="ts">
@@ -97,6 +94,7 @@ import PartnerBtn from "@/presentation/components/partner/PartnerBtn.vue";
 import SelectLineItemsModal from '@/presentation/components/orders/Modals/SelectLineItemsModal.vue';
 import EditOrderLinesModal from "@/presentation/components/orders/Modals/EditOrderLinesModal.vue";
 import EditOrderModal from "@/presentation/components/orders/Modals/EditOrderModal.vue";
+import AddOrderModal from "@/presentation/components/orders/Modals/AddOrderModal.vue";
 
 import { computed, ref, toRef } from 'vue';
 import { useRouter } from 'vue-router';
@@ -112,9 +110,7 @@ import { useLocalizationHelpers } from "@/presentation/composables/useLocalizati
 
 const router = useRouter();
 
-const {
-  tCap
-} = useLocalizationHelpers();
+const { tCap } = useLocalizationHelpers();
 
 const selected = ref<string[]>([]);
 

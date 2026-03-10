@@ -209,7 +209,7 @@ const { partners, partnersToItemProps } = usePartners();
 const { tCap } = useLocalizationHelpers();
 
 defineProps<{
-  mini: boolean;
+  mini?: boolean;
 }>();
 
 const orderTypes = [
