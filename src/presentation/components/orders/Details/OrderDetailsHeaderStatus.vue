@@ -28,14 +28,14 @@
 
 <script setup lang="ts">
 import { useApproveOrderDialog } from '@/presentation/composables/order/useApproveOrderDialog';
-import BtnWithOptions from '../shared/BtnWithOptions.vue';
+import BtnWithOptions from '@/presentation/components/shared/BtnWithOptions.vue';
+import ApproveOrderModal from '@/presentation/components/orders/Modals/ApproveOrderModal.vue';
 
 import type { Order } from '@/domain/order/models/order';
 import { useOrderStatus } from '@/presentation/composables/order/useOrderStatus';
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import type { ActionDescriptor } from '@/presentation/types/types';
-import ApproveOrderModal from './ApproveOrderModal.vue';
 import type { PaymentMethod } from '@/domain/payment/MoneyMovementTypes';
 import { toRef } from 'vue';
 import { CompleteOrderCommandHandler } from '@/application/commands/order/completeOrderCommand';

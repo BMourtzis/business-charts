@@ -1,6 +1,6 @@
 <template>
-  <v-chip 
-    :color="statusColor(status)" 
+  <v-chip
+    :color="statusColor(status)"
   >
     {{ getStatusString(status, tCap) }}
   </v-chip>
@@ -14,7 +14,10 @@ import { useLocalizationHelpers } from '@/presentation/composables/useLocalizati
 
 const { tCap } = useLocalizationHelpers();
 
-const props = defineProps<{ status: OrderStatus }>();
+defineProps<{ 
+  status: OrderStatus;
+}>();
+
 </script>
 
 <style lang="css" scoped></style>

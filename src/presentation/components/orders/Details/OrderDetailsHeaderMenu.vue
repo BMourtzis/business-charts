@@ -51,9 +51,8 @@ import type { Order } from '@/domain/order/models/order';
 
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
-import ConfirmDeleteModal from '../ConfirmDeleteModal.vue';
-import { OrderStatus } from '@/domain/order/orderTypes';
-import SelectLineItemsModal from './SelectLineItemsModal.vue';
+import ConfirmDeleteModal from '@/presentation/components/ConfirmDeleteModal.vue';
+import SelectLineItemsModal from '@/presentation/components/orders/Modals/SelectLineItemsModal.vue';
 
 const router = useRouter();
 const { tCap } = useLocalizationHelpers();

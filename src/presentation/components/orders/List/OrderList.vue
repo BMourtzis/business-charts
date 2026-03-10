@@ -1,47 +1,4 @@
 <template>
-  <v-row>
-    <v-col cols="1">
-      <!-- <v-btn
-        color="red"
-        icon="mdi-trash-can"
-        variant="text"
-        density="compact"
-      /> -->
-      <v-tooltip 
-        :text="tCap('order.listCsvTitle')"
-        location="bottom"
-      >
-        <template #activator="{ props }">
-          <v-btn
-            :disabled="selected.length === 0"
-            v-bind="props"
-            color="green"
-            icon="mdi-file-delimited"
-            variant="text"
-            density="compact"
-            @click="openSelectLineItemsForCsvList"
-          />
-        </template>
-      </v-tooltip>
-      <v-tooltip 
-        :text="tCap('order.labelCsvTitle')"
-        location="bottom"
-      >
-        <template #activator="{ props }">
-          <v-btn
-            :disabled="selected.length === 0"
-            v-bind="props"
-            color="orange"
-            icon="mdi-label-multiple"
-            variant="text"
-            density="compact"
-            @click="openSelectLineItemsForCsvPrintList"
-          />
-        </template>
-      </v-tooltip>
-      
-    </v-col>
-  </v-row>
   <v-data-table
     v-model="selected"
     show-select
@@ -69,7 +26,7 @@
         mini
       />
       <EditOrderLinesModal 
-        v-if="row.status === OrderStatus.Draft"
+        v-if="row.status === OrderStatus.Draft || row.status === OrderStatus.Approved"
         :order="row.order" 
         mini 
       />
@@ -81,20 +38,22 @@
       />
     </template>
   </v-data-table>
-    <select-line-items-modal 
-      v-model="selectLineItemsOpen"
-      :filename="selectLineItemsFilename"
-      :items="selectedLineItems"
-      :type="selectLineItemsType"
-    />
+  <select-line-items-modal 
+    v-model="selectLineItemsOpen"
+    :filename="selectLineItemsFilename"
+    :items="selectedLineItems"
+    :type="selectLineItemsType"
+  />
 </template>
 
 <script setup lang="ts">
 import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue";
-import StatusChip from "./StatusChip.vue";
-import OrderTypeChip from "./OrderTypeChip.vue";
-import PartnerBtn from "../partner/PartnerBtn.vue";
-import SelectLineItemsModal from './SelectLineItemsModal.vue';
+import StatusChip from "@/presentation/components/orders/StatusChip.vue";
+import OrderTypeChip from "@/presentation/components/orders/OrderTypeChip.vue";
+import PartnerBtn from "@/presentation/components/partner/PartnerBtn.vue";
+import SelectLineItemsModal from '@/presentation/components/orders/Modals/SelectLineItemsModal.vue';
+import EditOrderLinesModal from "@/presentation/components/orders/Modals/EditOrderLinesModal.vue";
+import EditOrderModal from "@/presentation/components/orders/Modals/EditOrderModal.vue";
 
 import { computed, ref, toRef } from 'vue';
 import { useRouter } from 'vue-router';
@@ -105,16 +64,9 @@ import { Partner } from '@/domain/partner/models/partner';
 import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
-import { OrderStatus } from "@/domain/order/orderTypes";
-import EditOrderLinesModal from "./EditOrderLinesModal.vue";
-import EditOrderModal from "./EditOrderModal.vue";
-import { useLocalizationHelpers } from "@/presentation/composables/useLocalization";
+import { OrderStatus, OrderType } from "@/domain/order/orderTypes";
 
 const router = useRouter();
-
-const {
-  tCap
-} = useLocalizationHelpers();
 
 const selected = ref<string[]>([]);
 
@@ -132,24 +84,27 @@ const selectedLineItems = computed(() => {
 
 const props = defineProps<{
   orders: Order[] | undefined;
+  statusFilter: OrderStatus[];
+  partnerFilter: string[];
+  typeFilter?: OrderType;
 }>();
 
 const { deleteOrderCommmandHandler } = useOrders();
+const filters = computed(() => {
+  return {
+    status: props.statusFilter,
+    partner: props.partnerFilter,
+    type: props.typeFilter
+  };
+});
 
-const { data, headers } = useOrderTable(toRef(props, "orders"));
+const { data, headers } = useOrderTable(
+  toRef(props, "orders"),
+  filters
+);
 
 function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
   router.push(`/order/${row.item.id}`);
-}
-
-function openSelectLineItemsForCsvPrintList() {
-  selectLineItemsType.value = "labels";
-  selectLineItemsOpen.value = true;
-}
-
-function openSelectLineItemsForCsvList() {
-  selectLineItemsType.value = "lineItems";
-  selectLineItemsOpen.value = true;
 }
 
 </script>

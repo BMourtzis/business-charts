@@ -5,12 +5,27 @@
   >
     <template #activator="{ props: activatorProps }">
       <v-btn
+        v-if="!mini"
         v-bind="activatorProps"
-        color="surface-variant"
+        color="indigo"
         :text="tCap('order.addOrderTitle')"
         prepend-icon="mdi-plus"
         variant="flat"
       />
+      <v-tooltip
+        :text="tCap('order.addOrderTitle')"
+        location="bottom"
+      > 
+        <template #activator="{ props }">
+          <v-btn
+            v-if="mini"
+            v-bind="{...activatorProps, ...props}"
+            color="indigo"
+            icon="mdi-plus"
+            variant="text"
+          />
+        </template>
+      </v-tooltip>
     </template>
     <v-card :title="tCap('order.addOrderTitle')">
       <v-card-text>
@@ -162,10 +177,10 @@
 </template>
 
 <script setup lang="ts">
-import OrderItemEdit from './OrderItemEdit.vue';
-import AmountAdjustmentField from '../shared/AmountAdjustmentField.vue';
-import VatCalculatorField from '../shared/vatCalculatorField.vue';
-import DatePicker from '../shared/DatePicker.vue';
+import OrderItemEdit from '@/presentation/components/orders/Modals/OrderItemEdit.vue';
+import AmountAdjustmentField from '@/presentation/components/shared/AmountAdjustmentField.vue';
+import VatCalculatorField from '@/presentation/components/shared/vatCalculatorField.vue';
+import DatePicker from '@/presentation/components/shared/DatePicker.vue';
 
 import { computed, reactive } from 'vue';
 
@@ -192,6 +207,10 @@ const { createCreditOrderCommmandHandler } = useOrders();
 const { partners, partnersToItemProps } = usePartners();
 
 const { tCap } = useLocalizationHelpers();
+
+defineProps<{
+  mini?: boolean;
+}>();
 
 const orderTypes = [
   {title: getOrderTypeString(OrderType.Sales, tCap), value: "Sales" }, 

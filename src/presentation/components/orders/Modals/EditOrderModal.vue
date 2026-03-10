@@ -93,7 +93,7 @@ import { useLocalizationHelpers } from '@/presentation/composables/useLocalizati
 import { useValidationRules } from '@/presentation/composables/useValidationRules';
 import type { OrderEditVM } from '@/presentation/viewModels/orderVM';
 import { reactive } from 'vue';
-import DatePicker from '../shared/DatePicker.vue';
+import DatePicker from '@/presentation/components/shared/DatePicker.vue';
 
 const { 
   maxLength

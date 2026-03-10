@@ -1,26 +1,32 @@
 <template>
-  <v-container class="py-6">
-    <v-card 
-      class="pa-4"
-    >
-      <div class="d-flex justify-space-between align-center mb-4">
-        <div></div>
-        <!-- Filters (optional) -->
-        <!-- <div class="d-flex gap-3 mb-4">
-          <v-text-field
-            v-model="search"
-            density="compact"
-            prepend-icon="mdi-magnify"
-            placeholder="Search partners..."
-            variant="solo-filled"
-            hide-details
+  <v-card class="mb-5">
+    <v-card-text>
+      <v-row dense >
+        <v-col cols="3">
+          <v-text-field 
+            v-model="searchTerm" 
+            label="search"
           />
-        </div> -->
-        <CarrierModal />
-      </div>
-      <CarrierList :carriers="carriers" />
-    </v-card>
-  </v-container>
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
+  <v-card class="mb-2">
+    <v-card-text>
+      <v-row dense>
+        <v-col cols="3"></v-col>
+        <v-spacer />
+        <v-col cols="3">
+          <CarrierModal />
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
+  <v-card>
+    <v-card-text>
+      <CarrierList :carriers="carriers" :search-term="searchTerm" />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -28,8 +34,11 @@ import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal
 import CarrierList from '@/presentation/components/deliveryCarrier/CarrierList.vue';
 
 import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
+import { ref } from 'vue';
 
 const { carriers } = useDeliveryCarriers();
+
+const searchTerm = ref("");
 
 </script>
 

@@ -1,25 +1,34 @@
 <template>
-  <v-card 
-    class="pa-4"
-  >
-    <div class="d-flex justify-space-between align-center mb-4">
-      <h2 class="text-h6">
-        {{ tCap('partner.b2bCustomer', 2) }}
-      </h2>
-      <AddB2BCustomerModal />
-      <!-- Filters (optional) -->
-      <!-- <div class="d-flex gap-3 mb-4">
-        <v-text-field
-          v-model="search"
-          density="compact"
-          prepend-icon="mdi-magnify"
-          placeholder="Search partners..."
-          variant="solo-filled"
-          hide-details
+  <v-card class="mb-5">
+    <v-card-text>
+      <v-row dense>
+        <v-col cols="3">
+          <v-text-field 
+            v-model="searchTerm" 
+            label="search"
+          />
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
+  <v-card class="mb-2">
+    <v-card-text>
+      <v-row dense>
+        <v-col cols="3"></v-col>
+        <v-spacer />
+        <v-col cols="3">
+          <AddB2BCustomerModal />
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
+  <v-card>
+    <v-card-text>
+      <PartnersList 
+        :partners="b2bCustomers" 
+        :search-term="searchTerm" 
         />
-      </div> -->
-    </div>
-    <PartnersList :partners="b2bCustomers" />
+    </v-card-text>
   </v-card>
 </template>
 
@@ -27,11 +36,13 @@
 import PartnersList from '@/presentation/components/partner/PartnerList.vue';
 import AddB2BCustomerModal from '@/presentation/components/partner/AddB2BCustomerModal.vue';
 
+import { ref } from 'vue';
+
 import { usePartners } from '@/presentation/composables/partner/usePartners';
-import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 const { b2bCustomers } = usePartners();
-const { tCap } = useLocalizationHelpers()
+
+const searchTerm = ref("");
 
 </script>
 
