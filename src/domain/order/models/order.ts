@@ -357,6 +357,6 @@ export class Order implements IEntity {
     }
 
     private canEditOrder() {
-        return this._status === OrderStatus.Draft;
+        return this._status === OrderStatus.Draft || this._status === OrderStatus.Approved;
     }
 }

@@ -1,44 +1,4 @@
 <template>
-  <!-- <v-row>
-    <v-col cols="1">
-      <v-tooltip 
-        :text="tCap('order.listCsvTitle')"
-        location="bottom"
-      >
-        <template #activator="{ props }">
-          <v-btn
-            :disabled="selected.length === 0"
-            v-bind="props"
-            color="green"
-            icon="mdi-file-delimited"
-            variant="text"
-            density="compact"
-            @click="openSelectLineItemsForCsvList"
-          />
-        </template>
-      </v-tooltip>
-      <v-tooltip 
-        :text="tCap('order.labelCsvTitle')"
-        location="bottom"
-      >
-        <template #activator="{ props }">
-          <v-btn
-            :disabled="selected.length === 0"
-            v-bind="props"
-            color="orange"
-            icon="mdi-label-multiple"
-            variant="text"
-            density="compact"
-            @click="openSelectLineItemsForCsvPrintList"
-          />
-        </template>
-      </v-tooltip>
-    </v-col>
-    <v-spacer />
-      <v-col cols="3">
-        <AddOrderModal />
-      </v-col>
-  </v-row> -->
   <v-data-table
     v-model="selected"
     show-select
@@ -66,7 +26,7 @@
         mini
       />
       <EditOrderLinesModal 
-        v-if="row.status === OrderStatus.Draft"
+        v-if="row.status === OrderStatus.Draft || row.status === OrderStatus.Approved"
         :order="row.order" 
         mini 
       />
