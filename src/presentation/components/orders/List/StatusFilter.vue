@@ -5,7 +5,7 @@
     item-title="title"
     item-value="value"
     :return-object="false"
-    placeholder="status"
+    :placeholder="tCap('order.status')"
     chips
     closable-chips
     multiple

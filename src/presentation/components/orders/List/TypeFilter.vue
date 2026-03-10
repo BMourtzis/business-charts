@@ -8,7 +8,7 @@
     clearable
     chips
     density="compact"
-    placeholder="type"
+    :placeholder="tCap('order.type')"
   >
   <template #chip="{ props, item }">
     <OrderTypeChip 

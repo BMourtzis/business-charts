@@ -84,7 +84,8 @@
         "debit": "debit",
         "timeline": "timeline",
         "exportCsv": "export CSV",
-        "exportPdf": "export PDF"
+        "exportPdf": "export PDF",
+        "search": "search"
     },
     "export": {
         "dataTransfer": "Data Transfer",

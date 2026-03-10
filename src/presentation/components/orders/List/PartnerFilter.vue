@@ -8,7 +8,7 @@
     multiple
     :return-object="false"
     density="compact"
-    placeholder="partners"
+    :placeholder="tCap('partner.partner', 2)"
   >
     <template #selection="{ item, index }">
       <span v-if="selectedPartners.length > 1 && index === 0">
@@ -24,9 +24,12 @@
 
 <script setup lang="ts">
 import { usePartners } from '@/presentation/composables/partner/usePartners';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { computed } from 'vue';
 
 const { partners } = usePartners();
+
+const { tCap } = useLocalizationHelpers();
 
 const props = defineProps<{
   modelValue: string[];

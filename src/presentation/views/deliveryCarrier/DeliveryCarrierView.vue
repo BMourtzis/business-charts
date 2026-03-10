@@ -5,7 +5,7 @@
         <v-col cols="3">
           <v-text-field 
             v-model="searchTerm" 
-            label="search"
+            :label="tCap('common.search')"
           />
         </v-col>
       </v-row>
@@ -35,8 +35,11 @@ import CarrierList from '@/presentation/components/deliveryCarrier/CarrierList.v
 
 import { useDeliveryCarriers } from '@/presentation/composables/deliveryCarrier/useDeliveryCarriers';
 import { ref } from 'vue';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 const { carriers } = useDeliveryCarriers();
+
+const { tCap } = useLocalizationHelpers();
 
 const searchTerm = ref("");
 

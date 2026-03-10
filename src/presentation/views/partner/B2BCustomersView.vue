@@ -5,7 +5,7 @@
         <v-col cols="3">
           <v-text-field 
             v-model="searchTerm" 
-            label="search"
+            :label="tCap('common.search')"
           />
         </v-col>
       </v-row>
@@ -39,8 +39,10 @@ import AddB2BCustomerModal from '@/presentation/components/partner/AddB2BCustome
 import { ref } from 'vue';
 
 import { usePartners } from '@/presentation/composables/partner/usePartners';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 const { b2bCustomers } = usePartners();
+const { tCap } = useLocalizationHelpers();
 
 const searchTerm = ref("");
 
