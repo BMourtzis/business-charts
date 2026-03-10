@@ -1,5 +1,6 @@
 <template>
   <v-dialog 
+    v-if="canEditLineItems"
     v-model="dialog" 
     max-width="1800"
   >
@@ -89,7 +90,7 @@
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import type { OrderEditVM } from '@/presentation/viewModels/orderVM';
 import { useOrders } from '@/presentation/composables/order/useOrders';
 
@@ -97,6 +98,7 @@ import { orderVmToEditCmd } from '@/presentation/mappers/orderItemMapper';
 import type { Order } from '@/domain/order/models/order';
 import { mapOrderLineItemsToVM } from '@/presentation/mappers/orderMapper';
 import OrderItemEdit from './OrderItemEdit.vue';
+import { OrderStatus } from '@/domain/order/orderTypes';
 
 const props = defineProps<{
   order: Order;
@@ -106,6 +108,10 @@ const props = defineProps<{
 const { editOrderLinesCommandHandler } = useOrders();
 
 const { tCap } = useLocalizationHelpers();
+
+const canEditLineItems = computed(() => 
+  props.order.status === OrderStatus.Draft || props.order.status === OrderStatus.Approved
+);
 
 const form = reactive({
     id: props.order.id,

@@ -25,8 +25,7 @@
         :order="row.order"
         mini
       />
-      <EditOrderLinesModal 
-        v-if="row.status === OrderStatus.Draft || row.status === OrderStatus.Approved"
+      <EditOrderLinesModal
         :order="row.order" 
         mini 
       />
@@ -34,7 +33,7 @@
         v-if="row.order.netAllocatedAmount === 0"
         :name="row.orderNumber"
         :action-fn="() => deleteOrderCommmandHandler.handle({id: row.id})"
-        :mini="true"
+        mini
       />
     </template>
   </v-data-table>
