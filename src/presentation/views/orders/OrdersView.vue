@@ -11,10 +11,6 @@
         <v-col cols="3">
           <TypeFilter v-model="selectedType" />
         </v-col>
-        <!-- <v-spacer/>
-        <v-col cols="1">
-          <AddOrderModal mini />
-        </v-col> -->
       </v-row>
     </v-card-text>
   </v-card>
@@ -29,7 +25,7 @@
         density="compact"
       /> -->
       <v-tooltip 
-        :text="tCap('order.listCsvTitle')"
+        :text="tCap('order.title.listCsv')"
         location="bottom"
       >
         <template #activator="{ props }">
@@ -45,7 +41,7 @@
         </template>
       </v-tooltip>
       <v-tooltip 
-        :text="tCap('order.labelCsvTitle')"
+        :text="tCap('order.title.labelCsv')"
         location="bottom"
       >
         <template #activator="{ props }">

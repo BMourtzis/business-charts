@@ -8,7 +8,7 @@
         v-if="!mini"
         v-bind="activatorProps"
         color="indigo"
-        :text="tCap('order.editOrderLineItemsTitle')"
+        :text="tCap('order.title.editOrderLineItems')"
         prepend-icon="mdi-invoice-text-edit-outline"
         variant="flat"
       />
@@ -21,7 +21,7 @@
         density="compact"
       />
     </template>
-    <v-card :title="tCap('order.editOrderLineItemsTitle')">
+    <v-card :title="tCap('order.title.editOrderLineItems')">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -33,7 +33,7 @@
               <div></div>
               <v-btn
                 color="indigo"
-                :text="tCap('order.addOrderItemTitle')"
+                :text="tCap('order.title.addOrderItem')"
                 prepend-icon="mdi-plus"
                 variant="text"
                 @click="addItem"

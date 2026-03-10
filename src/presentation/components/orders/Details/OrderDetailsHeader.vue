@@ -35,7 +35,7 @@
         v-if="order.dueDate"
         class="text-subtitle-1 text-grey-darken-1 order-details-line"
       >
-        <strong>{{ tCap("order.dueDate") }}</strong>: {{ getDate(order.dueDate) }}
+        <strong>{{ tCap("order.title.dueDate") }}</strong>: {{ getDate(order.dueDate) }}
       </div>
       <div 
         class="text-subtitle-1 text-grey-darken-1 font-weight-bold order-details-line">

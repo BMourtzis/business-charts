@@ -6,17 +6,17 @@
     <v-list>
       <v-list-item
         prepend-icon="mdi-file-delimited"
-        :title="tCap('order.listCsvTitle')"
+        :title="tCap('order.title.listCsv')"
         @click="openSelectLineItemsForCsvList"
       />
       <v-list-item
         prepend-icon="mdi-label-multiple"
-        :title="tCap('order.labelCsvTitle')"
+        :title="tCap('order.title.labelCsv')"
         @click="openSelectLineItemsForCsvPrintList"
       />
       <v-list-item
         prepend-icon="mdi-invoice-export-outline"
-        :title="tCap('order.exportInvoiceTitle')"
+        :title="tCap('order.title.exportInvoice')"
       />
       <v-list-item
         v-if="order.netAllocatedAmount === 0"

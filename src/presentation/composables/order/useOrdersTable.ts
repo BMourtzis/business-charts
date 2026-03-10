@@ -35,10 +35,10 @@ function getDate(date?: Date): string {
 
 function getOrderHeaders(tCap: (key: string, count?: number) => string) {
     return [
-        { title: tCap('order.number'), key: "orderNumber", align: 'start' },
+        { title: tCap('order.title.orderNumber'), key: "orderNumber", align: 'start' },
         { title: tCap('partner.partner'), key: "partner", align: 'start' },
-        { title: tCap('order.createdDate'), key: "createdDate", align: 'start' },
-        { title: tCap('order.dueDate'), key: "dueDate", align: 'start' },
+        { title: tCap('order.title.createdDate'), key: "createdDate", align: 'start' },
+        { title: tCap('order.title.dueDate'), key: "dueDate", align: 'start' },
         { title: tCap('order.status'), key: "status", align: 'start' },
         { title: tCap('order.type'), key: "direction", align: 'start' },
         { title: tCap('order.total'), key: "total", align: 'start' },  

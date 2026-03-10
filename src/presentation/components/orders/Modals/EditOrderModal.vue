@@ -8,7 +8,7 @@
         v-if="!mini" 
         v-bind="activatorProps" 
         color="indigo" 
-        :text="tCap('order.editOrderTitle')"
+        :text="tCap('order.title.editOrder')"
         prepend-icon="mdi-pencil" 
         variant="flat" 
       />
@@ -21,7 +21,7 @@
         density="compact" 
       />
     </template>
-    <v-card :title="tCap('order.editOrderTitle')">
+    <v-card :title="tCap('order.title.editOrder')">
       <v-card-text>
         <v-form
           ref="formRef"
@@ -32,7 +32,7 @@
               <v-col cols="12">
                 <date-picker
                   v-model="form.dueDate"
-                  :title="tCap('order.dueDate')"
+                  :title="tCap('order.title.dueDate')"
                 />
               </v-col>
               <v-col cols="12">

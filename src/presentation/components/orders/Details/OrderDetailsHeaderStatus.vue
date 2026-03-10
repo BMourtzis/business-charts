@@ -11,7 +11,7 @@
     color="grey" 
     variant="flat" 
     size="small"
-    :text="tCap('order.completedBtn')"
+    :text="tCap('order.title.completed')"
     class="mr-2"
     @click="completeOrder"
   />
@@ -20,7 +20,7 @@
     color="red"
     variant="flat" 
     size="small"
-    :text="tCap('order.cancelledBtn')"
+    :text="tCap('order.title.cancelled')"
     @click="cancelOrder"
   />
   <approve-order-modal ref="dialogRef" />
