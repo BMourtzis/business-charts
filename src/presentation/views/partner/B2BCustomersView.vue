@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar 
+  <v-toolbar 
     rounded="lg"
     elevation="2"
     class="mb-2" 

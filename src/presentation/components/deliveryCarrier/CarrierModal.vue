@@ -12,14 +12,21 @@
         :prepend-icon="modeIcon"
         variant="flat"
       />
-      <v-btn 
-        v-if="mini"
-        v-bind="activatorProps"
-        color="surface-variant"
-        :icon="modeIcon"
-        variant="text"
-        density="compact"
-      />
+      <v-tooltip
+        :text="dialogTitle"
+        location="bottom"
+      > 
+        <template #activator="{ props }">
+          <v-btn
+            v-if="mini"
+            v-bind="{...activatorProps, ...props}"
+            color="indigo"
+            :icon="modeIcon"
+            variant="text"
+            density="compact"
+          />
+        </template>
+      </v-tooltip>
     </template>
 
     <v-card :title="dialogTitle">
@@ -121,18 +128,19 @@ const { createDeliveryCarrierCommandHandler, editDeliveryCarrierCommandHandler }
 
 const { tCap } = useLocalizationHelpers();
 
-const props = defineProps({
-  carrier: {
-    type: DeliveryCarrier,
-    required: false,
-    default: null
-  },
-  mini: {
-    type: Boolean,
-    required: false,
-    default: false
-  }
-});
+// const props = defineProps({
+//   carrier: {
+//     type: DeliveryCarrier,
+//     required: false,
+//     default: null
+//   },
+//   mini?: boolean
+// });
+
+const props = defineProps<{
+  carrier?: DeliveryCarrier;
+  mini?: boolean;
+}>();
 
 const isEditMode = computed(() => !!props.carrier);
 
@@ -178,7 +186,7 @@ async function saveCarrier() {
   await submit(async (form) => {
     if(isEditMode.value) {
       await editDeliveryCarrierCommandHandler.handle({ 
-        id: props.carrier.id,
+        id: props.carrier?.id ?? "",
         name: form.name
       });
     } else {
