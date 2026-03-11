@@ -1,6 +1,6 @@
 <template>
     <v-row align="start" justify="space-between" dense>
-    <v-col cols="5" class="d-flex" justify="start">
+    <v-col cols="5" md="6" class="d-flex" justify="start">
       <h1 class="mr-2">
         {{ getOrderNumberName() }}
       </h1>

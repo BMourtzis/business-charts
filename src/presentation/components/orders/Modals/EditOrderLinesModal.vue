@@ -8,7 +8,7 @@
         v-if="!mini"
         v-bind="activatorProps"
         color="indigo"
-        :text="tCap('order.editOrderLineItemsTitle')"
+        :text="tCap('order.title.editOrderLineItems')"
         prepend-icon="mdi-invoice-text-edit-outline"
         variant="flat"
       />
@@ -21,7 +21,7 @@
         density="compact"
       />
     </template>
-    <v-card :title="tCap('order.editOrderLineItemsTitle')">
+    <v-card :title="tCap('order.title.editOrderLineItems')">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -33,7 +33,7 @@
               <div></div>
               <v-btn
                 color="indigo"
-                :text="tCap('order.addOrderItemTitle')"
+                :text="tCap('order.title.addOrderItem')"
                 prepend-icon="mdi-plus"
                 variant="text"
                 @click="addItem"
@@ -89,7 +89,7 @@
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import type { OrderEditVM } from '@/presentation/viewModels/orderVM';
 import { useOrders } from '@/presentation/composables/order/useOrders';
 
@@ -97,6 +97,7 @@ import { orderVmToEditCmd } from '@/presentation/mappers/orderItemMapper';
 import type { Order } from '@/domain/order/models/order';
 import { mapOrderLineItemsToVM } from '@/presentation/mappers/orderMapper';
 import OrderItemEdit from './OrderItemEdit.vue';
+import { OrderStatus } from '@/domain/order/orderTypes';
 
 const props = defineProps<{
   order: Order;
@@ -106,6 +107,10 @@ const props = defineProps<{
 const { editOrderLinesCommandHandler } = useOrders();
 
 const { tCap } = useLocalizationHelpers();
+
+const canEditLineItems = computed(() => 
+  props.order.status === OrderStatus.Draft || props.order.status === OrderStatus.Approved
+);
 
 const form = reactive({
     id: props.order.id,

@@ -19,6 +19,7 @@ import { usePartnersStore } from "@/presentation/stores/partnerStore";
 import { isNullOrEmpty } from "@/utlis/stringUtils";
 import { useLocalizationHelpers } from "../useLocalization";
 import type { PartnerDTO } from "@/application/dto/partnerDTO";
+import type { Partner } from "@/domain/partner/models/partner";
 
 
 export function usePartners() {
@@ -78,8 +79,6 @@ const partnerTypeToStringResource: Record<PartnerType, string> = {
   [PartnerType.Contractor]: "partner.contractor",
 };
 
-
-
 export function getAddressFromFields(street?: string, city?: string, zip?: string, country?: string) {
   if(isNullOrEmpty(street)
     && isNullOrEmpty(city)
@@ -95,4 +94,20 @@ export function getAddressFromFields(street?: string, city?: string, zip?: strin
     zip: zip,
     country: country
   };
+}
+
+export function sortPartners(partners: Partner[]): Partner[] {
+    return partners.sort(partnerSort);
+}
+
+export function sortPartnerDTOs(partners: PartnerDTO[]): PartnerDTO[] {
+    return partners.sort(partnerSort);
+}
+
+function partnerSort(a: Partner | PartnerDTO, b: Partner | PartnerDTO ) {
+    //TODO: not the best comparision but it will work for now
+    const aName = a.businessName || a.contactName || "";
+    const bName = b.businessName || b.contactName || "";
+
+    return aName.localeCompare(bName);
 }

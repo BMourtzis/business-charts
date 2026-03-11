@@ -5,12 +5,28 @@
   >
     <template #activator="{ props: activatorProps }">
       <v-btn
+        v-if="!mini"
         v-bind="activatorProps"
         color="indigo"
         :text="tCap('partner.addSupplierTitle')"
         prepend-icon="mdi-plus"
         variant="flat"
       />
+      <v-tooltip
+        :text="tCap('partner.addSupplierTitle')"
+        location="bottom"
+      > 
+        <template #activator="{ props }">
+          <v-btn
+            v-if="mini"
+            v-bind="{...activatorProps, ...props}"
+            color="indigo"
+            icon="mdi-plus"
+            variant="text"
+            density="compact"
+          />
+        </template>
+      </v-tooltip>
     </template>
     <v-card :title="tCap('partner.addSupplierTitle')">
       <v-card-text>
@@ -140,6 +156,10 @@ const {
   phoneFormat, 
   rangeLength 
 } = useValidationRules();
+
+const props = defineProps<{
+  mini?: boolean;
+}>();
 
 const { createSupplierCommandHandler } = usePartners();
 

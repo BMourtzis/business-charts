@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="isOpen" max-width="420">
     <v-card>
-      <v-card-title>{{ tCap('order.approveOrderTitle') }}</v-card-title>
+      <v-card-title>{{ tCap('order.title.approveOrder') }}</v-card-title>
 
       <v-card-text>
         <v-text-field 
@@ -44,7 +44,7 @@
           {{ tCap('common.cancel') }}
         </v-btn>
         <v-btn color="indigo" :loading="isExecuting" @click="confirm">
-          {{ tCap('order.approveBtn') }}
+          {{ tCap('order.title.approve') }}
         </v-btn>
       </v-card-actions>
     </v-card>

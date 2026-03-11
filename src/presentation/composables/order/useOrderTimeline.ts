@@ -9,29 +9,29 @@ export function useOrderTimeline(order: Ref<Order>) {
     const TIMELINE_STEPS: TimelineStep[] = [
         {
             name: "created",
-            title: tCap('order.createdDate'),
+            title: tCap('order.title.createdDate'),
             getDate: o => o.createdDate
         },
         {
             name: "apporved",
-            title: tCap('order.approvedDate'),
+            title: tCap('order.title.approvedDate'),
             getDate: o => o.approvedDate
         },
         {
             name: "shipped",
-            title: tCap('order.shippedDate'),
+            title: tCap('order.title.shippedDate'),
             getDate: o => o.shippedDate
         },
         {
             name: "completed",
-            title: tCap('order.completedDate'),
+            title: tCap('order.title.completedDate'),
             getDate: o => o.completedDate
         }
     ];
 
     const CANCELLED_STEP: TimelineStep = {
         name: "cancelled",
-        title: tCap('order.cancelledDate'),
+        title: tCap('order.title.cancelledDate'),
         getDate: o => o.cancelledDate,
         isCancelled: true
     };

@@ -8,12 +8,12 @@
         v-if="!mini"
         v-bind="activatorProps"
         color="indigo"
-        :text="tCap('order.addOrderTitle')"
+        :text="tCap('order.title.addOrder')"
         prepend-icon="mdi-plus"
         variant="flat"
       />
       <v-tooltip
-        :text="tCap('order.addOrderTitle')"
+        :text="tCap('order.title.addOrder')"
         location="bottom"
       > 
         <template #activator="{ props }">
@@ -23,11 +23,12 @@
             color="indigo"
             icon="mdi-plus"
             variant="text"
+            density="compact"
           />
         </template>
       </v-tooltip>
     </template>
-    <v-card :title="tCap('order.addOrderTitle')">
+    <v-card :title="tCap('order.title.addOrder')">
       <v-card-text>
         <v-form 
           ref="formRef" 
@@ -57,14 +58,14 @@
               <v-col cols="6">
                 <date-picker
                   v-model="form.dueDate"
-                  :title="tCap('order.dueDate')"
+                  :title="tCap('order.title.dueDate')"
                 />
               </v-col>
               <v-col cols="12" class="d-flex justify-space-between align-center mb-4">
                 <h3>{{ tCap('order.items', 2) }}</h3>
                 <v-btn
                   color="indigo"
-                  :text="tCap('order.addOrderItemTitle')"
+                  :text="tCap('order.title.addOrderItem')"
                   prepend-icon="mdi-plus"
                   variant="text"
                   @click="addItem"

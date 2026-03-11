@@ -2,6 +2,7 @@ import { Order } from "@/domain/order/models/order";
 import type { OrderLineItemVM, OrderVM } from "../viewModels/orderVM";
 import type { OrderLineItem } from "@/domain/order/models/orderLineItem";
 import { calculateDerivedSKU } from "@/domain/order/models/sku";
+import { toRaw } from "vue";
 
 export function mapOrderToVM(order: Order): OrderVM {
   return {
@@ -31,7 +32,8 @@ export function mapOrderLineItemsToVM(items: OrderLineItem[]): OrderLineItemVM[]
 
 function mapOrderItemToVM(item: OrderLineItem): OrderLineItemVM {
     const attributes = item.sku.variationSnapshot.attributes ?? {};
-    const { size, ...restAttributes } = attributes;
+    const { size, ...restAttributes } = toRaw(attributes);
+    const flags = toRaw(item.sku.variationSnapshot.flags);
 
     return {
         name: item.name,
@@ -41,12 +43,12 @@ function mapOrderItemToVM(item: OrderLineItem): OrderLineItemVM {
             item.productCode,
             {
                 attributes: restAttributes,
-                flags: item.sku.variationSnapshot.flags
+                flags: flags
             }
         ),
         variationSnapshot: {
             attributes: restAttributes,
-            flags: item.sku.variationSnapshot.flags
+            flags: flags
         },
         sizing: formatSizing(size, item.quantity)
     };

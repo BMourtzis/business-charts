@@ -1,7 +1,9 @@
 <template>
   <v-btn 
     v-if="partner !== undefined"
-    variant="text" 
+    variant="text"
+    slim
+    size="small"
     @click.stop="() => router.push(`/partner/${partner?.id}`)"
   >
     {{ getPartnerName(partner) }}

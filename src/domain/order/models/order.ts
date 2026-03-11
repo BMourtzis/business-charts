@@ -171,13 +171,13 @@ export class Order implements IEntity {
 
     //Order items
     setItems(items: OrderLineItem[]) {
-        this.assertEdit();
+        // this.assertEdit();
 
         this._items = items.slice();
     }
 
     addLine(item: OrderLineItem) {
-        this.assertEdit();
+        // this.assertEdit();
 
         const existingIdx = this.findItemIndex(item.derivedSKU);
 
@@ -190,7 +190,7 @@ export class Order implements IEntity {
     }
 
     syncLines(newItems: OrderLineItem[]) {
-        this.assertEdit();
+        // this.assertEdit();
 
         const current = new Map(this._items.map(i => [i.derivedSKU, i]));
         const incoming = new Map(newItems.map(i => [i.derivedSKU, i]));
@@ -236,12 +236,12 @@ export class Order implements IEntity {
     }
 
     private removeLine(derivedSKU: string) {
-        this.assertEdit();
+        // this.assertEdit();
         this._items = this._items.filter(i => i.derivedSKU !== derivedSKU);
     }
 
     private editItem(derivedSKU: string, getOrderLineItemUpdate: (order: OrderLineItem) => OrderLineItem) {
-        this.assertEdit();
+        // this.assertEdit();
 
         const idx = this.findItemIndex(derivedSKU);
         if (idx === -1) throw new Error(`OrderItem ${derivedSKU} not found`);

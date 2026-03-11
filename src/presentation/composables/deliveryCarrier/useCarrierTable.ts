@@ -8,7 +8,7 @@ import { useLocalizationHelpers } from "../useLocalization";
 
 function getCarrierTableHeaders(tCap: (key: string, count?: number) => string) {
     return [
-        { title: tCap('common.name'), key: "name", align: 'start' },
+        { title: tCap('common.name'), key: "name", align: 'start', sort: carrierSort },
         { title: tCap('address.city'), key: "city", align: 'start' },  
         { title: tCap('address.street'), key: "address", align: 'start' },  
         { title: tCap('contact.phone', 2), key: "phones", align: 'start' },  
@@ -45,6 +45,10 @@ function filterCarriers(
     }
 
     return carriers;
+}
+
+function carrierSort(a: string, b: string) {
+    return a.localeCompare(b);
 }
 
 export function useDeliveryCarrierTable(

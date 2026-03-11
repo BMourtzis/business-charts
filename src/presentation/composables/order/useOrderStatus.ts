@@ -4,7 +4,7 @@ import type { Order } from "@/domain/order/models/order";
 import { OrderStateTransitions, OrderStatus } from "@/domain/order/orderTypes";
 import type { ActionDescriptor } from "@/presentation/types/types";
 import { useLocalizationHelpers } from "../useLocalization";
-import type { ApproveOrderInput } from "@/presentation/components/orders/OrderDetailsHeaderStatus.vue";
+import type { ApproveOrderInput } from "@/presentation/components/orders/Details/OrderDetailsHeaderStatus.vue";
 import { ApproveOrderCommandHandler, type ApproveOrderCommand } from "@/application/commands/order/approveOrderCommand";
 import { ToProcessingOrderCommandHandler } from "@/application/commands/order/toProcessingOrderCommand";
 import { ReadyForShipmentOrderCommandHandler } from "@/application/commands/order/readyForShipmentOrderCommand";
@@ -37,7 +37,7 @@ export function useOrderStatus(order: Ref<Order>) {
 
         return {
             id: "approve",
-            title: tCap('order.approveBtn'),
+            title: tCap('order.title.approve'),
             color: "indigo",
             execute: async (input) => { 
                 const cmd = {
@@ -61,7 +61,7 @@ export function useOrderStatus(order: Ref<Order>) {
 
         return {
             id: "processing",
-            title: tCap('order.processingBtn'),
+            title: tCap('order.title.processing'),
             color: "indigo",
             execute: async () => {
                 try {
@@ -80,7 +80,7 @@ export function useOrderStatus(order: Ref<Order>) {
 
         return {
             id: "readyForShipment",
-            title: tCap('order.readyForShipmentBtn'),
+            title: tCap('order.title.readyForShipment'),
             color: "indigo",
             execute: async () => {
                 try {
@@ -99,7 +99,7 @@ export function useOrderStatus(order: Ref<Order>) {
 
         return {
             id: "shipped",
-            title: tCap('order.shippedBtn'),
+            title: tCap('order.title.shipped'),
             color: "indigo",
             execute: async () => {
                 try {

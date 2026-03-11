@@ -5,12 +5,28 @@
   >
     <template #activator="{ props: activatorProps }">
       <v-btn
+        v-if="!mini"
         v-bind="activatorProps"
         color="indigo"
         :text="tCap('partner.addΒ2ΒCustomerTitle')"
         prepend-icon="mdi-plus"
         variant="flat"
       />
+      <v-tooltip
+        :text="tCap('partner.addΒ2ΒCustomerTitle')"
+        location="bottom"
+      > 
+        <template #activator="{ props }">
+          <v-btn
+            v-if="mini"
+            v-bind="{...activatorProps, ...props}"
+            color="indigo"
+            icon="mdi-plus"
+            variant="text"
+            density="compact"
+          />
+        </template>
+      </v-tooltip>
     </template>
     <v-card :title="tCap('partner.addΒ2ΒCustomerTitle')">
       <v-card-text>
@@ -42,7 +58,7 @@
                   v-model="form.deliveryCarrierId"
                   :item-props="itemProps"
                   label="Carrier"
-                  :items="carriers"
+                  :items="sortedCarriers"
                 >
                   <template #append-inner>
                     <CarrierModal mini />
@@ -131,7 +147,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
 
@@ -152,9 +168,17 @@ const {
 } = useValidationRules();
 
 const { createB2BCustomerCommandHandler } = usePartners();
-const { carriers } = useDeliveryCarriers()
+const { carriers } = useDeliveryCarriers();
+
+const sortedCarriers = computed(() => 
+  carriers.value.sort((a, b) => a.name.localeCompare(b.name))
+);
 
 const { tCap } = useLocalizationHelpers();
+
+const props = defineProps<{
+  mini?: boolean;
+}>();
 
 const form = reactive({
   businessName: ''

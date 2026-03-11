@@ -85,7 +85,8 @@
         "debit": "Πίστωση",
         "timeline": "χρονολόγιο",
         "exportCsv": "εξαγωγή CSV",
-        "exportPdf": "εξαγωγή PDF"
+        "exportPdf": "εξαγωγή PDF",
+        "search": "αναζήτηση"
     },
     "contact": {
         "email": "email",
@@ -133,7 +134,7 @@
     "order": {
         "order": "παραγγελία | παραγγελίες",
         "number": "αριθμός παραγγελίας",
-        "type": "είδος",
+        "type": "τύπος",
         "items": "γραμμή παραγγελίας | γραμμές παραγγελίας",
         "product": "προϊόν | προϊόντα",
         "basePrice": "τιμή",
@@ -143,10 +144,6 @@
         "notes": "σημειώσεις",
         "discount": "έκπτωση",
         "deposit": "προκαταβολή",
-        "addOrderTitle": "προσθήκη παραγγελίας",
-        "addOrderItemTitle": "προσθήκη γραμμής",
-        "addVariationTitle": "προσθήκη παραλλαγής",
-        "editOrderLineItemsTitle": "επεξεργασία γραμμών",
         "variation": "παραλλαγή | παραλλαγές",
         "productQuantity": "τεμάχια προϊόντος",
         "productSum": "σύνολο προϊόντος",
@@ -154,12 +151,6 @@
         "orderSum": "σύνολο παραγγελίας",
         "amountAfterTax": "ποσό με ΦΠΑ",
         "remainingAmount": "υπόλοιπο",
-        "dueDate": "ημερομηνία παράδοσης",
-        "createdDate": "ημερομηνία δημιουργίας",
-        "approvedDate": "ημερομηνία έγκρισης",
-        "shippedDate": "ημερομηνία απστολής",
-        "completedDate": "ημερομηνία ολοκλήρωσης",
-        "cancelledDate": "ημερομηνία ακύρωσης",
         "status": "κατάσταση",
         "draft": "πρόχειρο",
         "cancelled": "ακυρώθηκε",
@@ -170,19 +161,32 @@
         "completed": "ολοκληρώθηκε",
         "sales": "πώληση",
         "purchase": "αγορά",
-        "labelCsvTitle": "εξαγωγή CSV για ετικέτες",
-        "listCsvTitle": "εξαγωγή στοιχείων παραγγελίας σε CSV",
-        "exportInvoiceTitle": "εξαγωγή τιμολογίου",
-        "approveBtn": "έγκριση",
-        "processingBtn": "ύπο επεξεργασία",
-        "readyForShipmentBtn": "έτοιμο για αποστολή",
-        "shippedBtn": "αποστολή",
-        "completedBtn": "ολοκλήρωση",
-        "cancelledBtn": "ακύρωση",
-        "approveOrderTitle": "έγκριση παραγγελίας",
         "moneyAllocation": "επιμερισμός | επιμερισμοί",
-        "allocatedAt": "ημερομηνία επιμερισμού"
-
+        "paid": "πληρωμένο",
+        "title": {
+            "orderNumber": "αρ. παραγγελίας",
+            "createdDate": "ημ/νία δημιουργίας",
+            "approvedDate": "ημ/νία έγκρισης",
+            "shippedDate": "ημ/νία απστολής",
+            "completedDate": "ημ/νία ολοκλήρωσης",
+            "cancelledDate": "ημ/νία ακύρωσης",
+            "dueDate": "ημ/νία παράδοσης",
+            "addOrder": "προσθήκη παραγγελίας",
+            "addOrderItem": "προσθήκη γραμμής",
+            "addVariation": "προσθήκη παραλλαγής",
+            "editOrderLineItems": "επεξεργασία γραμμών",
+            "labelCsv": "εξαγωγή CSV για ετικέτες",
+            "listCsv": "εξαγωγή στοιχείων παραγγελίας σε CSV",
+            "exportInvoice": "εξαγωγή τιμολογίου",
+            "approve": "έγκριση",
+            "processing": "προς επεξεργασία",
+            "readyForShipment": "προς έτοιμο για αποστολή",
+            "shipped": "προς αποστολή",
+            "completed": "προς ολοκλήρωση",
+            "cancelled": "ακύρωση",
+            "approveOrder": "έγκριση παραγγελίας",
+            "allocatedAt": "ημ/νία επιμερισμού"
+        }
     },
     "moneyMovement": {
         "moneyMovement": "κινήση Χρημάτων | κινήσεις χρημάτων",
@@ -206,6 +210,10 @@
         "cheque": "επιταγή",
         "addMoneyMovement": "προσθήκη χρηματικής κίνησης",
         "allocatedAmount": "επιμερισμένο",
-        "remainingAmount": "υπόλοιπο"
+        "remainingAmount": "υπόλοιπο",
+        "title": {
+            "number":"αρ. κίνησης",
+            "createdDate":"ημ/νία δημιουργίας"
+        }
     }
 }

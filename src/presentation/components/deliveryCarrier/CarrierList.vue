@@ -1,5 +1,6 @@
 <template>
   <v-data-table
+    v-model:sort-by="sortBy"
     :headers="headers"
     :items="data"
     class="text-start"
@@ -43,7 +44,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue';
+import { computed, ref, toRef } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
@@ -56,6 +57,7 @@ import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue
 import PhoneLink from '@/presentation/components/contact/PhoneLink.vue';
 import AddressLink from '@/presentation/components/contact/AddressLink.vue';
 import CarrierModal from '@/presentation/components/deliveryCarrier/CarrierModal.vue';
+import type { SortItem } from 'vuetify/lib/components/VDataTable/composables/sort';
 
 
 const { deleteDeliveryCarrierCommandHandler } = useDeliveryCarriers();
@@ -73,6 +75,9 @@ const filters = computed(() => {
   };
 });
 
+const sortBy = ref(
+  [{ key: 'name', order: 'asc' }] as SortItem[]
+);
 
 const { data, headers } = useDeliveryCarrierTable(
   toRef(props, "carriers"), 

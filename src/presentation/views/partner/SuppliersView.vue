@@ -1,28 +1,34 @@
 <template>
-  <v-card class="mb-5">
-    <v-card-text>
-      <v-row dense>
-        <v-col cols="3">
-          <v-text-field 
-            v-model="searchTerm" 
-            label="search"
-          />
-        </v-col>
-      </v-row>
-    </v-card-text>
-  </v-card>
-  <v-card class="mb-2">
-    <v-card-text>
+  <v-toolbar 
+    rounded="lg"
+    elevation="2"
+    class="mb-2" 
+    color="white"
+  >
+    <div>
+      <v-text-field 
+        v-model="searchTerm" 
+        :placeholder="tCap('common.search')"
+        density="compact"
+        prepend-inner-icon="mdi-magnify"
+        width="300"
+        flat
+        variant="solo"
+        hide-details
+        single-line
+      />
+    </div>
+  </v-toolbar>
+  <v-card rounded="lg">
+    <v-card-title style="background-color: whitesmoke;">
       <v-row dense>
         <v-col cols="3"></v-col>
         <v-spacer />
-        <v-col cols="3">
-          <AddSupplierModal />
+        <v-col cols="1">
+          <AddSupplierModal mini />
         </v-col>
       </v-row>
-    </v-card-text>
-  </v-card>
-  <v-card>
+    </v-card-title>
     <v-card-text>
       <PartnersList 
         :partners="suppliers" 
@@ -39,7 +45,9 @@ import AddSupplierModal from '@/presentation/components/partner/AddSupplierModal
 import { ref } from 'vue';
 
 import { usePartners } from '@/presentation/composables/partner/usePartners';
+import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
+const { tCap } = useLocalizationHelpers();
 
 const { suppliers } = usePartners();
 

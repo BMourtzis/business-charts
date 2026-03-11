@@ -1,6 +1,7 @@
 <template>
   <v-data-table
     v-model="selected"
+    v-model:sort-by="sortBy"
     show-select
     :headers="headers"
     :items="data"
@@ -25,8 +26,7 @@
         :order="row.order"
         mini
       />
-      <EditOrderLinesModal 
-        v-if="row.status === OrderStatus.Draft || row.status === OrderStatus.Approved"
+      <EditOrderLinesModal
         :order="row.order" 
         mini 
       />
@@ -34,16 +34,10 @@
         v-if="row.order.netAllocatedAmount === 0"
         :name="row.orderNumber"
         :action-fn="() => deleteOrderCommmandHandler.handle({id: row.id})"
-        :mini="true"
+        mini
       />
     </template>
   </v-data-table>
-  <select-line-items-modal 
-    v-model="selectLineItemsOpen"
-    :filename="selectLineItemsFilename"
-    :items="selectedLineItems"
-    :type="selectLineItemsType"
-  />
 </template>
 
 <script setup lang="ts">
@@ -51,7 +45,6 @@ import ConfirmDeleteModal from "@/presentation/components/ConfirmDeleteModal.vue
 import StatusChip from "@/presentation/components/orders/StatusChip.vue";
 import OrderTypeChip from "@/presentation/components/orders/OrderTypeChip.vue";
 import PartnerBtn from "@/presentation/components/partner/PartnerBtn.vue";
-import SelectLineItemsModal from '@/presentation/components/orders/Modals/SelectLineItemsModal.vue';
 import EditOrderLinesModal from "@/presentation/components/orders/Modals/EditOrderLinesModal.vue";
 import EditOrderModal from "@/presentation/components/orders/Modals/EditOrderModal.vue";
 
@@ -65,29 +58,30 @@ import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
 import { OrderStatus, OrderType } from "@/domain/order/orderTypes";
+import type { SortItem } from "vuetify/lib/components/VDataTable/composables/sort";
 
 const router = useRouter();
 
-const selected = ref<string[]>([]);
-
-const selectLineItemsOpen = ref(false);
-const selectLineItemsType = ref<"lineItems" | "labels">("lineItems");
-const selectLineItemsFilename = ref("multiple-orders");
-
-const selectedLineItems = computed(() => {
-  if(!props.orders) return [];
-
-  const filteredOrders = props.orders.filter(o => selected.value.includes(o.id));
-
-  return filteredOrders.flatMap(o => o.items);
-});
-
 const props = defineProps<{
   orders: Order[] | undefined;
+  selected: string[];
   statusFilter: OrderStatus[];
   partnerFilter: string[];
   typeFilter?: OrderType;
 }>();
+
+const emits = defineEmits<{
+  (e: 'update:selected', value: string[]): void
+}>();
+
+const sortBy = ref(
+  [{ key: 'status', order: 'asc' }] as SortItem[]
+);
+
+const selected = computed({
+  get: () => props.selected,
+  set: (v: string[]) => emits('update:selected', v)
+});
 
 const { deleteOrderCommmandHandler } = useOrders();
 const filters = computed(() => {

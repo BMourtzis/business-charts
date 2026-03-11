@@ -84,7 +84,8 @@
         "debit": "debit",
         "timeline": "timeline",
         "exportCsv": "export CSV",
-        "exportPdf": "export PDF"
+        "exportPdf": "export PDF",
+        "search": "search"
     },
     "export": {
         "dataTransfer": "Data Transfer",
@@ -151,10 +152,6 @@
         "notes": "notes",
         "discount": "discount",
         "deposit": "deposit",
-        "addOrderTitle": "add order",
-        "addOrderItemTitle": "add order item",
-        "addVariationTitle": "add variation",
-        "editOrderLineItemsTitle": "edit line items",
         "variation": "variation | variations",
         "productQuantity": "product quantity",
         "productSum": "product sum",
@@ -179,18 +176,28 @@
         "completed": "completed",
         "sales": "sales",
         "purchase": "purchase",
-        "labelCsvTitle": "export CSV for labels",
-        "listCsvTitle": "rt CSV for order items",
-        "exportInvoiceTitle": "export invoice",
-        "approveBtn": "approve",
-        "processingBtn": "process",
-        "readyForShipmentBtn": "ready for shipment",
-        "shippedBtn": "ship",
-        "completedBtn": "complete",
-        "cancelledBtn": "cancel",
-        "approveOrderTitle": "approve order",
         "moneyAllocation": "money allocation | money allocations",
-        "allocatedAt": "allocated at"
+        "paid": "paid",
+        "title": {
+            "orderNumber": "order No.",
+            "dueDate": "due date",
+            "createdDate": "created date",
+            "addOrder": "add order",
+            "addOrderItem": "add order item",
+            "addVariation": "add variation",
+            "editOrderLineItems": "edit line items",
+            "labelCsv": "export CSV for labels",
+            "listCsv": "rt CSV for order items",
+            "exportInvoice": "export invoice",
+            "approve": "approve",
+            "processing": "process",
+            "readyForShipment": "ready for shipment",
+            "shipped": "ship",
+            "completed": "complete",
+            "cancelled": "cancel",
+            "approveOrder": "approve order",
+            "allocatedAt": "allocated at"
+        }
     },
     "moneyMovement": {
         "moneyMovement": "money movement | money movements",
@@ -214,6 +221,10 @@
         "cheque": "cheque",
         "addMoneyMovement": "add money movement",
         "allocatedAmount": "allocated",
-        "remainingAmount": "remaining"
+        "remainingAmount": "remaining",
+        "title": {
+            "number": "movement No",
+            "createdDate":"created date"
+        }
     }
 }
