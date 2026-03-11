@@ -45,6 +45,29 @@
                 v-model="form.items"
               />
           </v-row>
+          <v-row class="mb-4" justify="end" align="center">
+              <v-col cols="auto">
+                {{ tCap('order.orderQuantity') }}: <strong>{{ totalQuantityAllItems }}</strong>
+              </v-col>
+              <v-col cols="auto">
+                {{ tCap('order.orderSum') }} 
+                <strong>{{ numberPriceToGreekFormatLocale(totalAmountAllItems) }}</strong>
+              </v-col>
+            </v-row>
+          <v-row dense align="center">
+            <v-col cols="1"></v-col>
+            <v-spacer />
+            <v-col cols="3">  
+              <vat-calculator-field
+                v-model="form.vatRate"
+                :base-amount="totalAmountAllItems"
+              />
+            </v-col>
+            <v-col cols="2">
+              {{ tCap('order.amountAfterTax') }} 
+              <strong>{{ numberPriceToGreekFormatLocale(totalAmountAllItemsWithTax) }}</strong>
+            </v-col>
+          </v-row>
           <v-alert
               v-if="errorMessage"
               type="error"
@@ -57,7 +80,6 @@
         </v-container>
         </v-form>
       </v-card-text>
-
       <v-card-actions>
         <v-btn
           variant="tonal"
@@ -86,18 +108,21 @@
 </template>
 
 <script setup lang="ts">
+import vatCalculatorField from '@/presentation/components/shared/vatCalculatorField.vue';
+import OrderItemEdit from './OrderItemEdit.vue';
+
+import { computed, reactive } from 'vue';
 
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { useFormDialog } from '@/presentation/composables/useFormDialog';
-import { computed, reactive } from 'vue';
 import type { OrderEditVM } from '@/presentation/viewModels/orderVM';
 import { useOrders } from '@/presentation/composables/order/useOrders';
 
 import { orderVmToEditCmd } from '@/presentation/mappers/orderItemMapper';
 import type { Order } from '@/domain/order/models/order';
 import { mapOrderLineItemsToVM } from '@/presentation/mappers/orderMapper';
-import OrderItemEdit from './OrderItemEdit.vue';
 import { OrderStatus } from '@/domain/order/orderTypes';
+import { numberPriceToGreekFormatLocale } from '@/utlis/priceUtils';
 
 const props = defineProps<{
   order: Order;
@@ -111,6 +136,31 @@ const { tCap } = useLocalizationHelpers();
 const canEditLineItems = computed(() => 
   props.order.status === OrderStatus.Draft || props.order.status === OrderStatus.Approved
 );
+
+// total amount across all items
+const totalAmountAllItems = computed(() =>
+  form.items.reduce((total, item) => {
+    const itemQty = Object.values(item.sizing).reduce((a, b) => a + b, 0) ?? 0;
+    const itemTotal = itemQty * item.unitPrice;
+
+    return total + itemTotal;
+  }, 0)
+);
+
+const taxAmount = computed(() => {
+  return totalAmountAllItems.value * form.vatRate;
+});
+
+const totalAmountAllItemsWithTax = computed(() => {
+  return totalAmountAllItems.value + taxAmount.value;
+});
+
+const totalQuantityAllItems = computed(() => {
+  return form.items.reduce((sum, item) => {
+    const itemQty = Object.values(item.sizing).reduce((a, b) => a + b, 0) ?? 0;
+    return sum + itemQty;
+  }, 0)
+});
 
 const form = reactive({
     id: props.order.id,
