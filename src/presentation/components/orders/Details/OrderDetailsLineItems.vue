@@ -3,8 +3,7 @@
     :title="tCap('order.items', 2)"
   >
     <template #append>
-      <EditOrderLinesModal 
-        v-if="order.status === OrderStatus.Draft || order.status === OrderStatus.Approved"
+      <EditOrderLinesModal
         :order="order" 
         mini 
       />

@@ -1,6 +1,5 @@
 <template>
   <v-dialog 
-    v-if="canEditLineItems"
     v-model="dialog" 
     max-width="1800"
   >
