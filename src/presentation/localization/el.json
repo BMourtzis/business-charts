@@ -162,7 +162,7 @@
         "sales": "πώληση",
         "purchase": "αγορά",
         "moneyAllocation": "επιμερισμός | επιμερισμοί",
-        "allocatedAt": "ημερομηνία επιμερισμού",
+        "paid": "πληρωμένο",
         "title": {
             "orderNumber": "αρ. παραγγελίας",
             "createdDate": "ημ/νία δημιουργίας",
@@ -179,12 +179,13 @@
             "listCsv": "εξαγωγή στοιχείων παραγγελίας σε CSV",
             "exportInvoice": "εξαγωγή τιμολογίου",
             "approve": "έγκριση",
-            "processing": "ύπο επεξεργασία",
-            "readyForShipment": "έτοιμο για αποστολή",
-            "shipped": "αποστολή",
-            "completed": "ολοκλήρωση",
+            "processing": "προς επεξεργασία",
+            "readyForShipment": "προς έτοιμο για αποστολή",
+            "shipped": "προς αποστολή",
+            "completed": "προς ολοκλήρωση",
             "cancelled": "ακύρωση",
-            "approveOrder": "έγκριση παραγγελίας"
+            "approveOrder": "έγκριση παραγγελίας",
+            "allocatedAt": "ημ/νία επιμερισμού"
         }
     },
     "moneyMovement": {
@@ -209,6 +210,10 @@
         "cheque": "επιταγή",
         "addMoneyMovement": "προσθήκη χρηματικής κίνησης",
         "allocatedAmount": "επιμερισμένο",
-        "remainingAmount": "υπόλοιπο"
+        "remainingAmount": "υπόλοιπο",
+        "title": {
+            "number":"αρ. κίνησης",
+            "createdDate":"ημ/νία δημιουργίας"
+        }
     }
 }

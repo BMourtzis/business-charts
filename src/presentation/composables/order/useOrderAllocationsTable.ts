@@ -54,8 +54,8 @@ function getMovements(allocations: MoneyAllocation[]) {
 
 function getOrderAllocationHeaders(tCap: (key: string, count?: number) => string) {
     return [
-        { title: tCap('moneyMovement.number'), key: "movementNumber", align: 'start' },
-        { title: tCap('order.allocatedAt'), key: "allocatedAt", align: 'start' },
+        { title: tCap('moneyMovement.title.number'), key: "movementNumber", align: 'start' },
+        { title: tCap('order.title.allocatedAt'), key: "allocatedAt", align: 'start' },
         { title: tCap('moneyMovement.reason'), key: "reason", align: 'start' },
         { title: tCap('moneyMovement.method'), key: "method", align: 'start' },
         { title: tCap('moneyMovement.amount'), key: "amount", align: 'start' },

@@ -54,9 +54,13 @@
           · {{ tCap("order.discount") }} <strong>{{ getAmount(order.discountAmount) }} </strong>
         </span>
       </div>
-      <div v-if="order.depositAmount > 0">
+      <div v-if="order.depositAmount > 0 && order.netAllocatedAmount === 0">
         {{ tCap("order.deposit") }} <strong>{{ getAmount(order.depositAmount) }} </strong>
         · {{ tCap("order.remainingAmount") }} <strong>{{ getAmount(order.remainingAmount) }} </strong>
+      </div>
+      <div v-if="order.netAllocatedAmount !== 0">
+        {{ tCap("order.paid") }} <strong>{{ getAmount(order.netAllocatedAmount) }} </strong>
+        · {{ tCap("order.remainingAmount") }} <strong>{{ getAmount(order.remainingAllocatableAmount) }} </strong>
       </div>
     </v-col>
   </v-row>

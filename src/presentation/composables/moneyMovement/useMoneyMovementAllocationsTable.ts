@@ -29,8 +29,8 @@ function getDate(date?: Date): string {
 
 function getHeaders(tCap: (key: string, count?: number) => string) {
     return [
-        { title: tCap('order.number'), key: "orderNumber", align: 'start' },
-        { title: tCap('order.allocatedAt'), key: "allocatedAt", align: 'start' },
+        { title: tCap('order.title.orderNumber'), key: "orderNumber", align: 'start' },
+        { title: tCap('order.title.allocatedAt'), key: "allocatedAt", align: 'start' },
         { title: tCap('moneyMovement.amount'), key: "amount", align: 'start' },
     ] satisfies DataTableHeader[];
 }

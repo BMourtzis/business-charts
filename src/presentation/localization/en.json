@@ -177,7 +177,7 @@
         "sales": "sales",
         "purchase": "purchase",
         "moneyAllocation": "money allocation | money allocations",
-        "allocatedAt": "allocated at",
+        "paid": "paid",
         "title": {
             "orderNumber": "order No.",
             "dueDate": "due date",
@@ -195,7 +195,8 @@
             "shipped": "ship",
             "completed": "complete",
             "cancelled": "cancel",
-            "approveOrder": "approve order"
+            "approveOrder": "approve order",
+            "allocatedAt": "allocated at"
         }
     },
     "moneyMovement": {
@@ -220,6 +221,10 @@
         "cheque": "cheque",
         "addMoneyMovement": "add money movement",
         "allocatedAmount": "allocated",
-        "remainingAmount": "remaining"
+        "remainingAmount": "remaining",
+        "title": {
+            "number": "movement No",
+            "createdDate":"created date"
+        }
     }
 }
