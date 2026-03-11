@@ -58,7 +58,7 @@
                   v-model="form.deliveryCarrierId"
                   :item-props="itemProps"
                   label="Carrier"
-                  :items="carriers"
+                  :items="sortedCarriers"
                 >
                   <template #append-inner>
                     <CarrierModal mini />
@@ -147,7 +147,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 
 import { DeliveryCarrier } from '@/domain/deliveryCarrier/deliveryCarrier';
 
@@ -168,7 +168,11 @@ const {
 } = useValidationRules();
 
 const { createB2BCustomerCommandHandler } = usePartners();
-const { carriers } = useDeliveryCarriers()
+const { carriers } = useDeliveryCarriers();
+
+const sortedCarriers = computed(() => 
+  carriers.value.sort((a, b) => a.name.localeCompare(b.name))
+);
 
 const { tCap } = useLocalizationHelpers();
 
