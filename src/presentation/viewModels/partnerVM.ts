@@ -8,10 +8,11 @@ type CreateSupplierVM = {
     city?: string;
     zip?: string;
     country?: string;
+    tin?: string;
 }
 
 type CreateB2BCustomerVM = {
-      contactName?: string;
+    contactName?: string;
     businessName: string;
     deliveryCarrierId?: string;
     email?: string;
@@ -20,4 +21,5 @@ type CreateB2BCustomerVM = {
     city?: string;
     zip?: string;
     country?: string;
+    tin: string
 }

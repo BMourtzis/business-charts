@@ -24,6 +24,12 @@
       >
         {{ supplier.contactName }}
       </div>
+      <div 
+        v-if="supplier.tin" 
+        class="text-subtitle-1 text-grey-darken-1"
+      >
+        {{ tCap('partner.vatNumber') }}: <strong>{{ supplier.tin }}</strong>
+      </div>
       <div class="text-subtitle-1 text-grey-darken-1">
         {{ tCap('partner.clientNumber') }}: <strong>{{ supplier.clientNumber }}</strong>
       </div>

@@ -13,4 +13,5 @@ export interface PartnerDTO extends IEntityDTO {
     addresses: AddressDTO[]
     activity?: string
     deliveryCarrierId?: string;
+    tin?: string;
 }

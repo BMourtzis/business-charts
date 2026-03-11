@@ -8,25 +8,29 @@ export class B2BCustomer extends Partner {
     constructor(
         id: string, 
         businessName: string, 
-        clientNumber: number, 
+        clientNumber: number,
+        tin?: string, 
         deliveryCarrierId?: string, 
-        contactName?: string
+        contactName?: string,
+        
     ) {
-        super(id, PartnerType.B2BCustomer, clientNumber, businessName, contactName);
+        super(id, PartnerType.B2BCustomer, clientNumber, businessName, contactName, tin);
         this.deliveryCarrierId = deliveryCarrierId
     }
 }
 
 export function createB2BCustomer(
     businessName: string, 
-    clientNumber: number, 
+    clientNumber: number,
+    tin: string, 
     deliveryCarrierId?: string, 
-    contactName?: string
+    contactName?: string,
 ): B2BCustomer {
     return new B2BCustomer(
         uuidv4(), 
         businessName, 
         clientNumber, 
+        tin,
         deliveryCarrierId, 
         contactName
     );

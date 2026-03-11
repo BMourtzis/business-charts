@@ -13,8 +13,9 @@ export interface CreateB2BCustomerCommand {
     deliveryCarrierId?: string;
     email?: string;
     phone?: string;
-    address?: AddressDTO
-}
+    address?: AddressDTO;
+    tin: string
+};
 
 export class CreateB2BCustomerCommandHandler {
     constructor(private _partnersStore = usePartnersStore()) {}
@@ -22,7 +23,7 @@ export class CreateB2BCustomerCommandHandler {
     async handle(cmd: CreateB2BCustomerCommand) {
         const clientNumber = await ClientNumberService.getNext();
 
-        const customer = createB2BCustomer(cmd.businessName, clientNumber, cmd.deliveryCarrierId, cmd.contactName);
+        const customer = createB2BCustomer(cmd.businessName, clientNumber, cmd.tin, cmd.deliveryCarrierId, cmd.contactName);
         
         if(cmd.email && cmd.email.trim() != '') customer.addEmail(createEmail(cmd.email, true));
         if(cmd.phone && cmd.phone.trim() != '') customer.addPhone(createPhone(cmd.phone, true));

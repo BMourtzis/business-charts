@@ -54,6 +54,13 @@
                 />
               </v-col>
               <v-col cols="12">
+                <v-text-field
+                  v-model="form.tin"
+                  :label="tCap('partner.vatNumber')"
+                  :rules="[required, maxLength(50)]"
+                />
+              </v-col>
+              <v-col cols="12">
                 <v-autocomplete
                   v-model="form.deliveryCarrierId"
                   :item-props="itemProps"
@@ -181,7 +188,8 @@ const props = defineProps<{
 }>();
 
 const form = reactive({
-  businessName: ''
+  businessName: '',
+  tin: ''
 } as CreateB2BCustomerVM);
 
 const {
@@ -208,6 +216,7 @@ async function saveB2BCustomer() {
       contactName: form.contactName, 
       deliveryCarrierId: form.deliveryCarrierId, 
       businessName: form.businessName, 
+      tin: form.tin,
       email: form.email, 
       phone: form.phone, 
       address: getAddressFromFields(form.street, form.city, form.zip, form.country)

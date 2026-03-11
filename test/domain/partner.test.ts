@@ -7,8 +7,8 @@ import { createAddress } from '@/domain/contact/models/address.js'
 
 // Concrete subclass for testing
 class TestPartner extends Partner {
-  constructor(id: string, clientNumber: number,  contactName: string, businessName?: string) {
-    super(id, PartnerType.Supplier, clientNumber, businessName, contactName )
+  constructor(id: string, clientNumber: number,  contactName: string, businessName?: string, tin?: string) {
+    super(id, PartnerType.Supplier, clientNumber, businessName, contactName, tin)
   }
 }
 
@@ -16,7 +16,7 @@ describe('Partner', () => {
   let partner: TestPartner
 
   beforeEach(() => {
-    partner = new TestPartner(uuidv4(), 1, 'Alice', 'Alice Co.')
+    partner = new TestPartner(uuidv4(), 1, 'Alice', 'Alice Co.', "123456789")
   })
 
   it('initializes correctly', () => {
@@ -26,6 +26,7 @@ describe('Partner', () => {
     expect(partner.emails).toEqual([])
     expect(partner.phones).toEqual([])
     expect(partner.addresses).toEqual([])
+    expect(partner.tin).toBe("123456789")
   })
 
   it('updates contactName and businessName', () => {
