@@ -169,6 +169,10 @@ export class Order implements IEntity {
         this._dueDate = newDueDate;
     }
 
+    updateVatRate(newVateRate: number) {
+        this._vatRate = newVateRate;
+    }
+
     //Order items
     setItems(items: OrderLineItem[]) {
         // this.assertEdit();

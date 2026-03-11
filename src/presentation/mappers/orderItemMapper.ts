@@ -79,6 +79,7 @@ export function orderVmToCmd(vm: OrderEditVM): CreateCreditOrderCommand {
 export function orderVmToEditCmd(vm: OrderEditVM): EditOrderItemsCommand {
     return {
         orderId: vm.id ?? "",
+        vatRate: vm.vatRate,
         items: mapItemVmToDTOList(vm.items)
     }
 }

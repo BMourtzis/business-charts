@@ -6,6 +6,7 @@ import { useOrdersStore } from "@/presentation/stores/orderStore";
 
 export interface EditOrderItemsCommand {
     orderId: string;
+    vatRate?: number;
     items: OrderLineItemDTO[];
 }
 
@@ -16,6 +17,10 @@ export class EditOrderItemsCommandHandler {
         const order = await orderRepository.getById(cmd.orderId);
         if (!order) {
             throw new Error("Order not found");
+        }
+
+        if(cmd.vatRate) {
+            order.updateVatRate(cmd.vatRate);
         }
 
         const items = cmd.items.map(OrderItemMapperInstance.toModel);
