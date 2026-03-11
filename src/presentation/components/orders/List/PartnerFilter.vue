@@ -9,6 +9,12 @@
     :return-object="false"
     density="compact"
     :placeholder="tCap('partner.partner', 2)"
+    prepend-inner-icon="mdi-magnify"
+    width="400"
+    flat
+    variant="solo"
+    hide-details
+    single-line
   >
     <template #selection="{ item, index }">
       <span v-if="selectedPartners.length > 1 && index === 0">

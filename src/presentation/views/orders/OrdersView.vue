@@ -5,14 +5,9 @@
     class="mb-2" 
     color="white"
   >
-    <v-toolbar-items variant="text">
-      <v-btn active>Active</v-btn>
-      <v-btn>All</v-btn>
-      <v-btn>Inactive</v-btn>
-    </v-toolbar-items>
-    <template #append>
-      <v-btn>Filters</v-btn>
-    </template>
+    <div>
+      <partner-filter v-model="selectedPartners" />
+    </div>
   </v-toolbar>
   <v-card rounded="lg">
     <v-card-title style="background-color: whitesmoke;">
@@ -85,15 +80,15 @@
 <script setup lang="ts">
 import OrderList from '@/presentation/components/orders/List/OrderList.vue';
 import AddOrderModal from "@/presentation/components/orders/Modals/AddOrderModal.vue";
-import StatusFilter from '@/presentation/components/orders/List/StatusFilter.vue';
 import PartnerFilter from '@/presentation/components/orders/List/PartnerFilter.vue';
-import TypeFilter from '@/presentation/components/orders/List/TypeFilter.vue';
 import SelectLineItemsModal from '@/presentation/components/orders/Modals/SelectLineItemsModal.vue';
+
+import { computed, ref } from 'vue';
+
+import { OrderStatus, OrderType } from '@/domain/order/orderTypes';
 
 import { useOrders } from '@/presentation/composables/order/useOrders';
 
-import { computed, ref } from 'vue';
-import { OrderStatus, OrderType } from '@/domain/order/orderTypes';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 
 const { allOrders } = useOrders();
