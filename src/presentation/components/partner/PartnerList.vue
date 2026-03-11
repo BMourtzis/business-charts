@@ -74,7 +74,9 @@ const props = defineProps < {
   searchTerm: string;
 }>();
 
-const sortBy = ref([{ key: 'name', order: 'asc' }] as SortItem[]);
+const sortBy = ref(
+  [{ key: 'name', order: 'asc' }] as SortItem[]
+);
 
 function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
   router.push(`/partner/${row.item.id}`);

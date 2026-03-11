@@ -1,6 +1,7 @@
 <template>
   <v-data-table
     v-model="selected"
+    v-model:sort-by="sortBy"
     show-select
     :headers="headers"
     :items="data"
@@ -57,6 +58,7 @@ import { useOrders } from '@/presentation/composables/order/useOrders';
 import { useOrderTable } from '@/presentation/composables/order/useOrdersTable';
 import type { VDataTableRow } from '@/presentation/types/types';
 import { OrderStatus, OrderType } from "@/domain/order/orderTypes";
+import type { SortItem } from "vuetify/lib/components/VDataTable/composables/sort";
 
 const router = useRouter();
 
@@ -71,6 +73,10 @@ const props = defineProps<{
 const emits = defineEmits<{
   (e: 'update:selected', value: string[]): void
 }>();
+
+const sortBy = ref(
+  [{ key: 'status', order: 'asc' }] as SortItem[]
+);
 
 const selected = computed({
   get: () => props.selected,

@@ -6,7 +6,7 @@ import { useLocalizationHelpers } from "../useLocalization";
 import type { DataTableHeader } from "vuetify";
 import { Partner } from "@/domain/partner/models/partner";
 import { getPartnerDetails } from "../partner/usePartnerDetails";
-import { OrderStatus, type OrderType } from "@/domain/order/orderTypes";
+import { OrderStatus, statusHierarchy, type OrderType } from "@/domain/order/orderTypes";
 import { numberPriceToGreekFormatLocale } from "@/utlis/priceUtils";
 
 function toOrderTable(order: Order): OrderTableRow {
@@ -39,7 +39,7 @@ function getOrderHeaders(tCap: (key: string, count?: number) => string) {
         { title: tCap('partner.partner'), key: "partner", align: 'start' },
         { title: tCap('order.title.createdDate'), key: "createdDate", align: 'start' },
         { title: tCap('order.title.dueDate'), key: "dueDate", align: 'start' },
-        { title: tCap('order.status'), key: "status", align: 'start' },
+        { title: tCap('order.status'), key: "status", align: 'start', sort: statusSort },
         { title: tCap('order.type'), key: "direction", align: 'start' },
         { title: tCap('order.total'), key: "total", align: 'start' },  
         { title: tCap('common.action', 2), key: "actions", align: 'start'}
@@ -56,11 +56,12 @@ function filterOrders(orders: Order[], filters?: OrderTableFilters) {
         filtered = filtered.filter(o => 
             filters.status.includes(o.status)
         );
-    } else {
-        filtered = filtered.filter(o => 
-            defaultStatusFilter.includes(o.status)
-        );
-    }
+    } 
+    // else {
+    //     filtered = filtered.filter(o => 
+    //         defaultStatusFilter.includes(o.status)
+    //     );
+    // }
 
     if(filters.partner.length > 0) {
         filtered = filtered.filter(o => 
@@ -75,6 +76,13 @@ function filterOrders(orders: Order[], filters?: OrderTableFilters) {
     }
     
     return filtered;
+}
+
+function statusSort(a: OrderStatus, b: OrderStatus) {
+    const aOrder = statusHierarchy[a];
+    const bOrder = statusHierarchy[b];
+
+    return aOrder - bOrder;
 }
 
 const defaultStatusFilter = [
