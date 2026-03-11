@@ -1,71 +1,69 @@
 <template>
-  <v-card class="mb-5">
-    <v-card-text>
+  <v-toolbar 
+    rounded="lg"
+    elevation="2"
+    class="mb-2" 
+    color="white"
+  >
+    <v-toolbar-items variant="text">
+      <v-btn active>Active</v-btn>
+      <v-btn>All</v-btn>
+      <v-btn>Inactive</v-btn>
+    </v-toolbar-items>
+    <template #append>
+      <v-btn>Filters</v-btn>
+    </template>
+  </v-toolbar>
+  <v-card rounded="lg">
+    <v-card-title style="background-color: whitesmoke;">
       <v-row dense>
-        <v-col cols="3">
-          <PartnerFilter v-model="selectedPartners" />
+        <v-col dense cols="1">
+          <!-- <v-btn
+            color="red"
+            icon="mdi-trash-can"
+            variant="text"
+            density="compact"
+          /> -->
+          <v-tooltip 
+            :text="tCap('order.title.listCsv')"
+            location="bottom"
+          >
+            <template #activator="{ props }">
+              <v-btn
+                :disabled="selected.length === 0"
+                v-bind="props"
+                color="green"
+                icon="mdi-file-delimited"
+                variant="text"
+                density="compact"
+                @click="openSelectLineItemsForCsvList"
+              />
+            </template>
+          </v-tooltip>
+          <v-tooltip 
+            :text="tCap('order.title.labelCsv')"
+            location="bottom"
+          >
+            <template #activator="{ props }">
+              <v-btn
+                :disabled="selected.length === 0"
+                v-bind="props"
+                color="orange"
+                icon="mdi-label-multiple"
+                variant="text"
+                density="compact"
+                @click="openSelectLineItemsForCsvPrintList"
+              />
+            </template>
+          </v-tooltip>
         </v-col>
-        <v-col cols="3">
-          <StatusFilter v-model="selectedStatuses" />
-        </v-col>
-        <v-col cols="3">
-          <TypeFilter v-model="selectedType" />
-        </v-col>
+        <v-spacer />
+          <v-col dense cols="1">
+            <AddOrderModal mini/>
+          </v-col>
       </v-row>
-    </v-card-text>
-  </v-card>
-  <v-card class="mb-2">
-    <v-card-text>
-      <v-row>
-    <v-col cols="1">
-      <!-- <v-btn
-        color="red"
-        icon="mdi-trash-can"
-        variant="text"
-        density="compact"
-      /> -->
-      <v-tooltip 
-        :text="tCap('order.title.listCsv')"
-        location="bottom"
-      >
-        <template #activator="{ props }">
-          <v-btn
-            :disabled="selected.length === 0"
-            v-bind="props"
-            color="green"
-            icon="mdi-file-delimited"
-            variant="text"
-            density="compact"
-            @click="openSelectLineItemsForCsvList"
-          />
-        </template>
-      </v-tooltip>
-      <v-tooltip 
-        :text="tCap('order.title.labelCsv')"
-        location="bottom"
-      >
-        <template #activator="{ props }">
-          <v-btn
-            :disabled="selected.length === 0"
-            v-bind="props"
-            color="orange"
-            icon="mdi-label-multiple"
-            variant="text"
-            density="compact"
-            @click="openSelectLineItemsForCsvPrintList"
-          />
-        </template>
-      </v-tooltip>
-    </v-col>
-    <v-spacer />
-      <v-col cols="3">
-        <AddOrderModal />
-      </v-col>
-  </v-row>
-    </v-card-text>
-  </v-card>
-  <v-card>
-    <v-card-text>
+    </v-card-title>
+    <v-card-text class="pt-2">
       <OrderList 
         :orders="allOrders"
         :selected="selected"

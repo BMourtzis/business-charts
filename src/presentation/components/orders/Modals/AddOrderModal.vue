@@ -23,6 +23,7 @@
             color="indigo"
             icon="mdi-plus"
             variant="text"
+            density="compact"
           />
         </template>
       </v-tooltip>
