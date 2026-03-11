@@ -35,11 +35,9 @@ import { computed } from 'vue';
 
 const { partners } = usePartners();
 
-const sortedPartners = computed(() => {
-  const res = sortPartnerDTOs(partners.value);
-  console.log(res);
-  return res;
-});
+const sortedPartners = computed(() => 
+  sortPartnerDTOs(partners.value)
+);
 
 const { tCap } = useLocalizationHelpers();
 

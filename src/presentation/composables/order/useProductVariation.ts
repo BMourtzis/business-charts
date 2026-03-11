@@ -7,7 +7,7 @@ export const productCode = {
     editorType: "text",
     rendererType: "text",
     navigable: true,
-    width: "2vw",
+    width: "2.5vw",
 }
 
 export const colourVariation = {
@@ -17,7 +17,7 @@ export const colourVariation = {
     editorType: "autocomplete",
     rendererType: "text",
     navigable: true,
-    width: "2.5vw",
+    width: "3vw",
     list: ["WILD", "F", "GLOW", "BL", "ΚΦ", "ΒΕΡ. ΝΑΠΑ", "ΣΑ.ΤΖΙΝ", "ΣΑ", "ΚΝΛ", "ΨΗΦ", "OL", "X", "XK", "ΤΑΜΠΑ", "ΤΑΜΠΑ.ΨΑΘΑ", "ΓΚΡΙ", "ΜΝΤ", "ΚΙΤ.ΤΖΙΝ", "ΚΦ.ΝΑΙΡ", "CAM", "LIM.ΚΡ", "ROSE.ΚΡ", "Χ.ΝΑΠΑ", "ΤΑΜΠΑ.ΚΡ", "OL.ΚΡ", "ΚΥΡ.ΝΑΙΡ", "Μ", "ΓΚΡΙ.ΝΑΙΡ", "ΓΚΡΙ.ΚΡ", "ΤΜΠ", "CIEL.ΚΡ"]
 };
 
@@ -28,7 +28,7 @@ export const soleVariation = {
     editorType: "autocomplete",
     rendererType: "text",
     navigable: true,
-    width: "2.5vw",
+    width: "4vw",
     list: ["anatomic", "soft", "SOFT", "vamos", "VAMOS", "fiesta", "FIESTA", "sand", "SAND", "momo", "MOMO", "esp"]
 }
 
@@ -41,7 +41,7 @@ export const menVariation = {
     width: "1vw",
 }
 
-const sizeWidth = "1vw";
+const sizeWidth = "1.2vw";
 
 export const shoeSizeVariations = [
     {
@@ -201,7 +201,7 @@ export const shoesVariationLayout = [
         editorType: "price",
         rendererType: "price",
         navigable: true,
-        width: "2.5vw",
+        width: "3vw",
     },
     {
         order: shoeSizeVariations.length + 6,
@@ -209,7 +209,7 @@ export const shoesVariationLayout = [
         name: "calculated:totalPrice",
         type: "calculated",
         rendererType: "price",
-        width: "3vw",
+        width: "3.7vw",
         calculate: calculateTotalPrice
     }
 ].sort((a, b) => a.order - b.order) as TableColumn[];
