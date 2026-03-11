@@ -9,8 +9,9 @@ describe('B2BCustomer class', () => {
     const carrierId = 'carrier-456'
     const businessName = 'Beta Business'
     const clientNumber = 1;
+    const tin = "12345678";
 
-    const customer = createB2BCustomer(businessName, clientNumber, carrierId, name);
+    const customer = createB2BCustomer(businessName, clientNumber, tin, carrierId, name);
 
     // Should be instance of B2BCustomer
     expect(customer).toBeInstanceOf(Partner);
@@ -22,5 +23,6 @@ describe('B2BCustomer class', () => {
     expect(customer.type).toBe(PartnerType.B2BCustomer);
     expect(customer.deliveryCarrierId).toBe(carrierId);
     expect(customer.id).toBeTruthy();
+    expect(customer.tin).toBe(tin);
   })
 })
