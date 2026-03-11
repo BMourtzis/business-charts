@@ -1,5 +1,6 @@
 <template>
   <v-data-table
+    v-model:sort-by="sortBy"
     :headers="headers"
     :items="data"
     class="text-start"
@@ -49,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRef } from 'vue';
+import { computed, ref, toRef } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { Partner } from '@/domain/partner/models/partner';
@@ -63,6 +64,7 @@ import EditPartnerModal from "./EditPartnerModal.vue";
 import PhoneLink from '@/presentation/components/contact/PhoneLink.vue';
 import AddressLink from '@/presentation/components/contact/AddressLink.vue';
 import CarrierBtn from '../deliveryCarrier/CarrierBtn.vue';
+import type { SortItem } from 'vuetify/lib/components/VDataTable/composables/sort';
 
 const { deletePartnerCommandHandler } = usePartners();
 const router = useRouter();
@@ -71,6 +73,8 @@ const props = defineProps < {
   partners: Partner[] | undefined;
   searchTerm: string;
 }>();
+
+const sortBy = ref([{ key: 'name', order: 'asc' }] as SortItem[]);
 
 function rowClick(_: MouseEvent, row: VDataTableRow<Partner>) {
   router.push(`/partner/${row.item.id}`);

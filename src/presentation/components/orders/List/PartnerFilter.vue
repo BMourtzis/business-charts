@@ -1,7 +1,7 @@
 <template>
   <v-autocomplete
     v-model="selectedPartners"
-    :items="partners"
+    :items="sortedPartners"
     item-title="businessName"
     item-value="id"
     clearable
@@ -29,11 +29,17 @@
 </template>
 
 <script setup lang="ts">
-import { usePartners } from '@/presentation/composables/partner/usePartners';
+import { usePartners, sortPartnerDTOs } from '@/presentation/composables/partner/usePartners';
 import { useLocalizationHelpers } from '@/presentation/composables/useLocalization';
 import { computed } from 'vue';
 
 const { partners } = usePartners();
+
+const sortedPartners = computed(() => {
+  const res = sortPartnerDTOs(partners.value);
+  console.log(res);
+  return res;
+});
 
 const { tCap } = useLocalizationHelpers();
 

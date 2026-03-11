@@ -76,7 +76,7 @@ function getPartnerHeaders(tCap: (key: string, count?: number) => string) {
 
 function getSupplierHeaders(tCap: (key: string, count?: number) => string) {
     return [
-        { title: tCap('common.name'), key: "name", align: 'start' },
+        { title: tCap('common.name'), key: "name", align: 'start', sort: partnersSort },
         { title: tCap('partner.clientNumber'), key: "clientNumber", align: 'start' },
         { title: tCap('partner.activity'), key: "activity", align: 'start' },
         { title: tCap('address.city'), key: "city", align: 'start' },  
@@ -143,6 +143,10 @@ export function usePartnerTable(
     });
 
     return { data, headers };
+}
+
+function partnersSort(a: string, b: string) {
+    return a.localeCompare(b);
 }
 
 export interface PartnerTableFilters {
