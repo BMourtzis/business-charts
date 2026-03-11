@@ -15,13 +15,15 @@ export abstract class Partner implements IEntity {
     
     private _businessName?: string;
     private _contactName?: string;
+    private _tin?: string;
 
     constructor(
         id: string, 
         type: PartnerType, 
         clientNumber: number, 
         businessName?: string, 
-        contactName?: string
+        contactName?: string,
+        tin?: string
     ) {
         this.id = id;
         this.clientNumber = clientNumber;
@@ -31,6 +33,7 @@ export abstract class Partner implements IEntity {
         this._emails = [];
         this._phones = [];
         this._addresses = [];
+        this._tin = tin;
     }
 
     get emails() { return this._emails.slice(); }
@@ -38,14 +41,19 @@ export abstract class Partner implements IEntity {
     get addresses() { return this._addresses.slice(); }
     get businessName() { return this._businessName; }
     get contactName() { return this._contactName };
+    get tin() { return this._tin; }
 
-    updateData(contactName?: string, businessName?: string) {
+    updateData(contactName?: string, businessName?: string, tin?: string) {
         if(contactName !== undefined || contactName !== this.contactName) {
             this._contactName = contactName;
         }
 
         if(businessName !== undefined && businessName !== this.businessName) {
             this._businessName = businessName;
+        }
+
+        if(tin !== undefined && tin !== this._tin) {
+            this._tin = tin;
         }
     }
 

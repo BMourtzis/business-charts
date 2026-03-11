@@ -29,6 +29,7 @@ export interface EditSupplierCommand {
     contactName: string;
     activity: string;
     businessName?: string;
+    tin?: string;
 }
 
 export class EditSupplierCommandHandler {
@@ -38,7 +39,7 @@ export class EditSupplierCommandHandler {
         const supplier = await partnerRepository.getSupplierById(cmd.id);
         if (!supplier) return;
         
-        supplier.updateData(cmd.contactName, cmd.businessName, cmd.activity);
+        supplier.updateData(cmd.contactName, cmd.businessName, cmd.activity, cmd.tin);
 
         await partnerRepository.update(supplier);
         this._partnersStore.update(PartnerMapperInstance.toDTO(supplier));
@@ -52,6 +53,7 @@ export interface EditB2BCustomerCommand {
     contactName: string;
     deliveryCarrierId: string;
     businessName?: string;
+    tin: string;
 }
 
 export class EditB2BCustomerCommandHandler {
@@ -61,7 +63,7 @@ export class EditB2BCustomerCommandHandler {
         const b2bCustomer = await partnerRepository.getB2BCustomerById(cmd.id);
         if (!b2bCustomer) return;
         
-        b2bCustomer.updateData(cmd.contactName, cmd.businessName);
+        b2bCustomer.updateData(cmd.contactName, cmd.businessName, cmd.tin);
         b2bCustomer.deliveryCarrierId = cmd.deliveryCarrierId;
 
         await partnerRepository.update(b2bCustomer);

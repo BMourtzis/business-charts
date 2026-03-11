@@ -60,6 +60,20 @@
                   :rules="[maxLength(50)]"
                 />
               </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  v-if="b2bCustomer"
+                  v-model="form.tin"
+                  :label="tCap('partner.vatNumber')"
+                  :rules="[required, maxLength(50)]"
+                />
+                <v-text-field
+                  v-if="supplier"
+                  v-model="form.tin"
+                  :label="tCap('partner.vatNumber')"
+                  :rules="[maxLength(50)]"
+                />
+              </v-col>
               <v-col 
                 v-if="supplier" 
                 cols="12"
@@ -152,7 +166,8 @@ const form = reactive({
   businessName: '',
   contactName: '',
   activity: '',
-  deliveryCarrierId: ''
+  deliveryCarrierId: '',
+  tin: ''
 });
 
 function itemProps(item: DeliveryCarrier) {
@@ -177,6 +192,7 @@ watch(dialog, (open) => {
   if(open && props.partner) {
     form.businessName = props.partner.businessName ?? "";
     form.contactName = props.partner.contactName ?? "";
+    form.tin = props.partner.tin ?? "";
     if(supplier.value) {
       form.activity = supplier.value.activity ?? "";
     }
@@ -205,14 +221,16 @@ async function saveSupplier() {
         id: props.partner?.id ?? '', 
         contactName: form.contactName, 
         activity: form.activity, 
-        businessName: form.businessName
+        businessName: form.businessName,
+        tin: form.tin
       });
     } else if(b2bCustomer.value) {
       editB2BCustomerCommandHandler.handle({
         id: props.partner?.id ?? '',
         contactName: form.contactName,
         businessName: form.businessName,
-        deliveryCarrierId: form.deliveryCarrierId
+        deliveryCarrierId: form.deliveryCarrierId,
+        tin: form.tin
       });
     }
 

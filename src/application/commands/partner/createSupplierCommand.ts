@@ -13,7 +13,8 @@ export interface CreateSupplierCommand {
     businessName?: string, 
     email?: string, 
     phone?: string, 
-    address?: AddressDTO
+    address?: AddressDTO,
+    tin?: string
 }
 
 //TODO: to fully decouple the cmd from the store, createa an adapter.
@@ -27,7 +28,9 @@ export class CreateSupplierCommandHandler {
             cmd.contactName, 
             clientNumber,
             cmd.activity, 
-            cmd.businessName);
+            cmd.businessName,
+            cmd.tin
+        );
 
         if(cmd.email && cmd.email.trim() !== '') supplier.addEmail(createEmail(cmd.email, true));
         if(cmd.phone && cmd.phone.trim() !== '') supplier.addPhone(createPhone(cmd.phone, true));

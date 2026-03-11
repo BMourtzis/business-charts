@@ -62,6 +62,13 @@
               </v-col>
               <v-col cols="12">
                 <v-text-field
+                  v-model="form.tin"
+                  :label="tCap('partner.vatNumber')"
+                  :rules="[maxLength(50)]"
+                />
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
                   v-model="form.email"
                   :label="tCap('contact.mainEmailField')"
                   placeholder="johndoe@gmail.com"
@@ -184,6 +191,7 @@ async function saveSupplier() {
     createSupplierCommandHandler.handle({
       contactName: form.contactName, 
       activity: form.activity, 
+      tin: form.tin,
       businessName: form.businessName, 
       email: form.email, 
       phone: form.phone, 

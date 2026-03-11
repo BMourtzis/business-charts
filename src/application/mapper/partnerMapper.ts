@@ -15,13 +15,15 @@ function getModelType(dto: PartnerDTO) {
                 dto.clientNumber,
                 dto.contactName ?? "",
                 dto.activity ?? '',
-                dto.businessName
+                dto.businessName,
+                dto.tin
             );
         case PartnerType.B2BCustomer:
             return new B2BCustomer(
                 dto.id,
                 dto.businessName ?? "",
                 dto.clientNumber,
+                dto.tin ?? "",
                 dto.deliveryCarrierId ?? '',
                 dto.contactName
             );
@@ -46,6 +48,7 @@ export class PartnerMapper implements IMapper<Partner, PartnerDTO> {
             clientNumber: model.clientNumber,
             businessName: model.businessName,
             contactName: model.contactName,
+            tin: model.tin,
             type: model.type,
             emails: model.emails.map(ContactMapperInstance.toDTO),
             phones: model.phones.map(ContactMapperInstance.toDTO),
