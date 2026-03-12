@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { AllocationDirection } from "../allocationTypes";
 
 export class MoneyAllocation {
-    readonly allocationId: string;
+    readonly id: string;
     readonly moneyMovementId: string;
     readonly amount: number;
     readonly direction: AllocationDirection;
@@ -22,7 +22,7 @@ export class MoneyAllocation {
             throw new Error("Allocation amount must be greater than zero");
         }
 
-        this.allocationId = allocationId;
+        this.id = allocationId;
         this.moneyMovementId = moneyMovementId;
         this.amount = amount;
         this.direction = direction;
@@ -46,15 +46,15 @@ export class MoneyAllocation {
         );
     }
 
-    static refundAllocation(allocation: MoneyAllocation): MoneyAllocation {
+    static refundAllocation(allocation: MoneyAllocation, amount: number): MoneyAllocation {
         return new MoneyAllocation(
             uuidv4(),
             allocation.moneyMovementId,
-            allocation.amount,
+            amount,
             allocation.direction === AllocationDirection.Apply
                 ? AllocationDirection.Reverse
                 : AllocationDirection.Apply,
-            allocation.allocationId
+            allocation.id
         );
     }
 

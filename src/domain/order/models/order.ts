@@ -278,6 +278,28 @@ export class Order implements IEntity {
         this._allocations.push(allocation);
     }
 
+    refundAllocation(allocationId: string, amount: number) {
+        const allocation = this._allocations.find(a => a.id === allocationId);
+
+        if(!allocation) throw new Error(`allocation with id: ${allocationId}, not found`);
+
+        this.assertAllocationRefundAmount(allocation, amount);
+
+        const refund = MoneyAllocation.refundAllocation(allocation, amount);
+
+        this._allocations.push(refund);
+    }
+
+    private assertAllocationRefundAmount(allocation: MoneyAllocation, refundAmount: number) {
+        const refundedAmount = this._allocations
+            .filter(a => a.refundFor === allocation.id)
+            .reduce((sum, item) => sum + item.effectiveAmount, 0);
+
+        const remainingAmount = allocation.effectiveAmount - refundedAmount;
+
+        if(remainingAmount < refundAmount) throw new Error(`Cannot refund amount greater than the remaining amount`);
+    }
+
     private assertAllocationAmount(amount: number) {
         if(amount <= 0) throw new Error("Allocation amount must be greater than zero");
     }

@@ -6,7 +6,7 @@ import type { MoneyAllocationDTO } from "../dto/orderDTO";
 export class MoneyAllocationMapper {
     toModel(dto: MoneyAllocationDTO): MoneyAllocation {
         return new MoneyAllocation(
-            dto.allocationId ?? uuidv4(), //For migration purposes
+            dto.id ?? uuidv4(), //For migration purposes
             dto.moneyMovementId,
             dto.amount,
             dto.direction,
@@ -17,7 +17,7 @@ export class MoneyAllocationMapper {
 
     toDTO(model: MoneyAllocation): MoneyAllocationDTO {
         return {
-            allocationId: model.allocationId,
+            id: model.id,
             moneyMovementId: model.moneyMovementId,
             amount: model.amount,
             direction: model.direction,

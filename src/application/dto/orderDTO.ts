@@ -35,7 +35,7 @@ export interface OrderLineItemDTO {
 }
 
 export interface MoneyAllocationDTO {
-    allocationId: string;
+    id: string;
     moneyMovementId: string;
     amount: number;
     direction: AllocationDirection;
