@@ -268,11 +268,12 @@ export class Order implements IEntity {
 
         this.assertAllocation(amount, direction);
 
-        const allocation = new MoneyAllocation(
-            moneyMovementId,
-            amount, 
-            direction
-        );
+        const allocation = 
+            MoneyAllocation.createAllocation(
+                moneyMovementId,
+                amount, 
+                direction
+            );
 
         this._allocations.push(allocation);
     }
