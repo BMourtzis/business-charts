@@ -17,7 +17,7 @@
       </v-col>
       <v-col 
         cols="6" 
-        md="4"
+        md="3"
         xl="2"
       >
         <order-details-timeline
@@ -27,11 +27,12 @@
       <v-spacer/>
       <v-col 
         cols="8" 
-        md="8"
+        md="9"
         xl="6"
       >
         <order-details-money-allocations
           :allocations="[...model.allocations]"
+          :order-id="id"
         />
       </v-col>
     </v-row>

@@ -6,6 +6,6 @@ export class LoadOrdersCommandHandler {
 
     async handle() {
         const orders = await orderRepository.getAll();
-        this._ordersStore.setOrders(orders);
+        await this._ordersStore.setOrders(orders);
     }
 }

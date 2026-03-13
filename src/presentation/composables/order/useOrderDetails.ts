@@ -1,4 +1,5 @@
 import { OrderMapperInstance } from "@/application/mapper/orderMapper";
+import type { MoneyAllocation } from "@/domain/order/models/moneyAllocation";
 import { OrderType, OrderStatus } from "@/domain/order/orderTypes";
 import { useOrdersStore } from "@/presentation/stores/orderStore";
 import { computed } from "vue";
@@ -63,4 +64,40 @@ export function getOrderTypeString(type: OrderType, tCap: (key: string, count?: 
         case OrderType.Purchase:
             return tCap("order.purchase");
     }
+}
+
+export function getRemainingAllocatedAmount(orderId: string, allocationId: string) {
+    const { model } = useOrderDetails(orderId);
+    const order = model.value;
+
+    if(!order) return 0;
+
+    return getAllocationAmount(order.allocations, allocationId) 
+    + getAllocationReversedAmount(order.allocations, allocationId);
+}
+
+function getAllocationAmount(
+    allocations: Readonly<MoneyAllocation[]>, 
+    allocationId: string
+) {
+    if(!allocations || allocations.length === 0) 
+        return 0;
+
+    const allocation = allocations.find(a => a.id === allocationId);
+
+    if(!allocation) return 0;
+
+    return allocation.effectiveAmount;
+}
+
+function getAllocationReversedAmount(
+    allocations: Readonly<MoneyAllocation[]>, 
+    allocationId: string
+) {
+    if(!allocations || allocations.length === 0) 
+        return 0;
+
+    const reversalAllocations = allocations.filter(a => a.refundFor === allocationId);
+
+    return reversalAllocations.reduce((sum, item) => sum + item.effectiveAmount, 0);
 }

@@ -7,6 +7,6 @@ export class LoadPartnersCommandHandler{
 
     async handle() {
         const partners = await partnerRepository.load();
-        this._partnersStore.setPartners(partners.map(PartnerMapperInstance.toDTO));
+        await this._partnersStore.setPartners(partners.map(PartnerMapperInstance.toDTO));
     }
 }

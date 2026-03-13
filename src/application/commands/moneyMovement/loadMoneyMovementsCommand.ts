@@ -6,6 +6,6 @@ export class LoadMoneyMovementsCommandHandler {
 
     async handle() {
         const movements = await moneyMovementRepository.getAll();
-        this._movementStore.setMovements(movements);
+        await this._movementStore.setMovements(movements);
     }
 }

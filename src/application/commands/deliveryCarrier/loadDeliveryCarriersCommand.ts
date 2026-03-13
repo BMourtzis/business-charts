@@ -7,6 +7,6 @@ export class LoadDeliveryCarriersCommandHandler {
 
     async handle() {
         const deliveryCarriers = await deliveryCarrierRepository.load();
-        this._deliveryCarrierStore.setCarriers(deliveryCarriers.map(DeliveryCarrierMapperInstance.toDTO));
+        await this._deliveryCarrierStore.setCarriers(deliveryCarriers.map(DeliveryCarrierMapperInstance.toDTO));
     }
 }

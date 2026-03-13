@@ -186,7 +186,10 @@
             "cancelled": "ακύρωση",
             "approveOrder": "έγκριση παραγγελίας",
             "allocatedAt": "ημ/νία επιμερισμού",
-            "withPayment": "με πληρωμή"
+            "withPayment": "με πληρωμή",
+            "reserveAllocation": "αντιστροφή επιμερισμού",
+            "reversalDate": "ημ/νία αντιστροφής",
+            "reversalAmount": "ποσό αντιστροφής"
         }
     },
     "moneyMovement": {

@@ -39,7 +39,7 @@ export function useVault() {
         VaultSession.onStateChanged((state) => {
             unlocked.value = state === "unlocked";
 
-            if(unlocked.value) {
+            if(state === "unlocked") {
                 allDataCmdHandler!.handle();
             }
         });

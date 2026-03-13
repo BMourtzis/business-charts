@@ -197,7 +197,10 @@
             "cancelled": "cancel",
             "approveOrder": "approve order",
             "allocatedAt": "allocated at",
-            "withPayment": "with payment"
+            "withPayment": "with payment",
+            "reserveAllocation": "reverse allocation",
+            "reversalDate": "reversal date",
+            "reversalAmount": "reversal amount"
         }
     },
     "moneyMovement": {

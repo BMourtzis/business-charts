@@ -31,7 +31,7 @@ export function getMoneyMovementAllocatedAmount(moneyMovementId: string, partner
 
     return computed(() => orders.value.reduce((orderAcc, order) => {
         return (orderAcc + order.allocations
-            .reduce((allocAcc, alloc) => allocAcc + alloc.amount, 0)
+            .reduce((allocAcc, alloc) => allocAcc + alloc.effectiveAmount, 0)
         )
     }, 0));
 }

@@ -1,7 +1,6 @@
 <template>
   <v-card>
     <v-card-title>{{ tCap("common.timeline") }}</v-card-title>
-    <v-divider />
     <v-card-text>
       <v-timeline align="start" side="end">
         <template v-for="timelineItem in timelineItems">
