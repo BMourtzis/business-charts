@@ -196,7 +196,8 @@
             "completed": "complete",
             "cancelled": "cancel",
             "approveOrder": "approve order",
-            "allocatedAt": "allocated at"
+            "allocatedAt": "allocated at",
+            "withPayment": "with payment"
         }
     },
     "moneyMovement": {

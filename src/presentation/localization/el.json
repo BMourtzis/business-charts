@@ -185,7 +185,8 @@
             "completed": "προς ολοκλήρωση",
             "cancelled": "ακύρωση",
             "approveOrder": "έγκριση παραγγελίας",
-            "allocatedAt": "ημ/νία επιμερισμού"
+            "allocatedAt": "ημ/νία επιμερισμού",
+            "withPayment": "με πληρωμή"
         }
     },
     "moneyMovement": {
