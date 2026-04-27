@@ -12,6 +12,8 @@ import { DeleteOrderCommandHandler } from "@/application/commands/order/deleteOr
 import { EditOrderItemsCommandHandler } from "@/application/commands/order/editOrderitemsCommand";
 import { EditOrderCommandHandler } from "@/application/commands/order/editOrderCommand";
 import { RefundAllocationCommandHandler } from "@/application/commands/order/refundAllocationCommand";
+import { AllocateExistingMoneyMovementCommandHandler } from "@/application/commands/order/allocateExistingMoneyMovementCommand";
+import { AllocateNewMoneyMovementCommandHandler } from "@/application/commands/order/allocateNewMoneyMovementCommand";
 
 export function useOrders() {
     const store = useOrdersStore();
@@ -32,6 +34,8 @@ export function useOrders() {
         deleteOrderCommmandHandler: new DeleteOrderCommandHandler(store),
         editOrderLinesCommandHandler: new EditOrderItemsCommandHandler(store),
         editOrderCommandHandler: new EditOrderCommandHandler(store),
-        refundAllocationCommandHandler: new RefundAllocationCommandHandler(store)
+        refundAllocationCommandHandler: new RefundAllocationCommandHandler(store),
+        allocateExistingMoneyMovementCommandHandler: new AllocateExistingMoneyMovementCommandHandler(store),
+        allocateNewMoneyMovementCommandHandler: new AllocateNewMoneyMovementCommandHandler(store),
     }
 }

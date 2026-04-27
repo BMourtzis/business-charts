@@ -1,6 +1,17 @@
 <template>
   <v-card>
-    <v-card-title>{{ tCap("order.moneyAllocation", 2) }}</v-card-title>
+    <v-card-title>
+      <v-row dense>
+        <v-col cols="11">
+          {{ tCap("order.moneyAllocation", 2) }}
+        </v-col>
+        <v-spacer />
+        <v-col cols="1">
+          <add-order-allocation-modal :partner-id="orderId" />
+        </v-col>
+      </v-row>
+      
+    </v-card-title>
     <v-card-text>
       <v-data-table
         :headers="headers"
@@ -59,6 +70,7 @@
 <script setup lang="ts">
 import PaymentMethodChip from "@/presentation/components/moneyMovement/PaymentMethodChip.vue";
 import MovementReasonChip from "@/presentation/components/moneyMovement/MovementReasonChip.vue";
+import AddOrderAllocationModal from "@/presentation/components/orders/Modals/AddOrderAllocationModal.vue";
 
 import { toRef } from 'vue';
 
